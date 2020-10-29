@@ -1,0 +1,7 @@
+type InvoiceTotaling {
+	id: String
+	subtotal: Float
+	shipping: Float
+	paid: Float
+	grandtotal: Float
+}

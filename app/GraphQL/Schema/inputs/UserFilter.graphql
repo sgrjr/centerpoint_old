@@ -1,0 +1,21 @@
+input UserFilter {
+    KEY: String @like
+    UPASS: String @like
+    EMAIL: String @like
+    PIC: String @like
+    SEX: String @like
+    FIRST: String @like
+    MIDNAME: String @like
+    LAST: String @like
+    ARTICLE: String @like
+    TITLE: String @like
+    ORGNAME: String @like
+    STREET: String @like
+    CITY: String @like
+    CITYSTATE: String @like
+    COUNTRY: String @like
+    POSTCODE: String @like
+    VOICEPHONE: String @like
+    EXTENSION: String @like
+    FAXPHONE: String @like
+}

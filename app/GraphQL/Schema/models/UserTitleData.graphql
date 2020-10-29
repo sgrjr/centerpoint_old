@@ -1,0 +1,7 @@
+type UserTitleData {
+    isbn: String
+    price: Float
+    discount: Float
+    purchased: Boolean
+    onstandingorder: Boolean
+}

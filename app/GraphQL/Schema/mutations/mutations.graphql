@@ -1,0 +1,17 @@
+type Mutation {
+
+    createUser(input: CreateUserInput!): User @create
+    updateUser(input: UpdateUserInput!): User @update
+    deleteUser(input: UpdateUserInput!): User @delete
+    
+    loginUser(input: LoginUserInput!): User @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator")
+    logoutUser: Application @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@logoutUser")
+    
+    createCart(input: CreateCartInput!): User @field(resolver: "App\\WebHead@createCart")
+    deleteCart(input: DeleteCartInput!): User @field(resolver: "App\\WebHead@deleteCart")
+    updateCart(input: UpdateCartInput!): User @field(resolver: "App\\WebHead@updateCart")
+
+    createCartTitle(input: CreateCartTitleInput!): User @field(resolver: "App\\WebHead@createCartTitle")
+    deleteCartTitle(input: DeleteCartTitleInput!): User @field(resolver: "App\\WebHead@deleteCartTitle")
+    updateCartTitle(input: UpdateCartTitleInput!): User @field(resolver: "App\\WebHead@updateCartTitle")
+}

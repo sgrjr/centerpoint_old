@@ -1,0 +1,459 @@
+<?php namespace App\Ask;
+
+use App\Ask\DatabaseType\PHPXbase\XBaseTable;
+use App\Ask\DatabaseType\Config\ConfigTable;
+use App\Ask\DatabaseType\PHPXbase\XBaseWritableTable as WritableTable;
+use App\Ask\DatabaseType\PHPXbase\XBaseTable as Table;
+use App\RecordDetails;
+use App\Helpers\Compare;
+use Config;
+use App\Ask\AskInterface\AskQueryBuilderInterface;
+
+class DataResults {
+	public function __construct($model){
+		$this->model = $model;
+		$this->records = collect([]);
+		$this->headers = collect([]);
+		$this->initPaginator();
+		$this->lists = [];
+	}
+
+	public function initPaginator(){
+		$this->paginator = new \stdclass;
+		$this->paginator->page = 1;
+        $this->paginator->perPage = 5;
+        $this->paginator->index = 0;
+        $this->paginator->total = 0;  
+        $this->paginator->pages = 0;
+        $this->paginator->count = 0;
+        $this->paginator->links = [];
+
+		return $this;
+	}
+
+	public function addRecord($record, $lists = false){
+		$this->records->push($record);
+		
+		if($lists !== false){
+			foreach($lists AS $list){
+				
+				if($list === "CAT"){
+					$index = \App\Helpers\StringHelper::cleanKey($record[$list]);
+				}else{
+					$index = $record[$list];
+				}
+
+				$this->lists[$list][$index][] = $record;
+			}
+		}
+
+		if($lists !== false && isset($this->lists["PUBDATE"])){
+			krsort($this->lists["PUBDATE"]);
+		}
+		
+		return $this;
+	}
+
+	public function updatePaginator($prop, $val){
+		$this->paginator->$prop = $val;
+		return $this;
+	}
+
+	public function calcLinks(){
+		//TO DO: Add link creation and update code here sometime
+		return $this;
+	}
+
+	public function calcCount(){
+		$this->paginator->count = count($this->records);
+		return $this;
+	}
+
+	public function calcPages(){
+		$this->paginator->pages = (int) ceil($this->paginator->total/$this->paginator->perPage);
+<<<<<<< HEAD
+		return $this;
+	}
+
+	public function done(){
+		$this->calcPages()
+			->calcCount()
+			//->setHeaders()//disabled as part of this process is undeveloped and maybe unnecessary at this point
+			->calcLinks();
+=======
+>>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+		return $this;
+	}
+
+	public function setHeaders(){
+	//dd($this);
+	//a;sldkfjas;lkdfjasl;dkf jaslk here
+		/*
+		public function setHeaders(){
+		if($this->records->count() >= 1 ){
+			if(is_array($this->records->first() ) ){
+				$this->headers = array_keys( $this->records->first() );
+			}else{
+				$this->headers = $this->records->first()->getFillable();
+			}
+			
+		}
+		return $this;
+		//
+		$fillable = $this->getFillable();
+        $headers = [];
+
+        foreach($fillable AS $att){
+            
+            if($h = $this->getHeader($att) ){
+                $headers[] = $h;
+			}else{
+		    	$headers[] = [
+                    "name" => $att,
+                    "type" => "String",
+                    "length" => 255
+                ];
+			}
+            
+		}
+		
+	    return $headers;
+		//
+	}
+		*/
+		return $this;
+	}
+
+	public function renderLinks(){
+		return "<!--<h2>links</h2>-->";
+	}
+
+	public function reset(){
+		$this->records = collect([]);
+		return $this;
+	}
+
+	public function truncate(){
+		$this->model->truncate();
+		return $this;
+	}
+
+}
+
+class QueryBuilder {
+	
+	protected $columns = false;
+	protected $parameters = [];
+	protected $writable = false;
+	protected $table = [];
+	protected $data = false;
+	protected $children = [];
+
+	public function __construct(Object $model, $writable = false, $import = false){
+		$this->model = $model;
+<<<<<<< HEAD
+		 
+		$this->parameters = \App\Helpers\Misc::defaultParameters();
+		
+=======
+		$this->parameters = \App\Helpers\Misc::defaultParameters();
+>>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+		$this->writable = $writable;
+
+		$this
+			->initData()
+			->setTable()
+			->import($import);
+	}
+
+	private function initData(){
+		$this->data = new DataResults($this->model);
+		return $this;
+	}
+
+	public function setRoot($root){
+		$this->root = $root;
+		return $this;
+	}
+
+	public function setMemo($val){
+		$this->memo = $val;
+		return $this;
+	}
+
+	public function setWritable($val){
+		$this->writable = $val;
+		return $this;
+	}
+
+	public function getMemo(){
+		return $this->memo;
+	}
+	
+	public function getTable(){
+		return $this->table;
+	}
+
+	public function getData(){
+		return $this->data;
+	}
+
+	public function getParameters(){
+		return $this->parameters;
+	}
+
+	public function setIndex($newIndex){
+		$this->parameters->index = $newIndex;
+		return $this;
+	}
+
+	public function setParameter($parameterName, $parameterValue){
+		$this->parameters->$parameterName = $parameterValue;
+		return $this;
+	}
+
+	public function setTests($testsValue){
+		$this->parameters->tests = $testsValue;
+		return $this;
+	}
+
+	public function setPerPage($perPageValue){
+		$this->parameters->perPage = $perPageValue;
+		return $this;
+	}
+
+	public function skipModel($trueOrFalse = false){
+		$this->parameters->skipModel = $trueOrFalse;
+		return $this;
+	}
+
+	public function import($table = false){
+		$this->parameters->import = $table;
+		return $this;
+	}
+
+<<<<<<< HEAD
+	public function orderBy(String $column, $direction = "ASC"){
+=======
+	public function orderBy(String $column, $direction = "asc"){
+>>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+        $this->parameters->order->column = $column;  
+        $this->parameters->order->direction = $direction;  
+        return $this;
+	}
+
+	public function graphqlArgs($args = null){
+<<<<<<< HEAD
+		       
+=======
+		
+>>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+		$default_args = [
+            "page"      =>  1,
+            "perPage"   =>  5,
+            "filters"   =>  []
+        ];
+
+        if( isset($args) && $args != null){
+            $args = array_merge($default_args, $args);
+        }else{
+            $args = $default_args;
+        }
+        
+            $this
+            ->setPerPage($args["perPage"])
+            ->setPage($args["page"]);
+
+            if(isset($args["filters"])){
+
+                foreach($args["filters"] AS $key=>$v){
+
+                    if(strpos($v, "_") !== false){
+                        $f = explode("_",$v,2);
+                    } else{
+                        $f[0]="==";
+                        $f[1]=$v;
+                    }
+                    
+                    $val = trim($f[1]);
+                    if($val === ""){$val = null;}
+                    if($val === "TRUE"){$val = true;}
+                    if($val === "FALSE"){$val = false;}
+<<<<<<< HEAD
+
+=======
+  
+>>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+                    $this->where($key,$f[0],$val);
+                }
+
+            }
+
+		return $this;
+	}
+
+<<<<<<< HEAD
+	public function openTables(){
+		foreach($this->getTable() AS $table){
+			$table->open();
+		}
+		return $this;
+	}
+
+	public function closeTables(){
+		foreach($this->getTable() AS $table){
+			$table->close();
+		}
+		return $this;
+	}
+
+
+=======
+>>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+	public function lists($lists = false){
+		$this->parameters->lists = $lists;
+		return $this;
+	}
+
+	public function reduceColumns($array_of_property_names){
+		$this->columns = array_diff($this->columns, $array_of_property_names);
+		return $this;
+	}
+
+	public function setColumns($array_of_property_names){
+		$newColumns = [];
+
+		foreach($array_of_property_names AS $name){
+			if(is_object($name) ){
+				$newColumns[] = $name;
+			}else{
+				$newColumns[] = strtoupper($name);
+			}
+		}
+
+		$this->columns = $newColumns;
+
+		return $this;
+	}
+
+public function testConfig($key){
+
+		$tests = false;
+
+		if(in_array($key, $this->columns) ){
+			$tests = true;
+		}else if(in_array(strtoupper($key), $this->columns) ){
+			$tests = true;
+		}
+
+		return $tests;
+
+}
+
+public function autoSetColumns($columns){
+		if($columns === false || count($columns) <= 0){
+			$this->setColumns(array_merge($this->model->getFillable(), $this->children));
+		}else{
+			$this->setColumns(array_merge($columns, $this->children));
+		}
+}
+
+public function truncateRecords(){
+	$this->data->reset();
+	return $this;
+}
+<<<<<<< HEAD
+
+public function addDataRecord($record, $isList = false, $skipModel = false, $lists = false){
+
+=======
+
+public function addDataRecord($record, $isList = false, $skipModel = false, $lists = false){
+
+>>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+	if($isList){
+		foreach($record->toArray() AS $r){
+			if($skipModel){
+				$this->data->addRecord($record, $lists);
+			}else{
+				$x = $this->model->make((Array) $r);
+				$this->data->addRecord($x, $lists);
+			}
+
+		}
+	}else{
+		if($skipModel){
+			$this->data->addRecord($record, $lists);
+		}else{
+			$model = $this->model->make($record);
+			$this->data->addRecord($model, $lists);
+		}
+		
+	}
+	
+	return $this;
+}
+
+public function updatePaginator($total, $lastIndex = false){
+	
+	    $this->data
+	    	->updatePaginator("page", $this->parameters->page)
+			->updatePaginator("perPage", $this->parameters->perPage)
+			->updatePaginator("index", $lastIndex)
+			->updatePaginator("total", $total)
+			->done();
+	
+	return $this;
+}
+
+	public function test($record){
+		return \App\Helpers\Compare::test($record, $this->parameters);
+	}
+
+    public function all($limit = false, $page = false, $columns = false){
+		if(!$limit){$limit = 999999999;}
+        $this->parameters->tests = "all";
+        $this->setPerPage($limit);
+        if($page !== false){
+            $this->setPage($page);
+        }
+        return $this->skipModel(true)->get($columns);
+    }
+
+	public function __get($name)
+    {
+
+        $n = "get" . ucfirst($name);
+        if (method_exists($this, $n)) {
+            return $this->$n();
+        }
+
+        $trace = debug_backtrace();
+        trigger_error(
+            'Undefined property via __get(): ' . $name .
+            ' in ' . $trace[0]['file'] .
+            ' on line ' . $trace[0]['line'],
+            E_USER_NOTICE);
+        return null;
+        
+    }
+
+	 public function convertComparison($comparison){
+	
+        switch($comparison){
+            case "!==":
+                return "!=";
+                break;
+            case "===":
+                return "=";
+                break;
+            case "==":
+                return "=";
+                break;
+            default:
+                return $comparison;
+
+        }
+    }
+
+}

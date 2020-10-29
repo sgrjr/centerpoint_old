@@ -1,0 +1,26 @@
+type Query {
+	viewer: User @auth
+    titles(filter: TitleFilter): [Title!]! @paginate(defaultCount: 15, model:"\\App\\Inventory")
+    title(id: ID @eq): Title @find(model:"App\\Inventory")
+
+    # Upcoming Titles
+    cpTitles: [Title] @field(resolver:"\\App\\Inventory@getCPTitles")
+
+    # Trade Titles
+    tradeTitles: [Title] @field(resolver:"\\App\\Inventory@getTradeTitles")
+    
+    # Advanced Titles
+    advancedTitles: [Title] @field(resolver:"\\App\\Inventory@getAdvancedTitles")
+}
+
+#import ./Admin.graphql
+
+#import ./scalars.graphql
+
+#import ./Application.graphql
+
+#import ./inputs/*.graphql
+
+#import ./models/*.graphql
+
+#import ./mutations/*.graphql

@@ -1,0 +1,55 @@
+type Vendor {
+
+	carts: Order @hasMany(type:"paginator")
+	orders: Order @hasMany(type:"paginator")
+	isbns: [String] @hasMany(type:"paginator")
+	titles: Title @hasMany(type:"paginator")
+	users: User @hasMany(type:"paginator")
+	processing: Order @hasMany(type:"paginator")
+	activeStandingOrders: StandingOrder @hasMany(type:"paginator")
+	inactiveStandingOrders: StandingOrder @hasMany(type:"paginator")
+	cartsCount: Int
+	processingCount: Int
+
+	INDEX: String
+	KEY: String
+	SEX: String
+	FIRST: String
+	MIDNAME: String
+	LAST: String
+	TITLE: String
+	ARTICLE: String
+	ORGNAME: String
+	SECONDARY: String
+	STREET: String
+	CARTICLE: String
+	CITY: String
+	STATE: String
+	ZIP5: String
+	COUNTRY: String
+	VOICEPHONE: String
+	COMMCODE: String
+	NEWCODE: String
+	EXTENSION: String
+	FAXPHONE: String
+	EMAIL: String
+	WEBSERVER: String
+	NATURE: String
+	WHAT: String
+	PROMOTIONS: String
+	BUDGET: String
+	RECALLD: String
+	ORGNAMEKEY: String
+	CITYKEY: String
+	COMPUTER: String
+	ENTRYDATE: String
+	DATESTAMP: String
+	TIMESTAMP: String
+	LASTTOUCH: String
+	LASTDATE: String
+	LASTTIME: String
+	NOEMAILS: String
+	EMCHANGE: String
+	REMOVED: String
+	REMDATE: String
+}

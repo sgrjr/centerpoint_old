@@ -1,0 +1,13 @@
+/vendor
+/node_modules
+/public/.htaccess
+/public/web.config
+Homestead.yaml
+Homestead.json
+.env
+/app-js/node_modules
+/public/phpmyadmin
+/.vs
+composer.lock
+package-lock.json
+storage/addToCartFailure.txt

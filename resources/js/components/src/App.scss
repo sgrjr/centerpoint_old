@@ -1,0 +1,7 @@
+@media print { 
+  .noPrint { display: none !important; } 
+  html, body {
+    margin:0;
+    padding:0;
+  }
+}

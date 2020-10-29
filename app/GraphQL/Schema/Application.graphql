@@ -1,0 +1,55 @@
+extend type Query {
+	application: Application @field(resolver: "App\\Helpers\\Application@props")
+}
+
+type Application {
+	csrftoken: String
+	browse: [Browse]
+	catalog(id:String): Catalog
+	searchFilters: [String]
+	slider: Carousel
+	links: Links
+	client: String
+	domain: String
+	appDescription: String
+	siteName: String
+}
+
+type Browse {
+	title: String
+	items: [Link]
+}
+
+type Catalog {
+	image_link: String
+	image_path: String
+	pdf_link: String
+	pdf_path: String
+	year: Int
+	month: String
+	template: String
+	file_ext: String
+}
+
+type Carousel {
+	height: String
+	background_color: String
+	slides: [CarouselSlide]
+}
+
+type CarouselSlide {
+	image: String
+	caption: String
+	link: String
+}
+
+type Links {
+	main: [Link]
+    drawer: [Link]
+}
+
+type Link {
+	url: String
+	text: String
+	icon: String
+}

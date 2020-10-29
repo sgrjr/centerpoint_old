@@ -1,0 +1,1136 @@
+<h1>Testing Documentation for Centerpoint Large Print's Laravel-Based Application</h1>
+
+<ul>
+    <li>Created: March 28, 2020</li>
+    <li>Edited: March 28, 2020</li>
+    <li>Editor(s): Stephen Reynolds</li>
+</ul>
+	
+<h2>Introduction</h2>
+
+
+<p>Testing for this appplication is built on PHPUnit with Laravel's additional test helpers. <a rel="nofollow" href="http://phpunit.de/">PHPUnit</a> is one of the oldest and most well-known unit testing packages for PHP. It is primarily designed for unit testing, which means testing your code in the smallest components possible, but it is also flexible and can be used for a lot more than just unit testing.</p>
+
+<p>PHPUnit includes a lot of simple and flexible assertions that allow you to easily test your code, which works really well when you are testing specific components. It does mean, however, that testing more advanced code such as controllers and form submission validation can be a lot more complicated.</p>
+
+<p>To help make things easier for developers, the <a rel="nofollow" href="http://laravel.com/">Laravel PHP framework</a> includes a collection of <a href="http://laravel.com/docs/7.x/testing">application test helpers</a>, which allow you to write very simple PHPUnit tests to test complex parts of your application.</p>
+
+<p>The purpose of this documentation is to introduce you to the basics of testing this application, using both the default PHPUnit assertions and the Laravel test helpers. The aim is for you to be confident in writing basic tests for your applications and understanding existing tests.</p>
+
+<h2>Prerequisites</h2>
+
+<p>This documentation assumes that you are already familiar with Laravel and know how to run commands within the application directory (such as <code>php artisan</code> commands).</p>
+
+<h2>Creating a New Test</h2>
+
+<p>The first step is to create a new test class. Test classes are stored within <code>./tests/</code> in this application directory. Inside this folder, each test class is named as <code>&lt;name&gt;Test.php</code>. This format allows PHPUnit to find each test class—it will ignore anything that does not end in <code>Test.php</code>.</p>
+
+
+
+<p>In this application, you will notice the files in the <code>./tests/</code> directory: </p>
+
+<ul><li><code>Feature/ExampleTest.php</code> and <code>Unit/ExampleTest.php</code>  : The <code>ExampleTest.php</code> is an example test class that includes a basic test case using the application testing helpers – ignore it for now.</li><li><code>TestCase.php</code>: The <code>TestCase.php</code> file is a bootstrap file for setting up the Laravel environment within our tests. This allows us to use Laravel facades in tests and provides the framework for the testing helpers,  which we will look at shortly.</li></ul>
+
+
+
+<p> To create a new test class, we can either create a new file manually or run the helpful Artisan <code>make:test</code> command provided by Laravel.</p>
+
+
+
+<p>In order to create a test class called <code>PracticeTest</code>, we just need to run this artisan command:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ <span class="token builtin class-name">cd</span> phpunit-test
+$ php artisan make:test PracticeTest</code></pre>
+
+
+
+<p>Laravel will create a basic test class that looks like this:</p>
+
+
+
+<pre class="wp-block-code language-php"><code lang="php" class=" language-php">&lt;?php
+# test/Feature/PracticeTest.php
+
+namespace Tests\Feature;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
+
+class PracticeTest extends TestCase
+{
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     */
+    public function testExample()
+    {
+        $response = $this-&gt;get('/');
+
+        $response-&gt;assertStatus(200);
+    }
+}</code></pre>
+
+
+
+<p>The most important thing to notice here is the <code>test</code> prefix on the method name. Like the <code>Test</code> suffix for class names, this <code>test</code> prefix tells PHPUnit what methods to run when testing. If you forget the <code>test</code> prefix, then PHPUnit will ignore the method.</p>
+
+
+<p>Before we run the tests for the first time, it is worth pointing out the default <code>phpunit.xml</code> file in this application root directory. PHPUnit will automatically look for a file named <code>phpunit.xml</code> or <code>phpunit.xml.dist</code> in the current directory when it is run. This is where you configure the specific options for the tests.</p>
+
+<p>There is a lot of information within this file, however, the most important section, for now, is the <code>testsuite</code> directory definition:</p>
+
+
+
+<pre class="wp-block-code"><code lang="" class="">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+. . .
+
+    &lt;testsuites&gt;
+        &lt;testsuite name="Unit"&gt;
+            &lt;directory suffix="Test.php"&gt;./tests&lt;/directory&gt;
+        &lt;/testsuite&gt;
+    &lt;/testsuites&gt;
+
+. . .
+
+&lt;/phpunit&gt;</code></pre>
+
+<p>This tells PHPUnit to run the tests it finds in the <code>./tests</code> directory.</p>
+
+<p>Now that we have created a base test, and are aware of the PHPUnit configuration, it is time to run the tests for the first time.</p>
+
+<p>You can run the tests by running the <code>phpunit</code> command:</p>
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ ./vendor/bin/phpunit</code></pre>
+
+
+
+<p>You should see something similar to this as the output:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">PHPUnit <span class="token number">8.5</span>.2 by Sebastian Bergmann and contributors.
+
+<span class="token punctuation">..</span>.                                                     <span class="token number">3</span> / <span class="token number">3</span> <span class="token punctuation">(</span><span class="token number">100</span>%<span class="token punctuation">)</span>
+
+Time: <span class="token number">91</span> ms, Memory: <span class="token number">16.00</span> MB
+
+OK <span class="token punctuation">(</span><span class="token number">3</span> tests, <span class="token number">3</span> assertions<span class="token punctuation">)</span></code></pre>
+
+<p>TIP: On MS Windows, if your terminal cannot find /vendor/bin/phpunit than try running the command in Windows Powershell.</p>
+
+<p>TIP: If this application cannot find newly created tests, try running the following in your terminal:</p>
+
+<pre><code>composer dump-autoload</code></pre>
+
+<p>Now that we have a working PHPUnit setup, it is time to move onto writing a basic test.</p>
+
+<h2>Writing a Basic Test</h2>
+
+
+
+<p>To help cover the basic assertions that PHPUnit provides, we will first create a basic class that provides some simple functionality.</p>
+
+
+
+<p>Create a new file in your <code>./app/</code> directory called <code>Box.php</code>, and copy this example class:</p>
+
+
+
+<pre class="wp-block-code language-php"><code lang="php" class=" language-php">&lt;?php
+# app/Box.php
+
+namespace App;
+
+class Box
+{
+    /**
+     * @var array
+     */
+    protected $items = [];
+
+    /**
+     * Construct the box with the given items.
+     *
+     * @param array $items
+     */
+    public function __construct($items = [])
+    {
+        $this-&gt;items = $items;
+    }
+
+    /**
+     * Check if the specified item is in the box.
+     *
+     * @param string $item
+     * @return bool
+     */
+    public function has($item)
+    {
+        return in_array($item, $this-&gt;items);
+    }
+
+    /**
+     * Remove an item from the box, or null if the box is empty.
+     *
+     * @return string
+     */
+    public function takeOne()
+    {
+        return array_shift($this-&gt;items);
+    }
+
+    /**
+     * Retrieve all items from the box that start with the specified letter.
+     *
+     * @param string $letter
+     * @return array
+     */
+    public function startsWith($letter)
+    {
+        return array_filter($this-&gt;items, function ($item) use ($letter) {
+            return stripos($item, $letter) === 0;
+        });
+    }
+}</code></pre>
+
+
+
+<p>Next, open your <code>./tests/Feature/PracticeTest.php</code> class (that we created earlier), and remove the <code>testExample</code> method that was created by default. You should be left with an empty class.</p>
+
+
+
+<p>We will now use seven of the basic PHPUnit assertions to write tests for our <code>Box</code> class. There are <a href="https://laravel.com/docs/6.x/http-tests#available-assertions">many assertions available</a>, but the most common are:</p>
+
+
+
+<ul><li><code>assertTrue()</code></li><li><code>assertFalse()</code></li><li><code>assertEquals()</code></li><li><code>assertNull()</code></li><li><code>assertContains()</code></li><li><code>assertCount()</code></li><li><code>assertEmpty()</code></li><li><code>assertStatus()</code></li></ul>
+
+
+
+<h2>assertTrue() and assertFalse()</h2>
+
+
+
+<p><code>assertTrue()</code> and <code>assertFalse()</code> allow you to assert that a value is equated to either true or false. This means they are perfect for testing methods that return boolean values. In our <code>Box</code> class, we have a method called <code>has($item)</code>, which returns true or false when the specified item is in the box or not.</p>
+
+
+
+<p>To write a test for this in PHPUnit, we can do the following:</p>
+
+
+
+<pre class="wp-block-code language-php"><code lang="php" class=" language-php">&lt;?php
+# test/Feature/PracticeTest.php
+
+# Import Box class
+use App\Box;
+
+. . .
+
+ # Test function for Box class
+ public function testBoxContents()
+ {
+     $box = new Box(['toy']);
+     $this-&gt;assertTrue($box-&gt;has('toy'));
+     $this-&gt;assertFalse($box-&gt;has('ball'));
+ }</code></pre>
+
+
+
+<p>Note how we only pass a single parameter into the <code>assertTrue()</code> and <code>assertFalse()</code> methods, and it is the output of the <code>has($item)</code> method.</p>
+
+
+
+<p>If you run the <code>./vendor/bin/phpunit</code> command now, you will notice the output includes:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">OK <span class="token punctuation">(</span><span class="token number">3</span> tests, <span class="token number">4</span> assertions<span class="token punctuation">)</span></code></pre>
+
+
+
+<p>This means our tests have passed.</p>
+
+
+
+<p>If you swap the <code>assertFalse()</code> for <code>assertTrue()</code> and run the <code>phpunit</code> command again, the output will look like this:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">PHPUnit <span class="token number">8.5</span>.2 by Sebastian Bergmann and contributors.
+
+.F.                                                                 <span class="token number">3</span> / <span class="token number">3</span> <span class="token punctuation">(</span><span class="token number">100</span>%<span class="token punctuation">)</span>
+
+Time: <span class="token number">86</span> ms, Memory: <span class="token number">16.00</span> MB
+
+There was <span class="token number">1</span> failure:
+
+<span class="token number">1</span><span class="token punctuation">)</span> Tests<span class="token punctuation">\</span>Feature<span class="token punctuation">\</span>PracticeTest::testBoxContents
+Failed asserting that <span class="token boolean">false</span> is true.
+
+/home/tom/r/start-phpunit/phpunit-tests/tests/Feature/PracticeTest.php:29
+
+FAILURES<span class="token operator">!</span>
+Tests: <span class="token number">3</span>, Assertions: <span class="token number">4</span>, Failures: <span class="token number">1</span>.</code></pre>
+
+
+
+<p>This tells us that the assertion on line 29 failed to assert that a <code>false</code> value was <code>true</code> as we switched the <code>assertFalse()</code> for <code>assertTrue()</code>.</p>
+
+
+
+<p>Swap it back, and re-run PHPUnit. The tests should again pass, as we have fixed the broken test.</p>
+
+
+
+<h2>assertEquals() and assertNull()</h2>
+
+
+
+<p>Next, we will look at <code>assertEquals()</code>, and <code>assertNull()</code>.</p>
+
+
+
+<p><code>assertEquals()</code> is used to compare the actual value of the variable to the expected value. We want to use it to check if the value of the <code>takeOne()</code> function is an item that is currently in the box. As the <code>takeOne()</code> method returns a <code>null</code> value when the box is empty, we can use <code>assertNull()</code> to check for that too.</p>
+
+
+
+<p>Unlike <code>assertTrue()</code>, <code>assertFalse()</code>, and <code>assertNull()</code>, <code>assertEquals()</code> takes two parameters. The first being the <strong>expected</strong> value, and the second being the <strong>actual</strong> value.</p>
+
+
+
+<p>We can implement these assertions in our class as follows:</p>
+
+
+
+<pre class="wp-block-code language-php"><code lang="php" class=" language-php">&lt;?php
+# tests/Feature/PracticeTest.php
+
+. . .
+
+    public function testTakeOneFromTheBox()
+    {
+        $box = new Box(['torch']);
+        $this-&gt;assertEquals('torch', $box-&gt;takeOne());
+
+        // Null, now the box is empty
+        $this-&gt;assertNull($box-&gt;takeOne());
+    }
+
+. . .</code></pre>
+
+
+
+<p>Run the <code>phpunit</code> command, and you should see:</p>
+
+
+
+<pre class="wp-block-code"><code class="">OK (4 tests, 6 assertions)</code></pre>
+
+
+
+<h2>assertContains(), assertCount(), and assertEmpty()</h2>
+
+
+
+<p>Finally, we have three assertions that work with arrays, which we can use to check the <code>startsWith($item)</code> method in our <code>Box</code> class. <code>assertContains()</code> asserts that an expected value exists within the provided array, <code>assertCount()</code> asserts the number of items in the array matches the specified amount, and <code>assertEmpty()</code> asserts that the provided array is empty.</p>
+
+
+
+<p>We can implement tests for these like this:</p>
+
+
+
+<pre class="wp-block-code language-php"><code lang="php" class=" language-php">&lt;?php
+# tests/Feature/PracticeTest.php
+
+. . .
+
+    public function testStartsWithALetter()
+    {
+        $box = new Box(['toy', 'torch', 'ball', 'cat', 'tissue']);
+
+        $results = $box-&gt;startsWith('t');
+
+        $this-&gt;assertCount(3, $results);
+        $this-&gt;assertContains('toy', $results);
+        $this-&gt;assertContains('torch', $results);
+        $this-&gt;assertContains('tissue', $results);
+
+        // Empty array if passed even
+        $this-&gt;assertEmpty($box-&gt;startsWith('s'));
+    }
+
+. . .</code></pre>
+
+
+
+<p>Save and run your tests again:</p>
+
+
+
+<pre class="wp-block-code"><code class="">OK (5 tests, 11 assertions)</code></pre>
+
+
+
+<p>Congratulations, you have just fully tested the <code>Box</code> class using seven of the basic PHPUnit assertions. You can do a lot with these simple assertions, and most of the other, more complex, assertions that are available still follow the same usage pattern.</p>
+
+
+
+<h2>Testing Your Application</h2>
+
+
+
+<p>Unit testing each component in your application works in a lot of situations and should definitely be part of your development process, however, it isn’t all the testing you need to do. When you are building an application that includes complex views, navigation, and forms, you will want to test these components too. This is where Laravel’s test helpers make things just as easy as unit testing simple components.</p>
+
+
+
+<p>We previously created a new test file and we skipped the <code>./tests/Feature/ExampleTest.php</code> file. Open it now, and it should look something like this:</p>
+
+
+
+<pre class="wp-block-code language-php"><code lang="php" class=" language-php">&lt;?php
+# tests/Feature/ExampleTest.php
+
+namespace Tests\Feature;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class ExampleTest extends TestCase
+{
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testPracticeTest()
+    {
+        $response = $this-&gt;get('/');
+
+        $response-&gt;assertStatus(200);
+    }
+}</code></pre>
+
+
+
+<p>We can see the test in this case, it is very simple. Without any prior knowledge of how the test helpers work, we can assume it means something like this:</p>
+
+
+
+<ol><li>when I visit <code>/</code> (webroot)</li><li>I should get an HTTP status code 200 (OK)</li></ol>
+
+
+
+<p>If you open your web browser to our application:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ php artisan serve</code></pre>
+
+
+
+<p>Navigate to <a href="http://localhost:8000">http://localhost:8000</a>. You should see a splash screen with “Laravel” on the webroot. Given that this test has been passing PHPUnit, it is safe to say that our translation of this example test is correct.</p>
+
+
+
+<p>This test is ensuring that the web page rendered at the <code>/</code> path returns successfully. A simple check like this may not seem like much, but if there is critical information your website needs to display, a simple test like this may prevent you from deploying a broken application if a change somewhere else causes the page to no longer display the right information.</p>
+
+
+
+<h2>assertSee() and assertDontSee()</h2>
+
+
+
+<p>Let’s write our own test now, and take it one step further.</p>
+
+
+
+<p>Edit the routes file located at <code>routes/web.php</code>. Add the following route below the Welcome route:</p>
+
+
+
+<pre class="wp-block-code language-php"><code lang="php" class=" language-php">&lt;?php
+# routes/web.php
+
+. . .
+
+Route::get('/alpha', function () {
+    return view('alpha');
+});
+</code></pre>
+
+
+
+<p>For the sake of this documentation, we will go for a Greek alphabet themed route.</p>
+
+
+
+<p>Next, create the view template at <code>./resources/views/alpha.blade.php</code>, and save some basic HTML with the Alpha keyword:</p>
+
+
+
+<pre class="wp-block-code"><code lang="" class="">&lt;!DOCTYPE html&gt;
+&lt;html lang="{{ str_replace('_', '-', app()-&gt;getLocale()) }}"&gt;
+    &lt;head&gt;
+        &lt;meta charset="utf-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+        &lt;title&gt;Alpha&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;This is the Alpha page&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+
+
+<p>Now open it in your browser to ensure it is working as expected with: <code>php artisan serve</code>. Go to <a href="http://localhost:8000/alpha">http://localhost:8000/alpha</a>, and it should display a friendly “This is the Alpha page.” message.</p>
+
+
+
+<p>Now that we have the template, we will create a new test. Run the <code>make:test</code> command:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ php artisan make:test AlphaTest</code></pre>
+
+
+
+<p>Then edit the test, using the example test as a guide, but we also want to ensure that our “alpha” page does not mention “beta”. To do this, we can use the <code>assertDontSee()</code> assertion, which does the opposite of <code>assertSee()</code>.</p>
+
+
+
+<p>This means we can do a simple test, replace the <code>testExample</code> function in <code>test/Feature/AlphaTest.php</code> with this one:</p>
+
+
+
+<pre class="wp-block-code language-php"><code lang="php" class=" language-php">&lt;?php
+# test/Feature/AlphaTest.php
+
+. . .
+
+    public function testExample()
+    {
+        $response = $this-&gt;get('/alpha');
+
+        $response-&gt;assertStatus(200);
+        $response-&gt;assertSee('Alpha');
+        $response-&gt;assertDontSee('Beta');
+    }
+
+. . .
+</code></pre>
+
+
+
+<p>Save it and run PHPUnit (<code>./vendor/bin/phpunit</code>), and it should all pass, with the status line looking something like this:</p>
+
+
+
+<pre class="wp-block-code"><code class="">OK (7 tests, 17 assertions)</code></pre>
+
+
+
+<h2>Writing Tests First</h2>
+
+
+
+<p>A great thing about tests is that you can use the <strong>Test-Driven Development</strong> (TDD) approach, and write your tests first. After writing your tests, you run them and see that they fail, <strong>then</strong> you write the code that satisfies the tests to make everything pass again. So, let’s do that for the next page.</p>
+
+
+
+<p>First, make a <code>BetaTest</code> class using the <code>make:test</code> artisan command:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ php artisan make:test BetaTest</code></pre>
+
+
+
+<p>Next, update the test case so it is checking the <code>/beta</code> route for “Beta”. Edit <code>test/Feature/BetaTest.php</code>:</p>
+
+
+
+<pre class="wp-block-code language-php"><code lang="php" class=" language-php">&lt;?php
+# tests/Feature/BetaTest.php
+
+. . .
+
+    public function testExample()
+    {
+        $response = $this-&gt;get('/beta');
+
+        $response-&gt;assertStatus(200);
+
+        $response-&gt;assertSee('Beta');
+        $response-&gt;assertDontSee('Alpha');
+    }
+
+. . .</code></pre>
+
+
+
+<p>Now, run the test using <code>./vendor/bin/phpunit</code>. The result should be a slightly unfriendly error message, that looks like this:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ ./vendor/bin/phpunit
+PHPUnit <span class="token number">8.5</span>.2 by Sebastian Bergmann and contributors.
+
+<span class="token punctuation">..</span><span class="token punctuation">..</span>.F.                                                             <span class="token number">7</span> / <span class="token number">7</span> <span class="token punctuation">(</span><span class="token number">100</span>%<span class="token punctuation">)</span>
+
+Time: <span class="token number">206</span> ms, Memory: <span class="token number">18.00</span> MB
+
+There was <span class="token number">1</span> failure:
+
+<span class="token number">1</span><span class="token punctuation">)</span> Tests<span class="token punctuation">\</span>Feature<span class="token punctuation">\</span>BetaTest::testExample
+Expected status code <span class="token number">200</span> but received <span class="token number">404</span>.
+Failed asserting that <span class="token boolean">false</span> is true.
+
+/home/tom/r/start-phpunit/phpunit-tests/vendor/laravel/framework/src/Illuminate/Foundation/Testing/TestResponse.php:185
+/home/tom/r/start-phpunit/phpunit-tests/tests/Feature/BetaTest.php:20
+
+FAILURES<span class="token operator">!</span>
+Tests: <span class="token number">7</span>, Assertions: <span class="token number">14</span>, Failures: <span class="token number">1</span>.</code></pre>
+
+
+
+<p>We now have an expectation for a missing route. Let’s create it.</p>
+
+
+
+<p>First, edit the <code>./routes/web.php</code> file to create the new <code>/beta</code> route:</p>
+
+
+
+<pre class="wp-block-code language-php"><code lang="php" class=" language-php">&lt;?php
+# routes/web.php
+
+. . .
+
+Route::get('/beta', function () {
+    return view('beta');
+});
+
+. . .</code></pre>
+
+
+
+<p>Next, create the view template at <code>./resources/views/beta.blade.php</code>:</p>
+
+
+
+<pre class="wp-block-code"><code lang="" class="">&lt;!DOCTYPE html&gt;
+&lt;html lang="{{ str_replace('_', '-', app()-&gt;getLocale()) }}"&gt;
+    &lt;head&gt;
+        &lt;meta charset="utf-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+        &lt;title&gt;Beta&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;This is the Beta page&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+
+
+<p>Now, run PHPUnit again, and the result should be back to green.</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ ./vendor/bin/phpunit
+PHPUnit <span class="token number">8.5</span>.2 by Sebastian Bergmann and contributors.
+
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span>.                                                             <span class="token number">7</span> / <span class="token number">7</span> <span class="token punctuation">(</span><span class="token number">100</span>%<span class="token punctuation">)</span>
+
+Time: <span class="token number">101</span> ms, Memory: <span class="token number">18.00</span> MB
+
+OK <span class="token punctuation">(</span><span class="token number">7</span> tests, <span class="token number">16</span> assertions<span class="token punctuation">)</span></code></pre>
+
+
+
+<p>We have now implemented our new page using <em>Test Driven Development</em> by writing the test first.</p>
+
+
+
+<h2>Laravel Dusk</h2>
+
+
+
+<p><code><a href="https://laravel.com/docs/6.x/dusk">Laravel Dusk</a></code> is a browser testing toolset that was introduced in Laravel 5.4. It allows us to run tests directly in a Google Chrome browser, making our tests more real and reliable.</p>
+
+
+
+<p>With Dusk we can simulate user interactions, click on links, make assertions, and execute JavaScript among many other things.</p>
+
+
+
+<p>As mentioned before, Dusk uses Google Chrome, so you’ll need to make sure you have it installed first (Chromium may not work). Alternatively, you can use <a href="https://laravel.com/docs/6.x/dusk#using-other-browsers">other browsers</a> with Selenium.</p>
+
+
+
+<p>Install the Dusk components:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ composer require --dev laravel/dusk
+$ php artisan dusk:install</code></pre>
+
+
+
+<p>This will install all the required components, including a Google <a href="https://sites.google.com/a/chromium.org/chromedriver/home">ChromeDriver</a> and an example test at <code>test/Browser/ExampleTest.php</code>.</p>
+
+
+
+<p>Next, we need to start the application, preferably on a different port, so it doesn’t conflict with our development environment. Create a Dusk-only environment file:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ <span class="token function">cp</span> .env .env.dusk.local</code></pre>
+
+
+
+<p>Open the new file <code>.env.dusk.local</code> and change the port number, for example, we’ll use port 8010:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash"><span class="token comment"># .env.dusk.local</span>
+
+<span class="token builtin class-name">.</span> <span class="token builtin class-name">.</span> <span class="token builtin class-name">.</span>
+
+<span class="token assign-left variable">APP_URL</span><span class="token operator">=</span>http://localhost:8010
+
+<span class="token builtin class-name">.</span> <span class="token builtin class-name">.</span> <span class="token builtin class-name">.</span></code></pre>
+
+
+
+<p>Start the application on the same port:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ php artisan serve --port<span class="token operator">=</span><span class="token number">8010</span> <span class="token operator">&amp;</span></code></pre>
+
+
+
+<p>Run the example test:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ php artisan dusk
+
+PHPUnit <span class="token number">8.5</span>.2 by Sebastian Bergmann and contributors.
+
+<span class="token builtin class-name">.</span>                                                                   <span class="token number">1</span> / <span class="token number">1</span> <span class="token punctuation">(</span><span class="token number">100</span>%<span class="token punctuation">)</span>
+
+Time: <span class="token number">554</span> ms, Memory: <span class="token number">16.00</span> MB
+
+OK <span class="token punctuation">(</span><span class="token number">1</span> test, <span class="token number">1</span> assertion<span class="token punctuation">)</span></code></pre>
+
+
+
+<h2>clickLink() and assertPathIs()</h2>
+
+
+
+<p>Dusk also provides a helper to allow the test to click a link that exists on the page (<code>clickLink()</code>), as well as a way to check what the resulting page is (<code>assertPathIs()</code>).</p>
+
+
+
+<p>Let’s use these two helpers to implement links between the Alpha and Beta pages.</p>
+
+
+
+<p>First, let’s create new Browser-only tests:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ php artisan dusk:make AlphaTest
+$ php artisan dusk:make BetaTest</code></pre>
+
+
+
+<p>Open <code>test/Browser/AlphaTest.php</code> and replace the <code>testExample</code> method with this one:</p>
+
+
+
+<pre class="wp-block-code"><code class="">&lt;?php
+# test/Browser/AlphaTest.php
+
+. . .
+
+    public function testExample()
+    {
+        $this-&gt;browse(function (Browser $browser) {
+            $browser-&gt;visit('/alpha')
+                    -&gt;assertSee('Alpha')
+                    -&gt;clickLink('Next')
+                    -&gt;assertPathIs('/beta');
+        });
+    }
+
+. . .</code></pre>
+
+
+
+<p>The new test will click the ‘Next’ link found on the “alpha” page to go to the “beta” page.</p>
+
+
+
+<p>You can run the test suite now, but as expected it will fail as we haven’t updated our HTML yet.</p>
+
+
+
+<p>Next, we will update the <code>test/Browser/BetaTest.php</code> to do similar:</p>
+
+
+
+<pre class="wp-block-code language-php"><code lang="php" class=" language-php">&lt;?php
+# test/Browser/BetaTest.php
+
+. . .
+
+    public function testExample()
+    {
+        $this-&gt;browse(function (Browser $browser) {
+            $browser-&gt;visit('/beta')
+                    -&gt;assertSee('Beta')
+                    -&gt;clickLink('Previous')
+                    -&gt;assertPathIs('/alpha');
+        });
+    }
+
+. . .</code></pre>
+
+
+
+<p>Next, let’s update our HTML templates to add Next and Previous links.</p>
+
+
+
+<p>Edit <code>resources/views/alpha.blade.php</code>:</p>
+
+
+
+<pre class="wp-block-code"><code lang="" class="">&lt;!DOCTYPE html&gt;
+&lt;html lang="{{ str_replace('_', '-', app()-&gt;getLocale()) }}"&gt;
+    &lt;head&gt;
+        &lt;meta charset="utf-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+        &lt;title&gt;Alpha&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;This is the Alpha page&lt;/h1&gt;
+        &lt;a href="/beta"&gt;Next&lt;/a&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+
+
+<p>Then edit <code>resources/views/beta.blade.php</code>:</p>
+
+
+
+<pre class="wp-block-code language-php"><code lang="php" class=" language-php">&lt;!DOCTYPE html&gt;
+&lt;html lang="{{ str_replace('_', '-', app()-&gt;getLocale()) }}"&gt;
+    &lt;head&gt;
+        &lt;meta charset="utf-8"&gt;
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+        &lt;title&gt;Beta&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;This is the Beta page&lt;/h1&gt;
+        &lt;a href="/alpha"&gt;Previous&lt;/a&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+
+
+<p>Save the files and run Dusk again:</p>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ php artisan dusk
+PHPUnit <span class="token number">8.5</span>.2 by Sebastian Bergmann and contributors.
+
+<span class="token punctuation">..</span>.                                                      <span class="token number">3</span> / <span class="token number">3</span> <span class="token punctuation">(</span><span class="token number">100</span>%<span class="token punctuation">)</span>
+
+Time: <span class="token number">1.45</span> seconds, Memory: <span class="token number">18.00</span> MB
+
+OK <span class="token punctuation">(</span><span class="token number">3</span> tests, <span class="token number">5</span> assertions<span class="token punctuation">)</span></code></pre>
+
+
+
+<p>We have now tested our new pages, including the Next/Previous links between them.</p>
+
+
+
+<blockquote class="wp-block-quote"><p>Read More: <a href="https://semaphoreci.com/blog/7-continuous-integration-tools-for-php-laravel">7 Continuous Integration Tools for PHP Laravel Developers</a></p></blockquote>
+
+
+
+<h2>Continuous Integration for PHPUnit on Semaphore</h2>
+
+
+
+<p>Testing is a daily part of every developer’s routine. <a href="https://semaphoreci.com/continuous-integration">Continuous Integration</a> (CI) is a software development practice in which test the application on every change. Teams that use CI can merge changes into the main branch several times a day, reducing the chance of conflicts and improving software quality.</p>
+
+
+
+<p>We can add Semaphore CI/CD to our project in just a few minutes. We’ll only need:</p>
+
+
+
+<ul><li><a href="https://github.com">GitHub</a>: A GitHub account for the code.</li><li><a href="https://semaphoreci.com">Semaphore</a>: A Semaphore account. You can get it for free using the <strong>TRY it Free</strong> button on the top-right corner.</li><li><a href="https://git-scm.com/">Git</a>: Git to push the code to GitHub.</li></ul>
+
+
+
+<h3>Push Code to GitHub</h3>
+
+
+
+<p>The first thing to do it to upload our examples to GitHub:</p>
+
+
+
+<ul><li>Create a <a href="https://help.github.com/en/github/getting-started-with-github/create-a-repo">new repository</a> on GitHub.</li><li>Leave all the options unchecked. Click on the <strong>Create Repository</strong> button:</li></ul>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img src="https://wpblog.semaphoreci.com/wp-content/uploads/2020/02/Screenshot217.png" alt="" class="wp-image-12598"></figure>
+
+
+
+<ul><li>Copy the URL of your new repository:</li></ul>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img src="https://wpblog.semaphoreci.com/wp-content/uploads/2020/02/Screenshot218-1024x792.png" alt="" class="wp-image-12599"></figure>
+
+
+
+<ul><li>Push your code to GitHub:</li></ul>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">$ <span class="token function">git</span> init
+$ <span class="token function">git</span> remote <span class="token function">add</span> origin YOUR_REPOSITORY_URL
+$ <span class="token function">git</span> <span class="token function">add</span> -A
+$ <span class="token function">git</span> <span class="token function">add</span> --force .env.dusk.local
+$ <span class="token function">git</span> commit -m <span class="token string">"initial commit"</span>
+$ <span class="token function">git</span> push origin master</code></pre>
+
+
+
+<h2>Create a CI Pipeline</h2>
+
+
+
+<p>A <a href="https://semaphoreci.com/blog/cicd-pipeline">pipeline</a> represents a series of processes that operate on our code. Each time the code is updated, each time a commit happens or a branch merged, the code enters the pipeline and is submitted to a series of tests. A good CI pipeline will provide a short feedback cycle that helps to weed out errors faster.</p>
+
+
+
+<p>To create a pipeline for the project:</p>
+
+
+
+<ul><li>In Semaphore, use the <strong>+ (plus sign)</strong> button next to <strong>Projects</strong> to add the repository:</li></ul>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img src="https://wpblog.semaphoreci.com/wp-content/uploads/2020/02/Screenshot45-2.png" alt="" class="wp-image-12600"></figure>
+
+
+
+<ul><li>Find your repository and click on <strong>Choose:</strong></li></ul>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img src="https://wpblog.semaphoreci.com/wp-content/uploads/2020/02/Screenshot219.png" alt="" class="wp-image-12601"></figure>
+
+
+
+<ul><li>Select the <strong>Laravel </strong>starter workflow:</li></ul>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img src="https://wpblog.semaphoreci.com/wp-content/uploads/2020/02/Screenshot221.png" alt="" class="wp-image-12602"></figure>
+
+
+
+<ul><li>Click on <strong>Customize it first</strong>. We need to make a few tweaks in the pipeline before it runs.</li></ul>
+
+
+
+<p>We get the <strong>Workflow Builder</strong> screen, we can always open it using the <strong>Edit Workflow</strong> button on the top-right corner:</p>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img src="https://wpblog.semaphoreci.com/wp-content/uploads/2020/02/Screenshot222.png" alt="" class="wp-image-12605"></figure>
+
+
+
+<ul><li><strong>Pipeline</strong>: A pipeline has a specific objective, e.g. build. Pipelines are made of blocks that are executed from left to right.</li><li><strong>Agent</strong>: The agent is the virtual machine that powers the pipeline. We have three <a href="https://docs.semaphoreci.com/article/20-machine-types">machine types</a> to choose from. The machine runs an optimized <a href="https://docs.semaphoreci.com/article/32-ubuntu-1804-image">Ubuntu 18.04</a> image with build tools for many languages.</li><li><strong>Block</strong>:  blocks group jobs with a similar purpose. Jobs in a block are executed in parallel and have similar commands and configurations. Once all jobs in a block complete, the next block begins.</li><li><strong>Job</strong>: jobs define the commands that do the work. They inherit their configuration from their parent block.</li></ul>
+
+
+
+<p>Let’s finish up setting up the initial pipeline:</p>
+
+
+
+<ul><li>Click on the Test block.</li></ul>
+
+
+
+<ul><li>Open the <strong>Environment Variables</strong> section, add the following variable using the <strong>+Add env_var</strong> link: <code>APP_ENV = local</code>. We need to clearly state that this is not a production environment, otherwise Dusk will refuse to run.</li></ul>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img src="https://wpblog.semaphoreci.com/wp-content/uploads/2020/02/Screenshot223.png" alt="" class="wp-image-12609"></figure>
+
+
+
+<ul><li>Click on <strong>Run the Workflow</strong> and then <strong>Start</strong>:</li></ul>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img src="https://wpblog.semaphoreci.com/wp-content/uploads/2020/02/Screenshot224-1.png" alt="" class="wp-image-12608"></figure>
+
+
+
+<p>The pipeline starts immediately:</p>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img src="https://wpblog.semaphoreci.com/wp-content/uploads/2020/02/Screenshot225.png" alt="" class="wp-image-12610"></figure>
+
+
+
+<h2>Optimizing the Pipeline</h2>
+
+
+
+<p>The started pipeline can be further optimized by:</p>
+
+
+
+<ul><li>Storing the composer modules in the cache, so they don’t have to be downloaded every time.</li><li>Separating the install and test steps into two blocks.</li><li>Running the Laravel Dusk browser tests.</li></ul>
+
+
+
+<p>Let’s modify the pipeline to run faster, we’ll use this opportunity to learn more about Semaphore:</p>
+
+
+
+<ul><li>Use the <strong>Edit Workflow</strong> button to open the workflow builder again.</li><li>Click on the test block and rename it to “Install”</li><li>Rename the job to “Composer”</li><li>Replace the commands in the job with the following:</li></ul>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">sem-version php <span class="token number">7.4</span>
+checkout
+cache restore
+composer <span class="token function">install</span>
+<span class="token function">npm</span> <span class="token function">install</span>
+cache store</code></pre>
+
+
+
+<p>We’re using some of the many Semaphore <a href="https://docs.semaphoreci.com/ci-cd-environment/toolbox-reference">toolbox</a> commands:</p>
+
+
+
+<ul><li><strong>checkout</strong>: this is a Semaphore built-in command that clones the GitHub repository into the CI environment.</li><li><strong>sem-version</strong>: activates a particular version for a language. Semaphore supports most current <a href="https://docs.semaphoreci.com/programming-languages/php/">PHP versions</a>.</li><li><strong>cache</strong>: To speed up jobs, Semaphore provides the&nbsp;<a href="https://docs.semaphoreci.com/article/54-toolbox-reference#cache">cache</a>&nbsp;tool. You can run <code>store</code> and <code>restore</code> to your preserve downloaded modules in Semaphore’s cache. The cache automatically figures out which files and directories should be stored. </li></ul>
+
+
+
+<p>Now we can re-add the test block:</p>
+
+
+
+<ul><li>Use the <strong>+Add Block</strong> dotted line button to create a new block.</li><li>Set the name of the block to “Test”</li><li>Open the <strong>Environment Variable</strong> section and add the variable: <code>APP_ENV = local</code></li><li>Open the <strong>Prologue</strong> section. The prologue is executed before each job in the block. Type the following commands:</li></ul>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">sem-version php <span class="token number">7.4</span>
+checkout
+cache restore
+<span class="token function">cp</span> .env.example .env
+php artisan key:generate
+<span class="token function">mkdir</span> -p database
+<span class="token function">touch</span> database/database.sqlite</code></pre>
+
+
+
+<ul><li>Set the name of the job to “phpunit”</li><li>Type the following commands in the job:</li></ul>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">./vendor/bin/phpunit</code></pre>
+
+
+
+<ul><li>Click on <strong>Add job</strong> to create a new job in the Test block. Set its name to “dusk”.</li><li>Type the following commands in the dusk job. We need to install the Chrome Web Driver that matches the version of Google Chrome in Semaphore, which currently is version 79:</li></ul>
+
+
+
+<pre class="wp-block-code language-bash"><code lang="bash" class=" language-bash">php artisan dusk:chrome-driver <span class="token number">79</span>
+php artisan serve --env<span class="token operator">=</span>.env.dusk.local --port<span class="token operator">=</span><span class="token number">8010</span> <span class="token operator">&amp;</span>
+php artisan dusk</code></pre>
+
+
+
+<ul><li>Use <strong>Run the Workflow</strong> and then <strong>Start</strong> to try the new pipeline:</li></ul>
+
+
+
+<figure class="wp-block-image alignwide size-large"><img src="https://wpblog.semaphoreci.com/wp-content/uploads/2020/02/Screenshot226.png" alt="" class="wp-image-12612"></figure>
+
+
+
+<p>This optimized pipeline is a solid foundation for your Laravel projects.</p>
+
+
+
+<h2>Next Reads</h2>
+
+
+
+<p>Don’t miss these great documentations on PHP, Laravel and Continuous Integration:</p>
+
+
+
+<ul><li><a href="https://semaphoreci.com/blog/7-continuous-integration-tools-for-php-laravel">7 Continuous Integration Tools for PHP Laravel Developers</a></li><li><a href="https://semaphoreci.com/community/documentations/dockerizing-a-php-application">Dockerizing a PHP Application</a></li><li><a href="https://docs.semaphoreci.com/programming-languages/php/">Semapore PHP support page</a></li></ul>
+
+
+
+<h2>Conclusion</h2>
+
+
+
+<p>You should notice a common theme across all of the tests that we have written in this documentation: they are all incredibly simple. This is one of the benefits of learning how to use the basic test assertions and helpers, and trying to use them as much as possible. The simpler you can write your tests, the easier your tests will be to understand and maintain.</p>
+
+
+
+<p>Once you have mastered the PHPUnit assertions we have covered in this documentation, you can find a lot more in the <a href="https://phpunit.readthedocs.io/en/9.0/">PHPUnit documentation</a>. They all follow the same basic pattern, but you will find that you keep coming back to the basic assertions for most of your tests.</p>
+
+
+
+<p>Laravel’s test helpers are a fantastic compliment to the PHPUnit assertions, and make testing your application templates easy. That said, it is important to recognize that, as part of our tests, we only checked the critical information – not the entire page. This keeps the tests simple, and allows the page content to change as the application changes. If the critical content still exists, the test still passes, and everyone is happy.</p>
+	</div><!-- .entry-content -->
+
+<!-- .entry-footer -->
+	<div class="share">
+<ul>
+  <li><a href="http://www.facebook.com/sharer.php?u=https://semaphoreci.com/community/documentations/getting-started-with-phpunit-in-laravel" target="blank" rel="noopener noreferrer"><img src="https://wpblog.semaphoreci.com/wp-content/themes/semaphoreci/img/share-Facebook.svg" alt="Share Page on Facebook"></a></li>
+  <li><a href="https://twitter.com/share?url=https://semaphoreci.com/community/documentations/getting-started-with-phpunit-in-laravel" target="blank" rel="noopener noreferrer"><img src="https://wpblog.semaphoreci.com/wp-content/themes/semaphoreci/img/share-Twitter.svg" alt="Share Page on Twitter"></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://semaphoreci.com/community/documentations/getting-started-with-phpunit-in-laravel" target="blank" rel="noopener noreferrer"><img src="https://wpblog.semaphoreci.com/wp-content/themes/semaphoreci/img/share-linkedin.svg" alt="Share Page on LinkedIn"></a></li>
+</ul>
+</div>
+</article><!-- #post-10639 -->
+
+
+</main>

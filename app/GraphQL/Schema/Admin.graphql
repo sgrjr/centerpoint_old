@@ -1,0 +1,31 @@
+extend type Query @guard {
+    orders(filter: OrderFilter): [Order!]! @paginate(defaultCount: 15) @can(ability: "view")
+    order(id: ID @eq): Order @find @can(ability: "view", find:"id")
+
+    allHeads(filter: OrderFilter): [Order!]! @paginate(defaultCount: 15) @can(ability: "view")
+    allHead(id: ID @eq): Order @find @can(ability: "view")
+
+    ancientHeads(filter: OrderFilter): [Order!]! @paginate(defaultCount: 15) @can(ability: "view")
+    ancientHead(id: ID @eq): Order @find @can(ability: "view")
+
+    backheads(filter: OrderFilter): [Order!]! @paginate(defaultCount: 15) @can(ability: "view")
+    backhead(id: ID @eq): Order @find @can(ability: "view")
+
+    broheads(filter: OrderFilter): [Order!]! @paginate(defaultCount: 15) @can(ability: "view")
+    brohead(id: ID @eq): Order @find @can(ability: "view")
+
+    webheads(filter: OrderFilter): [Order!]! @paginate(defaultCount: 15) @can(ability: "view")
+    webhead(id: ID @eq): Order @find @can(ability: "view")
+
+    vendors(filter: VendorFilter): [Vendor!]! @paginate(defaultCount: 15) @can(ability: "view")
+    vendor(id: ID @eq): Vendor @find @can(ability: "view")
+
+    titleTexts(filter: TitleTextFilter): [TitleText!]! @paginate(defaultCount: 15) @can(ability: "view")
+    titleText(id: ID @eq): TitleText @find @can(ability: "view")
+  
+    standingOrders(filter: StandingOrderFilter): [StandingOrder!]! @paginate(defaultCount: 15) @can(ability: "view")
+    standingOrder(id: ID @eq): StandingOrder @find @can(ability: "view")
+
+    users(filter: UserFilter): [User!]! @paginate(defaultCount: 15) @can(ability: "view")
+    user(id: ID @eq): User @find @can(ability: "view")
+}
