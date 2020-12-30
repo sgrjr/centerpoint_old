@@ -7,8 +7,6 @@ use App\Interfaces\ModelInterface;
 class Alldetail extends BaseModel implements ModelInterface{
 
 	use DbfTableTrait, DetailTrait;
-	
-	protected $fillable = [ "INDEX", "FUCKTRAN", "JOBBERHOLD", "ORDACTION", "ORDREASON", "TRANSNO", "TESTTRAN", "ORDERNUM", "KEY", "DATE", "PROD_NO", "REQUESTED", "SHIPPED", "ARTICLE", "AUTHOR", "TITLE", "LISTPRICE", "SALEPRICE", "CAT", "INVNATURE", "SERIES", "SOPLAN", "DISC", "PUBLISHER", "FORMAT", "SUBTITLE", "CATALOG", "STATUS", "UNITCOST", "TITLEKEY", "AUTHORKEY", "COMPUTER", "TIMESTAMP", "DATESTAMP", "LASTTOUCH", "LASTTIME", "LASTDATE", "PAGES", "OUNCES", "PUBDATE", "REMOTEADDR", "USERPASS", "ORDEREDBY", "EWHERE", "SCARTONNO", "TRANSNUM", "F856NUM"];
 
 	protected $table = "alldetails";
 

@@ -4,9 +4,6 @@ class Ancientdetail extends BaseModel implements \App\Interfaces\ModelInterface 
 	
 	use \App\Ask\AskTrait\DetailTrait;
     use DbfTableTrait;
-    	
-	protected $fillable = ["INDEX", "KEY", "TRANSNO", "DATE", "REQUESTED", "SHIPPED", "PROD_NO", "AUTHOR", "ARTICLE", "TITLE", "INVNATURE", "LISTPRICE", "DISC", "TESTTRAN", "SALEPRICE", "PUBLISHER", "SUBTITLE", "FORMAT", "CAT", "SERIES", "SOPLAN", "CATALOG", "STATUS", "ORDERNUM", "UNITCOST", "TITLEKEY", "AUTHORKEY", "COMPUTER", "TIMESTAMP", "DATESTAMP", "LASTTOUCH", "LASTTIME", "LASTDATE", "PAGES", "OUNCES", "PUBDATE", "REMOTEADDR", "USERPASS", "ORDEREDBY"];
-
 
 	protected $table = "ancientdetails";
 

@@ -8,28 +8,9 @@ use Schema;
 
 class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
-
     use DbfTableTrait;
 
     protected $dbfPrimaryKey = 'ISBN';
-
-    protected $fillable = [
-        "INDEX","ISBN","ONHAND","AUTHOR","TITLE","PUBDATE","STATUS","CAT","FCAT","SCAT","FORMAT",
-        "PAGES","LISTPRICE","SERIES","SOPLAN","INVNATURE","AUTHORKEY","TITLEKEY","SUBTITLE","MARC",
-        "PUBLISHER","HIGHLIGHT","FASTAVAIL","ISBN","ONHAND","ALLSALES","ONORDER","FASTPRINT","FINALINV",
-        "AUTHOR","ARTICLE","TITLE","PUBDATE","STATUS","AUTHPRE","AFIRST","ALAST","SUFFIX","AUTHOR2",
-        "AUTHPRE2","AFIRST2","ALAST2","SUFFIX2","PUBSTATUS","CAT","FCAT","SCAT","SGROUP","FORMAT",
-        "PAGES","LISTPRICE","SERIES","WHATSERIES","SOPLAN","RPURCHASES","OPDATE","INVNATURE",
-        "PERCARTON","OUNCES","FLATPRICE","ORDERDATE","JOURNALKEY","PRE2016","PAID2016","PRE2017",
-        "PAID2017","PRE2018","PAID2018","ADVANCE","LINESALES","UNEARNED","EARNED","CGS","GROSS",
-        "WHERE","CATALOG","AUTHORKEY","AFIRSTKEY","AFIRST2KEY","ALASTKEY","ALAST2KEY","TITLEKEY",
-        "UNITCOST","RUNITCOST","SUBTITLE","SETRECORD","BISAC1","BISAC2","RIGHTS","SIMO","ROYBOOKS",
-        "ROYRETURNS","MARC","COMPUTER","TIMESTAMP","DATESTAMP","PUBLISHER","SHORTITLE","SOLDAT",
-        "ONSO","ONBO","SOLD","STITLE","KEY","OPUBDATE","THEBUZZ","PICLOC"
-
-    ];
-   
-
     protected $appends = ['coverArt'];
     protected $table = 'inventories';
 
@@ -40,7 +21,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     ];
 
   protected $attributeTypes = [ 
-  //  "_config"=>"inventory",
+        "_config"=>"inventory",
         "INDEX"=>["name"=>"INDEX","type"=>"Int","length"=>50],
         "FASTAVAIL"=>["name"=>"FASTAVAIL","type"=>"Char","length"=>3],
         "ISBN"=>["name"=>"ISBN","type"=>"Char","length"=>13],

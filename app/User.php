@@ -21,16 +21,6 @@ class User extends Authenticatable implements \App\Interfaces\ModelInterface, \I
 
   use AskTrait, ManageTableTrait, ModelTrait, PresentableTrait, CanResetPassword, DbfTableTrait, HasApiTokens, GetsPermissionTrait;
 
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-
-
-    protected $fillable = ["INDEX","KEY","LOGINS","DATEUPDATE","DATESTAMP","UPASS","MPASS","UNAME","SNAME","EMAIL","PIC","COMPANY","SEX","FIRST","MIDNAME","LAST","ARTICLE","TITLE","ORGNAME","STREET","SECONDARY","CITY","CARTICLE","STATE","COUNTRY","POSTCODE","NATURE","VOICEPHONE","EXTENSION","FAXPHONE","COMMCODE","MDEPT","MFNAME","TSIGNOFF","TIMESTAMP","TIMEUPDATE","CANBILL","TAXEXEMPT","PASSCHANGE","PRINTQUE","SENDEMCONF","SEARCHBY","MULTIBUY","SORTBY","FULLVIEW","SKIPBOUGHT","OUTOFPRINT","OPROCESS","OBEST","OADDTL","OVIEW","ORHIST","OINVO","EXTZN","INSOS","INREG","LINVO","NOEMAILS","ADVERTISE","PROMOTION","PASSDATE","EMCHANGE",'remember_token'];
-
     /**
      * The attributes that should be hidden for arrays.
      *

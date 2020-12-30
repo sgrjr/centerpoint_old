@@ -3,9 +3,6 @@ use \App\Core\DbfTableTrait;
 class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
 
     use DbfTableTrait;
-    
-	protected $fillable = ["INDEX","KEY","SEX","FIRST","MIDNAME","LAST","TITLE","ARTICLE","ORGNAME","SECONDARY","STREET","CARTICLE","CITY","STATE","ZIP5","COUNTRY","VOICEPHONE","COMMCODE","NEWCODE","EXTENSION","FAXPHONE","EMAIL","WEBSERVER","NATURE","WHAT","PROMOTIONS","BUDGET","RECALLD","ORGNAMEKEY","CITYKEY","COMPUTER","ENTRYDATE","DATESTAMP","TIMESTAMP","LASTTOUCH","LASTDATE","LASTTIME","NOEMAILS","EMCHANGE","REMOVED","REMDATE"];
-
 
     private $VENDOR_CACHE_MINUTES = 15;
 	protected $table = "vendors";

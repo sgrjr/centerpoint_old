@@ -5,9 +5,6 @@ class Brodetail extends BaseModel implements \App\Interfaces\ModelInterface{
 	use \App\Ask\AskTrait\DetailTrait;
 	use DbfTableTrait;
 
-	protected $fillable = [ "INDEX", "ORDACTION", "ORDREASON", "JOBBERHOLD", "STATUS", "FASTPRINT", "TESTTRAN", "KEY", "TRANSNO", "PROD_NO", "REQUESTED", "SHIPPED", "AUTHOR", "TITLE", "SERIES", "ORDERNUM", "DATE", "ARTICLE", "LISTPRICE", "SALEPRICE", "DISC", "FORMAT", "PUBLISHER", "SOPLAN", "CAT", "SUBTITLE", "CATALOG", "AUTHORKEY", "TITLEKEY", "COMPUTER", "TIMESTAMP", "DATESTAMP", "LASTTOUCH", "LASTDATE", "LASTTIME", "UNITCOST", "UPSELL", "PAGES", "OUNCES", "PUBDATE", "INVNATURE", "USERPASS", "ORDEREDBY", "EWHERE", "VISION", "REMOTEADDR", "DROPSHIP", "SCARTONNO", "TRANSNUM", "F856NUM", "KEYPO"];
-
-
 	protected $table = "brodetails";
 
 	  protected $seed = [

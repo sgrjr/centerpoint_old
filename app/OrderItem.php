@@ -13,7 +13,6 @@ class OrderItem extends BaseModel implements \App\Interfaces\ModelInterface
   protected $fillable = ["TRANSNO","KEY","PROD_NO","TITLE", "AUTHOR", "REQUESTED","SALEPRICE","LISTPRICE","SOPLAN","DISC","ORDEREDBY"];
 	protected $table = 'order_items';
 
-  
   protected $seed = [
     'dbf_ancientdetail',
     'dbf_alldetail',

@@ -6,11 +6,6 @@ class Booktext extends BaseModel implements \App\Interfaces\ModelInterface {
     
   use DbfTableTrait;
 
-	protected $fillable = [
-    "INDEX","ISTHERE","KEY","SUBJECT","PUBDATE","SYNOPSIS",
-    "COMPUTER","DATESTAMP","TIMESTAMP","LASTTOUCH","LASTDATE","LASTTIME","FILENAME"
-];
-
 	protected $appends = [];
 	protected $table = "booktexts";
    protected $seed = [
