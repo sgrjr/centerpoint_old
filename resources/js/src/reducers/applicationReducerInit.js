@@ -79,7 +79,7 @@ export default {
                               TITLE
                               REQUESTED
                               SALEPRICE
-                              defaultImage
+                              coverArt
                               AUTHORKEY
                               url
                           }

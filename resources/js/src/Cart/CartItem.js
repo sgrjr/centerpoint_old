@@ -90,7 +90,7 @@ function CartItem(props) {
   return (
     <ListItem className={classes.container}>
     	<div className={classes.imageContainer} style={{background:"#3F51B5"}}>
-    		<img className={classes.image} src={props.defaultImage} alt={`${props.TITLE} cover`}/>
+    		<img className={classes.image} src={props.coverArt} alt={`${props.TITLE} cover`}/>
     	</div>
     	<Typography variant="h3" className={classes.title}><Link to={"/isbn/"+props.PROD_NO}>{props.TITLE}</Link></Typography>
     	<Typography className={classes.author}>By {props.AUTHORKEY}</Typography>

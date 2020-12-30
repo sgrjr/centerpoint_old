@@ -23,7 +23,7 @@ export default (REMOTEADDR, ISBN) => {
                               TITLE
                               REQUESTED
                               SALEPRICE
-                              defaultImage
+                              coverArts
                               AUTHORKEY
                               url
                             }

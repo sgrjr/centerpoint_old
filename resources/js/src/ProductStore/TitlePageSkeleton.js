@@ -6,7 +6,6 @@ import Progress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import SubtleProgress from '../components/SubtleProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import {withTheme} from '@material-ui/core/styles';
 

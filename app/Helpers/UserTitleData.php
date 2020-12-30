@@ -27,7 +27,7 @@ class UserTitleData {
 	}
 
 	private function getPurchased(){
-		return in_array($this->title->ISBN, $this->user->isbns);
+		return in_array($this->title->ISBN, $this->user->getIsbns());
 	}
 
 		private function getOnstandingorder(){

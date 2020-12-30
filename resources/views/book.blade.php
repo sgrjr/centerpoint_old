@@ -68,7 +68,7 @@
 
 	<div class="container">
 		 @include("components.products_list",["titles"=>$genreTitles, "mainClass"=>"scroll", "listtitle"=>  $title->CAT])
-		 <a class="btn btn-primary" href={{"/search/".str_replace("+", "%20",urlencode($title->CAT) ) . "/CAT"}}>view more</a>
+		 <a class="btn btn-primary" href={{"/search/".str_replace("+", "%20",urlencode($title->CAT) ) . "/category"}}>view more</a>
 	</div>
 
 	

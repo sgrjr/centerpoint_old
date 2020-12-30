@@ -21,7 +21,7 @@ export default (REMOTEADDR) => {
                               TITLE
                               REQUESTED
                               SALEPRICE
-                              defaultImage
+                              coverArt
                               AUTHORKEY
                               url
                             }

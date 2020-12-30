@@ -204,7 +204,7 @@ case actions.cart.INVOICE_SUCCESS.type:
                 ...state,
                 cart: {
                     ...state.cart,
-                    open: !state.open
+                    open: !state.cart.open
                 }
             }
     
@@ -226,7 +226,7 @@ case actions.cart.INVOICE_SUCCESS.type:
             }
             let index = action.index
             let key = action.key
-            ns.vendor.carts[index][key] = action.value
+            ns.vendor.carts.data[index][key] = action.value
             return ns
 
         case actions.cart.CHECKOUT_UPDATE.type:

@@ -25,7 +25,7 @@ export default (variables) => {
                 TITLE
                 REQUESTED
                 SALEPRICE
-                defaultImage
+                coverArt
                 AUTHORKEY
                 url
               }

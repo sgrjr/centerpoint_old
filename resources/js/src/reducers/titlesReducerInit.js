@@ -99,67 +99,81 @@ export default {
     return {
     
     query:`query ($page: Int, $perPage: Int, $isbn: String) {
-  viewer {
-    title(filter: {isbn: $isbn}) {
-      LISTPRICE
-      INDEX
-      AUTHOR
-      AFIRST
-      ALAST
-      SUFFIX
-      AUTHORKEY
-      ISBN
-      TITLE
-      FORMAT
-      SUBTITLE
-      HIGHLIGHT
-      PICLOC
-      CAT
-      AUTHORKEY
-      INVNATURE
-      PAGES
-      PUBDATE
-      STATUS
-      defaultImage
-      MARC
-      text {
+ title(filter: { isbn: $isbn }) {
+    LISTPRICE
+    INDEX
+    AUTHOR
+    AUTHORKEY
+    ISBN
+    TITLE
+    FORMAT
+    SUBTITLE
+    HIGHLIGHT
+    CAT
+    AUTHORKEY
+    INVNATURE
+    PAGES
+    PUBDATE
+    STATUS
+    coverArt
+    MARC
+    byCategory(page: $page, first: $perPage) {
+      paginatorInfo {
+        perPage
+        lastPage
+        total
+        count
+        currentPage
+        firstItem
+        lastItem
+        hasMorePages
+      }
+
+      data {
+        INDEX
+        ISBN
+        TITLE
+        coverArt
+        LISTPRICE
+      }
+    }
+    byAuthor(page: $page, first: $perPage) {
+      paginatorInfo {
+        perPage
+        lastPage
+        total
+        count
+        currentPage
+        firstItem
+        lastItem
+        hasMorePages
+      }
+
+      data {
+        INDEX
+        ISBN
+        TITLE
+        AUTHORKEY
+        coverArt
+        LISTPRICE
+      }
+    }
+    text {
         body {
           type
           subject
           body
         }
-      }
-      user {
+    }
+      user: userData {
+        isbn
         price
         discount
         purchased
         onstandingorder
       }
-      sameCAT: byCategory(page: $page, first: $perPage) {
-
-        data {
-          INDEX
-          ISBN
-          TITLE
-          PICLOC
-          defaultImage
-          LISTPRICE
-        }
-      }
-      sameAUTHOR: byAuthor(page: $page, first: $perPage) {
-        data {
-          INDEX
-          ISBN
-          TITLE
-          PICLOC
-          AUTHORKEY
-          defaultImage
-          LISTPRICE
-        }
-      }
-    }
   }
-}
+    }  
     `, 
     variables: variables
   }

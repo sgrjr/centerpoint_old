@@ -31,6 +31,6 @@ type Title {
    	bySeries: [Title!]! @hasMany(type:"paginator", defaultCount: 5)
    	bySoplan: [Title!]! @hasMany(type:"paginator", defaultCount: 5)
    	byPublisher: [Title!]! @hasMany(type:"paginator", defaultCount: 5)
-    userData: UserTitleData @method(name: "userTitleData")
+    userData: UserTitleData @method(name: "getUserData")
     text: [TitleText] @hasMany(defaultCount:5, model:"App\\Booktext")
 }

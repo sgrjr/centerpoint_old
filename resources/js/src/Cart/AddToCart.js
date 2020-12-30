@@ -100,7 +100,7 @@ class AddToCart extends Component{
             <Button variant="outlined" onClick={toggleSimpleCarts}>X 
             <Typography variant="h1" style={{fontSize:"2rem", textAlign:"center"}}>My Open Carts</Typography>
             <Typography variant="body1" >Select the cart below to which you want to add this title. Or, create a new cart.</Typography>
-            <img src={title.defaultImage} style={{width:"100px"}} />
+            <img src={title.coverArt} style={{width:"100px"}} />
             </Button>
             
             <CartList simple={true} {...this.props}/> 

@@ -5,7 +5,7 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
 	use \App\Ask\AskTrait\HeadTrait;
   use DbfTableTrait;
 
-	protected $appends = ["items"];
+	protected $appends = [];
 	protected $table = "webheads";
 
 	protected $dbfPrimaryKey = 'REMOTEADDR';
@@ -25,37 +25,11 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
     return $this->hasMany('\App\Webdetail','REMOTEADDR','REMOTEADDR');
   }
 
-  public function getItemssAttribute(){
-
-   $items = \App\WebDetail::dbf()->where("REMOTEADDR","===", $this->REMOTEADDR)->setPerPage(1000);
-
-   return $items->setData()->data->records;
-  }
-
-  public function itemsArray(){
-
-   $items = \App\WebDetail::dbf()->where("REMOTEADDR","===", $this->REMOTEADDR)->setPerPage(1000);
-
-   return $items->setData(false, true)->data->records;
-  }
-
-	public function getDetailswConnection(array $record = []){
-
-    if(empty($record)){
-      $remoteaddr = $this->getAttributes()["REMOTEADDR"];
-    }else{
-      $remoteaddr = $record["REMOTEADDR"];
-    }
-
-		return \App\WebDetail::ask()->where("REMOTEADDR","===", $remoteaddr)->setPerPage(1000)->get();
-
-	}
-
   public function vendor(){
     return $this->belongsTo('\App\Vendor','KEY','KEY');
   }
 
-    public function getVendorConnection(array $record = []){
+  public function getVendorConnection(array $record = []){
 
     if(empty($record)){
       $key = $this->getAttributes()["KEY"];
@@ -68,9 +42,9 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
       $vendor->KEY = $key;
       $vendor->ORGNAME = "FAKE COMPANY";
       return $vendor;
-  }else{
-    return \App\Vendor::ask()->where("KEY","===", $key)->first();
-  }
+    }else{
+      return \App\Vendor::ask()->where("KEY","===", $key)->first();
+    }
 
     
   }

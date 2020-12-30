@@ -19,7 +19,7 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
         "_config"=>"vendor",
       ];
 
-      protected $appends = ['summary','carts','processing'];
+      protected $appends = ['summary'];
 
 	public function standingOrders()
     {

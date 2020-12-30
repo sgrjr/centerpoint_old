@@ -15,7 +15,7 @@ export default function TitleSummary(props) {
               <Grid container className="search-results" direction="row" justify="space-between" alignItems="flex-start" spacing={2} >
                 <Grid item xs={3}>
                   <div>
-                    <BookCover link={"/isbn/" + props.ISBN} image={"url(" + props.defaultImage + ")"} alt={`${props.TITLE} cover`}/>
+                    <BookCover link={"/isbn/" + props.ISBN} image={"url(" + props.coverArt + ")"} alt={`${props.TITLE} cover`}/>
                   </div>  
                 </Grid>
                 <Grid item xs={6}>

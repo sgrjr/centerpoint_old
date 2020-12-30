@@ -42,7 +42,7 @@ class TitlePage extends Component{
           "perPage":10,
           "isbn": isbn
         }))
-      }else if(newProps.authenticated && newProps.getUserData && !newProps.titlepending){
+      }else if(newProps.viewer.KEY && newProps.getUserData && !newProps.titlepending){
         this.props.titleGet(this.props.titleQuery({
           "page":1,
           "perPage":10,
@@ -105,7 +105,7 @@ class TitlePage extends Component{
             </Typography>
             </Grid>
           <Grid item xs={10} md={5}>           
-            <BookCover link={""} image={"url(" + title.defaultImage + ")"} large={true} />
+            <BookCover link={""} image={"url(" + title.coverArt + ")"} large={true} />
             <Divider style={{margin:"30px"}} />
 
             {addToCart}
@@ -116,7 +116,7 @@ class TitlePage extends Component{
               
             </Typography>
           <Typography variant="h4" color="secondary" style={requireAuth}>
-            {viewer.KEY? "YOUR PRICE: "+title.user.price : ""}
+            {title.user? "YOUR PRICE: "+title.user.price : ""}
             </Typography>
           <Typography variant="h5">
               LIST PRICE: {title.LISTPRICE? title.LISTPRICE:circle}
@@ -234,7 +234,7 @@ class TitlePage extends Component{
           
             {copy()}
             <Grid item xs={12} sm={10}>
-              <HorizontalList items={title.byCategory.data} listTitle={"More " + title.CAT} url={"/search/"+title.CAT+"/CAT"} titleSize={"h4"} displayHorizontal={true} background={"#2e2e2e"} />
+              <HorizontalList items={title.byCategory.data} listTitle={"More " + title.CAT} url={"/search/"+title.CAT+"/category"} titleSize={"h4"} displayHorizontal={true} background={"#2e2e2e"} />
             </Grid>
              <Grid item xs={12} sm={10}>
               <HorizontalList items={title.byAuthor.data} listTitle={authorTitle} url={"/search/"+title.AUTHORKEY+"/author"} titleSize={"h4"}  displayHorizontal={true}  background={"#2e2e2e"} />

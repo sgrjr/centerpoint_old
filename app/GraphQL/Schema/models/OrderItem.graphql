@@ -1,5 +1,5 @@
 type OrderItem {
-    defaultImage: String
+    coverArt: String
     id: ID!
     url: String
     INDEX: String!

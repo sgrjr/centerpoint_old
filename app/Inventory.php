@@ -75,9 +75,22 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
         return $this->hasMany('App\Booktext',"KEY","ISBN");
 	  }
 
-   public function getUserData($user)
+   public function getUserData()
     {
-    	return new UserTitleData($this, $user);
+
+      if(request()->user() !== null){
+        $user = new UserTitleData($this, request()->user());
+         return [
+          "price"=> $user->price,
+          "purchased"=>$user->purchased,
+          "onstandingorder"=>$user->onstandingorder,
+          "discount"=>$user->discount,
+          "isbn"=>$user->isbn
+        ];
+      }else{
+        return null;
+      }
+    	
     }
 
     public function inventoriesSchema($table){

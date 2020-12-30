@@ -109,6 +109,12 @@ class User extends Authenticatable implements \App\Interfaces\ModelInterface, \I
       return $this->hasMany('\App\Order', 'KEY', 'KEY');
     }
 
+  public function getIsbns()
+    {
+      return $this->hasMany('\App\Alldetail', 'KEY', 'KEY')->get(['PROD_NO'])->toArray();
+    }
+
+
     public function titles()
     {
       return $this->hasMany('App\OrderItem', 'KEY','KEY');
@@ -379,19 +385,6 @@ public function getMemo(){
             ->where("KEY","==",$this->key)
             ->where("EMAIL","==", $this->email)
             ->get()->records;
-    }
-  
-    public function getVendorAttribute(){
-        if($this->email == "sgrjr@deliverance.me"){
-          $vendor = new \App\Vendor;
-          $vendor->KEY = $this->key;
-          $vendor->ORGNAME = "FAKE COMPANY";
-          return $vendor;
-      }else{
-          return \App\Vendor::ask()
-          ->where("KEY","===", $this->key)
-          ->first();
-      }
     }
 
 }

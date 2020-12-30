@@ -31,7 +31,7 @@ export default (cartIndex, titleIndex, cartId, titleId, quantity) => {
                               TITLE
                               REQUESTED
                               SALEPRICE
-                              defaultImage
+                              coverArt
                               AUTHORKEY
                               url
                             }

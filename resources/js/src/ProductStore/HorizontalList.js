@@ -55,7 +55,7 @@ export default function SingleLineGridList(props) {
         {items.map((item, index) => (
           <Grid key={index} item xs={6} sm={3} style={{height:"inherit", margin:"inherit", padding:"inherit"}}>
           <GridListTile>
-              <BookCover link={"/isbn/" + item.ISBN} image={"url(" + item.defaultImage + ")"} />
+              <BookCover link={"/isbn/" + item.ISBN} image={"url(" + item.coverArt + ")"} />
             <GridListTileBar
               title={item.TITLE}
               subtitle={"$" + item.LISTPRICE}
