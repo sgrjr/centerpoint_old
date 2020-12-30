@@ -4,28 +4,25 @@ use App\Ask\DatabaseType\PHPXbase\XBaseTable;
 use App\Ask\DatabaseType\Config\ConfigTable;
 use App\Ask\DatabaseType\PHPXbase\XBaseWritableTable as WritableTable;
 use App\Ask\DatabaseType\PHPXbase\XBaseTable as Table;
-use App\RecordDetails;
 use Config;
+use \Illuminate\Pagination\LengthAwarePaginator;
 use App\Ask\AskInterface\AskQueryBuilderInterface;
-
+use Illuminate\Database\Eloquent\Builder;
 use App\Ask\QueryBuilder;
 
+
 class XbaseQueryBuilder extends QueryBuilder implements AskQueryBuilderInterface {
-<<<<<<< HEAD
-=======
-	
-	public function source(){
-        return 'dbf';
-    }
 
-public function setTable(){
+   /**
+     * The connection name for the model.
+     *
+     * @var string|null
+     */
+    protected $connection;
 
-   	if(is_array($this->model->getSeed())){
-   		$seeds = $this->model->getSeed();
-   	}else{
-   		$seeds = [$this->model->getDbfPath()];
-   	}
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+public function source(){
+    return 'dbf';
+}
 
 public function setTable(){
         $this->table = [];
@@ -39,12 +36,9 @@ public function setTable(){
 		        $table = new Table($seed["path"]);
 				$this->table[] = $table;
 		    }
-<<<<<<< HEAD
+
 		     
-=======
-		     //$table->open();
-		     $this->table[] = $table;
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
         }
 
     return $this;
@@ -119,33 +113,72 @@ public function index($index = 0, $columns = false){
 	}
 
     public function importAndEmpty(){
-<<<<<<< HEAD
+
 		
 		if($this->parameters->import !== false && $this->data->records->count() > 0){
+
 			$result = \DB::table($this->parameters->import)->insert($this->data->records->toArray());
 
 			if($this->parameters->perPage >= 8000){
 				$this->truncateRecords();
 			}
 		}
-		
-=======
 
-		if($this->parameters->import !== false){
-
-				$result = \DB::table($this->parameters->import)->insert($this->data->records->toArray());
-
-				if($this->parameters->perPage >= 8000){
-					$this->truncateRecords();
-				}
-		}
-
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 		return $this;
 	}
 
-
 	public function setData($columns = false){
+		ini_set('memory_limit','3000M');
+		$startIndex = -1;	
+		$incrementFunction = "nextRecord";
+		//reversing search from last to first
+		//$startIndex = $table->recordCount - 1;
+		//$incrementFunction = "previousRecord";
+
+		foreach($this->table AS $table){
+
+			$table->open();
+			$table->moveTo($startIndex);
+			$counter = 0;
+			$total = 0;
+			while ($record1=$table->$incrementFunction() ) {
+				
+					$record = $record1->getRawData();
+					//svar_dump($total, memory_get_usage());
+					
+					unset($record['DELETED']);
+
+					$this->addDataRecord($record, false, true, $this->parameters->lists);
+					
+					$counter++;
+					$total++;
+								
+					if($counter === 500) {
+						$this->importAndEmpty();
+						$counter = 0;
+					}
+		
+					if($incrementFunction === "previousRecord" && $record['INDEX'] === 0){
+						break;
+					}else if($incrementFunction === "nextRecord" && $record['INDEX'] === $table->recordCount-1){
+						break;
+					}									
+
+					$record = null;
+					$record1 = null;	
+			      }
+
+
+			$table->close();
+			$table = null;
+		}
+
+		$this->importAndEmpty();
+
+        return $this;
+	}
+
+	public function setDataOLD($columns = false){
 		
 		$this->autoSetColumns($columns);
 		$total = 0;
@@ -158,31 +191,30 @@ public function index($index = 0, $columns = false){
 		$incrementFunction = "nextRecord";
 
 		foreach($this->table AS $table){
-<<<<<<< HEAD
+
 			$table->open();
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 				//reversing search from last to first
 				$veryLastIndex = $table->recordCount - 1;
 
 				if(!$this->parameters->index){
-<<<<<<< HEAD
+
 					if($this->parameters->order->direction === "ASC"){
-=======
-					if($this->parameters->order->direction === "asc"){
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 						$this->setIndex(-1);						
 					}else{
 						$this->setIndex($table->recordCount+1);
 						$incrementFunction = "previousRecord";
 					}
 				}
+
 				$table->moveTo($this->parameters->index);
 		
 				$counter = 0;
 
 				if($this->columns !== false && count($this->columns) > 0 ){
-<<<<<<< HEAD
+
+					
 
 				while ($record1=$table->$incrementFunction() ) {
 
@@ -190,7 +222,9 @@ public function index($index = 0, $columns = false){
 							//in order to retrive memo fields
 							// default behavior is to skip fields
 							
-							$record = $record1->getRawData(); 
+							$record = $record1->getRawDataNoModification();//getRawData(); 
+							//file_put_contents('tst', json_encode($record), FILE_APPEND);
+
 							//temporarily disable for minimal function to avoid memory timeout
 							//$record = $record1->getRawDataNoModification();
 
@@ -209,58 +243,34 @@ public function index($index = 0, $columns = false){
 					                	}
 					            	}
 
-=======
 
-				while ($record1=$table->$incrementFunction() ) {
-							$record = $record1->getRawData();
-
-					    	$lastIndex = $record["INDEX"];
-
-					    	if($tests = $this->test($record) && !$record1->isDeleted()){
-
-					    		$x = [];
-					            	foreach($this->columns AS $att){
-
-					                	if(in_array($att, $this->children ) ){
-					                		$fn = "get" . ucfirst(strtolower($att)) . "Connection";
-						                    $x[$att] = $this->model->$fn($record);
-					                	}else{
-					                		$x[$att] = $this->model->getAltColumn($record, $att);
-					                	}
-					            	}
-
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 								if(!$record["DELETED"]){
 
 									$this->addDataRecord($x, false, $this->parameters->skipModel, $this->parameters->lists);
 									$counter++;
+									$total++;
 					   			}
 								
-								if($counter === 500){
+								if($counter === 500 && $this->parameters->import !== false){
 									$this->importAndEmpty();
 									$counter = 0;
 								}
 
 								//file_put_contents("test.js", $counter . "---" . json_encode($record)."\n",FILE_APPEND);
-<<<<<<< HEAD
+
 								
 								//if($counter > $limit || $record['INDEX'] === $veryLastIndex){
 							
-								if($counter > $limit){
-									break;
-								}else{
+								//if($counter > $limit){
+									//break;
+								//}else{
 									if($this->parameters->order->direction === 'DESC' && $record['INDEX'] === 0){
 										break;
 									}else if($this->parameters->order->direction === 'ASC' && $record['INDEX'] === $table->recordCount-1){
 										break;
 									}									
-=======
 
-								//if($counter > $limit || $record['INDEX'] === $veryLastIndex){
-								if($counter > $limit || $record['INDEX'] === 0){
-									break;
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
-								}
+								//}
 						
 			    	}
 			      }
@@ -269,26 +279,22 @@ public function index($index = 0, $columns = false){
 			}
 			$table->close();
 		}
-		$this->importAndEmpty();
-		$this->data->records = $this->data->records->slice(-$this->parameters->perPage);
-
-		$this->updatePaginator($table->recordCount, $lastIndex);
-
-<<<<<<< HEAD
-		$this->importAndEmpty();
 
 		$this->data->records = $this->data->records->slice(-$this->parameters->perPage);
+		$this->importAndEmpty();
+		$this->updatePaginator($total);
 
-		$this->updatePaginator($table->recordCount, $lastIndex);
 
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
         return $this;
 	}
 
 	public function get($columns = false){
 		$this->setData($columns);
-		return $this->data;
+		$r = new \stdclass;
+		$r->paginatorInfo = $this->data->paginator;
+		$r->data = $this->data->records;
+		return $r;
+		
 	}
 
 public function first($columns = false){
@@ -297,7 +303,10 @@ public function first($columns = false){
 		if($this->parameters->index < 0){$this->parameters->index = 0;}
 		return $this->index($this->parameters->index, $columns);
 	}else{
-		return $this->get($columns)->records->first();
+		$res = $this->get($columns);
+		foreach($res->data AS $d){
+			return $d;
+		}
 	}
 	
 }
@@ -319,16 +328,4 @@ public function flush(){
 	return $this;
 }
 
-<<<<<<< HEAD
-  public function getAltColumn($record, $att){
-
-        if(isset($record[$att]) ){
-            return $record[$att];
-        }else{
-            return null;
-        }
-    }
-
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 }

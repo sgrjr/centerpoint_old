@@ -1,0 +1,7 @@
+type Paginator {
+    count:Int
+    currentPage: Int
+    total: Int
+    perPage: Int
+    firstItem: Int
+}

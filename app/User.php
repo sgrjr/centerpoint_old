@@ -1,36 +1,19 @@
 <?php namespace App;
 
-<<<<<<< HEAD
+
 use Carbon, Session, Config, Request, Auth, Event, Schema, stdClass;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Auth\Passwords\CanResetPassword;
-=======
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Schema\Blueprint;
-use Carbon, Session, Mail, Config;
-
-use App\Viewer;
-use Illuminate\Support\Collection;
-use Auth, Event, Schema, stdClass;
-use Request;
-
-////////////////////////////////////////////
-
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Ask\AskTrait\AskTrait;
 use App\Core\ModelTrait;
 use App\Core\ManageTableTrait;
 use App\Core\PresentableTrait;
-<<<<<<< HEAD
+
 use \App\Core\DbfTableTrait;
 use App\Core\GetsPermissionTrait;
 
@@ -38,27 +21,15 @@ class User extends Authenticatable implements \App\Interfaces\ModelInterface, \I
 
   use AskTrait, ManageTableTrait, ModelTrait, PresentableTrait, CanResetPassword, DbfTableTrait, HasApiTokens, GetsPermissionTrait;
 
-=======
-use Illuminate\Support\Str;
 
-class User extends Authenticatable
-{
-
-	use PresentableTrait;
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-<<<<<<< HEAD
+
 
     protected $fillable = ["INDEX","KEY","LOGINS","DATEUPDATE","DATESTAMP","UPASS","MPASS","UNAME","SNAME","EMAIL","PIC","COMPANY","SEX","FIRST","MIDNAME","LAST","ARTICLE","TITLE","ORGNAME","STREET","SECONDARY","CITY","CARTICLE","STATE","COUNTRY","POSTCODE","NATURE","VOICEPHONE","EXTENSION","FAXPHONE","COMMCODE","MDEPT","MFNAME","TSIGNOFF","TIMESTAMP","TIMEUPDATE","CANBILL","TAXEXEMPT","PASSCHANGE","PRINTQUE","SENDEMCONF","SEARCHBY","MULTIBUY","SORTBY","FULLVIEW","SKIPBOUGHT","OUTOFPRINT","OPROCESS","OBEST","OADDTL","OVIEW","ORHIST","OINVO","EXTZN","INSOS","INREG","LINVO","NOEMAILS","ADVERTISE","PROMOTION","PASSDATE","EMCHANGE",'remember_token'];
-=======
-    protected $fillable = [
-        'id','key','name','email','verified','role', 'password','remember_token','nickname','confirmation_code','api_token'
-    ];
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
     /**
      * The attributes that should be hidden for arrays.
@@ -75,11 +46,8 @@ class User extends Authenticatable
      * @var array
      */
 	
-<<<<<<< HEAD
+
 	protected $appends = [];
-=======
-	protected $appends = ['fullname','token','authenticated','tableSafeName','source'];
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 	
 	/**
 	 * The database table used by the model.
@@ -88,7 +56,7 @@ class User extends Authenticatable
 	 */
 	protected $table = 'users';
 	protected $presenter = 'App\Presenters\UserPresenter';
-<<<<<<< HEAD
+
     protected $dbfPrimaryKey = 'INDEX';
 
       protected $seed = [
@@ -116,8 +84,6 @@ class User extends Authenticatable
     public function getApplicationAttribute(){
       return \App\Helpers\Application::props($this);
     }
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
     /**
      * Passwords must always be encrypted.
@@ -129,22 +95,14 @@ class User extends Authenticatable
     
     */
 
-<<<<<<< HEAD
+
     public function setUpassAttribute($pass){
        $this->attributes['UPASS'] = \Hash::make($pass);
     }
 
-
   /*
     Mutators END
   */
-
-=======
-public function ancientTitles(){return $this->hasMany('\App\AncientDetail', 'KEY', 'key');}
-public function allTitles(){return $this->hasMany('\App\AllDetail', 'KEY', 'key');}
-public function broTitles(){return $this->hasMany('\App\BroDetail', 'KEY', 'key');}
-public function backTitles(){return $this->hasMany('\App\BackDetail', 'KEY', 'key');}
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
   public static function failLogin(){
             $auth = new stdClass;
@@ -194,58 +152,8 @@ public function backTitles(){return $this->hasMany('\App\BackDetail', 'KEY', 'ke
 
     public function getPhotoAttribute()
     {
-<<<<<<< HEAD
+
         return '/img/profile-photo/'.base64_encode($this->KEY.$this->EMAIL);
-=======
-        if (is_null($user)) return false;
-
-        return $this->username == $user->username;
-    }
-
-    public function isSetup()
-    {
-    	if ($this->username !== null) return true;
-
-    	return false;
-    }
-
-    public function isConfirmed()
-    {
-    	if ($this->confirmed > 0) return true;
-
-    	return false;
-    }
-
-    public function getAuthenticatedAttribute()
-    {
-
-      if(!\Schema::hasTable('users')){
-        return false;
-      }else if(Request::input('api_token') !== null){
-          return Request::input('api_token') === $this->api_token;
-      }else {
-        return Auth::check();
-      }
-      
-      
-    }
-
-	public function joined()
-    {
-        return Carbon::createFromTimeStamp(strtotime($this->created_at))->diffForHumans();
-    }
-
-
-
-	public function getFullnameAttribute()
-    {
-        return $this->firstname.' '.$this->middlename.' '.$this->lastname.' '.$this->suffix;
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
-    }
-
-    public function getPhotoAttribute()
-    {
-        return '/img/profile-photo/'.base64_encode($this->key.$this->email);
     }
 
     public function passwordReset()
@@ -257,7 +165,7 @@ public function backTitles(){return $this->hasMany('\App\BackDetail', 'KEY', 'ke
     		->whereBetween('created_at', [$fromDate, $tillDate])->first();
     }	
 
-<<<<<<< HEAD
+
 	public static function getGuest()
 	{
 	   $guest = new User;	   
@@ -279,31 +187,6 @@ public function getMemo(){
         $tablename = $this->getTable();
         return $config["tables"][$tablename][2];
 }
-=======
-    public function getTokenAttribute(){
-
-    	if($this->id == null){
-              return null;
-    	}else {
-    	  return $this->api_token;
-    	}
-
-    }
-
-	public static function getGuest($error = null)
-	{
-	   $guest = new User;
-	   $guest->id = null;
-	   $guest->email = null;
-	   $guest->name = null;
-	   $guest->password = null;
-	   $guest->api_token = null;
-     $guest->key = false;
-     $guest->authenticated = false;
-	   return $guest;
-
-	}
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
     public function getCount(){
 
@@ -321,81 +204,6 @@ public function getMemo(){
       return 'name';
     }
 
-<<<<<<< HEAD
-      public function getRemoteAddr(){
-
-        $remoteaddr = Session::get('use_cart');
-
-        if($remoteaddr === null){
-=======
-    if($pass !== null){
-      $user = static::makeUser([
-        "key"=>$pass->key, "uname"=>$pass->uname, "email"=>$pass->email, "upass"=>$pass->upass
-      ]);
-      return $pass;
-    }else{
-      return false;
-    }
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
-
-          $webhead = (new \App\WebHead)->ask()
-            ->where("KEY","===", $this->KEY )
-            ->where("ISCOMPLETE","!=", "1" )
-            ->get();
-
-          if($webhead->paginator->count > 0){
-            $cart = $webhead->records[$webhead->paginator->count-1];
-            $remoteaddr = $cart->remoteaddr;
-            Session::put("use_cart", $remoteaddr);
-          }else{
-              $newCart = \App\WebHead::newCart($this->KEY);
-              $remoteaddr = $newCart->remoteaddr;
-          }
-          
-        }
-
-        return $remoteaddr;
-
-    }
-
-    public function updateProfilePhoto($file){
-        
-        //File Name
-        //$file->getClientOriginalName();
-
-        //File Extension
-        //$file->getClientOriginalExtension();
-     
-        //Display File Real Path
-       //$file->getRealPath();
-     
-        //Display File Size
-        //$file->getSize();
-     
-        //Display File Mime Type
-        //$file->getMimeType();
-     
-        //Move Uploaded File
-        $destinationPath = storage_path() . '/uploads';
-        $filename = base64_encode($this->KEY . $this->EMAIL) . "." . $file->getClientOriginalExtension();
-        $file->move($destinationPath,$filename);
-        return $this;
-    }
-
-    public function getIsCustomerAttribute(){
-
-<<<<<<< HEAD
-      $hasCpEmail = strpos($this->EMAIL, "centerpointlargeprint");
-      $isSuper = strpos($this->EMAIL, "deliverance.me");
-  
-      if($hasCpEmail !== false || $isSuper  !== false) {
-        return false; 
-       } else {
-          return true;
-        }
-      
-    }
-
   public function roles()
   {
     return $this->belongsToMany('App\Role')->using('App\RoleUser');
@@ -404,27 +212,6 @@ public function getMemo(){
     public function permissions()
     {
       $permissions = [];
-=======
-public function createTable(){
-   Schema::create('users', function (Blueprint $table) {
-      $table->increments('id');
-      $table->string('key');
-      $table->string('name');
-      $table->string('email')->unique();
-      $table->string('password');
-      $table->string('api_token', 80)->unique()->nullable()->default(null);
-      $table->rememberToken();
-      $table->timestamps();
-    });
-
-  }
-
-public function getMemo(){
-        $config = Config::get("cp");
-        $tablename = $this->getTable();
-        return $config["tables"][$tablename]["memo"];
-}
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
       foreach($this->roles AS $role){
 
@@ -479,32 +266,19 @@ public function getMemo(){
        return $this->UPASS;
     }
 
-<<<<<<< HEAD
+
     public function getTokenAttribute(){
       return $this->createToken("authToken")->accessToken;
-=======
-    public function getCredentialsAttribute(){
-       $creds = \App\Password::ask()
-        ->where("KEY","===", $this->present()->key)
-        ->where("EMAIL","===", $this->email)
-        ->first();
-
-        if($creds === null){
-          $creds = \App\Password::makeFromUser($this);
-        }
-
-        return $creds;
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
     }
 
       public function getRemoteAddr(){
 
-        $remoteaddr = \Session::get('use_cart');
+        $remoteaddr = Session::get('use_cart');
 
         if($remoteaddr === null){
 
-          $webhead = (new \App\Webhead)->ask()
-            ->where("KEY","===", $this->key )
+          $webhead = (new \App\WebHead)->ask()
+            ->where("KEY","===", $this->KEY )
             ->where("ISCOMPLETE","!=", "1" )
             ->get();
 
@@ -513,7 +287,7 @@ public function getMemo(){
             $remoteaddr = $cart->remoteaddr;
             Session::put("use_cart", $remoteaddr);
           }else{
-              $newCart = \App\Webhead::newCart($this->key);
+              $newCart = \App\WebHead::newCart($this->KEY);
               $remoteaddr = $newCart->remoteaddr;
           }
           
@@ -571,8 +345,21 @@ public function getMemo(){
 
       return $user;
     }
+    public function getIsCustomerAttribute(){
 
-    public function updateProfilePhoto($file){
+
+      $hasCpEmail = strpos($this->EMAIL, "centerpointlargeprint");
+      $isSuper = strpos($this->EMAIL, "deliverance.me");
+  
+      if($hasCpEmail !== false || $isSuper  !== false) {
+        return false; 
+       } else {
+          return true;
+        }
+      
+    }
+
+        public function updateProfilePhoto($file){
         
         //File Name
         //$file->getClientOriginalName();
@@ -591,22 +378,9 @@ public function getMemo(){
      
         //Move Uploaded File
         $destinationPath = storage_path() . '/uploads';
-        $filename = base64_encode($this->key . $this->email) . "." . $file->getClientOriginalExtension();
+        $filename = base64_encode($this->KEY . $this->EMAIL) . "." . $file->getClientOriginalExtension();
         $file->move($destinationPath,$filename);
         return $this;
-    }
-
-    public function getIsCustomerAttribute(){
-
-      $hasCpEmail = strpos($this->email, "centerpointlargeprint");
-      $isSuper = strpos($this->email, "deliverance.me");
-  
-      if($hasCpEmail !== false || $isSuper  !== false) {
-        return false; 
-       } else {
-          return true;
-        }
-      
     }
 
     public function getPasswords()
@@ -630,29 +404,4 @@ public function getMemo(){
       }
     }
 
-  public function roles()
-  {
-    return $this->belongsToMany('\App\Role');
-  }
-
-    public function permissions()
-    {
-      $permissions = [];
-
-      foreach($this->roles AS $role){
-
-          foreach($role->permissions AS $p){
-              $permissions[$p->name] = $p->name;
-          }
-      }
-
-      return $permissions;
-    }
-
-    public function hasRole($role)
-    {
-       If ($this->roles()->where('name','=',$role)->first()) return true;
-
-       return false;
-    }
 }

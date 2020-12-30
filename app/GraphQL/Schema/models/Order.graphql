@@ -1,6 +1,6 @@
 type Order {
 	id: ID!
-	items: OrderItem @hasMany(type:"paginator")
+	items: [OrderItem]
 	invoice: Invoice @field(resolver:"App\\Order@invoiceVars")
 	INDEX: String
 	KEY: String

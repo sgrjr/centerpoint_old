@@ -36,11 +36,8 @@ class ApplicationController extends Controller
 	
 	public function command(Request $request)
     {
-<<<<<<< HEAD
+
     $viewer = new \App\Helpers\Viewer();
-=======
-    $viewer = new \App\Viewer();
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
     if($viewer->can("ADMIN_APP")){
 

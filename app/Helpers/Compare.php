@@ -114,11 +114,9 @@ class Compare
 
   public static function test($record, $parameters){
 		$tests = false;
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
+
 		if($parameters->tests === "all" ){return true;}
 		if(is_array($parameters->tests) && count($parameters->tests) === 0 ){return true;}
 		if($parameters->tests === false){return false;}

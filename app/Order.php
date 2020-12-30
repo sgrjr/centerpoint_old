@@ -4,14 +4,17 @@ use Illuminate\Database\Schema\Blueprint;
 
 use Illuminate\Support\Collection;
 use Auth, DB, Event, Schema, stdClass;
+use \App\Core\DbfTableTrait;
 
 class Order extends BaseModel implements \App\Interfaces\ModelInterface
 {
 
-  protected $fillable = ["KEY","PO_NUMBER", "TRANSNO","DATE","PAIDAMOUNT", "PAIDDATE","BILL_1", "BILL_2", "BILL_3", "BILL_4", "EMAIL","SHIPPING","freeship"];
+  use DbfTableTrait;
+
+  protected $fillable = ["ATTENTION", "BADRECORD", "BILLWEIGHT", "BILL_1", "BILL_2", "BILL_3", "BILL_4", "BILL_5", "BITEMS", "BPRODUCT", "CANBILL", "CHECKDESC", "CINOTE", "CITY", "COMMCODE", "COMPANY", "COMPUTER", "COUNTRY", "CXNOTE", "DATE", "DATEIN", "DATEOUT", "DATESTAMP", "DEPT", "EMAIL", "F810NUM", "F810SENT", "F855NUM", "F855SENT", "F856NUM", "F856SENT", "F997NUM", "F997SENT", "FAXPHONE", "FREESHIP", "HOLDNOW", "HOTBOX", "INDEX", "INVLMNT", "INVQUERY", "ITEMS", "KEY", "KICKBACK", "LASTDATE", "LASTTIME", "LASTTOUCH", "MASTERDATE", "MASTERPASS", "NEWITEMS", "NEWPRODUCT", "OLDCODE", "ORDEREDBY", "OSETNUM", "OSOURCE", "OSOURCE2", "OSOURCE3", "OSOURCE4", "OTHER", "OTHERDESC", "PACKAGES", "PAID", "PAIDAMOUNT", "PAIDDATE", "PAYTYPE", "PEPACK", "PINVOICE", "PIPACK", "POSTCODE", "PO_NUMBER", "PRODUCT", "PROMONAME", "PSHIP", "REMOTEADDR", "REVDATE", "ROOM", "SALESTAX", "SENDEMCONF", "SHIPLABEL", "SHIPMETHOD", "SHIPPER", "SHIPPING", "SORTORDER", "SPECIALD", "STATE", "STREET", "TAXEXEMPT", "TERMS", "TESTTRAN", "TIMEIN", "TIMEI","TIMEOUT","TIMESTAMP","TITEMS", "TPRODUCT", "TRANSNO", "TRANSNUM", "UPSDATE", "UPS_KEY", "USERPASS", "VISION", "VOICEPHONE"];
 
 	protected $table = 'orders';
-<<<<<<< HEAD
+
   protected $dbfPrimaryKey = 'TRANSNO';
   
   protected $seed = [
@@ -21,8 +24,10 @@ class Order extends BaseModel implements \App\Interfaces\ModelInterface
     'dbf_backhead',
     'dbf_webhead'
   ];
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
+ protected $attributeTypes = [ 
+        "CINOTE"=>["name"=>"CINOTE","type"=>"Char","length"=>255]
+  ];
 
   public function vendor()
   {
@@ -34,24 +39,8 @@ class Order extends BaseModel implements \App\Interfaces\ModelInterface
     return $this->hasMany('\App\OrderItem', 'TRANSNO', 'TRANSNO');
   }
 
-public function schema($table){
-
-      $table->increments('id');
-      $table->string('KEY')->nullable();
-      $table->string('PO_NUMBER')->nullable();
-      $table->string('TRANSNO')->nullable();
-      $table->string('DATE')->nullable();
-      $table->string('BILL_1')->nullable();
-      $table->string('BILL_2')->nullable();
-      $table->string('BILL_3')->nullable();
-      $table->string('BILL_4')->nullable();
-      $table->string('EMAIL')->nullable();
-      $table->string('PAIDAMOUNT')->nullable();
-      $table->string('PAIDDATE')->nullable();
-      $table->string('SHIPPING')->nullable();
-      $table->string('freeship')->nullable();
+public function ordersSchema($table){
       $table->foreign('KEY')->references('KEY')->on('users');
-
       return $table;
   }
 

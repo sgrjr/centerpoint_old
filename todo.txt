@@ -19,16 +19,13 @@ DONE:
 ::TODO::
 - Add addition step in checkout process for conforming mailing address separate from billing address
 - get necessary details from matt regarding the addresses
-<<<<<<< HEAD
+
 - items not deleting from cart on remote
 - title lists not displaying on remote on home page :cp,advanced, trade lists return null. start checking \App\Helpers\Misc::bookByPubDate, may be a bug with the pubdates on cp machine =--- also check PHP extensions and php version --- verify data using /graphiql
 - checkout only working on hard refresh
 - does bookByPubdate in Misc:: return anything on remote? dd() on matts server this function
 - title qty not saving either on remote
 - losts of work on cart
-=======
-
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
 
 

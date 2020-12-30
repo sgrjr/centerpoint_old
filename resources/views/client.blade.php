@@ -1,11 +1,9 @@
 @extends('layouts.app')
 
 @section('head')
-<<<<<<< HEAD
-<!--
-=======
 
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+<!--
+
   <?php
   	$file = public_path() . '/compiled/asset-manifest.json';
   	$data = new \stdclass;
@@ -36,11 +34,9 @@
       window.INITIAL_STATE={!! $initial_state !!}
   	</script>
 
-<<<<<<< HEAD
+
    <!--   
-=======
-      
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
   @foreach($data->entrypoints AS $css)
     @if(strpos($css, ".js") > -1 )
     <script src={{"/compiled/" . $css}}></script>

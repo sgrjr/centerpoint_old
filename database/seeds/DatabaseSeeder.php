@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
         foreach($config["tables"] AS $table){
             $list[] = \App\Helpers\Misc::modelNameToSeederName($table[0]);
 		}
-
+    
+        //$list = ['BooktextsTableSeeder'];
          $this->call($list);
 
     }

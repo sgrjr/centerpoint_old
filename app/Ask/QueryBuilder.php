@@ -20,7 +20,7 @@ class DataResults {
 
 	public function initPaginator(){
 		$this->paginator = new \stdclass;
-		$this->paginator->page = 1;
+		$this->paginator->currentPage = 1;
         $this->paginator->perPage = 5;
         $this->paginator->index = 0;
         $this->paginator->total = 0;  
@@ -71,7 +71,6 @@ class DataResults {
 
 	public function calcPages(){
 		$this->paginator->pages = (int) ceil($this->paginator->total/$this->paginator->perPage);
-<<<<<<< HEAD
 		return $this;
 	}
 
@@ -80,8 +79,7 @@ class DataResults {
 			->calcCount()
 			//->setHeaders()//disabled as part of this process is undeveloped and maybe unnecessary at this point
 			->calcLinks();
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 		return $this;
 	}
 
@@ -151,13 +149,11 @@ class QueryBuilder {
 
 	public function __construct(Object $model, $writable = false, $import = false){
 		$this->model = $model;
-<<<<<<< HEAD
+
 		 
 		$this->parameters = \App\Helpers\Misc::defaultParameters();
 		
-=======
-		$this->parameters = \App\Helpers\Misc::defaultParameters();
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 		$this->writable = $writable;
 
 		$this
@@ -232,22 +228,16 @@ class QueryBuilder {
 		return $this;
 	}
 
-<<<<<<< HEAD
+
 	public function orderBy(String $column, $direction = "ASC"){
-=======
-	public function orderBy(String $column, $direction = "asc"){
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
         $this->parameters->order->column = $column;  
         $this->parameters->order->direction = $direction;  
         return $this;
 	}
 
 	public function graphqlArgs($args = null){
-<<<<<<< HEAD
-		       
-=======
-		
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 		$default_args = [
             "page"      =>  1,
             "perPage"   =>  5,
@@ -265,9 +255,7 @@ class QueryBuilder {
             ->setPage($args["page"]);
 
             if(isset($args["filters"])){
-
                 foreach($args["filters"] AS $key=>$v){
-
                     if(strpos($v, "_") !== false){
                         $f = explode("_",$v,2);
                     } else{
@@ -278,12 +266,10 @@ class QueryBuilder {
                     $val = trim($f[1]);
                     if($val === ""){$val = null;}
                     if($val === "TRUE"){$val = true;}
+                    if($val === "true"){$val = true;}
                     if($val === "FALSE"){$val = false;}
-<<<<<<< HEAD
+                    if($val === "false"){$val = false;}
 
-=======
-  
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
                     $this->where($key,$f[0],$val);
                 }
 
@@ -292,7 +278,7 @@ class QueryBuilder {
 		return $this;
 	}
 
-<<<<<<< HEAD
+
 	public function openTables(){
 		foreach($this->getTable() AS $table){
 			$table->open();
@@ -308,8 +294,7 @@ class QueryBuilder {
 	}
 
 
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 	public function lists($lists = false){
 		$this->parameters->lists = $lists;
 		return $this;
@@ -362,15 +347,11 @@ public function truncateRecords(){
 	$this->data->reset();
 	return $this;
 }
-<<<<<<< HEAD
+
 
 public function addDataRecord($record, $isList = false, $skipModel = false, $lists = false){
 
-=======
 
-public function addDataRecord($record, $isList = false, $skipModel = false, $lists = false){
-
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 	if($isList){
 		foreach($record->toArray() AS $r){
 			if($skipModel){
@@ -397,7 +378,7 @@ public function addDataRecord($record, $isList = false, $skipModel = false, $lis
 public function updatePaginator($total, $lastIndex = false){
 	
 	    $this->data
-	    	->updatePaginator("page", $this->parameters->page)
+	    	->updatePaginator("currentPage", $this->parameters->page)
 			->updatePaginator("perPage", $this->parameters->perPage)
 			->updatePaginator("index", $lastIndex)
 			->updatePaginator("total", $total)
@@ -410,14 +391,15 @@ public function updatePaginator($total, $lastIndex = false){
 		return \App\Helpers\Compare::test($record, $this->parameters);
 	}
 
-    public function all($limit = false, $page = false, $columns = false){
+    public function all($limit = false, $page = false, $columns = false, $skipModel = true){
 		if(!$limit){$limit = 999999999;}
         $this->parameters->tests = "all";
         $this->setPerPage($limit);
+
         if($page !== false){
             $this->setPage($page);
         }
-        return $this->skipModel(true)->get($columns);
+        return $this->skipModel($skipModel)->get($columns);
     }
 
 	public function __get($name)
@@ -455,5 +437,7 @@ public function updatePaginator($total, $lastIndex = false){
 
         }
     }
+
+
 
 }

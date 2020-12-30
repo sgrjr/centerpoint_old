@@ -84,6 +84,7 @@ input DeleteCartInput {
 }
 
 input UpdateCartInput {
+    REMOTEADDR: String!
     ATTENTION: String
     BILL_1: String
     BILL_2: String

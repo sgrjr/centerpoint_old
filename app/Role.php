@@ -2,7 +2,7 @@
 
 class Role extends BaseModel implements \App\Interfaces\ModelInterface {
 
-<<<<<<< HEAD
+      public $timestamps = false;
       protected $fillable = ['name'];
   
       protected $table = "roles";
@@ -23,10 +23,6 @@ class Role extends BaseModel implements \App\Interfaces\ModelInterface {
     $table->string('name');
     return $table;
    }
-=======
-  protected $fillable = ['name'];
-  protected $table = "roles";
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
 	public function permissions()
     {

@@ -28,19 +28,13 @@ class DashboardController extends Controller
 
         //$data = new \stdclass;
 
-<<<<<<< HEAD
+
         //$data->vendor = \App\Vendor::ask()->where("KEY","===", $user->KEY)->first();
 
         /*$data->processing_carts = \App\BroHead::ask()
             ->setPerPage(1000)
             ->where("KEY","===", $user->KEY )
-=======
-        //$data->vendor = \App\Vendor::ask()->where("KEY","===", $user->key)->first();
 
-        /*$data->processing_carts = \App\Brohead::ask()
-            ->setPerPage(1000)
-            ->where("KEY","===", $user->key )
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
             ->get();
 
         $profileLinks = [
@@ -212,11 +206,8 @@ class DashboardController extends Controller
             ->where("TRANSNO","===", $transactionNumber)
             ->first();
 
-<<<<<<< HEAD
+
         return $this->ordersView($transactionNumber, "\App\BroHead","Processing", $order);
-=======
-        return $this->ordersView($transactionNumber, "\App\Brohead","Processing", $order);
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
     }
 
      public function backOrder(Request $request, $transactionNumber)
@@ -236,11 +227,8 @@ class DashboardController extends Controller
             ->first(["KEY","DATE","BILL_1","PSHIP","ORDEREDBY","SHIPPING","OTHERDESC","BILL_2","BILL_3","BILL_4","BILL_5","COMPANY","ATTENTION","STREET","ROOM","DEPT","CITY","STATE","POSTCODE","COUNTRY","VOICEPHONE","FAXPHONE","EMAIL","SENDEMCONF","PO_NUMBER","TIMESTAMP","DATESTAMP","UPS_KEY","UPSDATE","COMMCODE","TERMS","OSOURCE","OSOURCE2","OSOURCE3","OSOURCE4","CINOTE","CXNOTE","CPHOLD","TRANSNO", "DETAILS","REMOTEADDR"]); 
 
 
-<<<<<<< HEAD
+
         return $this->ordersView($remoteaddr, "\App\WebHead","Invoice (Order Not Processed)", $order);
-=======
-        return $this->ordersView($remoteaddr, "\App\Webhead","Invoice (Order Not Processed)", $order);
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
     }
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////

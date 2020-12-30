@@ -28,11 +28,9 @@ class CartController extends Controller
 
       //email: jmonnin@pcdl.org
       // password: jjocrcjy
-<<<<<<< HEAD
+
       $viewer = new \App\Helpers\Viewer();
-=======
-      $viewer = new \App\Viewer();
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
       $carts = $viewer->user->getCarts();
 
         return view('cart', [
@@ -125,11 +123,9 @@ class CartController extends Controller
             break;
 
           case "submit_cart":
-<<<<<<< HEAD
+
             $record = \App\WebHead::ask(true)->setIndex($request->input('index'))->first();
-=======
-            $record = \App\Webhead::ask(true)->setIndex($request->input('index'))->first();
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
             $record->processOrder();
             Session::forget("use_cart");
             $redirect = "/?success=true";

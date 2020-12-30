@@ -205,13 +205,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-<<<<<<< HEAD
 		'Viewer' =>  App\Facades\ViewerFacade::class
-=======
-		'Viewer' =>  App\Facades\Viewer::class,
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
-
-
     ],
 
 ];

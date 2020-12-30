@@ -306,43 +306,26 @@ class XBaseRecord {
      function serializeRawData() {
 	     return ($this->deleted?"*":" ").implode("",$this->data);
      }
-     
-  function getRawDataNoModification() {
 
-        if($this->data === null){dd(33);
-            return false;
-        }
-        $this->data["INDEX"] = (Int) $this->getRecordIndex();
-        $this->data["KEY"] = $this->data["INDEX"];
-        $this->data["DELETED"] = $this->isDeleted();
-         return $this->data;
-     }
-
-<<<<<<< HEAD
     function getRawData($skipMemo = true) {
 
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
         $data = [];
-        
+        //$convert_to_valid_utf8 = ['ICOLLNOTE','CUSTNOTE','ACCTNOTE','ACOLLNOTE','ENOTE','SYNOPSIS'];
+
+        ini_set('mbstring.substitute_character', 32);
+
         foreach($this->data AS $key=>$value){
+
             $col = $this->getColumn($key);
-
-            if(isset($this->table->memo) && $col->getType() === "M" && $this->table->memo !== false){
-
-                if($skipMemo && $this->getMemo($col) !== false) {
-                    $val = unpack("L", $value)[1];
-                    $val = trim($this->table->memo->getMemo($val)["text"]);
-                }else{
-                    $val = "";
-                }
+                        
+            if($col['type'] === "M"){
+                $val = unpack("L", $value)[1];
+                $val = trim($this->table->memo->getMemo($val)["text"]);
             }else{
                 $val = trim($value);
             }
 
             if($val === ""){
-                $val = null;
-            }else if($val == '\xE9'){
                 $val = null;
             }
 
@@ -364,7 +347,6 @@ class XBaseRecord {
                 }else{                    
                     $val = (Int) $val;
                 }
-
                 
             }else if($col->getType() === "I" && !is_numeric($val)){
                 $val = null;
@@ -384,9 +366,15 @@ class XBaseRecord {
                 }
             }
 
-            if($val === ""){$val = null;}
+            if($val === "" ){$val = null;}
 
-            $data[$col->name] = $val;
+           // if(in_array($col->name, $convert_to_valid_utf8))$val = mb_convert_encoding($val, 'UTF-8', 'UTF-8');
+            
+            if($col->name === "UPASS"){
+              $data[$col->name] =  \Hash::make($val);
+            }else{
+                $data[$col->name] = $val;
+            }
             
         }
         

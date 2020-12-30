@@ -7,16 +7,14 @@ use Illuminate\Http\Request;
 use App\Inventory;
 use App\StoredQueries;
 use App\Helpers\Misc;
-<<<<<<< HEAD
+
 use App\Events\UserLoggedIn;
 use App\RouteModel;
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
 class IndexController extends Controller
 {
 
-<<<<<<< HEAD
+
     use \App\Core\AuthenticatesUsersTrait;
 
   protected function indexBlank(Request $request)
@@ -25,7 +23,7 @@ class IndexController extends Controller
     $graphqlurl = '"graphqlurl":"'.\Config::get('cp')["GRAPHQL_URL"].'"';
 
     return view('client',[
-      "initial_state" => '{'.$graphqlurl.',"viewer":{"csrftoken":"lAvmJP08YGxocRbbFTRTVP3jNpU66GOuuyszl94f","browse":[{"title":"Genre","items":[{"url":"\/search\/LIKE_Romance\/CAT","text":"Romance","icon":null},{"url":"\/search\/LIKE_Romance+Christian\/CAT","text":"Romance - Christian","icon":null},{"url":"\/search\/LIKE_Romance+Historical\/CAT","text":"Romance - Historical","icon":null},{"url":"\/search\/LIKE_Romance+Suspense\/CAT","text":"Romance - Suspense","icon":null},{"url":"\/search\/LIKE_Fiction\/CAT","text":"Fiction","icon":null},{"url":"\/search\/LIKE_Fiction+History\/CAT","text":"Fiction - History","icon":null},{"url":"\/search\/LIKE_Fiction+General\/CAT","text":"Fiction - General","icon":null},{"url":"\/search\/LIKE_Fiction+Historical\/CAT","text":"Fiction - Historical","icon":null},{"url":"\/search\/LIKE_Fiction+Women\/CAT","text":"Fiction - Women","icon":null},{"url":"\/search\/LIKE_Fiction+Adventure\/CAT","text":"Fiction - Adventure","icon":null},{"url":"\/search\/LIKE_Fiction+Science\/CAT","text":"Fiction - Science","icon":null},{"url":"\/search\/LIKE_Fiction+Christian\/CAT","text":"Fiction - Christian","icon":null},{"url":"\/search\/LIKE_Fiction+Inspirational\/CAT","text":"Fiction - Inspirational","icon":null},{"url":"\/search\/LIKE_Nonfiction\/CAT","text":"Nonfiction","icon":null},{"url":"\/search\/LIKE_Nonfiction+Biography\/CAT","text":"Nonfiction - Biography","icon":null},{"url":"\/search\/LIKE_Nonfiction+History\/CAT","text":"Nonfiction - History","icon":null},{"url":"\/search\/LIKE_Mystery\/CAT","text":"Mystery","icon":null},{"url":"\/search\/LIKE_Mystery+Thriller\/CAT","text":"Mystery - Thriller","icon":null},{"url":"\/search\/LIKE_Mystery+Christian\/CAT","text":"Mystery - Christian","icon":null},{"url":"\/search\/LIKE_Mystery+Cozy\/CAT","text":"Mystery - Cozy","icon":null},{"url":"\/search\/LIKE_Western\/CAT","text":"Western","icon":null}]}],"catalog":{},"searchfilters":["TITLE","ISBN","AUTHOR","LISTPRICE"],"slider":{"height":"40vh","background_color":"#FFFFFF","slides":[{"image":"http:\/\/localhost\/img\/slider\/1_image.png","caption":"","link":null},{"image":"http:\/\/localhost\/img\/slider\/2_image.png","caption":null,"link":"http:\/\/dev.centerpointlargeprint.com\/isbn\/9781643582153"},{"image":"http:\/\/localhost\/img\/slider\/3_image.png","caption":null,"link":null},{"image":"http:\/\/localhost\/img\/slider\/4_image.png","caption":null,"link":null}]},"links":{"main":[{"url":"\/","text":"Home","icon":"home"},{"url":"\/login","text":"Login","icon":"lockOpen"}],"drawer":[{"url":"\/login","text":"Login","icon":"lockOpen"},{"url":"#","text":"CP Connection","icon":"none"},{"url":"#","text":"Catalogues, Flyers","icon":"none"}]},"user":{"key":"false","name":null,"email":null,"authenticated":false,"token":null,"photo":"\/img\/profile-photo\/","vendor":null}}}'
+      "initial_state" => '{'.$graphqlurl.',"viewer":{"csrftoken":"lAvmJP08YGxocRbbFTRTVP3jNpU66GOuuyszl94f","browse":[{"title":"Genre","items":[{"url":"\/search\/Romance\/category","text":"Romance","icon":null},{"url":"\/search\/Romance+Christian\/category","text":"Romance - Christian","icon":null},{"url":"\/search\/Romance+Historical\/category","text":"Romance - Historical","icon":null},{"url":"\/search\/Romance+Suspense\/category","text":"Romance - Suspense","icon":null},{"url":"\/search\/Fiction\/category","text":"Fiction","icon":null},{"url":"\/search\/Fiction+History\/category","text":"Fiction - History","icon":null},{"url":"\/search\/Fiction+General\/category","text":"Fiction - General","icon":null},{"url":"\/search\/Fiction+Historical\/category","text":"Fiction - Historical","icon":null},{"url":"\/search\/Fiction+Women\/category","text":"Fiction - Women","icon":null},{"url":"\/search\/Fiction+Adventure\/category","text":"Fiction - Adventure","icon":null},{"url":"\/search\/Fiction+Science\/category","text":"Fiction - Science","icon":null},{"url":"\/search\/Fiction+Christian\/category","text":"Fiction - Christian","icon":null},{"url":"\/search\/Fiction+Inspirational\/category","text":"Fiction - Inspirational","icon":null},{"url":"\/search\/Nonfiction\/category","text":"Nonfiction","icon":null},{"url":"\/search\/Nonfiction+Biography\/category","text":"Nonfiction - Biography","icon":null},{"url":"\/search\/Nonfiction+History\/category","text":"Nonfiction - History","icon":null},{"url":"\/search\/Mystery\/category","text":"Mystery","icon":null},{"url":"\/search\/Mystery+Thriller\/category","text":"Mystery - Thriller","icon":null},{"url":"\/search\/Mystery+Christian\/category","text":"Mystery - Christian","icon":null},{"url":"\/search\/Mystery+Cozy\/category","text":"Mystery - Cozy","icon":null},{"url":"\/search\/Western\/category","text":"Western","icon":null}]}],"catalog":{},"searchfilters":["TITLE","ISBN","AUTHOR","LISTPRICE"],"slider":{"height":"40vh","background_color":"#FFFFFF","slides":[{"image":"http:\/\/localhost\/img\/slider\/1_image.png","caption":"","link":null},{"image":"http:\/\/localhost\/img\/slider\/2_image.png","caption":null,"link":"http:\/\/dev.centerpointlargeprint.com\/isbn\/9781643582153"},{"image":"http:\/\/localhost\/img\/slider\/3_image.png","caption":null,"link":null},{"image":"http:\/\/localhost\/img\/slider\/4_image.png","caption":null,"link":null}]},"links":{"main":[{"url":"\/","text":"Home","icon":"home"},{"url":"\/login","text":"Login","icon":"lockOpen"}],"drawer":[{"url":"\/login","text":"Login","icon":"lockOpen"},{"url":"#","text":"CP Connection","icon":"none"},{"url":"#","text":"Catalogues, Flyers","icon":"none"}]},"user":{"key":"false","name":null,"email":null,"authenticated":false,"token":null,"photo":"\/img\/profile-photo\/","vendor":null}}}'
     ]);
   }
 
@@ -33,128 +31,10 @@ class IndexController extends Controller
     {	
 
     $initial_state = '{}';
+    
 	    return view('home',[
           "initial_state" => json_encode($initial_state),
           "data" => $initial_state
-=======
-  protected function indexBlank(Request $request)
-  {	
-
-    $graphqlurl = '"graphqlurl":"'.\Config::get('cp')["GRAPHQL_URL"].'"';
-
-    return view('client',[
-      "initial_state" => '{'.$graphqlurl.',"viewer":{"csrftoken":"lAvmJP08YGxocRbbFTRTVP3jNpU66GOuuyszl94f","browse":[{"title":"Genre","items":[{"url":"\/search\/LIKE_Romance\/CAT","text":"Romance","icon":null},{"url":"\/search\/LIKE_Romance+Christian\/CAT","text":"Romance - Christian","icon":null},{"url":"\/search\/LIKE_Romance+Historical\/CAT","text":"Romance - Historical","icon":null},{"url":"\/search\/LIKE_Romance+Suspense\/CAT","text":"Romance - Suspense","icon":null},{"url":"\/search\/LIKE_Fiction\/CAT","text":"Fiction","icon":null},{"url":"\/search\/LIKE_Fiction+History\/CAT","text":"Fiction - History","icon":null},{"url":"\/search\/LIKE_Fiction+General\/CAT","text":"Fiction - General","icon":null},{"url":"\/search\/LIKE_Fiction+Historical\/CAT","text":"Fiction - Historical","icon":null},{"url":"\/search\/LIKE_Fiction+Women\/CAT","text":"Fiction - Women","icon":null},{"url":"\/search\/LIKE_Fiction+Adventure\/CAT","text":"Fiction - Adventure","icon":null},{"url":"\/search\/LIKE_Fiction+Science\/CAT","text":"Fiction - Science","icon":null},{"url":"\/search\/LIKE_Fiction+Christian\/CAT","text":"Fiction - Christian","icon":null},{"url":"\/search\/LIKE_Fiction+Inspirational\/CAT","text":"Fiction - Inspirational","icon":null},{"url":"\/search\/LIKE_Nonfiction\/CAT","text":"Nonfiction","icon":null},{"url":"\/search\/LIKE_Nonfiction+Biography\/CAT","text":"Nonfiction - Biography","icon":null},{"url":"\/search\/LIKE_Nonfiction+History\/CAT","text":"Nonfiction - History","icon":null},{"url":"\/search\/LIKE_Mystery\/CAT","text":"Mystery","icon":null},{"url":"\/search\/LIKE_Mystery+Thriller\/CAT","text":"Mystery - Thriller","icon":null},{"url":"\/search\/LIKE_Mystery+Christian\/CAT","text":"Mystery - Christian","icon":null},{"url":"\/search\/LIKE_Mystery+Cozy\/CAT","text":"Mystery - Cozy","icon":null},{"url":"\/search\/LIKE_Western\/CAT","text":"Western","icon":null}]}],"catalog":{},"searchfilters":["TITLE","ISBN","AUTHOR","LISTPRICE"],"slider":{"height":"40vh","background_color":"#FFFFFF","slides":[{"image":"http:\/\/localhost\/img\/slider\/1_image.png","caption":"","link":null},{"image":"http:\/\/localhost\/img\/slider\/2_image.png","caption":null,"link":"http:\/\/dev.centerpointlargeprint.com\/isbn\/9781643582153"},{"image":"http:\/\/localhost\/img\/slider\/3_image.png","caption":null,"link":null},{"image":"http:\/\/localhost\/img\/slider\/4_image.png","caption":null,"link":null}]},"links":{"main":[{"url":"\/","text":"Home","icon":"home"},{"url":"\/login","text":"Login","icon":"lockOpen"}],"drawer":[{"url":"\/login","text":"Login","icon":"lockOpen"},{"url":"#","text":"CP Connection","icon":"none"},{"url":"#","text":"Catalogues, Flyers","icon":"none"}]},"user":{"key":"false","name":null,"email":null,"authenticated":false,"token":null,"photo":"\/img\/profile-photo\/","vendor":null}}}'
-    ]);
-  }
-    protected function index(Request $request)
-    {	
-
-      $query = 'query {
-  viewer {
-    csrftoken
-    browse {
-      title
-      items {
-        url
-        text
-        icon
-      }
-    }
-    catalog (id:"current_catalog"){
-      image_link
-      pdf_link
-    }
-    searchfilters
-    slider {
-      height
-      background_color
-      slides {
-        image
-        caption
-        link
-      }
-    }
-    links {
-      main {
-        url
-        text
-        icon
-      }
-      drawer {
-        url
-        text
-        icon
-      }
-    }
-    user {
-      key
-      name
-      authenticated
-      token
-    }
-  }
-}
-';
-    
-    $initial_state = Misc::query($request, $query);
-    $initial_state->graphqlurl = \Config::get('cp')["GRAPHQL_URL"];
-
-	    return view('client',[
-          "initial_state" => json_encode($initial_state)
-        ]);
-    }
-
-    protected function isbn(Request $request, $isbn)
-    {	
-
-      $query = 'query ($isbn:String) {
-        viewer {
-          title(filters: {ISBN: $isbn}) {
-            LISTPRICE
-            INDEX
-            AUTHOR
-            AFIRST
-            ALAST
-            SUFFIX
-            AUTHORKEY
-            ISBN
-            TITLE
-            FORMAT
-            SUBTITLE
-            HIGHLIGHT
-            PICLOC
-            CAT
-            AUTHORKEY
-            INVNATURE
-            PAGES
-            PUBDATE
-            STATUS
-            defaultImage
-            text {
-              body {
-                type
-                subject
-                body
-              }
-            }         
-          }
-        }
-      }  
-';
-        $initial_state = \App\Helpers\Misc::query($request, $query);
-
-        $initial_state->graphqlurl = \Config::get('cp')["GRAPHQL_URL"];
-		    return view('client',[
-          "initial_state" => json_encode($initial_state) 
-        ]);
-    }
-
-     protected function success(Request $request)
-    {
-
-        return view('success', [
-          "redirect" => $request->get('submitSuccess')
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
         ]);
     }
 
@@ -167,7 +47,7 @@ class IndexController extends Controller
           "initial_state" => json_encode($initial_state) 
         ]);
     }
-<<<<<<< HEAD
+
 
      protected function success(Request $request)
     {
@@ -175,53 +55,6 @@ class IndexController extends Controller
         return view('success', [
           "redirect" => $request->get('submitSuccess')
         ]);
-=======
-	
-	protected function search(Request $request, $string=false, $category = false)
-    {
-        
-      if($request->page === null){
-        $page = 1;
-      }else{
-        $page = $request->page;
-      }
-
-      if($category !== false){
-        $cat = $category;
-      }else{
-        $cat = "TITLE";
-      }
-
-      if(!$string){
-        $string = "love";
-      }
-
-      $string = str_replace("+"," ", $string);
-      $stringList =[];
-
-      foreach(explode(" ", $string) AS $s){
-        if(ctype_alpha(substr(trim($s), 0)) ){
-          $stringList[]=trim($s);
-        }
-      }
-        
-      //TITLES
-      $titles = \App\Inventory::ask();
-
-      foreach($stringList AS $s){
-        $titles->where($cat,"LIKE", "%{$s}%");
-      }
-        
-        $titles = $titles->setPerPage(20)
-            ->setPage($page)
-            ->get();
-
-      if($titles->paginator->count === 1){
-        return redirect("isbn/" . $titles->records[0]->isbn);
-      }else{
-        return view('search', ["titles"=> $titles->records, "search"=>$string, "searchCategory"=>$cat, "paginator"=>$titles->paginator]);
-      }
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
     }
 	
@@ -304,7 +137,7 @@ class IndexController extends Controller
 
     public function logs(Request $request){
       //\App\Request::truncate();
-<<<<<<< HEAD
+
 
       return view('log', [
         "items"=> \App\Request::all()
@@ -390,27 +223,84 @@ class IndexController extends Controller
 
     }
 
-=======
+    public function files($name){
 
-      return view('log', [
-        "items"=> \App\Request::all()
-      ]);
+      switch($name){
+
+        case 'inventory-json':
+            $data = \App\Helpers\Application::dbfToJSON('inventory');
+            break;
+
+        case 'inventory-csv':
+            $fileName = 'inventory.csv';
+            $records = Inventory::with('text')->limit(10000)->get();
+
+        $headers = array(
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        );
+
+        $columns = [
+        //"handleId","fieldType",
+        //"name","description"
+        /*,
+        "productImageUrl","collection","sku","ribbon","price","surcharge","visible","discountMode","discountValue","inventory","weight","productOptionName1","productOptionType1","productOptionDescription1","productOptionName2","productOptionType2","productOptionDescription2","productOptionName3","productOptionType3","productOptionDescription3","productOptionName4","productOptionType4","productOptionDescription4","productOptionName5","productOptionType5hproductOptionDescription5","productOptionName6","productOptionType6","productOptionDescription6","additionalInfoTitle1","additionalInfoDescription1","additionalInfoTitle2","additionalInfoDescription2","additionalInfoTitle3","additionalInfoDescription3","additionalInfoTitle4","additionalInfoDescription4","additionalInfoTitle5","additionalInfoDescription5","additionalInfoTitle6","additionalInfoDescription6","customTextField1","customTextCharLimit1","customTextMandatory1","customTextField2","customTextCharLimit2","customTextMandatory2"*/];
+
+        $columns = collect($records[0]->getAttributes())->keys();
+        $columns[]='description';
+
+        $callback = function() use($records, $columns) {
+            $file = fopen('php://output', 'w');
+
+            fputcsv($file, $columns->toArray());
+
+            foreach ($records as $record) {
+                
+                $row = [];
+
+                foreach($columns AS $col){
+
+                  if($col === "description"){
+                    $des = '';
+
+                    foreach($record["text"] AS $v){
+                      $des .= $v['SYNOPSIS'] . " | ";
+                    }
+                     $row[$col]  = $des;   
+                    
+                  }else{
+                     $row[$col]  = $record[$col];
+                  }
+                 
+                }
+
+                fputcsv($file, $row);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+            break;
+
+        default:
+          $data = null;
+      }
+
+      
     }
 
-    public function file(Request $request, $file){
+    public function filesIndex(){
 
-        if(strpos($file, "catalog") !== null){
-          $args = ["id"=>$file];
-          $s = \App\Viewer::catalog($args);
-          $path = $s->pdf_path;
-          $headers = [];
-        }else{
-          $path = base_path() . '/app-js/build/static/' . $file;
-          $headers = [];
-        }
-        
-        return response()->file($path, $headers);
+        return view('files-index', [
+          "links" => [
+            ["text"=>"Inventory (CSV)","url"=>"/files/inventory-csv"],
+            ["text"=>"Inventory (JSON)","url"=>"/files/inventory-json"]
+          ],
+        ]);
     }
-	
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 }

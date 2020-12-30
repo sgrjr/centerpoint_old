@@ -23,6 +23,7 @@ trait AskTrait {
     }
 
     public function saveChanges(){
+
         if(\Schema::hasTable($this->getTable()) ){
             $this->save();
         }
@@ -44,6 +45,7 @@ trait AskTrait {
  public function deleteFromDbf()
     {
         $table = $this->dbf(true)->getTable();
+        if(is_array($table)){$table = $table[0];}
 
         // If the "saving" event returns false we'll bail out of the save and return
         // false, indicating that the save failed. This provides a chance for any
@@ -55,7 +57,7 @@ trait AskTrait {
         // If the model already exists in the database we can just delete our record
         // that is already in this database using the current IDs in this "where"
         // clause to only update this model. Otherwise, we'll just insert them.
-        $table->moveTo((int) $this->index);
+        $table->moveTo((int) $this->INDEX);
         $record = $table->getRecord();
         if ($record !== null) {
 
@@ -70,23 +72,27 @@ trait AskTrait {
     {
         $table = $this->dbf(true)->getTable();
 
+        if(is_array($table)){$table = $table[0];}
+
         // If the "saving" event returns false we'll bail out of the save and return
         // false, indicating that the save failed. This provides a chance for any
         // listeners to cancel save operations if validations fail or whatever.
         if ($this->fireModelEvent('saving') === false) {
             return false;
         }
-        
-        $headers = $table->getColumnNames();
 
+        $table->open();
+
+        $headers = $table->getColumnNames();
+        
         // If the model already exists in the database we can just update our record
         // that is already in this database using the current IDs in this "where"
         // clause to only update this model. Otherwise, we'll just insert them.
 
-        $table->moveTo((int) $this->index);
+        $table->moveTo((int) $this->INDEX);
         $record = $table->getRecord();
 
-        if ($this->index !== null && $record !== null) {
+        if ($this->INDEX !== null && $record !== null) {
 
             foreach($this->attributes AS $columnName => $value){
                 if(strtolower($columnName) !== "index" && in_array($columnName, $headers)) {
@@ -125,13 +131,14 @@ trait AskTrait {
 	        // during the event. This will allow them to do so and run an update here.
 	        $this->exists = true;
 	        $this->wasRecentlyCreated = true;
-	        $this->fireModelEvent('created', false);
+	        //$this->fireModelEvent('created', false);
 	        $saved = true;
         }
 
         if ($saved) {
             //$this->finishSave($options);
         }
+        $table->close();
         return $saved;
     }
 
@@ -150,45 +157,7 @@ trait AskTrait {
 
     public function raw()
     {
-        return  (new \App\Ask\XbaseQueryBuilder($this))->index($this->index);
-<<<<<<< HEAD
-=======
-    }
-
-    public function getMemo(){
-        return $this->memo;
-    }
-
-    public function getPropertiesAttribute(){
-        $dbf = \App\DBF::where("name",$this->tableSafeName)->first();
-        if($dbf === null){
-            return new \App\DBF;
-        }
-
-        return $dbf;
-    }
-
-    public function getSourceAttribute(){
-
-        if(strpos(strtolower($this->getTable()), ".dbf") !== FALSE){
-           $src = "DBF";
-        }else{
-           $src = "SEED";
-        }
-
-        return $src;
-    }
-
-    public function getTableExistsAttribute(){
-        return \Schema::hasTable($this->tableSafeName);
-    }
-
-    public function getTableSafeNameAttribute(){
-        $str = strtolower($this->getTable());
-        $str = str_replace("/","_",$str);
-        $str = str_replace(".","_",$str);
-        return $str;
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+        return  (new \App\Ask\XbaseQueryBuilder($this))->index($this->INDEX);
     }
 
     public function getCount(){
@@ -226,13 +195,12 @@ trait AskTrait {
         }
 
     }
-<<<<<<< HEAD
+
 
     public static function dbf($writable = false, $import = false){
         $model = new static;
         return static::xbaseQueryBuilder($model, $writable, $import);
     }
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 }
 

@@ -39,6 +39,7 @@ class Application {
 	}
 
 	private static function browse(){
+   // \Cache::forget('browse_products');
 		return \Cache::rememberForever('browse_products', function () {
 	          return static::calcBrowseProducts();
 	      }); 
@@ -69,13 +70,13 @@ class Application {
         $genre_items = [];
 
         foreach($cats AS $cat){
-            $genre_items[] = \App\Helpers\Misc::makeSearchUrl($cat, "CAT");
+            $genre_items[] = \App\Helpers\Misc::makeSearchUrl($cat, "category");
         }
         
         $months = [
-          \App\Helpers\Misc::makeSearchUrl("202003", "PUBDATE", "2020 March"),
-          \App\Helpers\Misc::makeSearchUrl("202004", "PUBDATE", "2020 April"),
-          \App\Helpers\Misc::makeSearchUrl("202005", "PUBDATE", "2020 May")
+          \App\Helpers\Misc::makeSearchUrl("202003", "DATE", "2020 March"),
+          \App\Helpers\Misc::makeSearchUrl("202004", "DATE", "2020 April"),
+          \App\Helpers\Misc::makeSearchUrl("202005", "DATE", "2020 May")
         ];
 
         return [
@@ -209,7 +210,7 @@ class Application {
     }
 
 	private static function searchFilters(){
-		return ["TITLE","ISBN","AUTHOR","LISTPRICE"];
+		return ["title","isbn","uthor","listprice"];
 	}
 	private static function slider(){
 		return \Config::get('slider_welcome');

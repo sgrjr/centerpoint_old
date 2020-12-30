@@ -16,11 +16,7 @@ class UserController extends BaseController
      */
     public function index()
     {
-<<<<<<< HEAD:app/Http/Controllers/Api/v1/user/UserController.php
        return \App\Helpers\Misc::api(['user'=>auth('api')->user()], 200);
-=======
-       return $request->user();
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809:app/Http/Controllers/Api/ApiCartController.php
     }
 
     /**

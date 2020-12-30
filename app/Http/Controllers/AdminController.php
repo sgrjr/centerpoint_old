@@ -37,22 +37,15 @@ class AdminController extends Controller
 			"registeredDbfs"=>$dm->files, 
 			"tables"=>$dm->tables,
 			"commands"=> $dm->commands,
-<<<<<<< HEAD:app/Http/Controllers/AdminController.php
-            "user"=> Auth::user()
-=======
-            "user"=> (new \App\Viewer)->user
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809:app/Http/Controllers/DatabaseController.php
+      "user"=> Auth::user()
+
 			]);
     }
 	
 	public function command(Request $request)
     {
 		$dm = new DatabaseManager();
-<<<<<<< HEAD:app/Http/Controllers/AdminController.php
         $user = \Auth::user();
-=======
-        $user = new \App\Viewer;
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809:app/Http/Controllers/DatabaseController.php
 
 		if($user->can("ADMIN_APP")){
 			$command = $dm->execute($request, $user->user);
@@ -101,11 +94,8 @@ class AdminController extends Controller
         public function viewDBF(Request $request, $dbf, $search = false){
 
         if(\App\Dbf::mysql()->count() < 1 ){
-<<<<<<< HEAD:app/Http/Controllers/AdminController.php
+
             $dm = new \App\Helpers\DatabaseManager;
-=======
-            $dm = new \App\DatabaseManager;
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809:app/Http/Controllers/DatabaseController.php
             $rows = $dm->getTables();
             $dm->importList("dbfs", $rows);
         }
@@ -198,11 +188,7 @@ class AdminController extends Controller
       $order = \App\Order::where("TRANSNO",$transno)->first();
 
         return view('order', array_merge($order->invoiceVars(), [
-<<<<<<< HEAD:app/Http/Controllers/AdminController.php
           "user" => (new \App\Helpers\Viewer)->user
-=======
-          "user" => (new \App\Viewer)->user
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809:app/Http/Controllers/DatabaseController.php
         ]));
     }
 	

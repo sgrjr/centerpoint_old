@@ -1,6 +1,6 @@
 <?php namespace App;
 use \App\Core\DbfTableTrait;
-class BackDetail extends BaseModel implements \App\Interfaces\ModelInterface {
+class Backdetail extends BaseModel implements \App\Interfaces\ModelInterface {
 
 	use \App\Ask\AskTrait\DetailTrait;
     use DbfTableTrait;
@@ -8,16 +8,14 @@ class BackDetail extends BaseModel implements \App\Interfaces\ModelInterface {
 	protected $fillable = ["INDEX", "FASTPRINT", "FSTATUS", "FDATE", "TRANSNO", "ORDERNUM", "KEY", "REQUESTED", "PROD_NO", "PUBDATE", "AUTHOR", "TITLE", "COMSHIP", "MOMSHIP", "RENSHIP", "SOMSHIP", "TONHAND", "SHIPNOW", "BACKNOW", "KILLNOW", "HOLDNOW", "DATESTAMP", "INVNATURE", "TESTTRAN", "STATUS", "DATE", "TIMESTAMP", "SERIES", "SENDSTATUS", "JOBBERHOLD", "ORDACTION", "ORDREASON", "ONODATE", "ORDERDATE", "ORDERED", "SHIPPED", "ARTICLE", "SOPLAN", "ELSEWHERE", "SUBTITLE", "LISTPRICE", "SALEPRICE", "DISC", "FORMAT", "PUBLISHER", "CAT", "CATALOG", "COMPUTER", "LASTTOUCH", "LASTDATE", "LASTTIME", "AUTHORKEY", "TITLEKEY", "UNITCOST", "PAGES", "OUNCES", "REMOTEADDR", "USERPASS", "ORDEREDBY", "EWHERE"];
 
 	protected $table = "backdetails";
-<<<<<<< HEAD
+
 	  protected $seed = [
     'dbf_backdetail'
   ];
         protected $attributeTypes = [ 
         "_config"=>"backdetail",
       ];
-=======
-	
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 	public function head()
     {
         return $this->belongsTo('App\BackHead','TRANSNO','TRANSNO');

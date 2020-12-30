@@ -26,26 +26,32 @@ class AddToCart extends Component{
 
       const query = {
         query: `mutation($REMOTEADDR: String!, $ISBN: String!, $QTY: Int!) {
-        addtocart(REMOTEADDR: $REMOTEADDR, ISBN: $ISBN, QTY: $QTY){
-            user{
+        createCartTitle(input:{REMOTEADDR: $REMOTEADDR, ISBN: $ISBN, QTY: $QTY}){
+
               vendor {
                 carts{
-                  INDEX
-                  KEY
-                  DATE
-                  PO_NUMBER
-                  TRANSNO
-                  REMOTEADDR
-                  details{
-                    INDEX
-                    PROD_NO
-                    TITLE
-                    REQUESTED
-                    SALEPRICE
-                    defaultImage
+                  paginatorInfo{
+                    total
                   }
+                  data{
+                     INDEX
+                      KEY
+                      DATE
+                      PO_NUMBER
+                      TRANSNO
+                      REMOTEADDR
+                      details{
+                        INDEX
+                        PROD_NO
+                        TITLE
+                        REQUESTED
+                        SALEPRICE
+                        defaultImage
+                      }
+                  }
+                 
                 }
-              }
+              
             }
           }
       }`,

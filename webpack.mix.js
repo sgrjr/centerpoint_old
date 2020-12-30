@@ -14,17 +14,21 @@ const mix = require('laravel-mix');
 mix.options({
     hmrOptions: {
         host: '127.0.0.1',
-        port: '8080'
+        port: '8080',
+        ignored: /node_modules/
     },
+    watchOptions: {
+        ignored: /node_modules/
+    }
 });
 
 mix.webpackConfig({
     devServer: {
     	proxy: {
-            '*': 'http://localhost:8000'
+            '*': 'http://localhost:80'
         },
         port: '8080'
-    },
+    }
 });
 
 mix.react('resources/js/app.js', 'public/js')

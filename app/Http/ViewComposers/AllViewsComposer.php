@@ -23,15 +23,10 @@ class AllViewsComposer
     {
         // Dependencies automatically resolved by service container...
        
-<<<<<<< HEAD
+
         //$this->user = (new \App\Helpers\Viewer())->user;
         /*
         $processing_carts =  \App\WebHead::ask()
-=======
-        $this->user = (new \App\Viewer())->user;
-        /*
-        $processing_carts =  \App\Webhead::ask()
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
                 ->setPerPage(1000)
                 ->where("KEY","===", \App\User::getViewer()->key )
                 ->where("ISCOMPLETE","===", "1" )
@@ -72,21 +67,13 @@ class AllViewsComposer
             ->with('titleCategories', ["TITLE","ISBN","AUTHOR","LISTPRICE"]);
             */
 
-<<<<<<< HEAD
+
             //$view
             //->with('processing_count', null)
             //->with('carts_count', null)
             //->with('user', $this->user)
             //->with('api_token', $this->user->api_token)
             //->with('titleCategories', ["TITLE","ISBN","AUTHOR","LISTPRICE"]);
-=======
-            $view
-            ->with('processing_count', null)
-            ->with('carts_count', null)
-            ->with('user', $this->user)
-            ->with('api_token', $this->user->api_token)
-            ->with('titleCategories', ["TITLE","ISBN","AUTHOR","LISTPRICE"]);
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
     
     }
 }

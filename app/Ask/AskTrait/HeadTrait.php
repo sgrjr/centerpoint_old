@@ -3,11 +3,7 @@
 trait HeadTrait {
 
 	public function getDetailsUrlAttribute(){
-<<<<<<< HEAD
 		return $this->urlroot . $this->attributes[$this->getDbfPrimaryKey()];
-=======
-		return $this->urlroot . $this->attributes[$this->primaryKey];
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 	}
 
 	public function getTotalAttribute(){
@@ -51,22 +47,17 @@ trait HeadTrait {
     public function invoiceVars($invoiceTitle="Invoice", $thanks=false, $invoiceMemo=false, $footerMemo=false){
 
 		switch(get_class($this)){
-<<<<<<< HEAD
+
 			case 'App\WebHead':
-=======
-			case 'App\Webhead':
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 				if($this->ISCOMPLETE){
 					$invoiceTitle="Processing";
 				}else{
 					$invoiceTitle="For Review";
 				}
 				break;
-<<<<<<< HEAD
+
 			case 'App\BackHead':
-=======
-			case 'App\Backhead':
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 				$invoiceTitle="Back Ordered";
 				break;
 			default:

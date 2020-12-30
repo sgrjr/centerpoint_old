@@ -66,7 +66,7 @@ Trait ManageTableTrait
 					break;
 
 				case 'dbf':
-					$model->ask()
+					$model->dbf()
 					->skipModel(true)
 					->orderBy("INDEX","DESC")
 					->import($model->getTable())

@@ -1,6 +1,6 @@
 <?php namespace App;
 use \App\Core\DbfTableTrait;
-class AncientDetail extends BaseModel implements \App\Interfaces\ModelInterface {
+class Ancientdetail extends BaseModel implements \App\Interfaces\ModelInterface {
 	
 	use \App\Ask\AskTrait\DetailTrait;
     use DbfTableTrait;
@@ -9,7 +9,7 @@ class AncientDetail extends BaseModel implements \App\Interfaces\ModelInterface 
 
 
 	protected $table = "ancientdetails";
-<<<<<<< HEAD
+
     protected $seed = [
         'dbf_ancientdetail'
     ];
@@ -19,9 +19,6 @@ class AncientDetail extends BaseModel implements \App\Interfaces\ModelInterface 
         "_config"=>"ancientdetail",
       ];
 
-=======
-	
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 	public function head()
     {
         return $this->belongsTo('App\AncientHead','TRANSNO','TRANSNO');

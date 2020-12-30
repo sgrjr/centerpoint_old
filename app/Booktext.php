@@ -1,18 +1,44 @@
 <?php namespace App;
 
-class Booktext extends BaseModel {
+use \App\Core\DbfTableTrait;
+
+class Booktext extends BaseModel implements \App\Interfaces\ModelInterface {
+    
+  use DbfTableTrait;
 
 	protected $fillable = [
-    "ISTHERE","KEY","SUBJECT","PUBDATE","SYNOPSIS",
-    "COMPUTER","DATESTAMP","TIMESTAMP","LASTTOUCH","LASTDATE","LASTTIME","FILENAME",
-    "INDEX","CREATED_AT","UPDATED_AT"
+    "INDEX","ISTHERE","KEY","SUBJECT","PUBDATE","SYNOPSIS",
+    "COMPUTER","DATESTAMP","TIMESTAMP","LASTTOUCH","LASTDATE","LASTTIME","FILENAME"
 ];
 
 	protected $appends = [];
 	protected $table = "booktexts";
- 
-	//protected $primaryKey = '';
-	protected $dbfPrimaryKey = 'KEY';
+   protected $seed = [
+    'dbf_booktext'
+  ];
+	protected $dbfPrimaryKey = 'INDEX';
+
+      protected $attributeTypes = [
+        
+        "_config"=>"booktext",
+
+       "created_at"=>[
+            "name" => "created_at",
+            "type" => "TIMESTAMP",
+            "length" => 19
+           ],
+       "updated_at"=>[
+            "name" => "updated_at",
+            "type" => "TIMESTAMP",
+            "length" => 19
+       ],
+      ];
+  
+  public function title()
+  {
+      return $this->belongsTo('App\Inventory','KEY','ISBN');
+  }
+  
 
 	public function getSummaryAttribute(){
 		return $this->attributes["SYNOPSIS"];
@@ -55,9 +81,7 @@ public function getBodyAttribute(){
 		return $this->$name;
 	}
 
-public function createTable(){
-   \Schema::create($this->getTable(), function (\Illuminate\Database\Schema\Blueprint $table) {
-
+public function booktextsSchema($table){
       $table->integer('ISTHERE');
       $table->char('KEY');
       $table->string('SUBJECT');
@@ -70,12 +94,11 @@ public function createTable(){
       $table->string('LASTDATE');
       $table->string('LASTTIME');
       $table->string('FILENAME');
-
-      $table->integer('INDEX')->unsigned();
-      $table->increments('id');
-  
       $table->timestamps();
-    });
+
+      $table->foreign('KEY')->references('ISBN')->on('inventories'); 
+      
+      return $table;
   }
 
 }

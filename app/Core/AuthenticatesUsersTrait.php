@@ -34,7 +34,7 @@ trait AuthenticatesUsersTrait
      */
     public function login(Request $request, array $args = [])
     {
-<<<<<<< HEAD
+
 
         $vars = $request->get('variables');
         if($vars === null){
@@ -55,16 +55,6 @@ trait AuthenticatesUsersTrait
         
         $this->validateLogin($request);
 
-       
-=======
-        return response()->json(["data"=> $request->all()]);
-        if($request->has('token')){
-            return $this->ajaxLogin($request);
-        }
-
-        $this->validateLogin($request);
-        
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
@@ -109,14 +99,9 @@ trait AuthenticatesUsersTrait
     {
 
         $request->validate([
-<<<<<<< HEAD
+
            $this->username() => 'required|email|string',
            'password' => 'required|string|min:6'
-=======
-            $this->username() => 'required|string',
-            'password' => 'required|string|min:6',
-            'token' => 'string',
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
         ]);
 
     }
@@ -142,79 +127,29 @@ trait AuthenticatesUsersTrait
 			}
 		}
 
-<<<<<<< HEAD
+
         //no valid user could be found in MYSQL database then chek dbf file and wil store in mysql if found
         if($valid_user !== true){
            $valid_user = User::createCredentialsFromPasswordsTable($credentials);
 		}
 
         if($valid_user === true ){
-=======
-            if($credentials !== null && !$request->has("token") ){
-                 \Session::put("credentials", $credentials->getAttributes());
-            }
-            return true;
-        }else if(User::where('email',$credentials["email"])->first() === null){
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
-            if($request->ajax()){
-
-<<<<<<< HEAD
+            if($request->wantsJson()){
                 if(!isset($user)){
                     $user = \App\User::where('EMAIL', $credentials['EMAIL'])->first();
                 }
+
                 return $user;
-=======
-            if ($createdUser !== false && $this->guard()->attempt($credentials, $request->filled('remember') ) && !$request->has("token") ) {
-                \Session::put("credentials", $createdUser->getAttributes());
-               return true;
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
             }
 
             $this->guard()->attempt($credentials, $request->filled('remember'));
             return $this->guard()->user();
            
         }
-
         return false;
     }
 
-<<<<<<< HEAD
-    /*
-    {
-    	"email":"kstark@centerpointlargeprint.com",
-	"password":"madeleine01x"
-    }
-
-    {
-	"email":"sgrjr@deliverance.me",
-	"password":"1230happy"
-
-}
-    */
-=======
-    protected function attemptAjaxLogin(Request $request)
-    {
-
-        $credentials =  $this->credentials($request);
-
-        if($this->guard()->attempt($credentials, $request->filled('remember')) ){
-            $credentials = User::getCredentialsFromTable($credentials);
-
-            return true;
-        }else if(User::where('email',$credentials["email"])->first() === null){
-
-            $createdUser = User::createCredentialsFromPasswordsTable($credentials);
-
-            if ($createdUser !== false && $this->guard()->attempt($credentials, $request->filled('remember') ) && !$request->has("token") ) {
-               return true;
-            }
-
-        }
-
-        return false;
-    }
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
     /**
      * Get the needed authorization credentials from the request.
@@ -235,7 +170,7 @@ trait AuthenticatesUsersTrait
      */
     protected function sendLoginResponse(Request $request, $user)
     {
-<<<<<<< HEAD
+
         $this->clearLoginAttempts($request);
 
         if($request->wantsJson()){
@@ -246,28 +181,9 @@ trait AuthenticatesUsersTrait
         $request->session()->regenerate();
         
         return $this->authenticated($request, $user)
-=======
-
-        if($request->has("token")){
-
-            return response()->json([
-                'data' => [
-                    "user" => $this->guard()->user(),
-
-                    ]
-                ]);
-
-        }else{
-            $request->session()->regenerate();
-
-            $this->clearLoginAttempts($request);
-
-            return $this->authenticated($request, $this->guard()->user())
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
                 ?: redirect()->intended($this->redirectPath());
         }
         
-    }
 
     /**
      * Get the failed login response instance.
@@ -353,7 +269,7 @@ trait AuthenticatesUsersTrait
      */
     protected function guard()
     {
-        if(request()->ajax()){
+        if(request()->wantsJson()){
             return Auth::guard();
 		}else{
             return Auth::guard();

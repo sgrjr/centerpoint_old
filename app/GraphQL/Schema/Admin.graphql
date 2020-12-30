@@ -20,8 +20,8 @@ extend type Query @guard {
     vendors(filter: VendorFilter): [Vendor!]! @paginate(defaultCount: 15) @can(ability: "view")
     vendor(id: ID @eq): Vendor @find @can(ability: "view")
 
-    titleTexts(filter: TitleTextFilter): [TitleText!]! @paginate(defaultCount: 15) @can(ability: "view")
-    titleText(id: ID @eq): TitleText @find @can(ability: "view")
+    titleTexts(filter: TitleTextFilter): [TitleText!]! @paginate(defaultCount: 15, model:"App\\Booktext") @can(ability: "view")
+    titleText(id: ID @eq): TitleText @find(model:"App\\Booktext") @can(ability: "view")
   
     standingOrders(filter: StandingOrderFilter): [StandingOrder!]! @paginate(defaultCount: 15) @can(ability: "view")
     standingOrder(id: ID @eq): StandingOrder @find @can(ability: "view")

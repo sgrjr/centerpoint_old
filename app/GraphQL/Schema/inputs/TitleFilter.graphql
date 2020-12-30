@@ -5,7 +5,7 @@ input TitleFilter {
 	title: String @like(key:"TITLE")
 	author: String @like(key:"AUTHORKEY")
 	invnature: String @like(key:"INVNATURE")
-	isbn: String @like(key:"ISBN")
+	isbn: String @eq(key:"ISBN")
 	onhand: Boolean @eq(key:"ONHAND")
 	category: String @like( key:"CAT")
 	status: String @like( key:"STATUS")

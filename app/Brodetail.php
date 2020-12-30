@@ -1,6 +1,6 @@
 <?php namespace App;
 use \App\Core\DbfTableTrait;
-class BroDetail extends BaseModel implements \App\Interfaces\ModelInterface{
+class Brodetail extends BaseModel implements \App\Interfaces\ModelInterface{
 
 	use \App\Ask\AskTrait\DetailTrait;
 	use DbfTableTrait;
@@ -9,7 +9,7 @@ class BroDetail extends BaseModel implements \App\Interfaces\ModelInterface{
 
 
 	protected $table = "brodetails";
-<<<<<<< HEAD
+
 	  protected $seed = [
     'dbf_brodetail'
   ];
@@ -17,9 +17,7 @@ class BroDetail extends BaseModel implements \App\Interfaces\ModelInterface{
         protected $attributeTypes = [ 
         "_config"=>"brodetail",
       ];
-=======
-	
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 	public function head()
     {
         return $this->belongsTo('App\BroHead','TRANSNO','TRANSNO');

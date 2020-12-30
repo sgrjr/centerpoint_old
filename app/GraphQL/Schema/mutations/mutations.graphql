@@ -7,11 +7,11 @@ type Mutation {
     loginUser(input: LoginUserInput!): User @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator")
     logoutUser: Application @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@logoutUser")
     
-    createCart(input: CreateCartInput!): User @field(resolver: "App\\WebHead@createCart")
-    deleteCart(input: DeleteCartInput!): User @field(resolver: "App\\WebHead@deleteCart")
-    updateCart(input: UpdateCartInput!): User @field(resolver: "App\\WebHead@updateCart")
+    createCart(input: CreateCartInput): User @field(resolver: "App\\GraphQL\\Mutations\\CreateCartMutator")
+    deleteCart(input: DeleteCartInput!): User @field(resolver: "App\\GraphQL\\Mutations\\DeleteCartMutator")
+    updateCart(input: UpdateCartInput!): User @field(resolver: "App\\GraphQL\\Mutations\\UpdateCartMutator")
 
-    createCartTitle(input: CreateCartTitleInput!): User @field(resolver: "App\\WebHead@createCartTitle")
-    deleteCartTitle(input: DeleteCartTitleInput!): User @field(resolver: "App\\WebHead@deleteCartTitle")
-    updateCartTitle(input: UpdateCartTitleInput!): User @field(resolver: "App\\WebHead@updateCartTitle")
+    createCartTitle(input: CreateCartTitleInput!): User @field(resolver: "App\\GraphQL\\Mutations\\CreateCartTitleMutator")
+    deleteCartTitle(input: DeleteCartTitleInput!): User @field(resolver: "App\\GraphQL\\Mutations\\DeleteCartTitleMutator")
+    updateCartTitle(input: UpdateCartTitleInput!): User @field(resolver: "App\\GraphQL\\Mutations\\UpdateCartTitleMutator")
 }

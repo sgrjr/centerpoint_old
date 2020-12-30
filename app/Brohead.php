@@ -1,6 +1,6 @@
 <?php namespace App;
 use \App\Core\DbfTableTrait;
-class BroHead extends BaseModel implements \App\Interfaces\ModelInterface {
+class Brohead extends BaseModel implements \App\Interfaces\ModelInterface {
 	
 	use \App\Ask\AskTrait\HeadTrait;
     use DbfTableTrait;
@@ -10,7 +10,7 @@ class BroHead extends BaseModel implements \App\Interfaces\ModelInterface {
 
 	protected $appends = [];
 	protected $table = "broheads";	
-<<<<<<< HEAD
+
 	protected $dbfPrimaryKey = 'TRANSNO';
 	protected $seed = [
     	'dbf_brohead'
@@ -19,10 +19,6 @@ class BroHead extends BaseModel implements \App\Interfaces\ModelInterface {
       protected $attributeTypes = [ 
         "_config"=>"brohead",
       ];
-=======
-	protected $primaryKey = 'TRANSNO';
-	
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
 	public function getDetailsConnection($record = false){
 		if(!$record){		

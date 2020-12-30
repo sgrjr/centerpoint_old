@@ -18,21 +18,17 @@ class ApiUserController extends Controller
     public function index(Request $request)
     {
         $args = ["token"=>$request->api_token];
-<<<<<<< HEAD
+
         $viewer = new \App\Helpers\Viewer();
-=======
-        $viewer = new \App\Viewer();
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
         $processing_carts = new \stdclass;
         $processing_carts->records = [];
         $activeSo  = [];
 
         if($viewer->user->authenicated){
-<<<<<<< HEAD
+
             $processing_carts = \App\WebHead::ask()
-=======
-            $processing_carts = \App\Webhead::ask()
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
             ->setPerPage(2000)
             ->where("KEY","===", $user->key )
             ->where("ISCOMPLETE","===", "1" )

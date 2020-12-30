@@ -9,9 +9,7 @@ class Command extends BaseModel implements \App\Interfaces\ModelInterface {
 	protected $table = "commands";
 	protected $appends = [];	
   
-    protected $seed = [
-    'config_commands'
-    ];
+    protected $seed = [];
 
     public function schema($table){
         $table->string('command');

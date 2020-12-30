@@ -2,7 +2,7 @@ type Title {
     id: ID!
     TITLE: String
     ISBN: String
-    INVNATURE: String!
+    INVNATURE: String
     PUBDATE: String
     AUTHORKEY: String
     INDEX: Int
@@ -20,6 +20,7 @@ type Title {
    	TITLEKEY: String
    	SUBTITLE: String
    	MARC: String
+    HIGHLIGHT: String
    	PUBLISHER: String
    	coverArt: String
    	byAuthor: [Title!]! @hasMany(type:"paginator", defaultCount: 5)
@@ -31,5 +32,5 @@ type Title {
    	bySoplan: [Title!]! @hasMany(type:"paginator", defaultCount: 5)
    	byPublisher: [Title!]! @hasMany(type:"paginator", defaultCount: 5)
     userData: UserTitleData @method(name: "userTitleData")
-    text: [TitleText] @hasMany(type:"paginator", defaultCount:5)
+    text: [TitleText] @hasMany(defaultCount:5, model:"App\\Booktext")
 }

@@ -22,25 +22,18 @@ class EloquentQueryBuilder extends QueryBuilder implements AskQueryBuilderInterf
     public function where($column, $comparison, $value){
         $comparison = $this->convertComparison($comparison);
         $column = $this->convertColumn($column);
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
         $value = str_replace("+", " - ", $value);
 
         if($comparison === 'LIKE'){
             $value = "%$value%";  
 		}
 
-<<<<<<< HEAD
+
         foreach($this->table AS $key=>$table){
             $this->table[$key] =  $table->where($column, $comparison, $value); 
 		}
         
-=======
-        $this->table->where($column, $comparison, $value);
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
         return $this;
     }
     
@@ -73,22 +66,16 @@ class EloquentQueryBuilder extends QueryBuilder implements AskQueryBuilderInterf
     }
 
     public function orderBy(String $column, $direction = "asc"){
-<<<<<<< HEAD
+
         foreach($this->table AS $key=>$table){
             $this->table[$key] =  $table->orderBy($column, $direction);
 		}
-=======
-        $this->table->orderBy($column, $direction);
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
         return $this;
 	}
 
     public function get($columns = false){
-<<<<<<< HEAD
-   
-=======
-    
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
         $this->autoSetColumns($columns);
 
         $count_queried = $this->parameters->page * $this->parameters->perPage;    
@@ -96,7 +83,6 @@ class EloquentQueryBuilder extends QueryBuilder implements AskQueryBuilderInterf
         
         //$dif = array_diff($this->model->getFillable(), $this->columns);
 
-<<<<<<< HEAD
         $result = [];
 
         foreach($this->table AS $table){
@@ -108,13 +94,7 @@ class EloquentQueryBuilder extends QueryBuilder implements AskQueryBuilderInterf
 
 		}
         $result = collect($result);
-=======
-        $dif = array_diff($this->model->getFillable(), $this->columns);
-        $result = $this->table
-                    ->limit($count_queried)
-                    ->get($this->columns);
 
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
         $total = $result->count();
         $this->addDataRecord($result->slice($offset, $this->parameters->perPage), true);
 
@@ -129,11 +109,9 @@ class EloquentQueryBuilder extends QueryBuilder implements AskQueryBuilderInterf
     
     public function first($columns = false){
         $this->autoSetColumns($columns);
-<<<<<<< HEAD
+
         return $this->model->make((Array) $this->table[0]->first($this->columns));
-=======
-        return $this->model->make((Array) $this->table->first($this->columns));
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
     }
 
     private function convertColumn($column){

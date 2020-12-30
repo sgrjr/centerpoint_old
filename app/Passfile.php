@@ -8,7 +8,7 @@ class Passfile extends BaseModel implements \App\Interfaces\ModelInterface{
 	protected $fillable = ["INDEX","KEY","DUNNDAYS","COMPANY","ORGNAME","EMAIL","STANDING","COUNTRY","LISTPRICE","SALEPRICE","WEBSERVER","PASSWORD","DATE","WHATCOLOR","VISION","DISCOUNT"];
 	protected $appends = [];
 	protected $table = "passfiles";
-<<<<<<< HEAD
+
 	protected $dbfPrimaryKey = 'INDEX';
 	protected $seed = ['dbf_passfile'];
 
@@ -23,7 +23,3 @@ class Passfile extends BaseModel implements \App\Interfaces\ModelInterface{
 		return $table;
 	}
 }
-=======
-	//protected $primaryKey = 'REMOTEADDR';
-}
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809

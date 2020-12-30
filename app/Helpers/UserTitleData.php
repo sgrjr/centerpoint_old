@@ -2,12 +2,9 @@
 
 class UserTitleData {
 
-	public function __construct($title, $viewer){
+	public function __construct($title, $user){
 		$this->title = $title;
-		$this->viewer = $viewer
-			->loadOrders()
-			->loadStandingOrders()
-			;
+		$this->user = $user;
 
 		$this->calcstandingorder();
 	}
@@ -22,19 +19,15 @@ class UserTitleData {
 	private function getPrice(){
 		return $this->so->SALEPRICE;
 	}
-	private function getViewer(){
-		return $this->viewer;
+	private function getUser(){
+		return $this->user;
 	}
 	private function getDiscount(){
 		return $this->so->DISC;
 	}
 
 	private function getPurchased(){
-
-		if(!$this->viewer->user->authenticated){
-			return false;
-		}
-		return in_array($this->title->ISBN, $this->viewer->isbns);
+		return in_array($this->title->ISBN, $this->user->isbns);
 	}
 
 		private function getOnstandingorder(){
@@ -49,7 +42,7 @@ class UserTitleData {
 		    $so->SALEPRICE = round(round(floatval($this->title->LISTPRICE),2) - ($so->DISC * round(floatval($this->title->LISTPRICE),2)),2);
 		    $so->isInList = false;
 
-		    foreach($this->viewer->standingOrders AS $standingOrder){
+		    foreach($this->user->vendor->standingOrders AS $standingOrder){
 
 		      if(strtolower($this->title->SOPLAN) === strtolower($standingOrder->SOSERIES) && $standingOrder->QUANTITY > 0){
 		        $so = $standingOrder;

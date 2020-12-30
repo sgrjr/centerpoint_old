@@ -36,11 +36,8 @@ class AddToCart implements ShouldQueue
     {
         //
         $book = \App\Inventory::ask()->find($this->isbn);
-<<<<<<< HEAD
+
         $book->addToCart($this->user->getRemoteAddr(), $this->user->KEY, $this->user->credentials, $this->qty);
-=======
-        $book->addToCart($this->user->getRemoteAddr(), $this->user->key, $this->user->credentials, $this->qty);
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
     }
 
         /**

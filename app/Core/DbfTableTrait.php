@@ -9,12 +9,12 @@ trait DbfTableTrait {
 		$name = $this->getTable();
 		$headers = $this->headers;	
 
-		$overRideToString = ["ALLSALES","ONHAND","ONORDER","TRANSNO"];
+		$overRideToString = ["ALLSALES","ONHAND","ONORDER","TRANSNO","ICOLLNOTE","CINOTE"];
 		$overRideToNumber = ["PUBDATE"];
 
 				foreach($headers AS $h){
 					if(in_array($h["name"], $overRideToString)){
-						$table->string($h["name"])->nullable(true);
+						$table->string($h["name"], 255)->nullable(true);
 					}else if(in_array($h["name"], $overRideToNumber)){
 						$table->integer($h["name"])->nullable(true);
 					}else{
@@ -58,7 +58,7 @@ trait DbfTableTrait {
 							break;
 						default:
 							$table
-							->string(strtolower($h["name"]), 255)
+							->string(strtolower($h["name"]))
 							->nullable(true)
 							->char('utf8')
 							->collate('utf8_unicode_ci');

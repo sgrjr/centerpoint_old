@@ -9,9 +9,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
-<<<<<<< HEAD
-     /**
-=======
+
     /**
      * A list of the exception types that should not be reported.
      *
@@ -25,7 +23,6 @@ class Handler extends ExceptionHandler
     ];
 
     /**
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
      * Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.

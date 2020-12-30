@@ -52,20 +52,6 @@ class PermissionRequested {
       $this->reason = "I_SAY_NO_TO_EVERYBODY_AT_FIRST";
    }
 
-<<<<<<< HEAD:app/Helpers/PermissionRequested.php
-=======
-   function viewLogin(){
-	  $this->can = ! $this->user->authenticated;
-
-	  if($this->can){
-	  	$this->setReason("YOU_ARE_NOT_LOGGED_IN_YET");
-	  }else{
-	  	$this->setReason("YOU_ARE_ALREADY_LOGGED_IN");
-	  }
-      
-   }
-
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809:app/PermissionRequested.php
    function viewDashboard(){
 	  $this->can = true;
     $this->setReason("YOU_ARE LOGGED_IN");   
@@ -83,11 +69,8 @@ class PermissionRequested {
    }
    
    function viewRegisterUser(){
-<<<<<<< HEAD:app/Helpers/PermissionRequested.php
+
 	  if($this->user->hasRole('SUPER')){
-=======
-	  if($this->user->hasRole('SUPER') && ! $this->user->authenticated){
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809:app/PermissionRequested.php
         $this->can = true;
         $this->setReason("SUPER_USER_CAN_DO_ANYTHING");
       }else{

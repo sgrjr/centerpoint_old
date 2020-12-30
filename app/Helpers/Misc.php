@@ -18,13 +18,9 @@ class Misc
   }
 
   public static  function makeSearchUrl($text, $col, $title = false, $compare = false){
-      
-      if(!$compare){
-        $base = "/search/LIKE_";
-      }else{
-        $base = "/search/" . $compare . "_";
-<<<<<<< HEAD
-      }
+
+        $base = "/search/";
+
       
       $link = new \stdclass;
       if($title){
@@ -35,37 +31,7 @@ class Misc
       
       $link->url = $base . str_replace(" ", "+",str_replace("  ", " ", trim(str_replace("-","",$text)))) . "/" . $col;
       return $link;
-=======
-      }
-      
-      $link = new \stdclass;
-      if($title){
-        $link->text = $title;
-      }else{
-        $link->text = $text;
-      }
-      
-      $link->url = $base . str_replace(" ", "+",str_replace("  ", " ", trim(str_replace("-","",$text)))) . "/" . $col;
-      return $link;
-  }
 
-  public static function query($request, $query){
-        $controller = new GraphQLController(app());
-        $request->replace(["input"=>["query"=>$query]]);  
-        $request->headers->set('content-type', 'application/json'); 
-        $ask = $controller->query($request);
-        $answer = json_decode($ask->content());
-        
-        if(isset($answer[0]->data)){
-          return $answer[0]->data;
-        }else{
-          $data = new \stdclass;
-          $data->viewer = new \stdclass;
-          $data->viewer->error = $answer;
-          return $data;
-        }
-
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
   }
 
   public static function getErrors(){
@@ -149,7 +115,7 @@ class Misc
 		
 	}
 }
-<<<<<<< HEAD
+
 
 public static function getDay($month = null, $increment = false){
 	if(!$increment){
@@ -158,16 +124,7 @@ public static function getDay($month = null, $increment = false){
         
         $thirty_day_months = ["09","04","06","11"]; // September, April, June, November
 
-=======
 
-public static function getDay($month = null, $increment = false){
-	if(!$increment){
-		return date("d");
-	}else{
-        
-        $thirty_day_months = ["09","04","06","11"]; // September, April, June, November
-
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 		$day = date("d") - $increment;
 		if($month == "02" && $day > 28){
 			$day = 0;
@@ -186,7 +143,7 @@ public static function getDay($month = null, $increment = false){
 		return sprintf("%04d", date("Y") - $increment);
 	}
 }
-<<<<<<< HEAD
+
 
   public static function findFileByDate($root, $list, $first = false){
 
@@ -419,110 +376,6 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
         if(is_string($model_class)){
           $table = new $model_class;
 		}
-=======
-
-  public static function findFileByDate($root, $list, $first = false){
-
-  $file = new \stdclass;
-
-	if(!$first){
-		$years = [static::getYear(),static::getYear(1)];
-		$months = [static::getMonth(), static::getMonth(1), static::getMonth(2), static::getMonth(3), static::getMonth(4) ];
-		$extensions = [".jpg",".png",".svg",".jpeg",".bmp",".gif"];
-	}else{
-		$years = [$first[0], static::getYear(),static::getYear(1)];
-		$months = [$first[1], static::getMonth(), static::getMonth(1), static::getMonth(2), static::getMonth(3), static::getMonth(4) ];
-		$extensions = [".jpg",".png",".svg",".jpeg",".bmp",".gif"];
-	}
-
-	foreach($years AS $y){
-		foreach($months AS $m){
-			foreach($extensions AS $ext){
-				$file->image = $root . $y . "_" . $list[$m] . $ext;
-				if(file_exists($file->image)){
-          $file->root = $root;
-          $file->year = $y;
-          $file->month = $list[$m];
-          $file->ext = $ext;
-          break 3;
-        }
-			}
-		}
-	}
-	
-	return $file;
-
-}
-
-  public static function pubdateMonthsPast($dec = 0){
-
-    if($dec > 12 ){
-        $dec = 12;
-	}else if($dec == 0){
-        $dec = false;
-	}
-    
-    $month = static::getMonth(false, true);
-    $month_prev = static::getMonth($dec, true);
-   
-    if($month_prev >= $month ){
-        $year = static::getYear(1);
-	}else{
-        $year = static::getYear();
-	}
-
-    $ans = $year. static::getMonth($dec) . "00";
-    return (int) $ans;
-  }
-
-    public static function pubdateYearsPast($dec = 0){
-        $year = static::getYear($dec);
-        $ans = $year . "0000";
-        return (int) $ans;
-  }
-
-  public static function pubdateNow(){
-    $ans = static::getYear() . static::getMonth() . static::getDay(static::getMonth());
-    return (int) $ans;
-  }
- 
- public static function bookByPubdate($pubdate, $count, $nature){
-    return \App\Inventory::ask()
-            ->setPerPage($count)
-            ->setPage(1)
-            ->where("PUBDATE",">=", $pubdate)
-            ->where("INVNATURE","==",$nature)
-            ->orderBy("PUBDATE","desc")
-            ->get()->records;
-}
-
-public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
-    $results = static::bookByPubdate($dates[0], $count, $nature);
-
-    if($results->count() < $count){
-                    
-            $results2 = static::bookByPubdate($dates[1], $count, $nature); 
-
-            $results2 = $results->concat($results2);
-
-            if($results2->count() >= $count){
-                return $results2->splice(0,$count);
-			}else{
-                $results3 = static::bookByPubdate($dates[2], $count, $nature);
-
-                $results3 = $results2->concat($results3);
-
-                if($results3->count() >= $count){
-                    return $results3->splice(0,$count);
-				}else {
-                    $results4 = static::bookByPubdate($dates[3], $count, $nature);
-                    $results4 = $results3->concat($results4);
-                    return $results4->splice(0,$count);
-				}
-            }            
-	}
-}
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
        $name = ucfirst(strtolower( $table->getTable() ) );
        return $name . "TableSeeder"::class;

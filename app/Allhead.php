@@ -1,7 +1,7 @@
 <?php namespace App;
 use \App\Core\DbfTableTrait;
 
-class AllHead extends BaseModel implements \App\Interfaces\ModelInterface{
+class Allhead extends BaseModel implements \App\Interfaces\ModelInterface{
 
 	use \App\Ask\AskTrait\HeadTrait;
     use DbfTableTrait;
@@ -11,7 +11,7 @@ class AllHead extends BaseModel implements \App\Interfaces\ModelInterface{
 
 	protected $table = "allheads";
 	protected $appends = [];
-<<<<<<< HEAD
+
 	protected $seed = [
 		'dbf_allhead'
 	];
@@ -19,8 +19,6 @@ class AllHead extends BaseModel implements \App\Interfaces\ModelInterface{
       protected $attributeTypes = [ 
         "_config"=>"allhead",
       ];
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
 	public function getDetailsConnection($record = false){
 		if(!$record){		

@@ -48,11 +48,7 @@ class XBaseTable {
 
     public function __construct ($name, $kipMemo = true) {
         $this->name=$name;
-<<<<<<< HEAD
         $this->skipMemo = true;
-=======
-        if (!$this->isOpen()) $this->open();
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
     }
     
     function open() {
@@ -65,42 +61,23 @@ class XBaseTable {
     	}
     	$this->name = $fn;
     	$this->fp = fopen($fn,"rb");
-<<<<<<< HEAD
 		$this
             ->readHeader()
             ->setMemoTable();
-
-=======
-    
-        $memo = str_replace(".dbf", ".FPT", strtolower($this->name));
-        if (!file_exists($memo)) $memo = str_replace(".dbf", ".fpt", $this->name);
-
-        if (!file_exists($memo)){
-            $this->memo = false;
-        }else{
-            $this->memo = new Memo($memo);
-        }
-
-		$this->readHeader();
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
-		return $this->fp!=false;
+		return $this;
 		
 	}
 	public function setMemoTable($skip = null){
         
         $memo = str_replace(".dbf", ".FPT", strtolower($this->name));
-        if($skip === null){$skip = $this->skipMemo;}
-
-        if($skip === true){
-            
-		}else{
-            if (!file_exists($memo)) $memo = str_replace(".dbf", ".fpt", $this->name);
-            if (!file_exists($memo)){
-                $this->memo = false;
-            }else{
-                $this->memo = new Memo($memo);
-            }
-		}
+ 
+        if (!file_exists($memo)) $memo = str_replace(".dbf", ".fpt", $this->name);
+        if (!file_exists($memo)){
+            $this->memo = false;
+        }else{
+            $this->memo = new Memo($memo);
+        }
+        
         return $this;
     }
 
@@ -172,7 +149,6 @@ class XBaseTable {
     }
 
     function nextRecord() {
-	    if (!$this->isOpen()) $this->open();
 
         if ($this->recordPos+1 >= $this->recordCount) return false;
         $this->recordPos++;
@@ -185,7 +161,7 @@ class XBaseTable {
     }
     
     function previousRecord() {
-	    if (!$this->isOpen()) $this->open();
+
         $this->moveTo($this->recordPos-1);
         
         if ($this->recordPos < 0 || $this->recordPos > $this->recordCount) return false;
@@ -250,50 +226,6 @@ class XBaseTable {
     function getDeleteCount() {
         return $this->deleteCount;
     }
-<<<<<<< HEAD
-=======
-
-    function toXML() {
-		$result = "<table ";
-		$result.= "name='".$this->name."' ";
-		$result.= "version='".$this->version."' ";
-		$result.= "modifyDate='".$this->modifyDate."' ";
-		$result.= "recordCount='".$this->recordCount."' ";
-		$result.= "recordByteLength='".$this->recordByteLength."' ";
-		$result.= "inTransaction='".$this->inTransaction."' ";
-		$result.= "encrypted='".$this->encrypted."' ";
-		$result.= "mdxFlag='".ord($this->mdxFlag)."' ";
-		$result.= "languageCode='".ord($this->languageCode)."' ";
-		$result.= "backlist='".base64_encode($this->backlist)."' ";
-		$result.= "foxpro='".$this->foxpro."' ";
-		$result.= "deleteCount='".$this->deleteCount."' ";
-	    $result.= ">\n";
-	    $result .= "<columns>\n";
-	    foreach ($this->getColumns() as $i=>$c) {
-		    $result .= "<column ";
-			$result .= "name='".$c->name."' ";
-			$result .= "type='".$c->type."' ";
-			$result .= "length='".$c->length."' ";
-			$result .= "decimalCount='".$c->decimalCount."' ";
-			$result .= "bytePos='".$c->bytePos."' ";
-			$result .= "colIndex='".$c->colIndex."' ";
-			$result .= "/>\n";
-	    }
-	    $result .= "</columns>\n";
-	    $result .= "<records>\n";
-	    $this->moveTo(-1);
-	    while ($r = $this->nextRecord()) {
-		    $result .= "<record>\n";
-		    foreach ($this->getColumns() as $i=>$c) {
-			    $result .= "<".$c->name.">".$r->getObject($c)."</".$c->name.">\n";
-		    }
-		    $result .= "</record>\n";
-	    }
-	    $result .= "</records>\n";
-	    $result .= "</table>\n";
-	    return $result;
-    }
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
     
     /**
      * -------------------------------------------------------------------------

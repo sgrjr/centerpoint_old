@@ -44,12 +44,9 @@ class SetupController extends BaseController
 
         return view('admin.setup', [
             "tables"=> $tables,
-<<<<<<< HEAD
+
             "error" => \App\Helpers\Misc::getErrors(),
             "users" => $users
-=======
-            "error" => \App\Helpers\Misc::getErrors()
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
         ]);
 		   
 	}
@@ -57,7 +54,7 @@ class SetupController extends BaseController
     public function migrate(Request $request)
     {   
 		ini_set('max_execution_time', 1000000);
-		ini_set('memory_limit', '1.5G');
+		ini_set('memory_limit', '5.5G');
         $exitCode = Artisan::call('migrate', []);
 		$request->session()->flash('message', $exitCode);
 
@@ -90,22 +87,22 @@ class SetupController extends BaseController
 	public function reset(Request $request){
 
 		Artisan::call('migrate:reset', ['--force' => true]);
-
-<<<<<<< HEAD
-=======
-		Schema::dropIfExists("migrations");
-		Schema::dropIfExists("cache");
-		Schema::dropIfExists("jobs");
-		Schema::dropIfExists("dbf");
-		Schema::dropIfExists("inventory");
-		Schema::dropIfExists("requests");
-		Schema::dropIfExists("_rwdata_vendor_dbf");
-		
- 		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 		$request->session()->flash('message', "Database reset to no seeded tables!");
         return redirect("/setup");   
 
+	}
+
+	public function fresh(Request $request){
+
+		
+        ini_set('max_execution_time', 1000000);
+		ini_set('memory_limit', '1.5G');
+        \Artisan::call('migrate:fresh',['--seed'=>true]);
+
+		$request->session()->flash('message', "Database reset and seeded!");
+        return redirect("/setup");   
+       
+    
 	}
 
 	public function terminal(Request $request)

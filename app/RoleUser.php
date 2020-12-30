@@ -10,7 +10,7 @@ class RoleUser extends Pivot implements \App\Interfaces\ModelInterface {
 
   protected $fillable = ['role_id','user_id'];
   protected $table = "role_user";
-<<<<<<< HEAD
+  public $timestamps = false;
 
   protected $seed = [
     'config_role_user'
@@ -44,7 +44,4 @@ protected $attributeTypes = [
        $this->save();
        return $this;
    }
-
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 }

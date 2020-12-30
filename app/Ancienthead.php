@@ -1,6 +1,6 @@
 <?php namespace App;
 use \App\Core\DbfTableTrait;
-class AncientHead extends BaseModel implements \App\Interfaces\ModelInterface {
+class Ancienthead extends BaseModel implements \App\Interfaces\ModelInterface {
 
 	use \App\Ask\AskTrait\HeadTrait;
     use DbfTableTrait;
@@ -9,7 +9,7 @@ class AncientHead extends BaseModel implements \App\Interfaces\ModelInterface {
 ];
 
 	protected $table = "ancientheads";
-<<<<<<< HEAD
+
 	protected $dbfPrimaryKey = 'TRANSNO';
 
 	protected $appends = [];
@@ -21,11 +21,6 @@ class AncientHead extends BaseModel implements \App\Interfaces\ModelInterface {
         "_config"=>"ancienthead",
       ];
 
-=======
-	//protected $primaryKey = 'KEY';
-
-	protected $appends = [];
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 	public function getDetailsConnection($record = false){
 		if(!$record){		
 			return \App\AncientDetail::ask()->where("TRANSNO","===", $this->TRANSNO)->get();

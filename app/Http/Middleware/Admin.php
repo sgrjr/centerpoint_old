@@ -22,14 +22,10 @@ class Admin
             return redirect('/setup');
         }
 		
-<<<<<<< HEAD
+
         //Conditions under which requested path is refused
         if(auth()->check() === false || auth()->user()->can("MODIFY_ADMIN_RESOURCE")){
-=======
-        $viewer =  new \App\Viewer();
 
-        if ($viewer->can("MODIFY_ADMIN_RESOURCE") === false ){
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {

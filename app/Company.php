@@ -12,7 +12,7 @@ class Company extends BaseModel implements \App\Interfaces\ModelInterface{
 
     protected $attributeTypes = [
         "name"=>[
-            "name" => "remember_token",
+            "name" => "name",
             "type" => "Char",
             "length" => 96
            ],
@@ -58,6 +58,8 @@ class Company extends BaseModel implements \App\Interfaces\ModelInterface{
            ],
        "timestamps"=> true
       ];
+
+protected $fillable = ["name", "email" , "telephone" , "city", "state", "address", "website", "fax", "logo"];
 
       public function schema($table){   
         $table = \App\Helpers\Misc::setUpTableFromHeaders($table, $this->headers);

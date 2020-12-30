@@ -1,6 +1,6 @@
 <?php namespace App;
 use \App\Core\DbfTableTrait;
-class WebHead extends BaseModel implements \App\Interfaces\ModelInterface {
+class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
 
 	use \App\Ask\AskTrait\HeadTrait;
   use DbfTableTrait;
@@ -9,7 +9,7 @@ class WebHead extends BaseModel implements \App\Interfaces\ModelInterface {
 
 	protected $appends = ["items"];
 	protected $table = "webheads";
-<<<<<<< HEAD
+
 	protected $dbfPrimaryKey = 'REMOTEADDR';
     protected $seed = [
     'dbf_webhead'
@@ -18,46 +18,44 @@ class WebHead extends BaseModel implements \App\Interfaces\ModelInterface {
   protected $attributeTypes = [ 
     "_config"=>"webhead",
   ];
-=======
-	protected $primaryKey = 'REMOTEADDR';
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 
   // $record passed to getDetailsConnection must be an associative array
   // resulting from XBaseRecord->getRawData()
-  public function getItemsAttribute(){
 
-<<<<<<< HEAD
-   $items = \App\WebDetail::ask()->where("REMOTEADDR","===", $this->REMOTEADDR)->setPerPage(1000);
-=======
-   $items = \App\Webdetail::ask()->where("REMOTEADDR","===", $this->REMOTEADDR)->setPerPage(1000);
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+  public function items(){
+    return $this->hasMany('\App\Webdetail','REMOTEADDR','REMOTEADDR');
+  }
+
+  public function getItemssAttribute(){
+
+   $items = \App\WebDetail::dbf()->where("REMOTEADDR","===", $this->REMOTEADDR)->setPerPage(1000);
+
    return $items->setData()->data->records;
   }
 
   public function itemsArray(){
 
-<<<<<<< HEAD
    $items = \App\WebDetail::dbf()->where("REMOTEADDR","===", $this->REMOTEADDR)->setPerPage(1000);
-=======
-   $items = \App\Webdetail::dbf()->where("REMOTEADDR","===", $this->REMOTEADDR)->setPerPage(1000);
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
    return $items->setData(false, true)->data->records;
   }
 
-	public function getDetailsConnection(array $record = []){
+	public function getDetailswConnection(array $record = []){
 
     if(empty($record)){
       $remoteaddr = $this->getAttributes()["REMOTEADDR"];
     }else{
       $remoteaddr = $record["REMOTEADDR"];
     }
-		
-<<<<<<< HEAD
+
 		return \App\WebDetail::ask()->where("REMOTEADDR","===", $remoteaddr)->setPerPage(1000)->get();
-=======
-		return \App\Webdetail::ask()->where("REMOTEADDR","===", $remoteaddr)->setPerPage(1000)->get();
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 	}
+
+  public function vendor(){
+    return $this->belongsTo('\App\Vendor','KEY','KEY');
+  }
 
     public function getVendorConnection(array $record = []){
 
@@ -113,48 +111,36 @@ class WebHead extends BaseModel implements \App\Interfaces\ModelInterface {
       return $this;
     }
 
-<<<<<<< HEAD
-	public static function newCart($vendor, $input = []){
-=======
-	public static function newCart($vendor){
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
-	    $uid=  uniqid();
-      $zip = substr($vendor->KEY,0,5);
 
-      $REMOTEADDR = substr($zip . "." . $uid, 0,15);
+	public static function newCart($user, $args){
+	    $uid=  time();//uniqid();
+      $zip = substr($user->KEY,0,5);
+      $REMOTEADDR =  $uid . $zip;
       $mytime = \Carbon\Carbon::now()->format("Ymd");
-
       $newCart = new static;
-
       $newCart->REMOTEADDR = $REMOTEADDR;
-      $newCart->KEY = $vendor->KEY;
-      
+      $newCart->KEY = $user->KEY;
       $newCart->DATE = $mytime;
-
-      $newCart->BILL_1 = $vendor->ORGNAME;
-      $newCart->BILL_2 =   "c/o " . $vendor->FIRST . " " . $vendor->LAST;
-      $newCart->BILL_3 =   $vendor->STREET;
-      $newCart->BILL_4 =   $vendor->CITY . ", " . $vendor->STATE . " " . $vendor->ZIP5;
-      $newCart->COMPANY =  $vendor->ORGNAME;
-      $newCart->STREET =  $vendor->STREET;
-      $newCart->CITY =  $vendor->CITY;
-      $newCart->STATE =  $vendor->STATE;
-      $newCart->POSTCODE =  $vendor->ZIP5;
-      $newCart->VOICEPHONE =  $vendor->VOICEPHONE;
+      $newCart->BILL_1 = $user->vendor->ORGNAME;
+      $newCart->BILL_2 =   "c/o " . $user->vendor->FIRST . " " . $user->vendor->LAST;
+      $newCart->BILL_3 =   $user->vendor->STREET;
+      $newCart->BILL_4 =   $user->vendor->CITY . ", " . $user->vendor->STATE . " " . $user->vendor->ZIP5;
+      $newCart->COMPANY =  $user->vendor->ORGNAME;
+      $newCart->STREET =  $user->vendor->STREET;
+      $newCart->CITY =  $user->vendor->CITY;
+      $newCart->STATE =  $user->vendor->STATE;
+      $newCart->POSTCODE =  $user->vendor->ZIP5;
+      $newCart->VOICEPHONE =  $user->vendor->VOICEPHONE;
       $newCart->OSOURCE = "INTERNET ORDER";
       $newCart->ISCOMPLETE = "F";
-<<<<<<< HEAD
 
-      foreach($input AS $k=>$v){
-        $newCart->$k = $v;
+      foreach($args['input'] AS $key=>$val){
+        $newCart->$key = $val;
       }
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
-      $newCart->saveChanges();
+      $newCart->saveToDbf();
 
-      //\Session::put("use_cart",$REMOTEADDR);
-      return $newCart;
+      return $user;
 	}
 
   public function submitOrder($props = false){
@@ -169,11 +155,8 @@ class WebHead extends BaseModel implements \App\Interfaces\ModelInterface {
     /*
     $to = [];
 
-<<<<<<< HEAD
+
     $classes = ["\App\AncientHead","\App\AllHead","\App\BackHead","\App\BroHead"];
-=======
-    $classes = ["\App\Ancienthead","\App\Allhead","\App\Backhead","\App\Brohead"];
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 
     foreach($classes AS $class){
       $count = $class::dbf()->table->recordCount;
@@ -195,21 +178,16 @@ class WebHead extends BaseModel implements \App\Interfaces\ModelInterface {
     unset($head["INDEX"]);
     $head["TRANSNO"] = $transno;
 
-<<<<<<< HEAD
     $brohead = new \App\BroHead($head);
-=======
-    $brohead = new \App\Brohead($head);
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
     $brohead->saveChanges();
 
     foreach($details AS $detail){
       unset($detail["INDEX"]);
       $detail["TRANSNO"] = $transno;
-<<<<<<< HEAD
+
       $det = new \App\BroDetail($detail);
-=======
-      $det = new \App\Brodetail($detail);
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
       $det->saveChanges();
     }
 
@@ -243,35 +221,28 @@ class WebHead extends BaseModel implements \App\Interfaces\ModelInterface {
     return $this;
   }
   
-  public function addToCart($viewer, $isbn, $qty){
+  public function addToCart($user, $isbn, $qty){
 
-   foreach($this->getDetailsConnection()->records AS $detail){
+   foreach($this->getDetailsConnection()->data AS $detail){
      if($detail->PROD_NO === $isbn){
        $detail->REQUESTED = $detail->REQUESTED + 1;
-       $detail->saveChanges();
+       $detail->saveToDbf();
        return $this;
      }
    }
 
-<<<<<<< HEAD
+
     $detail = new \App\WebDetail;
     $detail->REQUESTED = $qty;
     $detail->REMOTEADDR = $this->REMOTEADDR;
     $detail->PROD_NO = $isbn;
-    $detail->KEY = $viewer->user->KEY;
-=======
-    $detail = new \App\Webdetail;
-    $detail->REQUESTED = $qty;
-    $detail->REMOTEADDR = $this->REMOTEADDR;
-    $detail->PROD_NO = $isbn;
-    $detail->KEY = $viewer->user->key;
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+    $detail->KEY = $user->KEY;
     $detail->SHIPPED = 0;
 
     $bookAtts = ["ARTICLE","TITLE","AUTHOR","LISTPRICE","STATUS","AUTHORKEY","TITLEKEY","FORMAT","SERIES","PUBLISHER","CAT","PAGES","PUBDATE","INVNATURE","SOPLAN"];
     $book = \App\Inventory::ask()->where('ISBN','===', $isbn)->first();
     
-    $viewerTitleData = $book->getUserData($viewer);
+    $viewerTitleData = $book->getUserData($user);
     
     foreach($bookAtts AS $att){
       $detail->$att = $book->$att;
@@ -286,17 +257,16 @@ class WebHead extends BaseModel implements \App\Interfaces\ModelInterface {
     $detail->TIMESTAMP = \Carbon\Carbon::now()->format("H"); //12:17:07
     $detail->LASTTIME = \Carbon\Carbon::now()->format("H"); //12:17:07
 
-    $detail->ORDEREDBY = $viewer->user->credentials->SNAME;//stephanieiberer   
-    $detail->LASTTOUCH = $viewer->user->credentials->SNAME; //stephanieiberer
-    $detail->COMPUTER = $viewer->user->credentials->SNAME; //stephanieiberer
-    $detail->USERPASS = $viewer->user->credentials->UPASS;       
+    $detail->ORDEREDBY = $user->SNAME;//stephanieiberer   
+    $detail->LASTTOUCH = $user->SNAME; //stephanieiberer
+    $detail->COMPUTER = $user->SNAME; //stephanieiberer
+    $detail->USERPASS = $user->UPASS;       
 
-    $detail->saveChanges();
+    $detail->saveToDbf();
   
-    return $this;
+    return $user;
 }
 
-<<<<<<< HEAD
 public function webheadSchema($table){ $table->unique('REMOTEADDR'); return $table;	}
 
 public function createCartTitle(\Request $request, $input){
@@ -325,7 +295,7 @@ public function createCartTitle(\Request $request, $input){
 
       $remoteaddr = $input["REMOTEADDR"];
 
-      $detail = \App\WebDetail::dbf(true)
+      $detail = \App\WebDetail::dbf()
             ->where("REMOTEADDR", "==",$remoteaddr)
             ->where("PROD_NO","==", $input['ISBN'])
             ->first();
@@ -337,58 +307,61 @@ public function createCartTitle(\Request $request, $input){
           $detail->$k = $v;
         }
 
-        $d->saveChanges();
+        $d->saveToDbf();
 
         return $request->user();
   }
 
-  public function createCart(\Request $request, $input){
-      return \App\WebHead::newCart($request->user()->vendor, $input);
-  }
+  public function createCart($input){
+      $request = request();
+      if($input === null){$input = [];}
 
-  public function deleteCart(\Request $request, $input){
-
-            $w = \App\WebHead::dbf()
-                ->where("REMOTEADDR", "===",$input["REMOTEADDR"])
-                ->where("KEY", "===",$request->user()->KEY)
-                ->first();
-      
-        foreach($w->items AS $item){
-            $item->deleteRecord();
-          }
-      
-        $w->deleteRecord();
-
-        if($request->user()->vendor->cartsCount <= 0){
-            $newcart = \App\WebHead::newCart($request->user()->vendor);
-        }
-
+      \App\WebHead::newCart($request->user()->vendor, $input);
       return $request->user();
   }
 
-  public function updateCart(\Request $request, $input){
-          $remoteaddr = $input["REMOTEADDR"];
-          unset($input["REMOTEADDR"]);
+  public function deleteCart($user, $args){
 
-      $head = \App\WebHead::dbf(true)
-            ->where("REMOTEADDR", "==",$remoteaddr)
-            ->where("KEY","==", $request->user()->KEY)
-            ->first();
+            $w = \App\WebHead::dbf()
+                ->where("REMOTEADDR", "===",$args["input"]["REMOTEADDR"])
+                ->where("KEY", "===",$user->KEY)
+                ->first();
+      
+        foreach($w->items AS $item){
+            $item->deleteFromDbf();
+          }
+      
+        $w->deleteFromDbf();
 
-        foreach($input AS $k=>$v){
-          $head->$k = $v;
+        if($user->vendor->cartsCount <= 0){
+            $newcart = \App\WebHead::newCart($user->vendor);
         }
 
-        $head->saveChanges();
-
-        if(isset($input["ISCOMPLETE"])){
-          event(new \App\Events\CartWasSubmitted($request, $head));
-        }
-
-        return $request->user();
+      return $user;
   }
 
+  public function updateCart($user, $args){
 
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+      foreach($args['input'] AS $key=>$val){
+          if($key === "ISCOMPLETE"){
+              if($val === true){
+                $this->$key = "T";
+              }else{
+                $this->$key = "F";
+              }
+          }else{
+            $this->$key = $val;
+          }
+        
+      }
+
+      $this->saveToDbf();
+
+        if(isset($input["ISCOMPLETE"])){
+          event(new \App\Events\CartWasSubmitted(request(), $this));
+        }
+
+      return $user;
+  }
+
 }

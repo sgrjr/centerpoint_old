@@ -4,14 +4,14 @@ use \App\Core\DbfTableTrait;
 use \App\Ask\AskTrait\DetailTrait;
 use App\Interfaces\ModelInterface;
 
-class AllDetail extends BaseModel implements ModelInterface{
+class Alldetail extends BaseModel implements ModelInterface{
 
 	use DbfTableTrait, DetailTrait;
 	
 	protected $fillable = [ "INDEX", "FUCKTRAN", "JOBBERHOLD", "ORDACTION", "ORDREASON", "TRANSNO", "TESTTRAN", "ORDERNUM", "KEY", "DATE", "PROD_NO", "REQUESTED", "SHIPPED", "ARTICLE", "AUTHOR", "TITLE", "LISTPRICE", "SALEPRICE", "CAT", "INVNATURE", "SERIES", "SOPLAN", "DISC", "PUBLISHER", "FORMAT", "SUBTITLE", "CATALOG", "STATUS", "UNITCOST", "TITLEKEY", "AUTHORKEY", "COMPUTER", "TIMESTAMP", "DATESTAMP", "LASTTOUCH", "LASTTIME", "LASTDATE", "PAGES", "OUNCES", "PUBDATE", "REMOTEADDR", "USERPASS", "ORDEREDBY", "EWHERE", "SCARTONNO", "TRANSNUM", "F856NUM"];
 
 	protected $table = "alldetails";
-<<<<<<< HEAD
+
   protected $seed = [
     'dbf_alldetail'
   ];
@@ -21,8 +21,7 @@ class AllDetail extends BaseModel implements ModelInterface{
           ];
 
     protected $presenter = 'App\Presenters\DbfPresenter';
-=======
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
+
 
 	public function head()
     {
@@ -39,5 +38,8 @@ class AllDetail extends BaseModel implements ModelInterface{
         return $this->belongsTo('App\Inventory','prod_no','isbn');
     }
 
-   public function alldetailSchema($table){$table->foreign('TRANSNO')->references('TRANSNO')->on('allheads'); return $table;	}
+   public function alldetailSchema($table){
+    $table->foreign('TRANSNO')->references('TRANSNO')->on('allheads'); 
+    return $table;	
+  }
 }

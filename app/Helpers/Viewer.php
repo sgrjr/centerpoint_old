@@ -90,7 +90,7 @@ class Viewer {
     }
 
     public function __get($name)
-    {die;
+    {
         $function = "get" . ucfirst($name);
         return $this->$function();
     }

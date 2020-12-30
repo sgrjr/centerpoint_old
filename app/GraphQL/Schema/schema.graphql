@@ -1,7 +1,9 @@
 type Query {
 	viewer: User @auth
-    titles(filter: TitleFilter): [Title!]! @paginate(defaultCount: 15, model:"\\App\\Inventory")
-    title(id: ID @eq): Title @find(model:"App\\Inventory")
+    
+    titles(filter: TitleFilter): [Title!]! @paginate(defaultCount: 15, model:"App\\Inventory")
+
+    title(filter: TitleFilter): Title @first(model:"App\\Inventory")
 
     # Upcoming Titles
     cpTitles: [Title] @field(resolver:"\\App\\Inventory@getCPTitles")

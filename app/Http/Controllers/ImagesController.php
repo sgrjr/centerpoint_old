@@ -36,7 +36,7 @@ class ImagesController extends Controller
 
 		$img = Image::make($this->use_path);
 		//$img->save( $this->config["imagesrootpath"] . "/cache/" . $path, 50);
-<<<<<<< HEAD
+
 
 		try {
 			$template = $this->template;
@@ -46,11 +46,7 @@ class ImagesController extends Controller
 		catch(\Throwable $e){
 			abort(404,"Cannot find that image!");
 		}
-=======
 
-		$template = $this->template;
-		return $this->$template($img);
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
     }
 
 	public function setPath($template, $path){
@@ -138,11 +134,8 @@ class ImagesController extends Controller
 
 	private function setPromotionsPhotoPath($template, $path){
 		$args = ["id"=>$path];
-<<<<<<< HEAD
+
 		$cat = \App\Helpers\Application::catalog($args);
-=======
-		$cat = \App\Viewer::catalog($args);
->>>>>>> 90f2f5f0e5a0ebb6079d9f0e74ea1862bfe8b809
 		$this->use_path = $cat->image_path;
 		$this->template = $cat->template;
 		return $this;
