@@ -1,12 +1,14 @@
 <?php
+
 namespace App\GraphQL\Mutations;
 
+use Nuwave\Lighthouse\Schema\Context;
 use GraphQL\Type\Definition\ResolveInfo;
-use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class UpdateCartMutator
+class UpdateCartTitle
 {
-      /**
+    
+    /**
      * Return a value for the field.
      *
      * @param  null  $rootValue Usually contains the result returned from the parent field. In this case, it is always `null`.
@@ -15,18 +17,21 @@ class UpdateCartMutator
      * @param  \GraphQL\Type\Definition\ResolveInfo  $resolveInfo Information about the query itself, such as the execution state, the field name, path to the field from the root, and more.
      * @return mixed
      */
-    public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+
+    public function __invoke($rootValue, array $args, Context $context, ResolveInfo $resolveInfo)
     {
+    	$user = request()->user();
 
-           if(isset($args["cartIndex"])){
-            $cart = \App\Webhead::dbf()->index($args["cartIndex"]);
-        }else{
-            $cart = \App\Webhead::dbf()
-                ->where("REMOTEADDR", "===",$args["input"]["REMOTEADDR"])
-                ->first();
-        }
-      $cart->updateCart(request()->user(), $args);
-      return request()->user();
+    	  $d = \App\Webdetail::
+    	  	where("REMOTEADDR",$args["input"]["REMOTEADDR"])
+            ->where("PROD_NO", $args["input"]['ISBN'])
+            ->where("KEY",$user->KEY)
+            ->first();
+        
+        $d->REQUESTED = $args["input"]['REQUESTED'];
+        $d->dbfSave();
+        $d->save();
+
+        return $user;
     }
-
 }

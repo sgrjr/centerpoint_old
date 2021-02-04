@@ -48,7 +48,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
   ];
 
   public function getCoverArtAttribute(){
-    return url("/img/small/" . $this->ISBN . ".jpg");
+    return url("/img/small/" . $this->attributes['ISBN'] . ".jpg");
   }
 
 
@@ -80,7 +80,8 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
       if(request()->user() !== null){
         $user = new UserTitleData($this, request()->user());
-         return [
+
+         return (object) [
           "price"=> $user->price,
           "purchased"=>$user->purchased,
           "onstandingorder"=>$user->onstandingorder,
@@ -88,7 +89,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
           "isbn"=>$user->isbn
         ];
       }else{
-        return null;
+        return new \stdclass;
       }
     	
     }

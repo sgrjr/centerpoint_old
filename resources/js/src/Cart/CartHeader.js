@@ -30,15 +30,25 @@ const useStyles = makeStyles({
 function CartHeader(props) {
   const classes = useStyles()
   let [editable, setEditable] = useState(false)
+  let [po, setPo] = useState(props.cart.PO_NUMBER)
 
   const handleClick = (e) => {
-	const query = cartMutation({cartIndex:props.cart.INDEX, properties:{PO_NUMBER:props.cart.PO_NUMBER}})
+	const query = cartMutation({cartIndex:props.cart.INDEX, properties:{PO_NUMBER:po}})
 	props.cartSave(query)
     setEditable(editable === true ? false: true)
   }
 
   const handleUpdate = (e) => {
-	props.updateCartForm(props.index, "PO_NUMBER", e.target.value)
+	//props.updateCartForm(props.index, "PO_NUMBER", e.target.value)
+	setPo(e.target.value);
+  }
+
+  const handleReset = (e) => {
+	//props.updateCartForm(props.index, "PO_NUMBER", e.target.value)
+	
+	setEditable(false)
+	setPo(props.cart.PO_NUMBER);
+	e.stopPropagation();
   }
 
   const handleBlur= (e) => {
@@ -48,21 +58,30 @@ function CartHeader(props) {
 
 	let title
 	if (editable) {
+		let buttons1 = null
+		let buttons2 = 	null
+		
+		if(props.cart.PO_NUMBER !== po){
+			buttons1 = <Button onClick={handleReset} size="small">Reset</Button>
+			buttons2 = <Button onClick={handleClick} size="small">Save</Button>
+		}
 
 		title = <>
 			<TextField 
 				className={classes.field}
 				label="PO#"
-				value={props.cart.PO_NUMBER}
+				value={po}
 				onChange={(e)=>{handleUpdate(e)}}
 				onKeyPress={event => {
 					if (event.key === 'Enter') {
 						handleClick(event)
 					}
         }}
+
         autoFocus
 			/>
-			<Button onClick={handleClick} size="small">Save</Button>
+			{buttons1}
+			{buttons2}
 		</>
 	} else {
 		title = <>

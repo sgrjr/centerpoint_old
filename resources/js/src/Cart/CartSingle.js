@@ -12,11 +12,12 @@ import CartHeader from './CartHeader'
 import Badge from '@material-ui/core/Badge'
 
 function CartSingle(props) {
-  const {cart, deleteCart, deleteFromCart, cartSave, history, updateTitleQuantity, cartCheckout} = props
+  const {cart, deleteCart, deleteFromCart, cartSave, history, updateTitleQuantity, cartCheckout, selectCart} = props
 
-  const id = 'panel' + cart.INDEX
-  const handleChange = panel => (event, newExpanded) => {
-    props.setExpanded(newExpanded ? panel : false)
+  const id = cart.REMOTEADDR
+
+  const handleChange = panel => (event) => {
+    props.selectCart(props.cart.REMOTEADDR);
   }
   const getTotals = (array) => {
 
@@ -44,12 +45,13 @@ function CartSingle(props) {
 
   return (
     <React.Fragment>
-    	<Accordion expanded={props.expanded === id} onChange={handleChange(id)}>
+    	<Accordion expanded={props.expanded} onChange={handleChange(id)}>
       
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
+          style={{backgroundColor:"rgba(0, 0, 0, 0.12)"}}
         >
           
           <Badge anchorOrigin={{horizontal:'left', vertical:'top'}} badgeContent={totals.quantity} color="primary">

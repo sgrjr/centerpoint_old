@@ -2,24 +2,17 @@ import graphql from '../fetchGraphQL'
 import cartCreateMutation from '../Cart/cartCreateMutation'
 import cartDeleteMutation from '../Cart/cartDeleteMutation'
 import cartTitleDeleteMutation from '../Cart/cartTitleDeleteMutation'
-import cartTitleUpdateQuantityMutation from '../Cart/cartTitleUpdateQuantityMutation'
+import cartTitleUpdateMutation from '../Cart/cartTitleUpdateMutation'
 import cartSubmitMutation from '../Cart/cartSubmitMutation'
 
 /* VIEWER TYPES AND CREATORS */ 
 const cart = { 
-  SELECT_TITLE: 
-  {
-      type: 'SELECT_TITLE',   
-      creator: (title) => {
-        return { type: 'SELECT_TITLE', selectedTitle: title }
-      }
-  },
 
-  SELECT_CART: 
+  CART_SELECT: 
   {
-      type: 'SELECT_CART',   
-      creator: (cart) => {
-        return { type: 'SELECT_CART', selectedCart: cart }
+      type: 'CART_SELECT',   
+      creator: (cartId) => {
+        return { type: 'CART_SELECT', cartId: cartId }
       }
   },
 
@@ -101,7 +94,7 @@ const cart = {
   {
       type: 'INVOICE_SUCCESS',   
       creator: (payload) => {
-        return { type: 'INVOICE_SUCCESS', payload: payload.viewer.user.vendor.order[0] }
+        return { type: 'INVOICE_SUCCESS', payload: payload.viewer.cart }
       }
   },
 
@@ -136,16 +129,6 @@ const cart = {
     
   },
 
-
-  TOGGLE_SIMPLE_CART: 
-  {
-    type: 'TOGGLE_SIMPLE_CART',   
-    creator: () => {
-      return { type: 'TOGGLE_SIMPLE_CART' }
-    } 
-    
-  },
-
   CART_UPDATE_FORM: 
   {
     type: 'CART_UPDATE_FORM',   
@@ -163,29 +146,29 @@ const cart = {
     }
   },
 
-  CART_UPDATE_TITLE_QUANTITY: 
+  CART_UPDATE_TITLE: 
   {
-    type: 'CART_UPDATE_TITLE_QUANTITY',   
-    creator: (cartIndex, titleIndex, cartId, titleId, quantity) => {
+    type: 'CART_UPDATE_TITLE',   
+    creator: (attributes) => {
       
       const actions = {
-        pending: cart.CART_TITLE_UPDATE_QUANTITY_PENDING.creator,
-        success: cart.CART_TITLE_UPDATE_QUANTITY_SUCCESS.creator,
+        pending: cart.CART_TITLE_UPDATE_PENDING.creator,
+        success: cart.CART_TITLE_UPDATE_SUCCESS.creator,
         error: cart.CART_ERROR.creator
       }
 
-      const query = cartTitleUpdateQuantityMutation(cartIndex, titleIndex, cartId, titleId, quantity)
+      const query = cartTitleUpdateMutation(attributes)
       return graphql(query, actions)
 
     } 
     
   },
 
-  CART_TITLE_UPDATE_QUANTITY_PENDING: 
+  CART_TITLE_UPDATE_PENDING: 
   {
-    type: 'CART_TITLE_UPDATE_QUANTITY_PENDING',   
+    type: 'CART_TITLE_UPDATE_PENDING',   
     creator: (variables) => {
-      return { type: 'CART_TITLE_UPDATE_QUANTITY_PENDING', variables }
+      return { type: 'CART_TITLE_UPDATE_PENDING', variables }
     } 
     
   },
@@ -193,14 +176,14 @@ const cart = {
   CART_DELETE: 
   {
     type: 'CART_DELETE',   
-    creator: (REMOTEADDR) => {
+    creator: (variables) => {
       const actions = {
         pending: cart.CART_PENDING.creator,
         success: cart.CART_DELETE_SUCCESS.creator,
         error: cart.CART_ERROR.creator
       }
 
-      const query = cartDeleteMutation(REMOTEADDR);
+      const query = cartDeleteMutation(variables);
 
       return graphql(query, actions)
     }
@@ -226,7 +209,7 @@ const cart = {
   CART_DELETE_TITLE: 
   {
     type: 'CART_DELETE_TITLE',   
-    creator: ({cartId, isbn}) => {
+    creator: (variables) => {
 
       const actions = {
         pending: cart.CART_DELETE_TITLE_PENDING.creator,
@@ -234,7 +217,7 @@ const cart = {
         error: cart.CART_ERROR.creator
       }
 
-      const query = cartTitleDeleteMutation(cartId, isbn);
+      const query = cartTitleDeleteMutation(variables);
 
       return graphql(query, actions)
     } 
@@ -247,11 +230,11 @@ const cart = {
     creator: (props) => {
       let p = {...props}
       delete p.INDEX;
-      delete p.details;
+      delete p.items;
       delete p.invoice;
       p.ISCOMPLETE = true
 
-      const query = cartSubmitMutation({cartIndex: props.INDEX, properties: p})
+      const query = cartSubmitMutation({input:p})
       
       const actions = {
         pending: cart.CART_SAVE_PENDING.creator,
@@ -293,11 +276,11 @@ const cart = {
         return { type: 'CART_SAVE_ERROR', errors }
       }
   },
-  CART_TITLE_UPDATE_QUANTITY_SUCCESS: 
+  CART_TITLE_UPDATE_SUCCESS: 
   {
-      type: 'CART_TITLE_UPDATE_QUANTITY_SUCCESS',   
+      type: 'CART_TITLE_UPDATE_SUCCESS',   
       creator: (payload) => {
-        return { type: 'CART_TITLE_UPDATE_QUANTITY_SUCCESS', payload: payload.carttitleupdatequantity.user.vendor.carts }
+        return { type: 'CART_TITLE_UPDATE_SUCCESS', payload: payload.updateCartTitle }
       }
   },
 
@@ -312,8 +295,8 @@ const cart = {
   CART_DELETE_SUCCESS: 
   {
       type: 'CART_DELETE_SUCCESS',   
-      creator: (payload) => {
-        return { type: 'CART_DELETE_SUCCESS', payload: payload.deletecart.user.vendor }
+      creator: (data) => {
+        return { type: 'CART_DELETE_SUCCESS', viewer:data.deleteCart }
       }
   },
 
@@ -329,15 +312,16 @@ const cart = {
   {
       type: 'CART_DELETE_TITLE_SUCCESS',   
       creator: (payload) => {
-        return { type: 'CART_DELETE_TITLE_SUCCESS', payload: payload.carttitledelete.user.vendor.carts  }
+        console.log(payload, 77)
+        return { type: 'CART_DELETE_TITLE_SUCCESS', data: payload.deleteCartTitle  }
       }
   },
 
   CART_CREATE_SUCCESS: 
   {
       type: 'CART_CREATE_SUCCESS',   
-      creator: (payload) => {
-        return { type: 'CART_CREATE_SUCCESS', payload: payload.createcart.user.vendor.carts  }
+      creator: (data) => {
+        return { type: 'CART_CREATE_SUCCESS', data: data.createCart  }
       }
   },
 

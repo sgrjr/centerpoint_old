@@ -46,9 +46,10 @@ Cart.propTypes = {
   };
 
 const mapStateToProps = (state)=>{
+
 return {
     cart: state.viewer.cart,
-    carts: state.viewer.vendor.carts,
+    carts: state.viewer.vendor? state.viewer.vendor.carts:{data:[]},
     cartscount: state.viewer.vendor?state.viewer.vendor.cartsCount:0,
     form: state.forms.title,
     cartFocus: state.viewer.cart.cart
@@ -60,17 +61,17 @@ const mapDispatchToProps = dispatch => {
       cartGet: (query) => {
         dispatch(actions.cart.CART_GET.creator(query))
       },
-      deleteFromCart: (cartId, titleId)=>{
-        dispatch(actions.cart.CART_DELETE_TITLE.creator(cartId, titleId))
+      deleteFromCart: (vars)=>{
+        dispatch(actions.cart.CART_DELETE_TITLE.creator(vars))
       },
       createCart: ()=>{
         dispatch(actions.cart.CART_CREATE.creator())
       },
-      deleteCart: (cartId)=>{
-        dispatch(actions.cart.CART_DELETE.creator(cartId))
+      deleteCart: (variables)=>{
+        dispatch(actions.cart.CART_DELETE.creator(variables))
       },
-      updateTitleQuantity: (cartIndex, titleIndex, cartId, titleId, quantity)=>{
-        dispatch(actions.cart.CART_UPDATE_TITLE_QUANTITY.creator(cartIndex, titleIndex, cartId, titleId, quantity))
+      updateTitleQuantity: (attributes)=>{
+        dispatch(actions.cart.CART_UPDATE_TITLE.creator(attributes))
       }, 
       updateCartForm: (index, key, value)=>{
         dispatch(actions.cart.CART_UPDATE_FORM.creator(index, key, value))
@@ -80,6 +81,9 @@ const mapDispatchToProps = dispatch => {
       }, 
       cartSave: (cartId)=>{
         dispatch(actions.cart.CART_SAVE.creator(cartId))
+      }, 
+      selectCart: (cartId)=>{
+        dispatch(actions.cart.CART_SELECT.creator(cartId))
       }
     }
   }

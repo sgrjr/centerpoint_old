@@ -21,15 +21,15 @@ class AddToCart extends Component{
 
     componentWillReceiveProps(newProps){
       if(newProps.post && newProps.post !== this.props.post){
-        this.sendTitleToCart(newProps);
+        this.sendTitleToCart();
       }
     }
-    sendTitleToCart(props){
+    sendTitleToCart(){
 
       const query = {
         query: `mutation($REMOTEADDR: String!, $ISBN: String!, $QTY: Int!) {
-        createCartTitle(input:{REMOTEADDR: $REMOTEADDR, ISBN: $ISBN, QTY: $QTY}){
-
+        createCartTitle(REMOTEADDR: $REMOTEADDR, PROD_NO: $ISBN, REQUESTED: $QTY){
+          user{
               vendor {
                 carts(first:100){
                   paginatorInfo{
@@ -44,35 +44,31 @@ class AddToCart extends Component{
                     TRANSNO
                     REMOTEADDR
                     items{
+                      id
                       INDEX
                       PROD_NO
                       TITLE
                       REQUESTED
                       SALEPRICE
-                      defaultImage
+                      coverArt
                     }
                   }
                 }
               
             }
           }
+        }
       }`,
     variables: {
-      REMOTEADDR: props.selectedCart,
-      ISBN: props.selectedTitle,
-      QTY: props.selectedQuantity
+      REMOTEADDR: this.props.selectedCart,
+      ISBN: this.props.title.ISBN,
+      QTY: this.props.selectedQuantity
     }
   };
 
       this.props.addTitleToCart(query);
     }
 
-    selectTitle(){
-      if(this.props.viewer.vendor.carts.data.length < 1){
-        this.props.cartGet(cartQuery({perPage:20}))
-      }
-      this.props.selectTitle(this.props.title.ISBN)
-    }
 
     render(){ 
       const {authenticated, open, viewer, cart, toggleSimpleCarts, title } = this.props
@@ -80,8 +76,6 @@ class AddToCart extends Component{
       if(title === undefined || title.STATUS === undefined || title.STATUS === null){
         return null
       }
-
-
       
       const status = title.STATUS.toLowerCase().split(" ")
 
@@ -92,19 +86,8 @@ class AddToCart extends Component{
         if(cart.pending){
           return <Button disabled variant="outlined" style={{width:"100%"}}><CircularProgress color="primary"/>loading cart ...</Button>
         }else if(authenticated && title.STATUS !== "Out of Print"){
-          
           return (<div>
-          <Button variant="outlined" style={{width:"100%"}} onClick={this.selectTitle.bind(this)} type="button" >Add to Cart</Button>
-
-          <Dialog open={open} onBackdropClick={toggleSimpleCarts}>
-            <Button variant="outlined" onClick={toggleSimpleCarts}>X 
-            <Typography variant="h1" style={{fontSize:"2rem", textAlign:"center"}}>My Open Carts</Typography>
-            <Typography variant="body1" >Select the cart below to which you want to add this title. Or, create a new cart.</Typography>
-            <img src={title.coverArt} style={{width:"100px"}} />
-            </Button>
-            
-            <CartList simple={true} {...this.props}/> 
-          </Dialog>
+          <Button variant="outlined" style={{width:"100%"}} onClick={this.sendTitleToCart.bind(this)} type="button" >Add to Cart</Button>
          </div>)
       }else{
         return <Button variant="outlined" style={{width:"100%"}}><Link style={{width:"100%"}} to={"/login?return="+this.props.url}>Login to Order</Link></Button>;
@@ -118,8 +101,6 @@ AddToCart.propTypes = {
     title: PropTypes.object,
     carts: PropTypes.array,
     open: PropTypes.bool,
-    //selectedCart: [PropTypes.string, PropTypes.bool], error when value is false so disabling for now
-    //selectedTitle: PropTypes.string,
     selectedQuantity: PropTypes.number
   };
 
@@ -129,7 +110,6 @@ return {
     cart: state.viewer.cart,
     viewer: state.viewer,
     selectedCart: state.viewer.cart.selectedCart,
-    selectedTitle:state.viewer.cart.selectedTitle,
     selectedQuantity:state.viewer.cart.selectedQuantity,
     open: state.viewer.cart.open,
     post: state.viewer.cart.post
@@ -138,24 +118,12 @@ return {
 
 const mapDispatchToProps = dispatch => {
     return {
-      selectCart: (cart) => {
-        dispatch(actions.cart.SELECT_CART.creator(cart))
-      },
-      selectTitle: (title) => {
-        dispatch(actions.cart.SELECT_TITLE.creator(title))
-      },
-      selectTitleQuantity: (qty) => {
-        dispatch(actions.cart.SELECT_TITLE_QUANTITY.creator(qty))
-      },
       addTitleToCart: (query) => {
         dispatch(actions.cart.POST_TITLE_TO_CART.creator(query))
       },
       cartGet: (query) => {
         dispatch(actions.cart.CART_GET.creator(query))
-      },
-      toggleSimpleCarts: (query) => {
-        dispatch(actions.cart.TOGGLE_SIMPLE_CART.creator(query))
-      },
+      }
     }
   }
 

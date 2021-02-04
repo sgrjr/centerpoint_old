@@ -18,7 +18,7 @@ function ContactInfo(props) {
     <FormControl className={classes.form}>
 
       <TextField
-        id="standard-full-width"
+        className="standard-full-width"
         label="PO#"
         fullWidth
         margin="normal"
@@ -28,7 +28,7 @@ function ContactInfo(props) {
       />
 
       <TextField
-        id="standard-full-width"
+        className="standard-full-width"
         label="Company Name"
         fullWidth
         margin="normal"
@@ -46,7 +46,7 @@ function ContactInfo(props) {
         onChange={props.updateCheckout}
       />
       <TextField
-        id="standard-full-width"
+        className="standard-full-width"
         label="Street Address"
         fullWidth
         margin="normal"
@@ -55,7 +55,7 @@ function ContactInfo(props) {
         onChange={props.updateCheckout}
       />
       <TextField
-        id="standard-full-width"
+        className="standard-full-width"
         label="City, State, and Zip Code"
         fullWidth
         margin="normal"
@@ -64,7 +64,7 @@ function ContactInfo(props) {
         onChange={props.updateCheckout}
       />
       <TextField
-        id="standard-full-width"
+        className="standard-full-width"
         label="Memo"
         fullWidth
         margin="normal"

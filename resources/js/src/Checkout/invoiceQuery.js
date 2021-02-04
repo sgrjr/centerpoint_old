@@ -2,11 +2,11 @@ export default (variables) => {
 
   return {
 
-    query:`query ( $perPage:Int, $filters: OrderHeadInput) {
+    query:`query ( $REMOTEADDR:String!) {
       viewer {
-        user {
-          vendor {
-            order (age:"web", perPage:$perPage, filters:$filters){
+
+            cart (REMOTEADDR:$REMOTEADDR){
+              id
               INDEX
               KEY
               DATE
@@ -19,7 +19,8 @@ export default (variables) => {
               BILL_3
               BILL_4
               CINOTE
-              details{
+              items{
+                id
                 INDEX
                 PROD_NO
                 TITLE
@@ -55,8 +56,8 @@ export default (variables) => {
               }
             }
           }
-        }
-      }
+        
+      
     }  
     `, 
     variables: variables

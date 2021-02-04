@@ -3,10 +3,10 @@ import Button from '@material-ui/core/Button'
 import ContactInfo from './ContactInfo'
 import Divider from '@material-ui/core/Divider'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
+import { Accordion } from '@material-ui/core'
+import AccordionDetails from '@material-ui/core/AccordionActions'
+import AccordionActions from '@material-ui/core/AccordionActions'
+import AccordionSummary from '@material-ui/core/AccordionSummary'
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'
 import OrderSummary from './OrderSummary'
@@ -32,20 +32,20 @@ function Checkout(props) {
 
   return (
     <>
-      <Typography variant="h2">Checkout {props.data.invoice.title}</Typography>
-      <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-        <ExpansionPanelSummary
+      <Typography variant="h2">{props.data.invoice.title}</Typography>
+      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+        <AccordionSummary 
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="step-1-header"
         >
           <Typography><strong>Step 1:</strong> Review Items</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        </AccordionSummary >
+        <AccordionDetails>
           <OrderSummary {...props}/>
-        </ExpansionPanelDetails>
+        </AccordionDetails>
         <Divider />
-        <ExpansionPanelActions>
+        <AccordionActions>
           <Button
             variant="contained"
             color="primary"
@@ -54,21 +54,21 @@ function Checkout(props) {
           >
             Next Step
           </Button>
-        </ExpansionPanelActions>
-      </ExpansionPanel>
-      <ExpansionPanel expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-        <ExpansionPanelSummary
+        </AccordionActions>
+      </Accordion>
+      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+        <AccordionSummary 
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="step-2-header"
         >
           <Typography><strong>Step 2:</strong> Review Billing Information</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        </AccordionSummary >
+        <AccordionDetails>
           <ContactInfo {...props}/>
-        </ExpansionPanelDetails>
+        </AccordionDetails>
         <Divider />
-        <ExpansionPanelActions className={classes.footer}>
+        <AccordionActions className={classes.footer}>
           <Button
             startIcon={<NavigateBeforeIcon/>}
             onClick={()=> handleClick('panel1')}
@@ -82,8 +82,8 @@ function Checkout(props) {
           >
             Submit Order
           </Button>
-        </ExpansionPanelActions>
-      </ExpansionPanel>
+        </AccordionActions>
+      </Accordion>
     </>
   )
 }

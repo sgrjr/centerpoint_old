@@ -1,14 +1,10 @@
-export default (REMOTEADDR, ISBN) => {
-  let variables = {}
-  variables.REMOTEADDR = REMOTEADDR;
-  variables.ISBN = ISBN;
+export default (variables) => {
 
   return {
-    query:`  mutation ($REMOTEADDR:String, $ISBN:String!){
-      cartTitleDelete(REMOTEADDR:$REMOTEADDR, ISBN:$ISBN){
-
+    query:`  mutation ($id:Int!){
+      deleteCartTitle(id: $id){
                       vendor {
-                        carts {
+                        carts (first:100){
                          data{
                            INDEX
                             KEY
@@ -18,12 +14,13 @@ export default (REMOTEADDR, ISBN) => {
                             REMOTEADDR
                             ISCOMPLETE
                             items{
+                              id
                               INDEX
                               PROD_NO
                               TITLE
                               REQUESTED
                               SALEPRICE
-                              coverArts
+                              coverArt
                               AUTHORKEY
                               url
                             }

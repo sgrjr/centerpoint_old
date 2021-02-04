@@ -1,8 +1,9 @@
 export default (variables) => {
 
   return {
-    query:`  mutation ($cartIndex:Int, $properties: OrderHeadInput){
-                updateCart(cartIndex:$cartIndex, properties: $properties){
+    query:`  mutation ($input: UpdateCartInput!){
+                updateCart(input: $input){
+                          id
                           INDEX
                           KEY
                           DATE
@@ -10,7 +11,17 @@ export default (variables) => {
                           TRANSNO
                           REMOTEADDR
                           ISCOMPLETE
+                          ATTENTION
+                          EMAIL
+                          CINOTE
+                          CXNOTE
+                          BILL_1
+                          BILL_2
+                          BILL_3
+                          BILL_4
+                          
                           items{
+                            id
                             INDEX
                             PROD_NO
                             TITLE

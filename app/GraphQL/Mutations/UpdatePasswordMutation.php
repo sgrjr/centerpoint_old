@@ -50,7 +50,8 @@ class UpdatePasswordMutation extends Mutation
         $w->$key = $val;
       }
       
-      $w->saveChanges();
+        $w->dbfSave();
+        $w->save();
       return $w;
     }
 }

@@ -53,6 +53,7 @@ function OrderSummary(props) {
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell></TableCell>
             <TableCell>Title</TableCell>
             <TableCell>ISBN</TableCell>
             <TableCell>Qty.</TableCell>
@@ -61,8 +62,10 @@ function OrderSummary(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-        	{cart.details.map((item, index) => (
+        	{cart.items.map((item, index) => (
             <TableRow key={ index }>
+            <TableCell><a href={item.url} target="_blank" rel="noopener noreferrer"><img style={{width:"75px"}} src={item.coverArt}/></a></TableCell>
+
               <TableCell component="th" scope="row">
                 <Typography className={classes.title}>{item.TITLE}</Typography>
                 <Typography className={classes.author}>By {item.AUTHORKEY}</Typography>

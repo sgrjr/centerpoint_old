@@ -6,6 +6,6 @@ interface ModelInterface {
     public function dropTable();
     public function emptyTable();
     public function delete();
-    public function saveChanges();
+    public function dbfSave();
     public function schema($table);
 }

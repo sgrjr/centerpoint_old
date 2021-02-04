@@ -16,7 +16,7 @@ class Index extends React.Component {
     }
  
     load(){
-     this.props.invoiceGet(invoiceQuery({perPage:20, filters:{REMOTEADDR: this.props.match.params.cartid}}))
+     this.props.invoiceGet(invoiceQuery({REMOTEADDR: this.props.match.params.cartid}))
     }
 
   componentDidUpdate(nextProps) {
@@ -54,9 +54,9 @@ Index.propTypes = {
 };
 
 const mapStateToProps = (state)=>{
-return {
-  cart: state.cart
-   }
+  return {
+    cart: state.viewer.cart
+     }
 }
 
 const mapDispatchToProps = dispatch => {

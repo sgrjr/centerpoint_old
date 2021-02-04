@@ -40,8 +40,7 @@ protected $attributeTypes = [
     return $table;
    }
 
-   public function saveChanges(){
-       $this->save();
-       return $this;
+   public function dbfSave(){
+    return $this;
    }
 }

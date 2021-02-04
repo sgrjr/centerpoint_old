@@ -74,6 +74,7 @@ export default {
                           REMOTEADDR
                           ISCOMPLETE
                           items {
+                            id
                               INDEX
                               PROD_NO
                               TITLE

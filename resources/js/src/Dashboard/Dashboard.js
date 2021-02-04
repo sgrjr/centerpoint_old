@@ -260,7 +260,7 @@ Dashboard.propTypes = {
 
 const mapStateToProps = (state)=>{
 return {
-    user: state.viewer.user,
+    user: state.viewer,
     photo: state.forms.photo,
     links: state.viewer.links.drawer,
     mytitles: state.viewer.mytitles

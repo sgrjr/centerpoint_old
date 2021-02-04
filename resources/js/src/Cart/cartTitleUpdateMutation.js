@@ -1,15 +1,9 @@
-export default (cartIndex, titleIndex, cartId, titleId, quantity) => {
-  let variables = {}
-  variables.REMOTEADDR = cartId;
-  variables.ISBN = titleId;
-  variables.REQUESTED = quantity;
-  variables.cartIndex = cartIndex
-  variables.titleIndex = titleIndex
+export default (attributes) => {
 
   return {
-    query:`mutation ($REMOTEADDR:String!, $ISBN:String!, $REQUESTED:Int!){
-      updateCartTitle(REMOTEADDR:$REMOTEADDR, ISBN:$ISBN, REQUESTED: $REQUESTED){
-                    user {
+    query:`mutation ($id:Int!, $REQUESTED:Int){
+      updateCartTitle(id:$id, REQUESTED: $REQUESTED){
+        user {
                       vendor {
                         carts(first:100){
                           paginatorInfo{
@@ -25,7 +19,8 @@ export default (cartIndex, titleIndex, cartId, titleId, quantity) => {
                             TRANSNO
                             REMOTEADDR
                             ISCOMPLETE
-                            details{
+                            items{
+                              id
                               INDEX
                               PROD_NO
                               TITLE
@@ -43,7 +38,7 @@ export default (cartIndex, titleIndex, cartId, titleId, quantity) => {
                   }
             }  
           `, 
-    variables: variables
+    variables: attributes
   }
   
   };

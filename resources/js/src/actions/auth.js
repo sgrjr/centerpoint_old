@@ -114,7 +114,7 @@ const auth = {
             EMAIL
             name
                 vendor{
-                  carts(perPage:1000){
+                  carts(first:1000){
                     paginatorInfo{
                       count
                     }

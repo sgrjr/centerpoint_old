@@ -1,10 +1,8 @@
-export default (REMOTEADDR) => {
-  let variables = {}
+export default (variables) => {
 
   return {
-    query:`  mutation ($REMOTEADDR:String){
-                deleteCart(REMOTEADDR:$REMOTEADDR){
-                    user {
+    query:`  mutation ($REMOTEADDR:String!){
+                deleteCart(input:{REMOTEADDR:$REMOTEADDR}){
                       vendor {
                         carts(first:100){
                          data{
@@ -29,7 +27,6 @@ export default (REMOTEADDR) => {
                         }
                       }
                     }
-                  }
             }  
           `, 
     variables: variables

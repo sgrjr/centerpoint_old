@@ -5,8 +5,8 @@ export default (REMOTEADDR, ISBN) => {
 
   return {
     query:`  mutation ($REMOTEADDR:String, $ISBN:String!){
-      carttitledelete(REMOTEADDR:$REMOTEADDR, ISBN:$ISBN){
-                    user {
+      deleteCartTitle(input:{REMOTEADDR:$REMOTEADDR, ISBN:$ISBN}){
+
                       vendor {
                         carts {
                           INDEX
@@ -16,20 +16,19 @@ export default (REMOTEADDR, ISBN) => {
                           TRANSNO
                           REMOTEADDR
                           ISCOMPLETE
-                          details{
+                          items{
                             INDEX
                             PROD_NO
                             TITLE
                             REQUESTED
                             SALEPRICE
-                            defaultImage
+                            coverArt
                             AUTHORKEY
                             url
                           }
                         }
                       }
                     }
-                  }
             }  
           `, 
     variables: variables

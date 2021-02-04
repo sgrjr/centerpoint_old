@@ -51,4 +51,5 @@ type OrderItem {
     EDI: String
     CARTON: String
     SHIPMENT: String
+    user: User
 }

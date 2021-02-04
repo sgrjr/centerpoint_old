@@ -14,7 +14,8 @@ export default {
 		        remoteaddr: null,
 		        data: {
 		            ISCOMPLETE: false,
-		            details:[],
+		            PO_NUMBER:"",
+		            items:[],
 		            invoice:{
 		                totaling:{
 		                    subtotal:0,

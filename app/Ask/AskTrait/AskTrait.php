@@ -22,37 +22,10 @@ trait AskTrait {
        return new \App\Ask\XmlQueryBuilder($root);
     }
 
-    public function saveChanges(){
-
-        if(\Schema::hasTable($this->getTable()) ){
-            $this->save();
-        }
-        
-        $this->saveToDbf();
-        
-        return $this;
-    }
-
-    public function deleteRecord(){
-        if(\Schema::hasTable($this->getTable()) ){
-            $this->delete();
-        }else{
-            $this->deleteFromDbf();
-        }
-        return $this;
-    }
-
- public function deleteFromDbf()
+ public function dbfDelete()
     {
         $table = $this->dbf(true)->getTable();
         if(is_array($table)){$table = $table[0];}
-
-        // If the "saving" event returns false we'll bail out of the save and return
-        // false, indicating that the save failed. This provides a chance for any
-        // listeners to cancel save operations if validations fail or whatever.
-        if ($this->fireModelEvent('saving') === false) {
-            return false;
-        }
 
         // If the model already exists in the database we can just delete our record
         // that is already in this database using the current IDs in this "where"
@@ -68,18 +41,11 @@ trait AskTrait {
         return $this;
     }
 
- public function saveToDbf()
+ public function dbfSave()
     {
         $table = $this->dbf(true)->getTable();
 
         if(is_array($table)){$table = $table[0];}
-
-        // If the "saving" event returns false we'll bail out of the save and return
-        // false, indicating that the save failed. This provides a chance for any
-        // listeners to cancel save operations if validations fail or whatever.
-        if ($this->fireModelEvent('saving') === false) {
-            return false;
-        }
 
         $table->open();
 
@@ -102,7 +68,7 @@ trait AskTrait {
 
             $table->writeRecord();
 
-           return true;
+           return $this->INDEX;
         }
 
         // If the model is brand new, we'll insert it into our database and set the
@@ -129,16 +95,18 @@ trait AskTrait {
 	        // We will go ahead and set the exists property to true, so that it is set when
 	        // the created event is fired, just in case the developer tries to update it
 	        // during the event. This will allow them to do so and run an update here.
-	        $this->exists = true;
+	        //$this->exists = true;
 	        $this->wasRecentlyCreated = true;
 	        //$this->fireModelEvent('created', false);
-	        $saved = true;
+	        $saved = $table->getRecordCount()-1;
         }
 
         if ($saved) {
             //$this->finishSave($options);
         }
+        
         $table->close();
+
         return $saved;
     }
 

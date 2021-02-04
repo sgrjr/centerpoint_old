@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => createStyles ({
 const options = ()=>{
   let i = 0;
   let items = []
-  while(i < 20){
+  while(i < 100){
     i++;
     items.push(<MenuItem key={i} value={i}>{i}</MenuItem>)
   }
@@ -84,13 +84,14 @@ const options = ()=>{
 }
 
 function CartItem(props) {
+  console.log(props)
   const theme = useTheme()
 	const classes = useStyles(theme)
   //@TODO: Add function to update Quantity state on quantity select change
   return (
     <ListItem className={classes.container}>
     	<div className={classes.imageContainer} style={{background:"#3F51B5"}}>
-    		<img className={classes.image} src={props.coverArt} alt={`${props.TITLE} cover`}/>
+    		<img className={classes.image} src={`${props.coverArt}`} alt={`${props.TITLE} cover`}/>
     	</div>
     	<Typography variant="h3" className={classes.title}><Link to={"/isbn/"+props.PROD_NO}>{props.TITLE}</Link></Typography>
     	<Typography className={classes.author}>By {props.AUTHORKEY}</Typography>
@@ -103,7 +104,10 @@ function CartItem(props) {
           id={'quantity'}
           value={props.REQUESTED}
           className={classes.quantitySelect}
-          onChange={(e)=>{props.updateTitleQuantity(props.cartIndex, props.titleIndex, props.cartId, props.PROD_NO, e.target.value)}}
+          onChange={(e)=>{
+            let attributes = {id: props.id, REQUESTED:e.target.value}
+            props.updateTitleQuantity(attributes)
+          }}
         >
 
           {options()}
@@ -115,7 +119,7 @@ function CartItem(props) {
       	size="small"
         className={classes.remove}
         color="secondary"
-        onClick={()=>{props.deleteFromCart({cartId:props.cartId , isbn: props.PROD_NO})}}
+        onClick={()=>{props.deleteFromCart({id: props.id})}}
       >
       	Remove
       </Button>

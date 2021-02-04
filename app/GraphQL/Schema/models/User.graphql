@@ -1,6 +1,9 @@
 type User {
 	application: Application
 	vendor: Vendor @belongsTo
+
+	cart(REMOTEADDR:String!): Order @field(resolver: "App\\Webhead@getMyCart")
+	
 	photo: String
 	id: ID!
 	token: String

@@ -1,9 +1,9 @@
 export default () => {
-  let variables = {}
+  let variables = {input:{}}
 
   return {
-    query:`  mutation {
-                createCart {
+    query:`  mutation ($input: CreateCartInput!){
+                createCart (input:$input) {
                       vendor {
                         carts(first:100){
                           data{

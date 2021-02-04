@@ -7,11 +7,11 @@ type Mutation {
     loginUser(input: LoginUserInput!): User @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator")
     logoutUser: Application @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@logoutUser")
     
-    createCart(input: CreateCartInput): User @field(resolver: "App\\GraphQL\\Mutations\\CreateCartMutator")
+    createCart(input: CreateCartInput!): User @field(resolver: "App\\GraphQL\\Mutations\\CreateCartMutator")
     deleteCart(input: DeleteCartInput!): User @field(resolver: "App\\GraphQL\\Mutations\\DeleteCartMutator")
-    updateCart(input: UpdateCartInput!): User @field(resolver: "App\\GraphQL\\Mutations\\UpdateCartMutator")
+    updateCart(input: UpdateCartInput!): Order @field(resolver: "App\\Webhead@updateMyCart")
 
-    createCartTitle(input: CreateCartTitleInput!): User @field(resolver: "App\\GraphQL\\Mutations\\CreateCartTitleMutator")
-    deleteCartTitle(input: DeleteCartTitleInput!): User @field(resolver: "App\\GraphQL\\Mutations\\DeleteCartTitleMutator")
-    updateCartTitle(input: UpdateCartTitleInput!): User @field(resolver: "App\\GraphQL\\Mutations\\UpdateCartTitleMutator")
+    createCartTitle(REMOTEADDR: String!, REQUESTED: Int, PROD_NO: String!): OrderItem @create(model: "App\\Webdetail")
+    deleteCartTitle(id: Int!): User @field(resolver: "App\\Webdetail@deleteMyTitleFromCart")
+    updateCartTitle(id: Int!, REMOTEADDR: String, REQUESTED: Int, PROD_NO: String): OrderItem @update(model:"\\App\\Webdetail")
 }

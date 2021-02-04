@@ -21,17 +21,9 @@ class DeleteCartMutator
     {
         $user = request()->user();
 
-         if(isset($args["cartIndex"])){
-            $w = \App\Webhead::dbf()->index($args["cartIndex"]);
-        }else{
-            $w = \App\Webhead::dbf()
-                ->where("REMOTEADDR", "===",$args['input']["REMOTEADDR"])
-                ->first();
-        }
-      
-       $w->deleteCart($user, $args);
+        \App\Webhead::deleteCart($user, $args);
 
-      return $user;
+        return $user;
     }
 
 

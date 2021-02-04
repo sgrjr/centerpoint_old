@@ -94,7 +94,8 @@ class CartController extends Controller
           case "change_title_quantity":
             $record = \App\WebDetail::ask(true)->setIndex($request->input('index'))->first(["REQUESTED"]);
             $record->REQUESTED = $request->input('qty');
-            $record->saveChanges();
+            $record->dbfSave();
+            $record->save();
 
             break;
 
@@ -132,8 +133,8 @@ class CartController extends Controller
           case "update_po":
             $record = \App\WebHead::ask(true)->setIndex($request->input('index'))->first(["PO_NUMBER"]);
             $record->PO_NUMBER = $request->input('po');
-            $record->saveChanges();
-
+            $record->dbfSave();
+            $record->save();
             break;
 
           case "add_to_cart":
@@ -149,9 +150,9 @@ class CartController extends Controller
             $name = $request->input('attribute_name');
             $record = \App\WebHead::ask(true)->setIndex($request->input('index'))->first([$name]);
             $record->$name = $request->input('attribute_value');
-            $record->saveChanges();
+            $record->dbfSave();
+            $record->save();
             break;
-
         }
         
         return $this->attempt($request, true, $redirect);

@@ -44,11 +44,19 @@ trait HeadTrait {
       return $invoiceDates;
 	}
 
-    public function invoiceVars($invoiceTitle="Invoice", $thanks=false, $invoiceMemo=false, $footerMemo=false){
+	public function getInvoiceAttribute(){
+		return $this->invoiceVars();
+	}
+    public function invoiceVars(){
+
+    	$invoiceTitle="Invoice";
+    	$thanks=false;
+    	$invoiceMemo=false;
+    	$footerMemo=false;
 
 		switch(get_class($this)){
 
-			case 'App\WebHead':
+			case 'App\Webhead':
 
 				if($this->ISCOMPLETE){
 					$invoiceTitle="Processing";
@@ -57,7 +65,7 @@ trait HeadTrait {
 				}
 				break;
 
-			case 'App\BackHead':
+			case 'App\Backhead':
 				$invoiceTitle="Back Ordered";
 				break;
 			default:
@@ -68,7 +76,7 @@ trait HeadTrait {
 		$invoiceMemo = $invoiceMemo? $invoiceMemo:"<u>Memo</u>: <b>Invoice memo notes</b>";
 		$footerMemo = $footerMemo? $footerMemo:"footer memo";
 		$bodyHeadings = ["ISBN","TITLE","REQUESTED", "SALEPRICE"];
-		$items = $this->getDetailsConnection()->records;
+		
 		$invoiceDates = [];
   
 		if($this->PO_NUMBER !== "" && $this->PO_NUMBER !== null){
@@ -103,15 +111,13 @@ trait HeadTrait {
   
 	public function cartTotaling(){
 
-			$items = $this->getDetailsConnection()->records;
-  
-		  $shipping = $this->SHIPPING;
+		  $shipping = $this->SHIPPING? $this->SHIPPING:0;
 		  $paid = $this->PAIDAMOUNT;        
 		  $subtotal = 0.00;
   
 		  $itemTotals = [];
   
-		  foreach($items AS $book ){
+		  foreach($this->items AS $book ){
 			$cost = $book->SALEPRICE * $book->REQUESTED;
 			$subtotal = number_format($subtotal+$cost,2);
 		  }
@@ -134,7 +140,6 @@ trait HeadTrait {
 			  "paid"=>$paid, 
 			  "grandtotal"=>$grandtotal
 		  ];
-  
 		  return $totaling;
 		}
 

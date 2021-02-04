@@ -12,6 +12,9 @@ class SetupController extends BaseController
 
     public function index(Request $request)
     {		
+
+    	//dd(\App\User::where('KEY',"0484900000044")->first()->vendor->carts);
+
 		if(\Schema::hasTable('users') && \Schema::hasTable('roles') && \Schema::hasTable('role_user')){
 			
 			try {

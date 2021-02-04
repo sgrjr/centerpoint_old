@@ -69,12 +69,6 @@ input DeleteCartTitleInput {
     ISBN: String!
 }
 
-input UpdateCartTitleInput {
-    REMOTEADDR: String!
-    ISBN: String!
-    REQUESTED: Int
-}
-
 input CreateCartInput {
     PO_NUMBER: String
 }
@@ -84,13 +78,13 @@ input DeleteCartInput {
 }
 
 input UpdateCartInput {
-    REMOTEADDR: String!
+    id: Int!
+    REMOTEADDR: String
     ATTENTION: String
     BILL_1: String
     BILL_2: String
     BILL_3: String
     BILL_4: String  
-    ROOM: String
     STREET: String
     ROOM: String
     DEPT: String
@@ -106,4 +100,7 @@ input UpdateCartInput {
     CINOTE: String
     CXNOTE: String
     ISCOMPLETE: Boolean
+    TRANSNO: String
+    DATE: String
+    KEY: String
 }

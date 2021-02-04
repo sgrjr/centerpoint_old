@@ -18,10 +18,23 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
         case actions.application.APP_UPDATE_SUCCESS.type:
         case actions.application.APP_SUCCESS.type:
         case actions.viewer.VIEWER_SUCCESS.type:
+
+            let selectedCart = state.cart.selectedCart
+
+            if(selectedCart === false && action.payload.viewer){
+                if(action.payload.viewer.vendor && action.payload.viewer.vendor.carts.data.length >= 1){
+                    selectedCart = action.payload.viewer.vendor.carts.data[0].REMOTEADDR
+                } 
+            }
+
             return {
                 ...state,
                 pending: false,
-                ...action.payload.viewer
+                ...action.payload.viewer,
+                cart: {
+                    ...state.cart,
+                    selectedCart: selectedCart
+                }
             }
         
         case actions.viewer.VIEWER_UPDATE_SUCCESS.type:
@@ -30,7 +43,7 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
                 pending:false,
                 user: {
                     ...state.user,
-                    vendor: {...action.payload.viewer.user.vendor}
+                    vendor: {...action.payload.viewer.vendor}
                 },
                 links: {
                     ...state.links,
@@ -87,12 +100,12 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
             ...state,
             vendor: {
                 ...state.vendor,
-                carts: action.payload.vendor.carts
+                carts: action.payload.user.vendor.carts
             },
             cart: {
                 ...state.cart,
                 post: false,
-                selectedCart: false,
+                selectedCart: state.cart.selectedCart? state.cart.selectedCart:action.payload.user.vendor.carts.data[0].REMOTEADDR,
                 selectedTitle: false,
                 pending:false
             }
@@ -104,10 +117,11 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
             ...state,
             vendor: {
                 ...state.vendor,
-                carts: action.payload.viewer.vendor.carts
+                carts: action.viewer.vendor.carts
             },
             cart: {
                 ...state.cart,
+                selectedCart: action.viewer.vendor.carts.data[0].REMOTEADDR,
                 pending:false
             }
      
@@ -130,7 +144,6 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
                 ...state.cart,
                 pending: false,
                 post: false,
-                selectedCart:false,
                 selectedTitle: false
             }
         }
@@ -155,7 +168,7 @@ case actions.cart.INVOICE_SUCCESS.type:
     case actions.cart.INVOICE_PENDING.type:
         let istate = {...state}
         istate.cart.checkout.pending = true
-        istate.cart.checkout.remoteaddr = action.variables.filters.REMOTEADDR
+        istate.cart.checkout.remoteaddr = action.variables.REMOTEADDR
         return istate
 
     case actions.cart.CART_SAVE_ERROR.type:
@@ -165,24 +178,14 @@ case actions.cart.INVOICE_SUCCESS.type:
         return iestate
 
 /** INOVICE END */
-    case actions.cart.SELECT_TITLE.type:
-        return {
-            ...state,
-            cart: {
-                ...state.cart,
-                selectedTitle: action.selectedTitle,
-                open: true,
-                pending: false
-            }
-        }
 
-    case actions.cart.SELECT_CART.type:
+    case actions.cart.CART_SELECT.type:
         return {
             ...state,
             cart:{
                 ...state.cart,
-                selectedCart: action.selectedCart,
-                open: false,
+                selectedCart: action.cartId,
+                open: true,
                 post: true,
                 pending: false
             }
@@ -207,17 +210,6 @@ case actions.cart.INVOICE_SUCCESS.type:
                     open: !state.cart.open
                 }
             }
-    
-        case actions.cart.TOGGLE_SIMPLE_CART.type:
-
-            return {
-                ...state,
-                cart: {
-                    ...state.cart,
-                    open: !state.open,
-                    selectedTitle: false
-                }
-            }
 
         case actions.cart.CART_UPDATE_FORM.type:
 
@@ -231,10 +223,23 @@ case actions.cart.INVOICE_SUCCESS.type:
 
         case actions.cart.CHECKOUT_UPDATE.type:
 
-            let chstate = Object.assign({}, state)
+            let data = {...state.cart.checkout.data}
+            data[action.input.name] = action.input.value
 
-            chstate.cart.checkout.data[action.input.name] = action.input.value
-            return chstate   
+            return {
+                ...state,
+                cart:{
+                    ...state.cart,
+                    checkout:{
+                        ...state.cart.checkout,
+                        data: {
+                            ...data
+                        }
+                    }
+                }
+            }
+            
+  
 
         case actions.cart.CART_DELETE_TITLE_SUCCESS.type:
         case actions.cart.CART_CREATE_SUCCESS.type:
@@ -242,7 +247,7 @@ case actions.cart.INVOICE_SUCCESS.type:
                 ...state,
                 vendor:{
                     ...state.vendor,
-                    carts:action.payload
+                    carts:action.data.vendor.carts
                 },
                 cart:{
                     ...state.cart,
@@ -275,7 +280,7 @@ case actions.cart.INVOICE_SUCCESS.type:
                 post: false    
             }
 
-            csns.carts.map(function(c, i){
+            csns.vendor.carts.map(function(c, i){
                 if(c.INDEX === action.payload.INDEX){
                     return  {...c, ...action.payload}
                 }else{
@@ -286,23 +291,32 @@ case actions.cart.INVOICE_SUCCESS.type:
             csns.cart.checkout.data = {...action.payload}
             return csns
 
-        case actions.cart.CART_TITLE_UPDATE_QUANTITY_PENDING.type:
-        
+        case actions.cart.CART_TITLE_UPDATE_PENDING.type:
+            /*
             let newcartstate =  {
                 ...state   
             }
-            const {cartIndex, titleIndex, REQUESTED} = action.variables;
-            newcartstate.vendor.carts[cartIndex].details[titleIndex].REQUESTED = REQUESTED
+            const {id, REQUESTED} = action.variables;
 
-            return newcartstate
+            newcartstate.vendor.carts.data.map(function(cart){
+                return cart.items.map(function(item){
+                    if(item.id === id){item.REQUESTED = REQUESTED}
+                    return item
+                })
+            })
 
-        case actions.cart.CART_TITLE_UPDATE_QUANTITY_SUCCESS.type:
+            return newcartstate;
+            */
+
+            return state
+
+        case actions.cart.CART_TITLE_UPDATE_SUCCESS.type:
     
             return  {
                 ...state,
                 vendor: {
                     ...state.vendor,
-                    carts: [...action.payload]
+                    ...action.payload.user.vendor
                 }
             }
 /* cart stuff end*/

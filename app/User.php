@@ -387,4 +387,5 @@ public function getMemo(){
             ->get()->records;
     }
 
+    
 }

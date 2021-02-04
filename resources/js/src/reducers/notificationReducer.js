@@ -48,6 +48,14 @@ export default (state = initState,action)=>{
             open: true,
             items:  [{message:"Cart loaded", severity:"success"}]
           }
+
+          case actions.cart.CART_DELETE_SUCCESS.type:
+          return {
+            ...state,
+            open: true,
+            items:  [{message:"Cart Deleted", severity:"success"}]
+          }
+
           case actions.cart.CART_TITLE_ADDED_SUCCESS.type:
             return {
               ...state,
@@ -69,14 +77,14 @@ export default (state = initState,action)=>{
                   items:  [{message:"Invoice loaded", severity:"success"}]
                 }
 
-      case actions.cart.CART_TITLE_UPDATE_QUANTITY_PENDING.type:
+      case actions.cart.CART_TITLE_UPDATE_PENDING.type:
         return {
           ...state,
           open: true,
           items:  [{message:"Title Quantity Pending: " + action.variables.REQUESTED +" ...", severity:"warning"}]
         }
 
-        case actions.cart.CART_TITLE_UPDATE_QUANTITY_SUCCESS.type:
+        case actions.cart.CART_TITLE_UPDATE_SUCCESS.type:
           return {
             ...state,
             open: true,

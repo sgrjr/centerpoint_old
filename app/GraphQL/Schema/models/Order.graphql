@@ -1,7 +1,7 @@
 type Order {
 	id: ID!
 	items: [OrderItem]
-	invoice: Invoice @field(resolver:"App\\Order@invoiceVars")
+	invoice: Invoice
 	INDEX: String
 	KEY: String
 	KICKBACK: String
