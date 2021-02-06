@@ -5,16 +5,39 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import Button from '@material-ui/core/Button';
 import { useHistory } from "react-router-dom";
 import BookCover from './BookCover'
 //import Paper from '@material-ui/core/Paper';
+import addTitleToCartQuery from '../Cart/addTitleToCartQuery'
 
 const viewmore = function(history, url) {
     history.push(url)
 }
 
+function getTitleBar(props, item, index){
+
+  if(!props.viewer.pending){
+    return ( <GridListTileBar
+              title={item.TITLE}
+              subtitle={"$" + item.LISTPRICE}
+              actionIcon={
+                <IconButton aria-label={`cart ${item.TITLE}`} style={{color: "inherit"}} onClick={function(){
+                  props.addTitleToCart(addTitleToCartQuery({
+                    REMOTEADDR: props.selectedCart,
+                    ISBN: item.ISBN,
+                    QTY: 1
+                  }));
+                }}>
+                  <AddShoppingCartIcon style={{color: "inherit"}}/>
+                </IconButton>
+              }
+            /> )
+  }else{
+    return null
+  }
+}
 export default function SingleLineGridList(props) {
     let history = useHistory();
 
@@ -56,15 +79,7 @@ export default function SingleLineGridList(props) {
           <Grid key={index} item xs={6} sm={3} style={{height:"inherit", margin:"inherit", padding:"inherit"}}>
           <GridListTile>
               <BookCover link={"/isbn/" + item.ISBN} image={"url(" + item.coverArt + ")"} />
-            <GridListTileBar
-              title={item.TITLE}
-              subtitle={"$" + item.LISTPRICE}
-              actionIcon={
-                <IconButton aria-label={`star ${item.TITLE}`} style={{color: "inherit"}}>
-                  <StarBorderIcon style={{color: "inherit"}}/>
-                </IconButton>
-              }
-            /> 
+              {getTitleBar(props, item, index)}
           </GridListTile>
           </Grid>
         ))}

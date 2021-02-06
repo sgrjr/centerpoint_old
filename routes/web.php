@@ -21,6 +21,7 @@ Route::get('auth/logout', 'Auth\LoginController@logout');
 /* CLIENT SIDE START */
 
 Route::get('/', 'IndexController@index');
+Route::get('/dashboard', 'IndexController@index');
 Route::get('/cp', 'IndexController@index');
 
 Route::get('/search', 'IndexController@search');
@@ -32,9 +33,9 @@ Route::get('/search/{string}/{category}', 'IndexController@search');
 Route::get('/admin/cms', 'IndexController@indexBlank');
 Route::get('/cms', 'IndexController@indexBlank');
 
-Route::get('/dashboard', 'DashboardController@index');
-Route::get('/dashboard/profile', 'DashboardController@index');
-Route::get('/dashboard/settings', 'DashboardController@index');
+//Route::get('/dashboard', 'DashboardController@index');
+//Route::get('/dashboard/profile', 'DashboardController@index');
+//Route::get('/dashboard/settings', 'DashboardController@index');
 
 Route::get('/cart', 'IndexController@index');
 Route::get('/cart/{transo}', 'IndexController@index');

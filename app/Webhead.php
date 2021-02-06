@@ -20,9 +20,20 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
     "_config"=>"webhead",
   ];
 
+    public function scopeIscomplete($query)
+    {
+        return $query->where('ISCOMPLETE', true);
+    }
+
+    public function scopeNotcomplete($query)
+    {
+        return $query->where('ISCOMPLETE', false);
+    }
+
 
   // $record passed to getDetailsConnection must be an associative array
   // resulting from XBaseRecord->getRawData()
+
 
   public function items(){
     return $this->hasMany('\App\Webdetail','REMOTEADDR','REMOTEADDR');
@@ -205,22 +216,25 @@ public function createCartTitle(\Request $request, $input){
       return $request->user();
   }
 
-  public static function deleteCart($user, $args){
+  public static function deleteCart($_, $args){
 
-      $remoteaddr = $args["input"]["REMOTEADDR"];
+      $user = request()->user();      
+      
+        if(isset($args['id'])){
+            $cart = static::where('id', $args['id'])->where('KEY', $user->KEY)->first();
+        }else{
+            $cart = static::where('REMOTEADDR', $args['REMOTEADDR'])->where('KEY', $user->KEY)->first();
+        }
 
-      $cart = static::where('REMOTEADDR',$remoteaddr)->first();
-
-      foreach($cart->items AS $item){
-        $item->dbfDelete();
+      if($cart !== null){
+        $cart->items()->delete();
+        $cart->delete();
       }
 
-      $cart->dbfDelete();
-      $cart->items()->delete();
-      $cart->delete();
 
       if($user->vendor->cartsCount <= 0){
-          $newcart = static::newCart($user->vendor);
+          $args = ["input"=>[]];
+          $newcart = static::newCart($user, $args);
       }
 
       return $user;
@@ -229,8 +243,12 @@ public function createCartTitle(\Request $request, $input){
     public function updateMyCart($_, $args){
       
       $user = request()->user();
-      
-      $cart = static::where('id', $args['input']['id'])->where('KEY',request()->user()->KEY)->first();
+    
+    if(isset($args['input']['id'])){
+        $cart = static::where('id', $args['input']['id'])->where('KEY', $user->KEY)->first();
+    }else{
+        $cart = static::where('REMOTEADDR', $args['input']['REMOTEADDR'])->where('KEY', $user->KEY)->first();
+    }
 
       $args['input']['KEY'] = $user->KEY;
       $args['input']['DATE'] = \Carbon\Carbon::now()->format("Ymd");
@@ -239,8 +257,16 @@ public function createCartTitle(\Request $request, $input){
 }
 
     public function getMyCart($_, $args){
-      
-      return static::where('REMOTEADDR', $args['REMOTEADDR'])->where('KEY',request()->user()->KEY)->first();
+
+        $user = request()->user();
+
+        if(isset($args['id'])){
+            $cart = static::where('id', $args['id'])->where('KEY', $user->KEY)->first();
+        }else{
+            $cart = static::where('REMOTEADDR', $args['REMOTEADDR'])->where('KEY', $user->KEY)->first();
+        }
+
+        return $cart;
     }
 
 protected static function boot()

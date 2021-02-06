@@ -19,8 +19,8 @@ export default function DashboardNav(props) {
     {links.map(function(link, index){
 
       if(link.icon === "HEADING"){
-      return <div><Divider /><ListSubheader inset>{link.text}</ListSubheader></div>
-      }
+      return <div key={index}><Divider /><ListSubheader inset>{link.text}</ListSubheader></div>
+      }else{
       return(
              <ListItem button key={index} classes={classes}>
               <ListItemIcon>
@@ -29,6 +29,7 @@ export default function DashboardNav(props) {
               <ListItemText primary={link.text} />
             </ListItem>
       )
+    }
 
   })}
   </List>

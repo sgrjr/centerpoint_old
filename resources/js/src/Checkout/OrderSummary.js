@@ -48,6 +48,17 @@ function OrderSummary(props) {
   const cart = {...props.data }
   const invoice = {...cart.invoice }
 
+  let shipping = <Typography>${invoice.totaling.shipping}</Typography>
+  let items = 0
+
+  cart.items.map(function(i){
+    items += i.REQUESTED
+  })
+console.log(items)
+  if(items <= 5){
+    shipping = <Typography>NOT CALCULATED</Typography>
+  }
+
   return (
     <div className={classes.container + " " + props.className}>
       <Table>
@@ -64,11 +75,11 @@ function OrderSummary(props) {
         <TableBody>
         	{cart.items.map((item, index) => (
             <TableRow key={ index }>
-            <TableCell><a href={item.url} target="_blank" rel="noopener noreferrer"><img style={{width:"75px"}} src={item.coverArt}/></a></TableCell>
+            <TableCell displayPrint="none"><a href={item.url} target="_blank" rel="noopener noreferrer"><img  className="noPrint" style={{width:"75px"}} src={item.coverArt}/></a></TableCell>
 
               <TableCell component="th" scope="row">
                 <Typography className={classes.title}>{item.TITLE}</Typography>
-                <Typography className={classes.author}>By {item.AUTHORKEY}</Typography>
+                <Typography className={classes.author}>By {item.AUTHOR}</Typography>
               </TableCell>
               <TableCell>{item.PROD_NO}</TableCell>
               <TableCell>{item.REQUESTED}</TableCell>
@@ -82,7 +93,7 @@ function OrderSummary(props) {
         <Typography>Sub-Total: </Typography>
         <Typography>${invoice.totaling.subtotal}</Typography>
         <Typography>Shipping: </Typography>
-        <Typography>${invoice.totaling.shipping}</Typography>
+        {shipping}
         <Typography>Paid: </Typography>
         <Typography>${invoice.totaling.paid.toFixed(2)}</Typography>
         <Divider className={classes.divider} />

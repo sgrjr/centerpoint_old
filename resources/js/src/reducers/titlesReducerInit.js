@@ -47,6 +47,8 @@ export default {
             LISTPRICE
             PUBDATE
             coverArt
+            AUTHORKEY
+            AUTHOR
           }
         }
         query($cp: TitleFilter, $trade: TitleFilter, $advanced: TitleFilter, $page: Int, $cp_limit: Int, $trade_limit: Int, $advanced_limit: Int) {
@@ -100,6 +102,7 @@ export default {
     
     query:`query ($page: Int, $perPage: Int, $isbn: String) {
  title(filter: { isbn: $isbn }) {
+    id
     LISTPRICE
     INDEX
     AUTHOR
@@ -135,6 +138,8 @@ export default {
         TITLE
         coverArt
         LISTPRICE
+        AUTHORKEY
+        AUTHOR
       }
     }
     byAuthor(page: $page, first: $perPage) {
@@ -154,6 +159,7 @@ export default {
         ISBN
         TITLE
         AUTHORKEY
+        AUTHOR
         coverArt
         LISTPRICE
       }
@@ -185,6 +191,7 @@ minTitleQuery: (variables) => {
     
     query:`query ($page: Int, $perPage:Int, $isbn:String) {
         title(filter: { isbn: $isbn }) {
+    id
     LISTPRICE
     INDEX
     AUTHOR
@@ -195,7 +202,6 @@ minTitleQuery: (variables) => {
     SUBTITLE
     HIGHLIGHT
     CAT
-    AUTHORKEY
     INVNATURE
     PAGES
     PUBDATE
@@ -220,6 +226,8 @@ minTitleQuery: (variables) => {
         TITLE
         coverArt
         LISTPRICE
+        AUTHORKEY
+        AUTHOR
       }
     }
     byAuthor(page: $page, first: $perPage) {
@@ -239,6 +247,7 @@ minTitleQuery: (variables) => {
         ISBN
         TITLE
         AUTHORKEY
+        AUTHOR
         coverArt
         LISTPRICE
       }
@@ -282,6 +291,7 @@ minTitleQuery: (variables) => {
       coverArt
       CAT
       AUTHOR
+      AUTHORKEY
       FORMAT
       SOPLAN
       PUBDATE

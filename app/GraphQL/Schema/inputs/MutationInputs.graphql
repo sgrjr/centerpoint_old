@@ -79,6 +79,7 @@ input DeleteCartInput {
 
 input UpdateCartInput {
     id: Int!
+    INDEX: Int
     REMOTEADDR: String
     ATTENTION: String
     BILL_1: String

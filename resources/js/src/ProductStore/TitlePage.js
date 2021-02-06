@@ -112,9 +112,7 @@ class TitlePage extends Component{
             
           </Grid>
           <Grid item xs={10} md={5} style={{marginTop:"50px"}}>
-          <Typography variant="body1" dangerouslySetInnerHTML={{__html: title.SUBTITLE }}>
-              
-            </Typography>
+          <Typography variant="body1" dangerouslySetInnerHTML={{__html: title.SUBTITLE }}></Typography>
           <Typography variant="h4" color="secondary" style={requireAuth}>
             {title.user? "YOUR PRICE: "+title.user.price : ""}
             </Typography>

@@ -3,6 +3,7 @@ export default {
     
     	cart: {
 		    pending: false,
+		    addToCartPending: false,
 		    selectedTitle: false,
 		    selectedCart: false,
 		    selectedQuantity: 1,

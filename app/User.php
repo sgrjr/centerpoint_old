@@ -355,8 +355,12 @@ public function getMemo(){
       
     }
 
-        public function updateProfilePhoto($file){
+        public function updateProfilePhoto($_, $args){
         
+        $user = request()->user();
+        $file = $args['profilePicture'];
+        
+
         //File Name
         //$file->getClientOriginalName();
 
@@ -374,9 +378,9 @@ public function getMemo(){
      
         //Move Uploaded File
         $destinationPath = storage_path() . '/uploads';
-        $filename = base64_encode($this->KEY . $this->EMAIL) . "." . $file->getClientOriginalExtension();
+        $filename = base64_encode($user->KEY . $user->EMAIL) . "." . $file->getClientOriginalExtension();
         $file->move($destinationPath,$filename);
-        return $this;
+        return $user;
     }
 
     public function getPasswords()

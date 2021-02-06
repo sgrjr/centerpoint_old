@@ -35,7 +35,7 @@ export default function RecentOrders(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.user.vendor.recent.map(row => (
+          {props.user.vendor.recent.data.map(row => (
             <TableRow key={row.id}>
               <TableCell>{row.REQUESTED}</TableCell>
               <TableCell>{row.PROD_NO}</TableCell>
@@ -44,39 +44,6 @@ export default function RecentOrders(props) {
               <TableCell align="right">{row.DATE}</TableCell>
             </TableRow>
           ))}
-          {/**
-           *  KEY
-        TRANSNO
-        REQUESTED
-
-        PUBDATE
-        
-        
-        INVNATURE
-        SERIES
-        
-        SOPLAN
-        REMOTEADDR
-        ORDEREDBY
-        LISTPRICE
-        SALEPRICE
-        DISC
-        STATUS
-        ISBN10
-        ISBN13
-        LASTDATE
-        TESTTRAN
-        SHIPPED
-        ORDERNUM
-        SUBTITLE
-        ISSTAND
-        PUBLISHER
-        FORMAT
-        CAT
-        CATALOG
-        AUTHORKEY
-        TITLEKEY
-           */}
         </TableBody>
       </Table>
       <div className={classes.seeMore}>

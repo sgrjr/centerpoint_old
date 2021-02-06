@@ -1,11 +1,12 @@
 export default (variables) => {
 
   return {
-    query:`  mutation ($REMOTEADDR:String!){
-                deleteCart(input:{REMOTEADDR:$REMOTEADDR}){
+    query:`  mutation ($id:ID){
+                deleteCart(id:$id){
                       vendor {
                         carts(first:100){
                          data{
+                          id
                            INDEX
                             KEY
                             DATE
@@ -14,12 +15,14 @@ export default (variables) => {
                             REMOTEADDR
                             ISCOMPLETE
                             items{
+                              id
                               INDEX
                               PROD_NO
                               TITLE
                               REQUESTED
                               SALEPRICE
                               coverArt
+                              AUTHOR
                               AUTHORKEY
                               url
                             }

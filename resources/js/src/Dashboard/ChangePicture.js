@@ -25,7 +25,7 @@ export default function ChangePicture(props) {
   }
 
   return (<React.Fragment><Grid item>
-            <Image src={user.photo} style={{width:"150px"}} name="profileImage" />
+            <Image src={user.photo} style={{backgroundColor:"gray",width:"150px", height:"150px", border:"solid 1px gray", marginRight:"15px"}} name="profileImage" />
               </Grid>
               <Grid item>
               <Button variant="contained" color="primary" onClick={handleClickOpen}>

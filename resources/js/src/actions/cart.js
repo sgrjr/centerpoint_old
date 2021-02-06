@@ -1,9 +1,11 @@
 import graphql from '../fetchGraphQL'
+
+import cartUpdateMutation from '../Cart/cartUpdateMutation'
 import cartCreateMutation from '../Cart/cartCreateMutation'
 import cartDeleteMutation from '../Cart/cartDeleteMutation'
+
 import cartTitleDeleteMutation from '../Cart/cartTitleDeleteMutation'
 import cartTitleUpdateMutation from '../Cart/cartTitleUpdateMutation'
-import cartSubmitMutation from '../Cart/cartSubmitMutation'
 
 /* VIEWER TYPES AND CREATORS */ 
 const cart = { 
@@ -27,10 +29,19 @@ const cart = {
   CART_PENDING: 
   {
       type: 'CART_PENDING',   
-      creator: () => {
-        return { type: 'CART_PENDING' }
+      creator: (vars) => {
+        return { type: 'CART_PENDING', vars: vars }
       }
   },
+
+  CART_TITLE_ADDED_PENDING: 
+  {
+      type: 'CART_TITLE_ADDED_PENDING',   
+      creator: (vars) => {
+        return { type: 'CART_TITLE_ADDED_PENDING', vars: vars }
+      }
+  },
+
 
   CART_TITLE_ADDED_SUCCESS: 
   {
@@ -111,7 +122,7 @@ const cart = {
     type: 'POST_TITLE_TO_CART',   
     creator: (query) => {
       const actions = {
-        pending: cart.CART_PENDING.creator,
+        pending: cart.CART_TITLE_ADDED_PENDING.creator,
         success: cart.CART_TITLE_ADDED_SUCCESS.creator,
         error: cart.CART_ERROR.creator
       }
@@ -178,7 +189,7 @@ const cart = {
     type: 'CART_DELETE',   
     creator: (variables) => {
       const actions = {
-        pending: cart.CART_PENDING.creator,
+        pending: cart.CART_DELETE_PENDING.creator,
         success: cart.CART_DELETE_SUCCESS.creator,
         error: cart.CART_ERROR.creator
       }
@@ -187,6 +198,14 @@ const cart = {
 
       return graphql(query, actions)
     }
+  },
+
+  CART_DELETE_PENDING: 
+  {
+      type: 'CART_DELETE_PENDING',   
+      creator: (vars) => {
+        return { type: 'CART_DELETE_PENDING', vars: vars }
+      }
   },
 
   CART_CREATE: 
@@ -234,12 +253,12 @@ const cart = {
       delete p.invoice;
       p.ISCOMPLETE = true
 
-      const query = cartSubmitMutation({input:p})
+      const query = cartUpdateMutation({input:p})
       
       const actions = {
-        pending: cart.CART_SAVE_PENDING.creator,
-        success: cart.CART_SAVE_SUCCESS.creator,
-        error: cart.CART_ERROR.creator
+        pending: cart.CART_UPDATE_PENDING.creator,
+        success: cart.CART_UPDATE_SUCCESS.creator,
+        error: cart.CART_UPDATE_ERROR.creator
       }
 
       return graphql(query, actions)
@@ -247,33 +266,33 @@ const cart = {
     
   },
 
-  CART_SAVE: 
+  CART_UPDATE: 
   {
-    type: 'CART_SAVE',   
+    type: 'CART_UPDATE',   
     creator: (query) => {
       const actions = {
-        pending: cart.CART_SAVE_PENDING.creator,
-        success: cart.CART_SAVE_SUCCESS.creator,
-        error: cart.CART_SAVE_ERROR.creator
+        pending: cart.CART_UPDATE_PENDING.creator,
+        success: cart.CART_UPDATE_SUCCESS.creator,
+        error: cart.CART_UPDATE_ERROR.creator
       }
 
       return graphql(query, actions)
     } 
   },
 
-  CART_SAVE_SUCCESS: 
+  CART_UPDATE_SUCCESS: 
   {
-      type: 'CART_SAVE_SUCCESS',   
+      type: 'CART_UPDATE_SUCCESS',   
       creator: (payload) => {
-        return { type: 'CART_SAVE_SUCCESS', payload: payload.updatecartpreferences }
+        return { type: 'CART_UPDATE_SUCCESS', payload: payload.updateCart }
       }
   },
 
-  CART_SAVE_ERROR: 
+  CART_UPDATE_ERROR: 
   {
-      type: 'CART_SAVE_ERROR',   
+      type: 'CART_UPDATE_ERROR',   
       creator: (errors) => {
-        return { type: 'CART_SAVE_ERROR', errors }
+        return { type: 'CART_UPDATE_ERROR', errors }
       }
   },
   CART_TITLE_UPDATE_SUCCESS: 
@@ -284,11 +303,11 @@ const cart = {
       }
   },
 
-  CART_SAVE_PENDING: 
+  CART_UPDATE_PENDING: 
   {
-      type: 'CART_SAVE_PENDING',   
+      type: 'CART_UPDATE_PENDING',   
       creator: (variables) => {
-        return { type: 'CART_SAVE_PENDING', variables }
+        return { type: 'CART_UPDATE_PENDING', variables }
       }
   },
 
@@ -303,8 +322,8 @@ const cart = {
   CART_DELETE_TITLE_PENDING: 
   {
       type: 'CART_DELETE_TITLE_PENDING',   
-      creator: () => {
-        return { type: 'CART_DELETE_TITLE_PENDING' }
+      creator: (input) => {
+        return { type: 'CART_DELETE_TITLE_PENDING', input:input }
       }
   },
 

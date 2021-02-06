@@ -36,6 +36,7 @@ export default (state = initState,action)=>{
           }
 
           case actions.cart.CART_ERROR.type:
+          case actions.cart.CART_UPDATE_ERROR.type:
             return {
                 ...state,
                 open: action.errors? true:false,
@@ -91,14 +92,14 @@ export default (state = initState,action)=>{
             items:  [{message:"Title Quantity Success: ", severity:"success"}]
           }
 
-          case actions.cart.CART_SAVE_PENDING.type:
+          case actions.cart.CART_UPDATE_PENDING.type:
             return {
               ...state,
               open: true,
               items:  [{message:"Updating Cart Changes ... ", severity:"warning"}]
             }
 
-            case actions.cart.CART_SAVE_SUCCESS.type:
+            case actions.cart.CART_UPDATE_SUCCESS.type:
               return {
                 ...state,
                 open: true,
@@ -119,6 +120,12 @@ export default (state = initState,action)=>{
                 items:  [{message:"Cart was sucessfully created.", severity:"success"}]
               }
               
+            case actions.cart.CART_TITLE_ADDED_PENDING.type:
+              return {
+                ...state,
+                open: true,
+                items:  [{message:"Adding "+action.vars.ISBN+" to Cart ... ", severity:"warning"}]
+              }
               
 
         default:

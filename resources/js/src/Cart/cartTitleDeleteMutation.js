@@ -6,6 +6,7 @@ export default (variables) => {
                       vendor {
                         carts (first:100){
                          data{
+                          id
                            INDEX
                             KEY
                             DATE
@@ -21,6 +22,7 @@ export default (variables) => {
                               REQUESTED
                               SALEPRICE
                               coverArt
+                              AUTHOR
                               AUTHORKEY
                               url
                             }

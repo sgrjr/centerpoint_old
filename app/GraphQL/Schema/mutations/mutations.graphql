@@ -4,11 +4,13 @@ type Mutation {
     updateUser(input: UpdateUserInput!): User @update
     deleteUser(input: UpdateUserInput!): User @delete
     
+    userProfilePhoto(profilePicture: Upload!): User @field(resolver: "App\\User@updateProfilePhoto")
+
     loginUser(input: LoginUserInput!): User @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator")
     logoutUser: Application @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@logoutUser")
     
     createCart(input: CreateCartInput!): User @field(resolver: "App\\GraphQL\\Mutations\\CreateCartMutator")
-    deleteCart(input: DeleteCartInput!): User @field(resolver: "App\\GraphQL\\Mutations\\DeleteCartMutator")
+    deleteCart(id: ID, REMOTEADDR: String): User @field(resolver: "App\\Webhead@deleteCart")
     updateCart(input: UpdateCartInput!): Order @field(resolver: "App\\Webhead@updateMyCart")
 
     createCartTitle(REMOTEADDR: String!, REQUESTED: Int, PROD_NO: String!): OrderItem @create(model: "App\\Webdetail")

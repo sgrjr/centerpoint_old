@@ -40,7 +40,7 @@ function CartItem(props) {
         color="secondary"
         endIcon={<DeleteIcon />}
         onClick={()=>{
-          props.deleteCart({REMOTEADDR:props.cart.REMOTEADDR})
+          props.deleteCart({id:props.cart.id})
         }}
       >delete cart</Button>
       <Typography className={classes.total}>Cart total: <strong>${props.price.toFixed(2)}</strong></Typography>

@@ -52,9 +52,6 @@ const drawerWidth = 240;
     menuButtonHidden: {
       display: 'none',
     },
-    title: {
-      flexGrow: 1,
-    },
     drawerPaper: {
       position: 'relative',
       whiteSpace: 'nowrap',
@@ -77,7 +74,7 @@ const drawerWidth = 240;
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
-      flexGrow: 1,
+  //    flexGrow: 1,
 //      height: '100vh',
 //      overflow: 'auto',
     },
@@ -120,6 +117,7 @@ class Dashboard extends Component{
     }
 
     render(){
+      console.log(this.props.user)
         const { classes, links} = this.props;    
         const {open} = this.state
         const toggleDrawer = this.toggleDrawer.bind(this)
@@ -178,39 +176,44 @@ class Dashboard extends Component{
 const dashboardQuery = {
   query:`{
     viewer {
-
-      links {
-        drawer {
-          url
-          text
-          icon
+      
+      application{
+        links {
+          drawer {
+            url
+            text
+            icon
+          }
         }
       }
-      
-      user {
 
         vendor {
           KEY
           ORGNAME
-          cartscount
-          processingcount
+          cartsCount
+          processingCount
           
-          users {
-            EMAIL
-            FIRST
-            LAST
+          users (first:100) {
+            data{
+              EMAIL
+              FIRST
+              LAST
+            }
+
           }
 
           carts(first:100){
             data{
+              id
               KEY
               DATE
               PO_NUMBER
               TRANSNO
             }
           }
-          processing{
+          processing(first:100){
             data {
+              id
               KEY
               DATE
               PO_NUMBER
@@ -219,36 +222,68 @@ const dashboardQuery = {
             }
 
           }
-            back: order (age:"back",perPage:10,){
-            KEY
-            DATE
-            PO_NUMBER
-            TRANSNO
+            back: backOrders (first:10){
+             data {
+              id
+              KEY
+              DATE
+              PO_NUMBER
+              TRANSNO
+             }
           }
-            recent: order (age:"bro", perPage:10){
-            KEY
-            DATE
-            PO_NUMBER
-            TRANSNO
+            recent: broOrders (first:10){
+             data {
+              id
+              KEY
+              DATE
+              PO_NUMBER
+              TRANSNO
+            }
           }
           
-          activeSos: standingorders(filters: {QUANTITY: ">=_1"}) {
-            KEY
-            SOSERIES
-            DISC
-            EXP_MONTH
-            EXP_YEAR
+          ancient: ancientOrders (first:10){
+            data {
+              id
+              KEY
+              DATE
+              PO_NUMBER
+              TRANSNO
+           }
           }
-          inactiveSos: standingorders(filters: {QUANTITY: "<_1"}) {
-            KEY
-            SOSERIES
-            DISC
-            EXP_MONTH
-            EXP_YEAR
+
+          old: allOrders (first:10){
+            data {
+              id
+              KEY
+              DATE
+              PO_NUMBER
+              TRANSNO
+            }
+          }
+
+          activeSos: activeStandingOrders(first:100) {
+            data{
+              id
+              KEY
+              SOSERIES
+              DISC
+              EXP_MONTH
+              EXP_YEAR
+            }
+          }
+          inactiveSos: inactiveStandingOrders(first:100) {
+            data{
+              id
+              KEY
+              SOSERIES
+              DISC
+              EXP_MONTH
+              EXP_YEAR
+            }
           }
         }
       }
-    }
+    
   }  
   `, 
   variables: []
@@ -262,7 +297,7 @@ const mapStateToProps = (state)=>{
 return {
     user: state.viewer,
     photo: state.forms.photo,
-    links: state.viewer.links.drawer,
+    links: state.viewer.application? state.viewer.application.links.drawer:[],
     mytitles: state.viewer.mytitles
      }
 }

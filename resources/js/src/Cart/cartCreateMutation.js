@@ -7,6 +7,7 @@ export default () => {
                       vendor {
                         carts(first:100){
                           data{
+                            id
                             INDEX
                             KEY
                             DATE
@@ -15,12 +16,14 @@ export default () => {
                             REMOTEADDR
                             ISCOMPLETE
                             items{
+                              id
                               INDEX
                               PROD_NO
                               TITLE
                               REQUESTED
                               SALEPRICE
                               coverArt
+                              AUTHOR
                               AUTHORKEY
                               url
                             }

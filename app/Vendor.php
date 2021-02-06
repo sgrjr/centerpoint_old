@@ -25,28 +25,43 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
     {
         return $this->hasMany('App\StandingOrder','KEY','KEY');
     }
+  public function activeStandingOrders()
+    {
+        return $this->hasMany('App\StandingOrder','KEY','KEY')->active();
+    }
+  public function inactiveStandingOrders()
+    {
+        return $this->hasMany('App\StandingOrder','KEY','KEY')->inactive();
+    }
 	
 	public function orders()
     {
         return $this->hasMany('App\Order','KEY','KEY');
     }
 
-	public function orderHead()
+	public function broOrders()
     {
-        return $this->hasMany('App\BroHead','KEY','KEY');
+        return $this->hasMany('App\Brohead','KEY','KEY');
     }
-	public function getOrderItemsAttribute()
-    {
-        
-        $od = new \App\OrderItem();
 
-        if(!$od->tableExists || $od->count() <= 0){
-                $od->seedTable();
-		}
-            
-        //return \Cache::remember('vendor_titles_' . $this->KEY, $this->VENDOR_CACHE_MINUTES, function () {
-            return $this->hasMany('App\OrderItem','KEY','KEY')->get();
-        //});
+      public function backOrders()
+    {
+        return $this->hasMany('App\Backhead','KEY','KEY');
+    }
+
+    public function ancientOrders()
+    {
+        return $this->hasMany('App\Ancienthead','KEY','KEY');
+    }
+
+    public function allOrders()
+    {
+        return $this->hasMany('App\Allhead','KEY','KEY');
+    }
+
+	public function orderItems()
+    {
+       return $this->hasMany('App\OrderItem','KEY','KEY')->get();
     }
 
     public function calcWholeSaleDisount(){
@@ -62,48 +77,17 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
 
 	}
 
-	 public function getStandingOrdersConnection($test = false){
-    	$result = \App\StandingOrder::ask()->setPerPage(9999);
-
-        if($test !== false){
-            foreach($test AS $t){
-                $result->where($t[0],$t[1],$t[2]); 
-            }
-            
-        }
-        return $result->where("KEY","==", $this->present()->KEY)->get();
-    }
-
-    public function getActiveStandingOrdersAttribute(){
-        $test = [
-            ["QUANTITY",">","0"]
-        ];
-       return \Cache::remember('vendor_active_standing_orders_' . $this->KEY, $this->VENDOR_CACHE_MINUTES, function () use ($test){
-            return $this->getStandingOrdersConnection($test);
-        });
-
-    }
-
-    public function getInactiveStandingOrdersAttribute(){
-        $test = [
-            ["QUANTITY","<","1"]
-        ];
-       return \Cache::remember('vendor_inactive_standing_orders_' . $this->KEY, $this->VENDOR_CACHE_MINUTES, function () use ($test){
-            return $this->getStandingOrdersConnection($test);
-        });
-    }
-
-	 public function getUsersAttribute(){
-        return \App\Password::ask()->where("KEY","===", $this->KEY)->get();
+	 public function users(){
+         return $this->hasMany('App\User','KEY','KEY');
     }
 
     public function processing(){
-        return $this->hasMany('App\Webhead','KEY','KEY')->where('ISCOMPLETE', "!==",true);
+        return $this->hasMany('App\Webhead','KEY','KEY')->iscomplete();
     }
 
     public function carts()
     {
-       return $this->hasMany('App\Webhead','KEY','KEY')->where('ISCOMPLETE',false);
+       return $this->hasMany('App\Webhead','KEY','KEY')->notcomplete();
     }
 
     public function getCartsCountAttribute(){

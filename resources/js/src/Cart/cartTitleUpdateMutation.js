@@ -12,6 +12,7 @@ export default (attributes) => {
                             perPage
                           }
                           data{
+                            id
                             INDEX
                             KEY
                             DATE
@@ -27,6 +28,7 @@ export default (attributes) => {
                               REQUESTED
                               SALEPRICE
                               coverArt
+                              AUTHOR
                               AUTHORKEY
                               url
                             }

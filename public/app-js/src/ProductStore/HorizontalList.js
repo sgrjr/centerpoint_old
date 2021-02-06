@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import { useHistory } from "react-router-dom";
 import BookCover from './BookCover'
 //import Paper from '@material-ui/core/Paper';
+import AddToCart from '../Cart/AddToCart'
 
 const viewmore = function(history, url) {
     history.push(url)
@@ -54,7 +55,7 @@ export default function SingleLineGridList(props) {
               subtitle={"$" + item.LISTPRICE}
               actionIcon={
                 <IconButton aria-label={`star ${item.TITLE}`} style={{color: "inherit"}}>
-                  <StarBorderIcon style={{color: "inherit"}}/>
+                  <AddToCart title={item} icon={true}/>
                 </IconButton>
               }
             /> 

@@ -84,7 +84,6 @@ const options = ()=>{
 }
 
 function CartItem(props) {
-  console.log(props)
   const theme = useTheme()
 	const classes = useStyles(theme)
   //@TODO: Add function to update Quantity state on quantity select change
@@ -94,7 +93,7 @@ function CartItem(props) {
     		<img className={classes.image} src={`${props.coverArt}`} alt={`${props.TITLE} cover`}/>
     	</div>
     	<Typography variant="h3" className={classes.title}><Link to={"/isbn/"+props.PROD_NO}>{props.TITLE}</Link></Typography>
-    	<Typography className={classes.author}>By {props.AUTHORKEY}</Typography>
+    	<Typography className={classes.author}>By {props.AUTHOR}</Typography>
     	<Typography className={classes.priceLabel}>Item price: </Typography>
     	<Typography className={classes.price}>${props.SALEPRICE}</Typography>
     	<label className={classes.quantityLabel}>Quantity: </label>
@@ -119,7 +118,7 @@ function CartItem(props) {
       	size="small"
         className={classes.remove}
         color="secondary"
-        onClick={()=>{props.deleteFromCart({id: props.id})}}
+        onClick={()=>{props.deleteFromCart({id: props.id, data:props})}}
       >
       	Remove
       </Button>

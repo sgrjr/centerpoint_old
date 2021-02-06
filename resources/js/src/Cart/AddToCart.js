@@ -7,6 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
 import CartList from './CartList';
 import cartQuery from './cartQuery'
+import addTitleToCartQuery from '../Cart/addTitleToCartQuery'
 import { Link } from "react-router-dom";
 
 class AddToCart extends Component{
@@ -25,48 +26,11 @@ class AddToCart extends Component{
       }
     }
     sendTitleToCart(){
-
-      const query = {
-        query: `mutation($REMOTEADDR: String!, $ISBN: String!, $QTY: Int!) {
-        createCartTitle(REMOTEADDR: $REMOTEADDR, PROD_NO: $ISBN, REQUESTED: $QTY){
-          user{
-              vendor {
-                carts(first:100){
-                  paginatorInfo{
-                    total
-                    count
-                  }
-                  data{
-                    INDEX
-                    KEY
-                    DATE
-                    PO_NUMBER
-                    TRANSNO
-                    REMOTEADDR
-                    items{
-                      id
-                      INDEX
-                      PROD_NO
-                      TITLE
-                      REQUESTED
-                      SALEPRICE
-                      coverArt
-                    }
-                  }
-                }
-              
-            }
-          }
-        }
-      }`,
-    variables: {
-      REMOTEADDR: this.props.selectedCart,
-      ISBN: this.props.title.ISBN,
-      QTY: this.props.selectedQuantity
-    }
-  };
-
-      this.props.addTitleToCart(query);
+      this.props.addTitleToCart(addTitleToCartQuery({
+        REMOTEADDR: this.props.selectedCart,
+        ISBN: this.props.title.ISBN,
+        QTY: this.props.selectedQuantity
+      }));
     }
 
 
@@ -83,8 +47,8 @@ class AddToCart extends Component{
         return null
       }
 
-        if(cart.pending){
-          return <Button disabled variant="outlined" style={{width:"100%"}}><CircularProgress color="primary"/>loading cart ...</Button>
+        if(cart.pending || cart.addToCartPending){
+          return <Button disabled variant="outlined" style={{width:"100%"}}><CircularProgress color="primary"/>updating cart ...</Button>
         }else if(authenticated && title.STATUS !== "Out of Print"){
           return (<div>
           <Button variant="outlined" style={{width:"100%"}} onClick={this.sendTitleToCart.bind(this)} type="button" >Add to Cart</Button>

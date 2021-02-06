@@ -21,7 +21,7 @@ export default function Dashboard(props) {
 
             <Grid item xs={12} md={4} lg={5}>
               <Card >
-                <Widget title="Change Profile Picture">
+                <Widget ready={true} title="Change Profile Picture">
                   <ChangePicture {...props} />
                 </Widget>
               </Card>

@@ -1,9 +1,10 @@
 export default (variables) => {
 
   return {
+
     query:`  mutation ($input: UpdateCartInput!){
                 updateCart(input: $input){
-                          id
+                  id
                           INDEX
                           KEY
                           DATE
@@ -28,6 +29,7 @@ export default (variables) => {
                             REQUESTED
                             SALEPRICE
                             coverArt
+                            AUTHOR
                             AUTHORKEY
                             url
                           }
@@ -55,8 +57,8 @@ export default (variables) => {
                             invoice_memo
                             footer_memo
                           }
-                        }
-                      } 
+                }
+            }  
           `, 
     variables: variables
   }

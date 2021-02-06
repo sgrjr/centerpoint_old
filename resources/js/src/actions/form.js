@@ -38,9 +38,7 @@ const form = {
       const query = {
         query: `mutation($file: Upload!) {
         userProfilePhoto(profilePicture:$file){
-          user{
             photo
-          }
         }
       }`,
     variables: {

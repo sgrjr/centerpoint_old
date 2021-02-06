@@ -17,10 +17,10 @@ export default function DashboardNav(props) {
   return (<React.Fragment>
     <List>
     {links.map(function(link, index){
-
+      console.log(index)
       if(link.icon === "HEADING"){
-      return <div><Divider /><ListSubheader inset>{link.text}</ListSubheader></div>
-      }
+      return <div key={index}><Divider /><ListSubheader inset>{link.text}</ListSubheader></div>
+      }else{
       return(
              <ListItem button key={index} classes={classes}>
               <ListItemIcon>
@@ -29,6 +29,7 @@ export default function DashboardNav(props) {
               <ListItemText primary={link.text} />
             </ListItem>
       )
+    }
 
   })}
   </List>

@@ -1,4 +1,5 @@
 type StandingOrder {
+	id: ID!
     INDEX: Int!
     KEY: String!
     SOSERIES: String

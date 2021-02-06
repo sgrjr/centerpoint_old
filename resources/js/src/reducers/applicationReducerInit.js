@@ -66,6 +66,7 @@ export default {
                           currentPage
                       }
                       data{
+                        id
                           INDEX
                           KEY
                           DATE
@@ -81,6 +82,7 @@ export default {
                               REQUESTED
                               SALEPRICE
                               coverArt
+                              AUTHOR
                               AUTHORKEY
                               url
                           }

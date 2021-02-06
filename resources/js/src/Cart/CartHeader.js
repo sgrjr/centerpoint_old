@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton'
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
-import cartMutation from './cartMutation'
+import cartUpdateMutation from './cartUpdateMutation'
 
 const useStyles = makeStyles({
 	heading: {
@@ -33,19 +33,18 @@ function CartHeader(props) {
   let [po, setPo] = useState(props.cart.PO_NUMBER)
 
   const handleClick = (e) => {
-	const query = cartMutation({cartIndex:props.cart.INDEX, properties:{PO_NUMBER:po}})
+
+  	const properties = {id: props.cart.id, INDEX:props.cart.INDEX, PO_NUMBER: po}
+	const query = cartUpdateMutation({input: properties})
 	props.cartSave(query)
     setEditable(editable === true ? false: true)
   }
 
   const handleUpdate = (e) => {
-	//props.updateCartForm(props.index, "PO_NUMBER", e.target.value)
 	setPo(e.target.value);
   }
 
-  const handleReset = (e) => {
-	//props.updateCartForm(props.index, "PO_NUMBER", e.target.value)
-	
+  const handleReset = (e) => {	
 	setEditable(false)
 	setPo(props.cart.PO_NUMBER);
 	e.stopPropagation();
@@ -85,7 +84,7 @@ function CartHeader(props) {
 		</>
 	} else {
 		title = <>
-			<Typography className={classes.heading}>{props.cart.PO_NUMBER} ({props.cart.DATE})</Typography>
+			<Typography className={classes.heading}>{po} ({props.cart.DATE})</Typography>
 			<IconButton 
 				className={classes.icon}
 				aria-label="edit title" 

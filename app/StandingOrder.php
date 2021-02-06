@@ -16,6 +16,16 @@ class StandingOrder extends BaseModel implements \App\Interfaces\ModelInterface 
         "_config"=>"standing_order",
       ];
 
+    public function scopeActive($query)
+    {
+        return $query->where('QUANTITY', '>', 0);
+    }
+
+    public function scopeInactive($query)
+    {
+        return $query->where('QUANTITY', '<=', 0);
+    }
+
 	public function vendor()
     {
     	return $this->belongsTo('App\Vendor', 'KEY', 'KEY');

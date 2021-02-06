@@ -52,7 +52,11 @@ class ProductStore extends Component{
             }
             
             i++;
-            return <HorizontalList key={i} items={list[1].data} pageInfo={list[1].paginatorInfo} listTitle={title} url={url} displayHorizontal={displayHorizontal} background={background} />
+            return <HorizontalList key={i} items={list[1].data} pageInfo={list[1].paginatorInfo} listTitle={title} 
+            url={url} displayHorizontal={displayHorizontal} background={background} 
+            addTitleToCart={this.props.addTitleToCart} 
+            selectedCart={this.props.selectedCart}
+            viewer={this.props.viewer} />
           })
         }
         
@@ -95,7 +99,9 @@ return {
     catalog: state.application.catalog,
     browse: state.application.browse,
     query: state.titles.query,
-    queryVars: state.titles.queryVars
+    queryVars: state.titles.queryVars,
+    selectedCart: state.viewer.cart.selectedCart,
+    viewer: state.viewer
      }
 }
 
@@ -106,6 +112,9 @@ const mapDispatchToProps = dispatch => {
       },
       incrementPagination: () => {
         dispatch(actions.titles.TITLES_INCREMENT_PERPAGE.creator())
+      },
+      addTitleToCart: (query) => {
+        dispatch(actions.cart.POST_TITLE_TO_CART.creator(query))
       }
     }
   }

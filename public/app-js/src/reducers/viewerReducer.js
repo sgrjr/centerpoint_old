@@ -27,11 +27,11 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
                 pending:false,
                 user: {
                     ...state.user,
-                    vendor: {...action.payload.viewer.user.vendor}
+                    vendor: {...action.payload.viewer.vendor}
                 },
                 links: {
                     ...state.links,
-                    drawer: action.payload.viewer.links.drawer
+                    drawer: action.payload.viewer.application.links.drawer
                 }
             }
 

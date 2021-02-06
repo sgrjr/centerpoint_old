@@ -41,14 +41,19 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
             return {
                 ...state,
                 pending:false,
-                user: {
-                    ...state.user,
-                    vendor: {...action.payload.viewer.vendor}
+
+                vendor: {
+                    ...state.vendor,
+                    ...action.payload.viewer.vendor
                 },
-                links: {
-                    ...state.links,
-                    drawer: action.payload.viewer.links.drawer
+                application:{
+                    ...state.application,
+                  links: {
+                    ...state.application.links,
+                    drawer: action.payload.viewer.links? action.payload.viewer.links.drawer:state.application.links.drawer
+                    }
                 }
+  
             }
 
         case actions.viewer.VIEWER_ERROR.type:
@@ -107,12 +112,33 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
                 post: false,
                 selectedCart: state.cart.selectedCart? state.cart.selectedCart:action.payload.user.vendor.carts.data[0].REMOTEADDR,
                 selectedTitle: false,
-                pending:false
+                pending:false,
+                addToCartPending: false
             }
      
         }
   
+
+ case actions.cart.CART_DELETE_PENDING.type:
+
+        let sc = state.cart.selectedCart
+
+        if(sc === action.vars.id ){
+            sc = false
+        }
+
+        return {
+            ...state,
+            cart: {
+                ...state.cart,
+                selectedCart: sc,
+                pending:true
+            }
+     
+        }
+
     case actions.cart.CART_DELETE_SUCCESS.type:
+
         return {
             ...state,
             vendor: {
@@ -137,6 +163,32 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
             }       
         }
 
+    case actions.cart.CART_TITLE_ADDED_PENDING.type:
+
+        const {ISBN, QTY, REMOTEADDR} = action.vars
+        let newState = {...state}
+        let newCarts = newState.vendor.carts.data.map(function(c){
+                if(c.REMOTEADDR === REMOTEADDR){
+                    c.items.push({
+                        AUTHOR: "",
+                        AUTHORKEY: "",
+                        INDEX: "",
+                        PROD_NO: ISBN,
+                        REQUESTED: QTY,
+                        SALEPRICE: "",
+                        TITLE: ISBN,
+                        coverArt: "",
+                        id: ""
+                        })
+                
+                }
+                return c
+            })
+
+        newState.vendor.carts.data = newCarts
+        newState.cart.addToCartPending = true
+        return newState
+
     case actions.cart.CART_ERROR.type:
         return {
             ...state,
@@ -156,6 +208,7 @@ case actions.cart.INVOICE_SUCCESS.type:
             cart: {
                 ...state.cart,
                 open: false,
+                pending: false,
                 checkout: {
                     pending:false, 
                     post: false,
@@ -169,9 +222,11 @@ case actions.cart.INVOICE_SUCCESS.type:
         let istate = {...state}
         istate.cart.checkout.pending = true
         istate.cart.checkout.remoteaddr = action.variables.REMOTEADDR
+        istate.cart.pending = true
+        istate.cart.open = false
         return istate
 
-    case actions.cart.CART_SAVE_ERROR.type:
+    case actions.cart.CART_UPDATE_ERROR.type:
         let iestate = {...state}
         iestate.cart.checkout.pending = false
         iestate.cart.checkout.post = false
@@ -184,10 +239,7 @@ case actions.cart.INVOICE_SUCCESS.type:
             ...state,
             cart:{
                 ...state.cart,
-                selectedCart: action.cartId,
-                open: true,
-                post: true,
-                pending: false
+                selectedCart: action.cartId
             }
         }
     
@@ -197,7 +249,8 @@ case actions.cart.INVOICE_SUCCESS.type:
                 cart: {
                     ...state.cart,
                     selectedQuantity: action.selectedQuantity,
-                    pending: false
+                    pending: false,
+                    addToCartPending: false
                 }
             }
             
@@ -252,17 +305,28 @@ case actions.cart.INVOICE_SUCCESS.type:
                 cart:{
                     ...state.cart,
                     pending: false,
+                    addToCartPending: false
                     
                 }
             }
 
             case actions.cart.CART_DELETE_TITLE_PENDING.type:
+                const titleIndex = action.input.data.titleIndex
+                const cartId = action.input.data.cartId
+
+                let newItems = state.vendor.carts.data.map(function(c){
+                    if(c.REMOTEADDR === cartId){
+                        c.items.splice(titleIndex,1)
+                        return c
+                    }
+                    return c
+                })
 
                 return {
                     ...state,
                     cart:{
                         ...state.cart,
-                        pending: true
+                        addToCartPending: true
                     }
                 }
 
@@ -272,7 +336,23 @@ case actions.cart.INVOICE_SUCCESS.type:
                 ...state
             }
         
-        case actions.cart.CART_SAVE_SUCCESS.type:
+        case actions.cart.CART_UPDATE_PENDING.type:
+
+            return {
+                ...state,
+                cart :{
+                    ...state.cart,
+                    checkout:{
+                        ...state.cart.checkout,
+                        data:{
+                            ...state.cart.checkout.data,
+                            ISCOMPLETE: true
+                        }
+                    }
+                }
+            }
+
+        case actions.cart.CART_UPDATE_SUCCESS.type:
             
             let csns =  {
                 ...state,
@@ -280,19 +360,20 @@ case actions.cart.INVOICE_SUCCESS.type:
                 post: false    
             }
 
-            csns.vendor.carts.map(function(c, i){
-                if(c.INDEX === action.payload.INDEX){
-                    return  {...c, ...action.payload}
+            csns.vendor.carts.data = csns.vendor.carts.data.map(function(c){
+                if(c.id === action.payload.id){
+                    return {...c, ...action.payload}
                 }else{
                     return c
                 }
             })
 
             csns.cart.checkout.data = {...action.payload}
+
             return csns
 
         case actions.cart.CART_TITLE_UPDATE_PENDING.type:
-            /*
+            
             let newcartstate =  {
                 ...state   
             }
@@ -305,10 +386,19 @@ case actions.cart.INVOICE_SUCCESS.type:
                 })
             })
 
-            return newcartstate;
-            */
+            const items = newcartstate.cart.checkout.data.items.map(function(item){
+                if(item.id === id){
+                    item.REQUESTED = REQUESTED
+                }
 
-            return state
+                return item
+            })
+
+            newcartstate.cart.checkout.data.items = items
+
+            return newcartstate;
+            
+
 
         case actions.cart.CART_TITLE_UPDATE_SUCCESS.type:
     

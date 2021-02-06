@@ -29,7 +29,7 @@ class Index extends React.Component {
   }
   
   render(){
-
+    console.log(this.props.cart.checkout)
     const complete = () => {return this.props.cart.checkout.data.ISCOMPLETE}
 
     return (
@@ -71,7 +71,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.cart.CHECKOUT_UPDATE.creator(e))
     },
     cartSave: (cartId)=>{
-      dispatch(actions.cart.CART_SAVE.creator(cartId))
+      dispatch(actions.cart.CART_UPDATE.creator(cartId))
     }
   }
 }

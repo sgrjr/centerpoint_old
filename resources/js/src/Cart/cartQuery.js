@@ -13,6 +13,7 @@ export default (variables) => {
                     currentPage
                 }
                 data{
+                    id
                     INDEX
                     KEY
                     DATE
@@ -28,6 +29,7 @@ export default (variables) => {
                         REQUESTED
                         SALEPRICE
                         coverArt
+                        AUTHOR
                         AUTHORKEY
                         url
                     }

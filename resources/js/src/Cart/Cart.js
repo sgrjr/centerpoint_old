@@ -80,7 +80,7 @@ const mapDispatchToProps = dispatch => {
         dispatch(actions.cart.CART_CHECKOUT.creator(cartIndex))
       }, 
       cartSave: (cartId)=>{
-        dispatch(actions.cart.CART_SAVE.creator(cartId))
+        dispatch(actions.cart.CART_UPDATE.creator(cartId))
       }, 
       selectCart: (cartId)=>{
         dispatch(actions.cart.CART_SELECT.creator(cartId))
