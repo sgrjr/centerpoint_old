@@ -55,6 +55,7 @@ class User extends Authenticatable implements \App\Interfaces\ModelInterface, \I
       ];
 
       protected $attributeTypes = [
+        "_config"=>"users",
         'remember_token'=>[
             'name' => 'remember_token',
             'type' => 'Char',

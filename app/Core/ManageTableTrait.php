@@ -99,7 +99,6 @@ Trait ManageTableTrait
 
             foreach($cols AS $col){
                 $con = $col->getContainer();
-                
                 $name = $con["name"];
 		    	$headers[$name] = [
                     "name" => $name,

@@ -147,7 +147,10 @@ class XBaseColumn extends \ArrayObject {
 				$h["type"] = $types[$h['type']];
 		    }
             
-            //echo "NAME: " . $h["name"] . " TYPE: " . $h["type"] . " LENGTH: " . $h['length'] . PHP_EOL;
+            if($h["type"] === "Char"){
+                $h["length"] = 255;
+            }
+           // echo "NAME: " . $h["name"] . " TYPE: " . $h["type"] . " LENGTH: " . $h['length'] . PHP_EOL;
             
             return $h;
 	}
