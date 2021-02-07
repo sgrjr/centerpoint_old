@@ -378,7 +378,7 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
 		}
 
        $name = ucfirst(strtolower( $table->getTable() ) );
-       return $name . "TableSeeder"::class;
+       return "\\Database\\Seeders\\" . $name . "TableSeeder"::class;
 	}
 
     public static function api($atts, $code = 200){
