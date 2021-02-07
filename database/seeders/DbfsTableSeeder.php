@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class VendorsTableSeeder extends Seeder
+class DbfsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class VendorsTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Vendor::seedTable();
+        \App\Dbf::seedTable();
     }
 }

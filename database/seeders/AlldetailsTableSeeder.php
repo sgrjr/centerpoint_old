@@ -1,11 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Table;
-use App\DatabaseManager;
-use Illuminate\Support\Str;
 
-class UsersTableSeeder extends Seeder
+class AlldetailsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +11,6 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\User::seedTable();
+        \App\Alldetail::seedTable();
     }
-
 }

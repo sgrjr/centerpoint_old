@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class CacheTableSeeder extends Seeder
+class Order_itemsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class CacheTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Cache::seedTable();
+        \App\OrderItem::seedTable();
     }
 }

@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class OrdersTableSeeder extends Seeder
+class CommandsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Order::seedTable();
+        \App\Command::seedTable();
     }
 }

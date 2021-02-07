@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class PassfilesTableSeeder extends Seeder
+class CacheTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class PassfilesTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Passfile::seedTable();
+        \App\Cache::seedTable();
     }
 }

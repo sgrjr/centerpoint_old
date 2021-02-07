@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class InventoriesTableSeeder extends Seeder
+class BackheadsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class InventoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Inventory::seedTable();
+        \App\Backhead::seedTable();
     }
 }

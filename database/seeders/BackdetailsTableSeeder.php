@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class Role_userTableSeeder extends Seeder
+class BackdetailsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class Role_userTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\RoleUser::seedTable();
+        \App\Backdetail::seedTable();
     }
 }

@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class WebheadsTableSeeder extends Seeder
+class BooktextsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class WebheadsTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Webhead::seedTable();
+        \App\Booktext::seedTable();
     }
 }

@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class Order_itemsTableSeeder extends Seeder
+class Websockets_statistics_entriesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class Order_itemsTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\OrderItem::seedTable();
+        \App\WebSocketStatistic::seedTable();
     }
 }

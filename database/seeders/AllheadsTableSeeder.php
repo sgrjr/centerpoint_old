@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class Standing_ordersTableSeeder extends Seeder
+class AllheadsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class Standing_ordersTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\StandingOrder::seedTable();
+        \App\Allhead::seedTable();
     }
 }

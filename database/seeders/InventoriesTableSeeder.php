@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class WebdetailsTableSeeder extends Seeder
+class InventoriesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class WebdetailsTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Webdetail::seedTable();
+        \App\Inventory::seedTable();
     }
 }

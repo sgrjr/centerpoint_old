@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class Websockets_statistics_entriesTableSeeder extends Seeder
+class RolesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class Websockets_statistics_entriesTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\WebSocketStatistic::seedTable();
+        \App\Role::seedTable();
     }
 }

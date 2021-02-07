@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class BrodetailsTableSeeder extends Seeder
+class PassfilesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class BrodetailsTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Brodetail::seedTable();
+        \App\Passfile::seedTable();
     }
 }

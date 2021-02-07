@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class BroheadsTableSeeder extends Seeder
+class Standing_ordersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class BroheadsTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Brohead::seedTable();
+        \App\StandingOrder::seedTable();
     }
 }

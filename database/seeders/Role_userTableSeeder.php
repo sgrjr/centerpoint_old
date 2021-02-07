@@ -1,8 +1,8 @@
-<?php
+<?php namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class AllheadsTableSeeder extends Seeder
+class Role_userTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class AllheadsTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Allhead::seedTable();
+        \App\RoleUser::seedTable();
     }
 }
