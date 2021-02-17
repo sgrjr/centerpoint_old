@@ -105,7 +105,15 @@ const cart = {
   {
       type: 'INVOICE_SUCCESS',   
       creator: (payload) => {
-        return { type: 'INVOICE_SUCCESS', payload: payload.viewer.cart }
+        let pl = {}
+
+        if(payload.viewer.cart){
+          pl = payload.viewer.cart
+        }else{
+          pl = payload.viewer.invoice
+          pl.ISCOMPLETE = true
+        }
+        return { type: 'INVOICE_SUCCESS', payload: pl }
       }
   },
 

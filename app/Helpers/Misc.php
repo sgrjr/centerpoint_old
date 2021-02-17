@@ -253,7 +253,7 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
 }
 
     public static function resolveTypeToMysqlFunc($h){
-        $length = isset($h["length"])? $h["length"]:255;
+        $length = isset($h["length"])? $h["length"]:128;
         $type = isset($h["type"])? $h["type"]:"Char";
 
                     switch($type){
@@ -350,36 +350,81 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
 					}
     }
 
-    public static function setUpTableFromHeaders($table, $headers){
+    public static function setUpTableFromHeaders($table_name, $table, $headers){
 
         foreach($headers AS $h){
     
-           $funcArray = \App\Helpers\Misc::resolveTypeToMysqlFunc($h);
-            $func = $funcArray[0];
-            if(!isset($funcArray[1])){$p = [];}else{$p = $funcArray[1];}
-           
-            if(count($p) === 0){
-                $table->$func($h["name"])->nullable();
-			}else if(count($p) === 1){
-                $table->$func($h["name"], $p[0])->nullable();
-			}else if(count($p) === 2){
-                $table->$func($h["name"], $p[0], $p[1])->nullable();
-			}else{
-                $table->$func($h["name"])->nullable();           
-			}
-		}
-        return $table;
-    }
-    //Can pass either model object or string value of model class name
-    public static function modelNameToSeederName($model_class){
-     
-        if(is_string($model_class)){
-          $table = new $model_class;
-		}
+          $funcArray = \App\Helpers\Misc::resolveTypeToMysqlFunc($h);
+          $func = $funcArray[0];
 
-       $name = ucfirst(strtolower( $table->getTable() ) );
-       return "\\Database\\Seeders\\" . $name . "TableSeeder"::class;
-	}
+          if(!isset($funcArray[1])){$p = [];}else{$p = $funcArray[1];}
+         
+          if(strpos($h["name"], '_id') !== false){
+              $table->unsignedInteger($h["name"]);
+          }else if(count($p) === 0){
+              $table->$func($h["name"])->nullable();
+    			}else if(count($p) === 1){
+              $table->$func($h["name"], $p[0])->nullable();
+    			}else if(count($p) === 2){
+              $table->$func($h["name"], $p[0], $p[1])->nullable();
+    			}else{
+              $table->$func($h["name"])->nullable();           
+    			}
+
+          switch($h['name']){
+            case "KEY":
+              $table->index('KEY');
+              break;
+            case "TRANSNO":
+              $table->index('TRANSNO');
+              break;
+            case "REMOTEADDR":
+              $table->index('REMOTEADDR');
+              break;
+          }
+    		}
+
+          switch($table_name){
+            case "inventories":
+              $table->index('ISBN');
+              break;
+            case "alldetails":
+              $table->foreign('REMOTEADDR')->references('REMOTEADDR')->on('allheads')->onUpdate('cascade')->onDelete('cascade');
+              $table->foreign('TRANSNO')->references('TRANSNO')->on('allheads')->onUpdate('cascade')->onDelete('cascade');
+              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
+              break;
+            case "ancientdetails":
+              $table->foreign('REMOTEADDR')->references('REMOTEADDR')->on('ancientheads')->onUpdate('cascade')->onDelete('cascade');
+              $table->foreign('TRANSNO')->references('TRANSNO')->on('ancientheads')->onUpdate('cascade')->onDelete('cascade');
+              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
+              break;
+            case "backdetails":
+              $table->foreign('REMOTEADDR')->references('REMOTEADDR')->on('backheads')->onUpdate('cascade')->onDelete('cascade');
+              $table->foreign('TRANSNO')->references('TRANSNO')->on('backheads')->onUpdate('cascade')->onDelete('cascade');
+              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
+              break;
+            case "brodetails":
+              $table->foreign('REMOTEADDR')->references('REMOTEADDR')->on('broheads')->onUpdate('cascade')->onDelete('cascade');
+              $table->foreign('TRANSNO')->references('TRANSNO')->on('broheads')->onUpdate('cascade')->onDelete('cascade');
+              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
+              break;
+            case "webdetails":
+              $table->foreign('REMOTEADDR')->references('REMOTEADDR')->on('webheads')->onUpdate('cascade')->onDelete('cascade');
+              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
+              break;
+            case "booktexts":
+              $table->foreign('KEY')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
+              break;
+            case "role_user":
+              $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
+              $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+              break;
+            case "standing_orders":
+              $table->foreign('KEY')->references('KEY')->on('vendors')->onUpdate('cascade')->onDelete('cascade');
+              break;
+          }
+          return $table;
+      }
 
     public static function api($atts, $code = 200){
         return response(

@@ -17,13 +17,10 @@ const viewmore = function(history, url) {
 }
 
 function getTitleBar(props, item, index){
-
-  if(!props.viewer.pending){
-    return ( <GridListTileBar
-              title={item.TITLE}
-              subtitle={"$" + item.LISTPRICE}
-              actionIcon={
-                <IconButton aria-label={`cart ${item.TITLE}`} style={{color: "inherit"}} onClick={function(){
+  let shoppingCart = null
+  
+  if(props.authorizedUser){
+      shoppingCart = <IconButton aria-label={`cart ${item.TITLE}`} style={{color: "inherit"}} onClick={function(){
                   props.addTitleToCart(addTitleToCartQuery({
                     REMOTEADDR: props.selectedCart,
                     ISBN: item.ISBN,
@@ -32,11 +29,14 @@ function getTitleBar(props, item, index){
                 }}>
                   <AddShoppingCartIcon style={{color: "inherit"}}/>
                 </IconButton>
+    }
+    return ( <GridListTileBar
+              title={item.TITLE}
+              subtitle={"$" + item.LISTPRICE}
+              actionIcon={
+                shoppingCart
               }
             /> )
-  }else{
-    return null
-  }
 }
 export default function SingleLineGridList(props) {
     let history = useHistory();
@@ -58,7 +58,7 @@ export default function SingleLineGridList(props) {
     }
 
     if(items === undefined || items === null){
-      return null
+      return <div/>
     }else{
 
       let titleSize = "h3"

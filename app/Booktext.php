@@ -76,24 +76,4 @@ public function getBodyAttribute(){
 		return $this->$name;
 	}
 
-public function booktextsSchema($table){
-      $table->integer('ISTHERE');
-      $table->char('KEY');
-      $table->string('SUBJECT');
-      $table->string('PUBDATE');
-      $table->binary('SYNOPSIS');
-      $table->string('COMPUTER');
-      $table->string('DATESTAMP');
-      $table->string('TIMESTAMP');
-      $table->string('LASTTOUCH');
-      $table->string('LASTDATE');
-      $table->string('LASTTIME');
-      $table->string('FILENAME');
-      $table->timestamps();
-
-      $table->foreign('KEY')->references('ISBN')->on('inventories'); 
-      
-      return $table;
-  }
-
 }

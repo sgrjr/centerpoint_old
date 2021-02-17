@@ -39,6 +39,7 @@ Route::get('/cms', 'IndexController@indexBlank');
 
 Route::get('/cart', 'IndexController@index');
 Route::get('/cart/{transo}', 'IndexController@index');
+Route::get('/invoice/{transo}', 'IndexController@index');
 Route::get('/cart/review/{transno}', 'IndexController@index');
 Route::post('/cart/add-to/{isbn}/{quantity}', 'IndexController@index');
 

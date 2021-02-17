@@ -28,9 +28,4 @@ class Backdetail extends BaseModel implements \App\Interfaces\ModelInterface {
     {
         return $this->belongsTo('App\Inventory','PROD_NO','ISBN');
     }
-
-    public function backdetailSchema($table){
-        $table->foreign('transno')->references('transno')->on('backhead'); 
-        return $table;
-    }
 }

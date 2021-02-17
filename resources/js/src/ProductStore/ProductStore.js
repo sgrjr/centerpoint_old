@@ -12,7 +12,9 @@ import BrowseProducts from '../components/BrowseProducts'
 class ProductStore extends Component{
 
     componentDidMount(){
-      this.props.titlesGet(this.props.query(this.props.queryVars)) 
+      if(!this.props.lists || this.props.lists.length === 0){
+        this.props.titlesGet(this.props.query(this.props.queryVars)) 
+      }
     }
 
     render(){
@@ -100,7 +102,7 @@ return {
     browse: state.application.browse,
     query: state.titles.query,
     queryVars: state.titles.queryVars,
-    selectedCart: state.viewer.cart.selectedCart,
+    selectedCart: state.viewer? state.viewer.cart.selectedCart:null,
     viewer: state.viewer
      }
 }

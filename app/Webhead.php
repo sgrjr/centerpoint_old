@@ -100,8 +100,13 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
     }
 
 
-	public static function newCart($user, $args){
+	public static function newCart($user, $args, $returnCart = false){
     //\DB::enableQueryLog();
+      $input = [];
+
+      if(isset($args['input'])){
+        $input = $args['input'];
+      }
 	    $uid=  time();//uniqid();
       
       $zip = substr($user->KEY,0,5);
@@ -125,7 +130,7 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
       $newCart->OSOURCE = "INTERNET ORDER";
       $newCart->ISCOMPLETE = false;
 
-      foreach($args['input'] AS $key=>$val){
+      foreach($input AS $key=>$val){
         $newCart->$key = $val;
       }
   //must save to DBF first to get the new INDEX
@@ -133,6 +138,9 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
        $newCart->save();
     // file_put_contents('time', json_encode(\DB::getQueryLog()) . '----' .$newCart->INDEX . "\n", FILE_APPEND);
 
+       if($returnCart){
+          return $newCart;
+       }
       return $user;
 	}
 

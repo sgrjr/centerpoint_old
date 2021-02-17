@@ -11,16 +11,15 @@ import Profile from './Profile';
 import QuickLinks from './QuickLinks'
 import RecentOrders from './RecentOrders';
 import Users from './Users';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Widget from '../components/Widget'
 
 export default function Dashboard(props) {
-  
+
   return (
     <Grid container spacing={3}>
 
             <Grid item xs={12} md={4} lg={5}>
-              <Card >
+              <Card>
                 <Widget ready={true} title="Change Profile Picture">
                   <ChangePicture {...props} />
                 </Widget>
@@ -58,19 +57,9 @@ export default function Dashboard(props) {
             </Grid>
 
             <Grid item xs={12}>
-              <Card>
-                {()=>{
-    
-                  if(props.user.vendor.recent !== undefined){
-                    return <RecentOrders  {...props} />
-                  }else{
-                    return <CircularProgress color={"secondary"}/>
-                  }
-                }}
-                
-              </Card>
+              <Card><RecentOrders  {...props} /></Card>
             </Grid>
-
+            
             <Grid item xs={12}>
               <Card>
                 <BackOrders  {...props}/>

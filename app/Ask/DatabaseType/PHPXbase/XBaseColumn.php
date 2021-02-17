@@ -118,12 +118,100 @@ class XBaseColumn extends \ArrayObject {
         return $this->colIndex;
     }
     function getContainer(){
-    
+        $overRideToTinyNumber = [];
+
+        $exactLengths = [
+            "KEY" => 14,
+            "PROD_NO" => 14,
+            "ISBN" => 14,
+            "INDEX" => 12,
+            "FDATE" => 12,
+            "REMOTEADDR" => 20,
+            "TRANSNO" => 20,
+            "LASTTIME" => 20,
+            "LASTDATE" => 12,
+            "ORDREASON" => 5,
+            "ORDACTION" => 5,
+            "JOBBERHOLD" => 5,
+            "SENDSTATUS" => 10,
+            "SERIES" => 12,
+            "TIMESTAMP" => 12,
+            "INVNATURE" => 5,
+            "DATESTAMP" => 8,
+            "MASTERDATE" => 8,
+            "ONODATE" => 8,
+            "ORDERDATE" => 8,
+            "DATE" => 8,
+            "REMDATE" => 8,
+            "ENTRYDATE" => 8,
+            "ORDERED" => 8,
+            "STATUS" => 20,
+            "TITLE" => 75,
+            "SUBTITLE" => 128,
+            "TITLEKEY" => 75,
+            "AUTHORKEY" => 60,
+            "UPASS" => 128,
+            "USERPASS" => 128,
+            "FORMAT" => 12,
+            "CAT" => 32,
+            "SOPLAN" => 35,
+            "COMPUTER" => 35,
+            "ORDERNUM" => 20,
+            "CXNOTE" => 255,
+            "CINOTE" => 255,
+            "TINOTE" => 255,
+            "F997SENT" => 20,"F855SENT" => 20,"F810SENT" => 20,"F856SENT" => 20,
+            "POSTCODE" => 10,
+            "ORGNAME" => 128,
+            "COMPANY" => 128,
+            "VISION" => 32,
+            "SEX" => 10,
+            "ARTICLE" => 10,
+            "CARTICLE" => 10,
+            "SECONDARY" => 128,
+            "REMOVED" => 70,
+            "EMCHANGE" => 12,
+            "ZIP5" => 10,
+            "COUNTRY" => 20,
+            "VOICEPHONE" => 16,
+            "FAXPHONE" => 16,
+            "RECALLD" => 8,
+            "FIRST" => 32,
+            "MIDNAME" => 32,
+            "LAST" => 32,
+            "AFIRST" => 32,
+            "ALAST" => 32,
+            "AUTHPRE" => 32,
+            "SUFFIX" => 32,
+            "AUTHORPRE2" => 32,
+            "AFIRST2" => 32,
+            "ALAST2" => 32,
+            "SUFFIX2" => 32,
+            "HIGHLIGHT" => 128,
+            "EWHERE" => 10,
+            "UPSELL" => 20
+
+        ];
+
      	$overRideToString = ["ALLSALES","ONHAND","ONORDER","TRANSNO"];
 		$overRideToNumber = ["PUBDATE"];
+        $minimize = [
+
+            //from PASSWORDS
+            "LOGINS", "PRINTQUE","MULTIBUY","FULLVIEW","SKIPBOUGHT","OUTOFPRINT","OPROCESS","OBEST","OADDTL","OVIEW","ORHIST","OINVO","EXTZN","INSOS","INREG","LINVO","NOEMAILS","PROMOTION","PROMOTIONS","STATE","COMMCODE","MDEPARTMENT","PASSCHANGE","EXTENSION","PIC","ADVERTISE",
+
+            //from inventories
+            "HOLDNOW","PUBSTATUS","FCAT","SCAT","SGROUP",
+
+            //from details
+            "FASTPRINT","FSTATUS","TESTTRAN","HOLDNOW", "KILLNOW", "BACKNOW", "SHIPNOW", "TONHAND", "SOMSHIP", "RENSHIP", "MOMSHIP", "COMSHIP","ELSEWHERE","ARTICLE","CATALOG",
+
+            //vendors
+            "NATURE","WHAT"
+        ];
+
         $h = $this->container;
         
-
         $types = [
             "B" => "Double",
             'C' => "Char", //C	N	-	Character field of width n
@@ -138,17 +226,32 @@ class XBaseColumn extends \ArrayObject {
             "T" => "Datetime", //T	-	-	DateTime,
             "0" => "IGNORE" //// ignore this field
         ];
+            $name = $h["name"];
 
-            if(in_array($h["name"], $overRideToString)){
-			    $h["type"] = "String";
-		    }else if(in_array($h["name"], $overRideToNumber)){
-			    $h["type"] = "Int";
-		    }else{
-				$h["type"] = $types[$h['type']];
-		    }
+                if(in_array($name, $overRideToString)){
+    			    $h["type"] = "String";
+    		    }else if(in_array($name, $overRideToNumber)){
+    			    $h["type"] = "Int";
+    		    }else if(in_array($name, $overRideToTinyNumber)){
+                    $h["type"] = "TinyInt";
+                    $h["length"] = 1;
+                }else{
+    				$h["type"] = $types[$h['type']];
+    		    }
+                
+
+
+                if($h["type"] === "Char"){
+
+                    $h["length"] = 61;
+
+                    if(in_array($name, $minimize)){
+                        $h["length"] = 5;
+                    }
+                }
             
-            if($h["type"] === "Char"){
-                $h["length"] = 255;
+            if(isset($exactLengths[$name])){
+                $h["length"] = $exactLengths[$name];
             }
            // echo "NAME: " . $h["name"] . " TYPE: " . $h["type"] . " LENGTH: " . $h['length'] . PHP_EOL;
             

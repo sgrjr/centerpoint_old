@@ -35,9 +35,4 @@ class Alldetail extends BaseModel implements ModelInterface{
     {
         return $this->belongsTo('App\Inventory','prod_no','isbn');
     }
-
-   public function alldetailSchema($table){
-    $table->foreign('TRANSNO')->references('TRANSNO')->on('allheads'); 
-    return $table;	
-  }
 }

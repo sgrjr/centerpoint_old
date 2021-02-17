@@ -30,8 +30,4 @@ class Ancientdetail extends BaseModel implements \App\Interfaces\ModelInterface 
     {
         return $this->belongsTo('App\Inventory','PROD_NO','ISBN');
     }
-
-    public function ancientdetailSchema($table){
-       return $table->foreign('TRANSNO')->references('TRANSNO')->on('ancientheads');
-    }
 }

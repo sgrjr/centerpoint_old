@@ -18,14 +18,7 @@ class Ancienthead extends BaseModel implements \App\Interfaces\ModelInterface {
         "_config"=>"ancienthead",
       ];
 
-	public function getDetailsConnection($record = false){
-		if(!$record){		
-			return \App\AncientDetail::ask()->where("TRANSNO","===", $this->TRANSNO)->get();
-		}else{
-			$TRANSNO = $record->getObjectByName("TRANSNO");
-			return \App\AncientDetail::ask()->where("TRANSNO","===", $TRANSNO)->get();
-		}
-	}
-
-	public function ancientheadSchema($table){ $table->unique('TRANSNO'); return $table;	}
+  public function items(){
+    return $this->hasMany('\App\Ancientdetail','TRANSNO','TRANSNO');
+  }
 }

@@ -17,15 +17,7 @@ class Brohead extends BaseModel implements \App\Interfaces\ModelInterface {
         "_config"=>"brohead",
       ];
 
-	public function getDetailsConnection($record = false){
-		if(!$record){		
-			return \App\BroDetail::ask()->where("TRANSNO","===", $this->TRANSNO)->get();
-		}else{
-			$TRANSNO = $record->getObjectByName("TRANSNO");
-			return \App\BroDetail::ask()->where("TRANSNO","===", $TRANSNO)->get();
-		}
-		
-	}
-
-	public function broheadSchema($table){$table->unique('TRANSNO'); return $table;}
+  public function items(){
+    return $this->hasMany('\App\Brodetail','TRANSNO','TRANSNO');
+  }
 }

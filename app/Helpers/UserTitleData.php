@@ -1,5 +1,7 @@
 <?php namespace App\Helpers;
 
+use Cache;
+
 class UserTitleData {
 
 	public function __construct($title, $user){
@@ -27,7 +29,7 @@ class UserTitleData {
 	}
 
 	private function getPurchased(){
-		return in_array($this->title->ISBN, $this->user->getIsbns());
+		return $this->user->vendor->isbns->contains($this->title->ISBN);
 	}
 
 		private function getOnstandingorder(){

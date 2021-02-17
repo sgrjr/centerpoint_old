@@ -9,7 +9,6 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import clsx from 'clsx';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import DashboardMain from './Main'
@@ -46,7 +45,7 @@ const drawerWidth = 240;
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
-    menuButton: {
+    button: {
       marginRight: 36,
     },
     menuButtonHidden: {
@@ -104,7 +103,9 @@ class Dashboard extends Component{
   }
 
    componentDidMount(){
+      if(!this.props.viewer || !this.props.viewer.vendor.processing){
         this.props.dashboardGet(dashboardQuery) 
+      }
     }
 
     componentWillReceiveProps(newProps){
@@ -117,7 +118,7 @@ class Dashboard extends Component{
     }
 
     render(){
-      console.log(this.props.user)
+
         const { classes, links} = this.props;    
         const {open} = this.state
         const toggleDrawer = this.toggleDrawer.bind(this)
@@ -142,7 +143,6 @@ class Dashboard extends Component{
 
         return(
           <div className={classes.root}>
-          <CssBaseline />
           
          <Drawer
             variant="permanent"
@@ -192,6 +192,7 @@ const dashboardQuery = {
           ORGNAME
           cartsCount
           processingCount
+          isbns
           
           users (first:100) {
             data{
@@ -202,15 +203,6 @@ const dashboardQuery = {
 
           }
 
-          carts(first:100){
-            data{
-              id
-              KEY
-              DATE
-              PO_NUMBER
-              TRANSNO
-            }
-          }
           processing(first:100){
             data {
               id
@@ -238,6 +230,7 @@ const dashboardQuery = {
               DATE
               PO_NUMBER
               TRANSNO
+              UPS_KEY
             }
           }
           
@@ -248,6 +241,7 @@ const dashboardQuery = {
               DATE
               PO_NUMBER
               TRANSNO
+              UPS_KEY
            }
           }
 
@@ -258,6 +252,7 @@ const dashboardQuery = {
               DATE
               PO_NUMBER
               TRANSNO
+              UPS_KEY
             }
           }
 

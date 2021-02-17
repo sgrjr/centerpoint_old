@@ -56,6 +56,11 @@ class App extends React.Component {
           <Route path="/cart/:cartid">
             <CartCheckout />
           </Route>
+
+          <Route path="/invoice/:invoiceid">
+            <CartCheckout />
+          </Route>
+
           <Route path="/search/:search/:filter">
             <SearchPage />
           </Route>

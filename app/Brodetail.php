@@ -29,10 +29,4 @@ class Brodetail extends BaseModel implements \App\Interfaces\ModelInterface{
     {
         return $this->belongsTo('App\Inventory','PROD_NO','ISBN');
     }
-
-    public function brodetailSchema($table)
-    {
-        $table->foreign('TRANSNO')->references('TRANSNO')->on('broheads');
-        return $table;
-    }
 }

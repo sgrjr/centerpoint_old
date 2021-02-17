@@ -13,20 +13,12 @@ class Allhead extends BaseModel implements \App\Interfaces\ModelInterface{
 		'dbf_allhead'
 	];
 	protected $dbfPrimaryKey = 'TRANSNO';
-      protected $attributeTypes = [ 
+    protected $attributeTypes = [ 
         "_config"=>"allhead",
       ];
 
-	public function getDetailsConnection($record = false){
-		if(!$record){		
-			return \App\AllDetail::ask()->where("TRANSNO","===", $this->TRANSNO)->get();
-		}else{
-			$TRANSNO = $record->getObjectByName("TRANSNO");
-			return \App\AllDetail::ask()->where("TRANSNO","===", $TRANSNO)->get();
-		}
-		
-	}
-
-	public function allheadSchema($table){ $table->unique('TRANSNO'); return $table;	}
+  public function items(){
+    return $this->hasMany('\App\Alldetail','TRANSNO','TRANSNO');
+  }
 
 }

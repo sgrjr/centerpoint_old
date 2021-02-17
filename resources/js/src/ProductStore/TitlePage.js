@@ -23,12 +23,16 @@ function ListItemLink(props) {
 class TitlePage extends Component{
 
     componentDidMount(){
-      const { isbn } = this.props.match.params
+
+       const { isbn } = this.props.match.params
+
+      if(!this.props.title || this.props.title.ISBN !== isbn){
           this.props.titleGet(this.props.minTitleQuery({
             "page":1,
             "perPage":10,
             "isbn": isbn
           }))
+      }
       }
 
     componentWillReceiveProps(newProps){
@@ -78,7 +82,7 @@ class TitlePage extends Component{
             </Grid>)
           })
         }else{
-          return null
+          return <div/>
         }
       }
 
@@ -100,8 +104,8 @@ class TitlePage extends Component{
         <Grid container className="title-page">
             <Grid item xs={12} md={12} >
               {loading}
-            <Typography variant="h3">
-              {title.TITLE}
+            <Typography variant="h3" dangerouslySetInnerHTML={{__html: title.TITLE}}>
+          
             </Typography>
             </Grid>
           <Grid item xs={10} md={5}>           
@@ -232,7 +236,13 @@ class TitlePage extends Component{
           
             {copy()}
             <Grid item xs={12} sm={10}>
-              <HorizontalList items={title.byCategory.data} listTitle={"More " + title.CAT} url={"/search/"+title.CAT+"/category"} titleSize={"h4"} displayHorizontal={true} background={"#2e2e2e"} />
+              <HorizontalList 
+                items={title.byCategory.data} 
+                listTitle={"More " + title.CAT} 
+                url={"/search/"+title.CAT+"/category"} 
+                titleSize={"h4"} displayHorizontal={true} 
+                background={"#2e2e2e"}
+                authorizedUser={viewer.KEY? true:false} />
             </Grid>
              <Grid item xs={12} sm={10}>
               <HorizontalList items={title.byAuthor.data} listTitle={authorTitle} url={"/search/"+title.AUTHORKEY+"/author"} titleSize={"h4"}  displayHorizontal={true}  background={"#2e2e2e"} />

@@ -7,5 +7,4 @@ interface ModelInterface {
     public function emptyTable();
     public function delete();
     public function dbfSave();
-    public function schema($table);
 }

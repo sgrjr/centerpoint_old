@@ -1,8 +1,5 @@
 type Vendor {
 	
-
-
-
 	carts(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(type:"paginator", model:"\\App\\Webhead")
 	processing(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(type:"paginator", model:"\\App\\Webhead")
 	backOrders(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(type:"paginator", model:"\\App\\Backhead")
@@ -10,9 +7,7 @@ type Vendor {
 	ancientOrders(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(type:"paginator", model:"\\App\\Ancienthead")
 	allOrders(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(type:"paginator", model:"\\App\\Allhead")
 
-	orders: Order @hasMany(type:"paginator")
-	isbns: [String] @hasMany(type:"paginator")
-	titles: Title @hasMany(type:"paginator")
+	isbns: [String]
 	users: User @hasMany(type:"paginator")
 
 	activeStandingOrders: StandingOrder @hasMany(type:"paginator")

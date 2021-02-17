@@ -7,7 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Card from '../components/Card'
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -21,29 +21,48 @@ const useStyles = makeStyles(theme => ({
 
 export default function RecentOrders(props) {
   const classes = useStyles();
-  return (
+ if(props.user.vendor){
+     return (
     <Card title="Recent Orders">
 
       <Table size="small">
         <TableHead>
           <TableRow>
+            <TableCell>view</TableCell>
             <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
+            <TableCell>PO#</TableCell>
+            <TableCell align="right">UPS Key</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.user.vendor.recent.data.map(row => (
-            <TableRow key={row.id}>
-              <TableCell>{row.REQUESTED}</TableCell>
-              <TableCell>{row.PROD_NO}</TableCell>
-              <TableCell>{row.AUTHOR}</TableCell>
-              <TableCell>{row.TITLE}</TableCell>
-              <TableCell align="right">{row.DATE}</TableCell>
+
+          {props.user.vendor.recent && props.user.vendor.recent.data.map((row, id) => {
+            return <TableRow key={id}>
+              <TableCell><a href={"/invoice/" + row.TRANSNO}>view</a></TableCell>
+              <TableCell>{row.DATE}</TableCell>
+              <TableCell>{row.PO_NUMBER}</TableCell>
+              <TableCell align="right">{row.UPS_KEY}</TableCell>
+            </TableRow>
+          })}
+
+          {props.user.vendor.old && props.user.vendor.old.data.map((row, id) => {
+            return <TableRow key={id}>
+              <TableCell><a href={"/invoice/" + row.TRANSNO}>view</a></TableCell>
+              <TableCell>{row.DATE}</TableCell>
+              <TableCell>{row.PO_NUMBER}</TableCell>
+              <TableCell align="right">{row.UPS_KEY}</TableCell>
+            </TableRow>
+          })}
+
+          {props.user.vendor.ancient && props.user.vendor.ancient.data.map((row,id) => (
+            <TableRow key={id}>
+               <TableCell><a href={"/invoice/" + row.TRANSNO}>view</a></TableCell>
+              <TableCell>{row.DATE}</TableCell>
+              <TableCell>{row.PO_NUMBER}</TableCell>
+              <TableCell align="right">{row.UPS_KEY}</TableCell>
             </TableRow>
           ))}
+
         </TableBody>
       </Table>
       <div className={classes.seeMore}>
@@ -53,4 +72,9 @@ export default function RecentOrders(props) {
       </div>
     </Card>
   );
+  }else{
+    return <div/>;
+  }
+
+ 
 }

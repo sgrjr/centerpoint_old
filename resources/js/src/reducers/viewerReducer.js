@@ -30,6 +30,7 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
             return {
                 ...state,
                 pending: false,
+                
                 ...action.payload.viewer,
                 cart: {
                     ...state.cart,

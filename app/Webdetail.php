@@ -53,7 +53,12 @@ public static function prepareUpdateCartTitle($model){
 
 public static function prepareNewCartTitle($model){
 
-  $user = request()->user();
+      $user = request()->user();
+
+      if($model->REMOTEADDR === false || $model->REMOTEADDR === ""){
+        $cart = \App\Webhead::newCart($user, [], true);
+        $model->REMOTEADDR = $cart->REMOTEADDR;
+      }
 
       $model->KEY = $user->KEY;
       $model->SHIPPED = 0;

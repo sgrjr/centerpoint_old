@@ -29,16 +29,6 @@ protected $attributeTypes = [
             "length" => 255
            ]
       ];
-  public function schema($table){
-
-    $table->unsignedInteger('role_id');
-    $table->unsignedInteger('user_id');
-
-    $table->foreign('user_id')->references('id')->on('users');
-    $table->foreign('role_id')->references('id')->on('roles');
-    
-    return $table;
-   }
 
    public function dbfSave(){
     return $this;

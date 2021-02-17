@@ -76,6 +76,10 @@ class TerminalCommands
 					return view('application', ["response"=>$response]);
                     break;
 
+                case "PASSPORT_INIT":
+                    $commandToExecute = "php artisan passport:install";
+                    break;
+
 				default:
                     if (is_array($opt)) {
                         $opt = implode(" ", $opt);

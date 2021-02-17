@@ -16,11 +16,18 @@ class Index extends React.Component {
     }
  
     load(){
-     this.props.invoiceGet(invoiceQuery({REMOTEADDR: this.props.match.params.cartid}))
+      if(this.props.match.params.cartid !== undefined){
+        this.props.invoiceGet(invoiceQuery({REMOTEADDR: this.props.match.params.cartid}))
+      }else if(this.props.match.params.invoiceid !== undefined){
+        this.props.invoiceGet(invoiceQuery({TRANSNO: this.props.match.params.invoiceid}))
+      }
+     
     }
 
   componentDidUpdate(nextProps) {
-    if(nextProps.match.params.cartid !== this.props.cart.checkout.remoteaddr){
+    if(nextProps.match.params.cartid && nextProps.match.params.cartid !== this.props.cart.checkout.remoteaddr){
+      this.load()
+    }else if(nextProps.match.params.innvoiceid && nextProps.match.params.invoiceid !== this.props.cart.checkout.remoteaddr){
       this.load()
     }else if(nextProps.cart.checkout.ISCOMPLETE !== this.props.cart.checkout.ISCOMPLETE){
       this.load()

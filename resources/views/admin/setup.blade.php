@@ -71,16 +71,10 @@ Additional Links:
 
 </ul>
 
-<ul>
-	@foreach($users AS $user)
-<li>{{$user->EMAIL}}</li>
-	@endforeach
-</ul>
-
 <hr />
 <ul>
 	@foreach($tables AS $table)
-<li>{{$table}}</li>
+<li>{{$table->name}} ({{$table->rows}})</li>
 	@endforeach
 </ul>
 

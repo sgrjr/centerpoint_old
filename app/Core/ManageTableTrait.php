@@ -33,14 +33,14 @@ Trait ManageTableTrait
 
 		Schema::create($this->getTable(),function($table) {
 				$table->increments('id');
-                $table = \App\Helpers\Misc::setUpTableFromHeaders($table, $this->headers);
+                $table = \App\Helpers\Misc::setUpTableFromHeaders($this->getTable(), $table, $this->headers);
                 $table->charset = 'utf8';
 				$table->collation = 'utf8_unicode_ci';
 			});	
 	}
 
 	public static function seedTable(){
-		
+		\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 		$model = new static;
     	
 		\Eloquent::unguard();
@@ -79,7 +79,7 @@ Trait ManageTableTrait
 			}
 
 		}
-
+		\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 		return $model;
 
 	}	

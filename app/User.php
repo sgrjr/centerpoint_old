@@ -104,22 +104,6 @@ class User extends Authenticatable implements \App\Interfaces\ModelInterface, \I
             $auth->user = new User;
             return $auth;
   }
-
-  public function orders()
-    {
-      return $this->hasMany('\App\Order', 'KEY', 'KEY');
-    }
-
-  public function getIsbns()
-    {
-      return $this->hasMany('\App\Alldetail', 'KEY', 'KEY')->get(['PROD_NO'])->toArray();
-    }
-
-
-    public function titles()
-    {
-      return $this->hasMany('App\OrderItem', 'KEY','KEY');
-    }
  
     public function vendor()
     {

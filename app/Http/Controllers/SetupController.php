@@ -13,43 +13,12 @@ class SetupController extends BaseController
     public function index(Request $request)
     {		
 
-    	//dd(\App\User::where('KEY',"0484900000044")->first()->vendor->carts);
-
-		if(\Schema::hasTable('users') && \Schema::hasTable('roles') && \Schema::hasTable('role_user')){
-			
-			try {
-				$user = User::find(1);
-			
-				if( $user !== null && $user->can("ADMIN_APP") ){
-					return redirect("/admin/db"); 
-				}
-			}
-
-			catch(\Throwable $e){
-				$user = false;
-			}
-		}
-
-		$ts = \DB::select('SHOW TABLES');
-		$tables = [];
-			
-		//programtically getting db name from env; not hard written
-		$tables_in_dbname = "Tables_in_" . DB::getDatabaseName();
-			foreach($ts AS $t){
-				$tables[] = $t->$tables_in_dbname;
-			}
-
-			if(\Schema::hasTable('users') ){
-				$users = \App\User::all();
-			}else{
-				$users = [];
-			}
+		$db = DB::getDatabaseName();
+		$tables = \DB::select("select table_name as 'name', SUM(TABLE_ROWS) as 'rows' FROM INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA='".$db."' group by TABLE_NAME;");
 
         return view('admin.setup', [
             "tables"=> $tables,
-
-            "error" => \App\Helpers\Misc::getErrors(),
-            "users" => $users
+            "error" => \App\Helpers\Misc::getErrors()
         ]);
 		   
 	}
@@ -83,6 +52,8 @@ class SetupController extends BaseController
 		ini_set('max_execution_time', 1000000);
 		ini_set('memory_limit', '1.5G');
 		$exitCode = Artisan::call('db:seed --class=UsersTableSeeder');
+		$exitCode = Artisan::call('db:seed --class=RolesTableSeeder');
+		$exitCode .= Artisan::call('db:seed --class=Role_userTableSeeder');
         $request->session()->flash('message', true);
         return redirect("/setup");   
 	}
