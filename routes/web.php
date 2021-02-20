@@ -10,7 +10,7 @@
 |
 */
 
-\Auth::login(\App\User::find(1), true);
+//\Auth::login(\App\User::find(1), true);
 
 Route::auth();
 Route::get('/logout', 'Auth\LoginController@logout');
