@@ -41,7 +41,7 @@ class TwiceDailyUpdateCommand extends Command
             Artisan::call('db:seed --class=WebheadsTableSeeder');
             Artisan::call('db:seed --class=WebdetailsTableSeeder');
             Artisan::call('db:seed --class=BroheadsTableSeeder');
-            Artisan::call('db:seed --class=BrodetailssTableSeeder');
+            Artisan::call('db:seed --class=BrodetailsTableSeeder');
             Artisan::call('db:seed --class=BackheadsTableSeeder');
             Artisan::call('db:seed --class=BackdetailsTableSeeder');
             Artisan::call('db:seed --class=Standing_ordersTableSeeder');
