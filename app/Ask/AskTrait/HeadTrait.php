@@ -118,12 +118,8 @@ trait HeadTrait {
 		  $itemTotals = [];
   
 		  foreach($this->items AS $book ){
-		  	//file_put_contents('numbers', "\n" . $book->SALEPRICE . "=>" . is_numeric($book->SALEPRICE) . "-" . $book->REQUESTED . "=>" .  is_numeric($book->REQUESTED) , FILE_APPEND);
 			$cost = (int) $book->SALEPRICE * (int) $book->REQUESTED;
-			//file_put_contents('numbers', " ?? ". $cost . '=>' . is_numeric($cost), FILE_APPEND);
-
-			$subtotal = number_format($subtotal+$cost,2);
-			file_put_contents('numbers', "\n" . $subtotal . '=>' . is_numeric($subtotal), FILE_APPEND);
+			$subtotal = number_format($subtotal+$cost,2,'.','');
 		  }
   
 		  if($shipping === null || $shipping === ""){$shipping = "?";}
@@ -132,19 +128,11 @@ trait HeadTrait {
 		  $grandtotal = 0;
   
 		  if($shipping !== "?"){
-			$grandtotal = number_format(($subtotal+$shipping)-$paid,2);
+			$grandtotal = number_format(($subtotal+$shipping)-$paid,2,'.','');
 		  }else{
 			$grandtotal = null;
 			$shipping = null;
 		  }
-
-		  file_put_contents(
-		  	'numbers', 
-		  	"\n ". $subtotal . '=>' . is_numeric($subtotal) . " | " . 
-		  	$shipping . '=>' . is_numeric($shipping) . " | " . 
-		  	$paid . '=>' . is_numeric($paid) . " | " . 
-		  	$grandtotal . '=>' . is_numeric($grandtotal)
-		  	, FILE_APPEND);
 
 		  $totaling = [
 			  "subtotal"=> $subtotal, 

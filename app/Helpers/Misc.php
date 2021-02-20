@@ -14,7 +14,7 @@ class Misc
 
   public static function figureCost($detail){
     $number = $detail->SALEPRICE * $detail->REQUESTED;
-    return number_format($number, 2);
+    return number_format($number, 2,'.','');
   }
 
   public static  function makeSearchUrl($text, $col, $title = false, $compare = false){
