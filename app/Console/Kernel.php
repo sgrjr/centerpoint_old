@@ -4,7 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use DB, Artisan;
+use Carbon\Carbon, DB, Artisan;
 
 class Kernel extends ConsoleKernel
 {
