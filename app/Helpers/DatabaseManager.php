@@ -21,8 +21,8 @@ class DatabaseManager {
 		$this
 			->setDB()
 			->setTables();
-		ini_set('max_execution_time', 1000000);
-		ini_set('memory_limit', '1.5G');
+		//ini_set('max_execution_time', 1000000);
+		//ini_set('memory_limit', '1.5G');
 	}
 
 	private function addResult($message, $table = false, $error = true){
@@ -59,14 +59,8 @@ class DatabaseManager {
 
 		foreach($tables_conf AS $key=>$tc){
 			$table = new $tc[0];
-
 			$table->exists = $table->tableExists;
-			if($table->exists){
-				$table->mysqlCount = $table->count();
-			}else{
-				$table->mysqlCount = 0;
-			}
-			
+			$table->mysqlCount = 0; //find another solution for this data
 			$tables[$key] = $table;
 		}
 

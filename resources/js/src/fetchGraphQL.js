@@ -8,11 +8,13 @@ export default function(query, actions, opt1={}) {
     url: "/graphql",
     headers: {
       'Accept': 'application/json',
-      'Content-Type': "application/json",
-      'Authorization' :"Bearer " + auth.token()
+      'Content-Type': "application/json"
     }
   }
 
+if(auth.token() !== null){
+  opt.headers.Authorization = "Bearer " + auth.token()
+}
 
   let data = {
       method: opt.method,
