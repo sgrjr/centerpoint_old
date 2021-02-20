@@ -34,8 +34,8 @@ class DatabaseSeeder extends Seeder
             /*15*///'\Database\Seeders\PassfilesTableSeeder',
             /*16*///'\Database\Seeders\Standing_ordersTableSeeder', //76seconds
             /*17*///'\Database\Seeders\AllheadsTableSeeder', //18 minutes
-            /*18*/'\Database\Seeders\AlldetailsTableSeeder',//14 m
-            /*19*/'\Database\Seeders\AncientheadsTableSeeder',
+            /*18*///'\Database\Seeders\AlldetailsTableSeeder',//33 m
+            /*19*///'\Database\Seeders\AncientheadsTableSeeder', //33 m
             /*20*/'\Database\Seeders\AncientdetailsTableSeeder'
         ];
 
