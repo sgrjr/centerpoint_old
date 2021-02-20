@@ -23,6 +23,7 @@ export default function RecentOrders(props) {
   const classes = useStyles();
  if(props.user.vendor){
      return (
+
     <Card title="Recent Orders">
 
       <Table size="small">

@@ -152,7 +152,7 @@ class XBaseColumn extends \ArrayObject {
             "AUTHORKEY" => 60,
             "UPASS" => 128,
             "USERPASS" => 128,
-            "FORMAT" => 12,
+            "FORMAT" => 15,
             "CAT" => 32,
             "SOPLAN" => 35,
             "COMPUTER" => 35,
