@@ -11,3 +11,4 @@ Homestead.json
 composer.lock
 package-lock.json
 storage/addToCartFailure.txt
+schedule.txt
