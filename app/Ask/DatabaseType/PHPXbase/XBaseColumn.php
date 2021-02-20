@@ -130,8 +130,8 @@ class XBaseColumn extends \ArrayObject {
             "TRANSNO" => 20,
             "LASTTIME" => 20,
             "LASTDATE" => 12,
-            "ORDREASON" => 5,
-            "ORDACTION" => 5,
+            "ORDREASON" => 20,
+            "ORDACTION" => 20,
             "JOBBERHOLD" => 5,
             "SENDSTATUS" => 10,
             "SERIES" => 12,
@@ -139,8 +139,8 @@ class XBaseColumn extends \ArrayObject {
             "INVNATURE" => 5,
             "DATESTAMP" => 8,
             "MASTERDATE" => 8,
-            "ONODATE" => 8,
-            "ORDERDATE" => 8,
+            "ONODATE" => 10,
+            "ORDERDATE" => 10,
             "DATE" => 8,
             "REMDATE" => 8,
             "ENTRYDATE" => 8,
@@ -189,7 +189,8 @@ class XBaseColumn extends \ArrayObject {
             "SUFFIX2" => 32,
             "HIGHLIGHT" => 128,
             "EWHERE" => 10,
-            "UPSELL" => 20
+            "UPSELL" => 20,
+            "FSTATUS" => 7
 
         ];
 

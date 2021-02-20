@@ -16,14 +16,14 @@ class DatabaseSeeder extends Seeder
         //10:06 allheads start
         //
         $list = [
-            /*0*/'\Database\Seeders\UsersTableSeeder', //11.5 minutes
-            /*1*/'\Database\Seeders\RolesTableSeeder',
-            /*2*/'\Database\Seeders\Role_userTableSeeder',
-            /*3*/'\Database\Seeders\InventoriesTableSeeder',
-            /*4*/'\Database\Seeders\VendorsTableSeeder',
-            /*5*/'\Database\Seeders\WebheadsTableSeeder',
-            /*6*/'\Database\Seeders\WebdetailsTableSeeder',
-            /*7*/'\Database\Seeders\BackheadsTableSeeder',
+            /*0*///'\Database\Seeders\UsersTableSeeder', //11.5 minutes
+            /*1*///'\Database\Seeders\RolesTableSeeder',
+            /*2*///'\Database\Seeders\Role_userTableSeeder',
+            /*3*///'\Database\Seeders\InventoriesTableSeeder',
+            /*4*///'\Database\Seeders\VendorsTableSeeder',
+            /*5*///'\Database\Seeders\WebheadsTableSeeder',
+            /*6*///'\Database\Seeders\WebdetailsTableSeeder',
+            /*7*///'\Database\Seeders\BackheadsTableSeeder',
             /*8*/'\Database\Seeders\BackdetailsTableSeeder',
             /*9*/'\Database\Seeders\BroheadsTableSeeder',
             /*10*/'\Database\Seeders\BrodetailsTableSeeder',
