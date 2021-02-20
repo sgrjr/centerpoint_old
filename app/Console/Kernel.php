@@ -27,8 +27,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {   
         $schedule->call(function () {
-            file_put_contents('schedule.txt','running scheduler \n', FILE_APPEND);
+           file_put_contents('schedule.txt',"running scheduler ". Carbon::now() . "\n", FILE_APPEND);
         })->everyMinute();
+
         $schedule->command('twicedaily:update')->twiceDaily(1,13);
 
         $schedule->call(function () {
