@@ -60,7 +60,7 @@ class TitlePage extends Component{
 
        if(this.props.pending){
           return (<Grid container className="title-page"><TitlePageSkeleton/><Grid container className={"pending"}><Grid item xs={12}><Progress color="primary"/></Grid></Grid></Grid>)
-       }else if(this.props.title === null){
+       }else if(this.props.title === null || this.props.title === undefined){
           return <p style={{textAlign:"center"}}>Sorry. We cannot find that title.</p>
        }
 
@@ -89,13 +89,10 @@ class TitlePage extends Component{
       }
 
       let requireAuth = {}
-       let addToCart = <span/>
 
-      if(viewer.KEY === undefined){
-        addToCart = <span/>
+
+      if( viewer === undefined || viewer.KEY === undefined){
         requireAuth.display = "none";
-      }else{
-        addToCart = <AddToCart title={title} url={this.props.match.url} createCart={createCart}/>
       }
 
       let authorTitle = title.AUTHOR + " Titles";
@@ -114,13 +111,13 @@ class TitlePage extends Component{
             <BookCover link={""} image={"url(" + title.coverArt + ")"} large={true} />
             <Divider style={{margin:"30px"}} />
 
-            {addToCart}
+            <AddToCart title={title} url={this.props.match.url} createCart={createCart}/>
             
           </Grid>
           <Grid item xs={10} md={5} style={{marginTop:"50px"}}>
           <Typography variant="body1" dangerouslySetInnerHTML={{__html: title.SUBTITLE }}></Typography>
           <Typography variant="h4" color="secondary" style={requireAuth}>
-            {title.user? "YOUR PRICE: "+title.user.price : ""}
+            {title && title.user? "YOUR PRICE: "+title.user.price : ""}
             </Typography>
           <Typography variant="h5">
               LIST PRICE: {title.LISTPRICE? title.LISTPRICE:circle}
@@ -134,7 +131,7 @@ class TitlePage extends Component{
                   <Typography fontWeight={500} fontStyle="italic">Discount: </Typography>
                 </ListItemText>
                 <ListItemText>
-                  <Typography>{title.user? (100*title.user.discount) + "%":circle}</Typography>
+                  <Typography>{title && title.user? (100*title.user.discount) + "%":circle}</Typography>
                 </ListItemText>
               </ListItem>
               <ListItem style={requireAuth}>
@@ -142,7 +139,7 @@ class TitlePage extends Component{
                   <Typography fontWeight={500} fontStyle="italic">Previously Purchased: </Typography>
                 </ListItemText>
                 <ListItemText>
-                  <Typography>{title.user? (title.user.purchased? "yes":"no"):circle}</Typography>
+                  <Typography>{title && title.user? (title.user.purchased? "yes":"no"):circle}</Typography>
                 </ListItemText>
               </ListItem>
               <ListItem style={requireAuth}>
@@ -150,7 +147,7 @@ class TitlePage extends Component{
                   <Typography fontWeight={500} fontStyle="italic">On Standing Order: </Typography>
                 </ListItemText>
                 <ListItemText>
-                  <Typography>{title.user? (title.user.onstandingorder? "yes":"no"):circle}</Typography>
+                  <Typography>{title && title.user? (title.user.onstandingorder? "yes":"no"):circle}</Typography>
                 </ListItemText>
               </ListItem>
 

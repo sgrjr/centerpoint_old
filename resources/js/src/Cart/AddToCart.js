@@ -61,7 +61,6 @@ class AddToCart extends Component{
 }    
 
 AddToCart.propTypes = {
-    viewerPending: PropTypes.bool,
     title: PropTypes.object,
     carts: PropTypes.array,
     open: PropTypes.bool,
@@ -70,7 +69,7 @@ AddToCart.propTypes = {
 
 const mapStateToProps = (state)=>{
 return {
-    authenticated: state.viewer.KEY? true:false,
+    authenticated: state.viewer && state.viewer.KEY? true:false,
     cart: state.viewer.cart,
     viewer: state.viewer,
     selectedCart: state.viewer.cart.selectedCart,
