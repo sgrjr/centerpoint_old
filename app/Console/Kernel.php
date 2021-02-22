@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () {
             file_put_contents("schedule.txt", "Schedule Ran: " . Carbon::now() . "\n", FILE_APPEND);
-        })->everyMinute();
+        })->everyThirtyMinutes();
 
         $schedule->call(function () {
             $update = new UpdateDbfsIfChanged(["webhead","webdetail","backhead","backdetail","brohead","brodetail"]);
