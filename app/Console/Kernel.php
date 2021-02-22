@@ -29,7 +29,10 @@ class Kernel extends ConsoleKernel
     {   
        
         //$schedule->command('command:watchdbfchanges')->everyThirtyMinutes();
-        //$schedule->command('twicedaily:update')->twiceDaily(5,12);
+
+        $schedule->call(function () {
+            file_put_contents("schedule.txt", "Schedule Ran: " . Carbon::Now() . '\n', FILE_APPEND);
+        })->everyMinute();
 
         $schedule->call(function () {
             $update = new UpdateDbfsIfChanged(["webhead","webdetail","backhead","backdetail","brohead","brodetail"])
