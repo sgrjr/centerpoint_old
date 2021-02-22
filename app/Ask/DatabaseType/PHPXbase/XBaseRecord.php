@@ -383,4 +383,8 @@ class XBaseRecord {
 
          return $data;
      }
+
+     function getRawDataSimplest() {
+        return $this->data;
+     }
 }

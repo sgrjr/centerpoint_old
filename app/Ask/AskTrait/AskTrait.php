@@ -170,5 +170,20 @@ trait AskTrait {
         return static::xbaseQueryBuilder($model, $writable, $import);
     }
 
+    public static function getDbfTable(){
+        $model = new static;
+        $table = false;
+
+        foreach($model->getSeeds() AS $seed){
+
+            if($seed["type"] === "dbf"){
+                $table = new WritableTable($seed["path"]);
+            }  
+
+        }
+        $table->open();
+        return $table;
+    }
+
 }
 

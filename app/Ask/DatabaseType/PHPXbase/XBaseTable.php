@@ -159,6 +159,23 @@ class XBaseTable {
 
         return $this->record;
     }
+
+    function importAll(){
+        ini_set('memory_limit','3000M');
+        $startIndex = -1;
+
+        file_put_contents('import_all.json', json_encode($this->getColumnNames()) . "\n", FILE_APPEND);
+
+        $this->open();
+        $this->moveTo($startIndex);
+           
+        while ($record1=$this->nextRecord() ) {
+            file_put_contents('import_all.json', json_encode($record1->getRawDataSimplest()) . "\n", FILE_APPEND);
+        }
+
+        $this->close();
+        return true;
+    }
     
     function previousRecord() {
 
@@ -226,7 +243,35 @@ class XBaseTable {
     function getDeleteCount() {
         return $this->deleteCount;
     }
-    
+
+    function getModifyDate(){
+        return $this->modifyDate;
+    }
+     public function getHeader(){
+            $header = new \stdclass;
+            $header->name = $this->name;
+            //$header->fp = $this->fp;
+            //$header->name = $this->isStream;
+            $header->filePos = $this->filePos;
+            $header->recordPos = $this->recordPos;
+            $header->record = $this->record;
+            $header->version = $this->version;
+            $header->modifyDate = $this->modifyDate;
+            $header->recordCount = $this->recordCount;
+            //$header->recordByteLength = $this->recordByteLength;
+           // $header->inTransaction = $this->inTransaction;
+            //$header->encrypted = $this->encrypted;
+            //$header->mdxFlag = $this->mdxFlag;
+            //$header->languageCode = $this->languageCode;
+            //$header->columns = $this->columns;
+            //$header->columnNames = $this->columnNames;
+            $header->headerLength = $this->headerLength;
+            //$header->backlist = $this->backlist;
+            $header->foxpro = $this->foxpro;
+            $header->deleteCount = $this->deleteCount;
+
+        return $header;
+     }
     /**
      * -------------------------------------------------------------------------
      * private functions

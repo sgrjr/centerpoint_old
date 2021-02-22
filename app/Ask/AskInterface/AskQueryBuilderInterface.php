@@ -20,7 +20,7 @@ interface AskQueryBuilderInterface {
     function find($primaryKeyValue);
     function index($index, $columns = false);
     function all($limit = 5, $page = false, $columns = false);
-    function get($columns = false);
+    function get();
     function test($record);
     function first($columns = false);
     function __get($name);

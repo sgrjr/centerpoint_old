@@ -10,6 +10,11 @@
 |
 */
 
+Route::get('/stephen',function(){
+	$table = \App\AllDetail::dbf()->importAll();
+    dd($table);
+});
+
 //\Auth::login(\App\User::find(1), true);
 
 Route::auth();

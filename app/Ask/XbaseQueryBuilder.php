@@ -113,27 +113,19 @@ public function index($index = 0, $columns = false){
 	}
 
     public function importAndEmpty(){
-
 		
-		if($this->parameters->import !== false && $this->data->records->count() > 0){
-
-			$result = \DB::table($this->parameters->import)->insert($this->data->records->toArray());
-
-			if($this->parameters->perPage >= 8000){
-				$this->truncateRecords();
-			}
+		if($this->parameters->import !== false){
+			$result = \DB::table($this->parameters->import)->insert($this->data->records);
+			$this->truncateRecords();
 		}
 
 		return $this;
 	}
 
-	public function setData($columns = false){
-		ini_set('memory_limit','3000M');
+	public function setData(){
 		$startIndex = -1;	
-		$incrementFunction = "nextRecord";
-		//reversing search from last to first
-		//$startIndex = $table->recordCount - 1;
-		//$incrementFunction = "previousRecord";
+		$resetCounterAt = 500;
+		$limit = $this->parameters->perPage * $this->parameters->page;
 
 		foreach($this->table AS $table){
 
@@ -141,10 +133,10 @@ public function index($index = 0, $columns = false){
 			$table->moveTo($startIndex);
 			$counter = 0;
 			$total = 0;
-			while ($record1=$table->$incrementFunction() ) {
+
+			while ($record1=$table->nextRecord() ) {
 				
 					$record = $record1->getRawData();
-					//svar_dump($total, memory_get_usage());
 					
 					unset($record['DELETED']);
 
@@ -153,143 +145,25 @@ public function index($index = 0, $columns = false){
 					$counter++;
 					$total++;
 								
-					if($counter === 500) {
+					if($counter === $resetCounterAt) {
 						$this->importAndEmpty();
 						$counter = 0;
-					}
-		
-					if($incrementFunction === "previousRecord" && $record['INDEX'] === 0){
+					}else if($total >= $limit){
 						break;
-					}else if($incrementFunction === "nextRecord" && $record['INDEX'] === $table->recordCount-1){
-						break;
-					}									
-
-					$record = null;
-					$record1 = null;	
-			      }
-
-
-			$table->close();
-			$table = null;
-		}
-
-		$this->importAndEmpty();
-
-        return $this;
-	}
-
-	public function setDataOLD($columns = false){
-		
-		$this->autoSetColumns($columns);
-		$total = 0;
-		$lastIndex = -1;
-	
-		$limit = $this->parameters->perPage*$this->parameters->page;		
-		$incrementFunction = "nextRecord";
-
-		$limit = $this->parameters->perPage*$this->parameters->page;		
-		$incrementFunction = "nextRecord";
-
-		foreach($this->table AS $table){
-
-			$table->open();
-
-				//reversing search from last to first
-				$veryLastIndex = $table->recordCount - 1;
-
-				if(!$this->parameters->index){
-
-					if($this->parameters->order->direction === "ASC"){
-
-						$this->setIndex(-1);						
-					}else{
-						$this->setIndex($table->recordCount+1);
-						$incrementFunction = "previousRecord";
 					}
-				}
-
-				$table->moveTo($this->parameters->index);
-		
-				$counter = 0;
-
-				if($this->columns !== false && count($this->columns) > 0 ){
-
-					
-
-				while ($record1=$table->$incrementFunction() ) {
-
-							//Need to implete a way to pass TRUE/FALSE in getRawData(bool)
-							//in order to retrive memo fields
-							// default behavior is to skip fields
-							
-							$record = $record1->getRawDataNoModification();//getRawData(); 
-							//file_put_contents('tst', json_encode($record), FILE_APPEND);
-
-							//temporarily disable for minimal function to avoid memory timeout
-							//$record = $record1->getRawDataNoModification();
-
-					    	$lastIndex = $record["INDEX"];
-
-					    	if($tests = $this->test($record) && !$record1->isDeleted()){
-
-					    		$x = [];
-					            	foreach($this->columns AS $att){
-
-					                	if(in_array($att, $this->children ) ){
-					                		$fn = "get" . ucfirst(strtolower($att)) . "Connection";
-						                    $x[$att] = $this->model->$fn($record);
-					                	}else{
-					                		$x[$att] = $this->getAltColumn($record, $att);
-					                	}
-					            	}
-
-
-								if(!$record["DELETED"]){
-
-									$this->addDataRecord($x, false, $this->parameters->skipModel, $this->parameters->lists);
-									$counter++;
-									$total++;
-					   			}
-								
-								if($counter === 500 && $this->parameters->import !== false){
-									$this->importAndEmpty();
-									$counter = 0;
-								}
-
-								//file_put_contents("test.js", $counter . "---" . json_encode($record)."\n",FILE_APPEND);
-
-								
-								//if($counter > $limit || $record['INDEX'] === $veryLastIndex){
-							
-								//if($counter > $limit){
-									//break;
-								//}else{
-									if($this->parameters->order->direction === 'DESC' && $record['INDEX'] === 0){
-										break;
-									}else if($this->parameters->order->direction === 'ASC' && $record['INDEX'] === $table->recordCount-1){
-										break;
-									}									
-
-								//}
-						
-			    	}
-			      }
-
-
+									
 			}
+
 			$table->close();
 		}
 
-		$this->data->records = $this->data->records->slice(-$this->parameters->perPage);
 		$this->importAndEmpty();
-		$this->updatePaginator($total);
-
 
         return $this;
 	}
 
-	public function get($columns = false){
-		$this->setData($columns);
+	public function get(){
+		$this->setData();
 		$r = new \stdclass;
 		$r->paginatorInfo = $this->data->paginator;
 		$r->data = $this->data->records;
@@ -327,5 +201,16 @@ public function flush(){
 	$this->data->records = [];
 	return $this;
 }
+
+    public function importAll(){
+		ini_set('memory_limit','3000M');
+
+		foreach($this->table AS $table){
+			$table->importAll();
+		}
+		
+		return true;
+
+    }
 
 }

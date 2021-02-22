@@ -12,7 +12,7 @@ use App\Ask\AskInterface\AskQueryBuilderInterface;
 class DataResults {
 	public function __construct($model){
 		$this->model = $model;
-		$this->records = collect([]);
+		$this->records = [];
 		$this->headers = collect([]);
 		$this->initPaginator();
 		$this->lists = [];
@@ -32,7 +32,7 @@ class DataResults {
 	}
 
 	public function addRecord($record, $lists = false){
-		$this->records->push($record);
+		$this->records[] = $record;
 		
 		if($lists !== false){
 			foreach($lists AS $list){
@@ -75,10 +75,10 @@ class DataResults {
 	}
 
 	public function done(){
-		$this->calcPages()
-			->calcCount()
+		//$this->calcPages()
+		//	->calcCount()
 			//->setHeaders()//disabled as part of this process is undeveloped and maybe unnecessary at this point
-			->calcLinks();
+		//	->calcLinks();
 
 		return $this;
 	}
@@ -127,7 +127,7 @@ class DataResults {
 	}
 
 	public function reset(){
-		$this->records = collect([]);
+		$this->records = [];
 		return $this;
 	}
 
