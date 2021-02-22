@@ -245,7 +245,7 @@ class TitlePage extends Component{
                 authorizedUser={viewer.KEY? true:false} />
             </Grid>
              <Grid item xs={12} sm={10}>
-              <HorizontalList items={title.byAuthor.data} listTitle={authorTitle} url={"/search/"+title.AUTHORKEY+"/author"} titleSize={"h4"}  displayHorizontal={true}  background={"#2e2e2e"} />
+              <HorizontalList items={title.byAuthor.data} listTitle={authorTitle} url={"/search/"+title.AUTHORKEY+"/author"} titleSize={"h4"}  displayHorizontal={true}  background={"#2e2e2e"} viewer={this.props.viewer}/>
             </Grid>
         </Grid>      
       )

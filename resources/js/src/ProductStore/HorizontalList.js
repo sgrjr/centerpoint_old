@@ -18,8 +18,8 @@ const viewmore = function(history, url) {
 
 function getTitleBar(props, item, index){
   let shoppingCart = null
-  
-  if(props.authorizedUser){
+
+  if(props.viewer && props.viewer.KEY){
       shoppingCart = <IconButton aria-label={`cart ${item.TITLE}`} style={{color: "inherit"}} onClick={function(){
                   props.addTitleToCart(addTitleToCartQuery({
                     REMOTEADDR: props.selectedCart,
