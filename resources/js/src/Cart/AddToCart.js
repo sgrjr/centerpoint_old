@@ -13,15 +13,18 @@ import { Link } from "react-router-dom";
 class AddToCart extends Component{
 
     componentDidMount(){
-      if(this.props.viewer.vendor.carts === undefined){
-        this.props.cartGet(cartQuery({perPage:20}))
-      }else if(this.props.viewer.vendor.carts.length < 1 && this.props.authenticated){
-        this.props.cartGet(cartQuery({perPage:20}))
+
+      if(this.props.viewer.KEY){
+        if(!this.props.viewer.vendor || this.props.viewer.vendor.carts === undefined){
+          this.props.cartGet(cartQuery({perPage:20}))
+        }else if(!this.props.viewer || this.props.viewer.vendor.carts.length < 1 && this.props.authenticated){
+          this.props.cartGet(cartQuery({perPage:20}))
+        }
       }
     }
 
     componentWillReceiveProps(newProps){
-      if(newProps.post && newProps.post !== this.props.post){
+      if(newProps.viewer.KEY && newProps.post && newProps.post !== this.props.post){
         this.sendTitleToCart();
       }
     }

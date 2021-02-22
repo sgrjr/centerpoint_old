@@ -22,7 +22,7 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
             let selectedCart = state.cart.selectedCart
 
             if(selectedCart === false && action.payload.viewer){
-                if(action.payload.viewer.vendor && action.payload.viewer.vendor.carts.data.length >= 1){
+                if(action.payload.viewer && action.payload.viewer.vendor && action.payload.viewer.vendor.carts.data.length >= 1){
                     selectedCart = action.payload.viewer.vendor.carts.data[0].REMOTEADDR
                 } 
             }

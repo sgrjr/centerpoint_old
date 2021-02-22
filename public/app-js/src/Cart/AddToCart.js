@@ -121,8 +121,8 @@ AddToCart.propTypes = {
 const mapStateToProps = (state)=>{
 return {
   authenticated: state.viewer.user.authenticated,
-    cart: state.cart,
-    carts: state.cart.carts,
+    cart: state.viewer.cart,
+    carts: state.viewer.vendor? state.viewer.vendor.carts:[],
     selectedCart: state.cart.selectedCart,
     selectedTitle:state.cart.selectedTitle,
     selectedQuantity:state.cart.selectedQuantity,
