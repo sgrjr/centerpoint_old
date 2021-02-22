@@ -28,11 +28,15 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {   
        
-        $schedule->command('command:watchdbfchanges')->everyMinute();//everyThirtyMinutes();
+        //$schedule->command('command:watchdbfchanges')->everyThirtyMinutes();
         //$schedule->command('twicedaily:update')->twiceDaily(5,12);
 
         $schedule->call(function () {
-            Artisan::call('db:seed --class=InventoriesTableSeeder');
+            $update = new UpdateDbfsIfChanged(["webhead","webdetail","backhead","backdetail","brohead","brodetail"])
+        })->everyThirtyMinutes();
+
+        $schedule->call(function () {
+            $update = new UpdateDbfsIfChanged(["allhead","alldetail","ancienthead","anciendetail","booktext","inventory","vendor","password","passfile","standing_order"])
         })->weekly();
     }
 }

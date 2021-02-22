@@ -15,9 +15,57 @@
         {
             "time": "2021-02-22T01:08:31.976142Z",
             "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/alldetail.DBF"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/allhead.DBF"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/ancientdetail.dbf"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/ancienthead.DBF"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/backdetail.DBF"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/backhead.DBF"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/booktext.dbf"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/brodetail.DBF"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/brohead.dbf"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/passfile.DBF"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/standing.DBF"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/webhead.DBF"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/webdetail.DBF"
         }
     ],
-    "pending": true,
+    "pending": false,
     "tables": [
         {
             "class": "\\App\\Cache",
@@ -115,8 +163,8 @@
                 {
                     "timestamp": 1596196330,
                     "old_timestamp": 0,
-                    "rebuilt": false,
-                    "reviewed": "PASSED_SHOULD_UPDATE",
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
                     "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/alldetail.DBF",
                     "headers": {
                         "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/alldetail.DBF",
@@ -139,12 +187,23 @@
             "watch": true,
             "sources": [
                 {
-                    "timestamp": 0,
+                    "timestamp": 1596196344,
                     "old_timestamp": 0,
-                    "rebuilt": false,
-                    "reviewed": "INITIALIZED",
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
                     "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/allhead.DBF",
-                    "headers": false
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/allhead.DBF",
+                        "filePos": 3400,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1535155200,
+                        "recordCount": 163196,
+                        "headerLength": 3400,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
                 }
             ]
         },
@@ -154,12 +213,23 @@
             "watch": true,
             "sources": [
                 {
-                    "timestamp": 0,
+                    "timestamp": 1613529764,
                     "old_timestamp": 0,
-                    "rebuilt": false,
-                    "reviewed": "INITIALIZED",
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
                     "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/ancientdetail.dbf",
-                    "headers": false
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/ancientdetail.dbf",
+                        "filePos": 1896,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1535155200,
+                        "recordCount": 11880,
+                        "headerLength": 1896,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
                 }
             ]
         },
@@ -169,12 +239,23 @@
             "watch": true,
             "sources": [
                 {
-                    "timestamp": 0,
+                    "timestamp": 1596196556,
                     "old_timestamp": 0,
-                    "rebuilt": false,
-                    "reviewed": "INITIALIZED",
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
                     "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/ancienthead.DBF",
-                    "headers": false
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/ancienthead.DBF",
+                        "filePos": 3464,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1535155200,
+                        "recordCount": 1576,
+                        "headerLength": 3464,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
                 }
             ]
         },
@@ -184,12 +265,23 @@
             "watch": true,
             "sources": [
                 {
-                    "timestamp": 0,
+                    "timestamp": 1596196551,
                     "old_timestamp": 0,
-                    "rebuilt": false,
-                    "reviewed": "INITIALIZED",
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
                     "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/backdetail.DBF",
-                    "headers": false
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/backdetail.DBF",
+                        "filePos": 2184,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1535155200,
+                        "recordCount": 7343,
+                        "headerLength": 2184,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
                 }
             ]
         },
@@ -199,12 +291,23 @@
             "watch": true,
             "sources": [
                 {
-                    "timestamp": 0,
+                    "timestamp": 1596196552,
                     "old_timestamp": 0,
-                    "rebuilt": false,
-                    "reviewed": "INITIALIZED",
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
                     "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/backhead.DBF",
-                    "headers": false
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/backhead.DBF",
+                        "filePos": 3112,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1535155200,
+                        "recordCount": 1398,
+                        "headerLength": 3112,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
                 }
             ]
         },
@@ -214,12 +317,23 @@
             "watch": true,
             "sources": [
                 {
-                    "timestamp": 0,
+                    "timestamp": 1596196552,
                     "old_timestamp": 0,
-                    "rebuilt": false,
-                    "reviewed": "INITIALIZED",
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
                     "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/booktext.dbf",
-                    "headers": false
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/booktext.dbf",
+                        "filePos": 680,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1535068800,
+                        "recordCount": 10309,
+                        "headerLength": 680,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
                 }
             ]
         },
@@ -229,12 +343,23 @@
             "watch": true,
             "sources": [
                 {
-                    "timestamp": 0,
+                    "timestamp": 1596196556,
                     "old_timestamp": 0,
-                    "rebuilt": false,
-                    "reviewed": "INITIALIZED",
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
                     "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/brodetail.DBF",
-                    "headers": false
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/brodetail.DBF",
+                        "filePos": 1896,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1535155200,
+                        "recordCount": 11880,
+                        "headerLength": 1896,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
                 }
             ]
         },
@@ -244,12 +369,23 @@
             "watch": true,
             "sources": [
                 {
-                    "timestamp": 0,
+                    "timestamp": 1596196556,
                     "old_timestamp": 0,
-                    "rebuilt": false,
-                    "reviewed": "INITIALIZED",
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
                     "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/brohead.dbf",
-                    "headers": false
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/brohead.dbf",
+                        "filePos": 3464,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1535155200,
+                        "recordCount": 1576,
+                        "headerLength": 3464,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
                 }
             ]
         },
@@ -269,12 +405,23 @@
             "watch": true,
             "sources": [
                 {
-                    "timestamp": 0,
+                    "timestamp": 1596196859,
                     "old_timestamp": 0,
-                    "rebuilt": false,
-                    "reviewed": "INITIALIZED",
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
                     "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/passfile.DBF",
-                    "headers": false
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/passfile.DBF",
+                        "filePos": 808,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1533686400,
+                        "recordCount": 1144,
+                        "headerLength": 808,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
                 }
             ]
         },
@@ -294,12 +441,23 @@
             "watch": true,
             "sources": [
                 {
-                    "timestamp": 0,
+                    "timestamp": 1596196860,
                     "old_timestamp": 0,
-                    "rebuilt": false,
-                    "reviewed": "INITIALIZED",
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
                     "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/standing.DBF",
-                    "headers": false
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/standing.DBF",
+                        "filePos": 2504,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1535155200,
+                        "recordCount": 25369,
+                        "headerLength": 2504,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
                 }
             ]
         },
@@ -309,12 +467,23 @@
             "watch": true,
             "sources": [
                 {
-                    "timestamp": 0,
+                    "timestamp": 1613829770,
                     "old_timestamp": 0,
-                    "rebuilt": false,
-                    "reviewed": "INITIALIZED",
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
                     "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/webhead.DBF",
-                    "headers": false
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/webhead.DBF",
+                        "filePos": 3400,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1613520000,
+                        "recordCount": 665,
+                        "headerLength": 3400,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
                 }
             ]
         },
@@ -324,12 +493,23 @@
             "watch": true,
             "sources": [
                 {
-                    "timestamp": 0,
+                    "timestamp": 1613549384,
                     "old_timestamp": 0,
-                    "rebuilt": false,
-                    "reviewed": "INITIALIZED",
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
                     "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/webdetail.DBF",
-                    "headers": false
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/webdetail.DBF",
+                        "filePos": 1800,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1613520000,
+                        "recordCount": 4765,
+                        "headerLength": 1800,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
                 }
             ]
         },
