@@ -31,15 +31,15 @@ class Kernel extends ConsoleKernel
         //$schedule->command('command:watchdbfchanges')->everyThirtyMinutes();
 
         $schedule->call(function () {
-            file_put_contents("schedule.txt", "Schedule Ran: " . Carbon::Now() . '\n', FILE_APPEND);
+            file_put_contents("schedule.txt", "Schedule Ran: " . Carbon::now() . "\n", FILE_APPEND);
         })->everyMinute();
 
         $schedule->call(function () {
-            $update = new UpdateDbfsIfChanged(["webhead","webdetail","backhead","backdetail","brohead","brodetail"])
+            $update = new UpdateDbfsIfChanged(["webhead","webdetail","backhead","backdetail","brohead","brodetail"]);
         })->everyThirtyMinutes();
 
         $schedule->call(function () {
-            $update = new UpdateDbfsIfChanged(["allhead","alldetail","ancienthead","anciendetail","booktext","inventory","vendor","password","passfile","standing_order"])
+            $update = new UpdateDbfsIfChanged(["allhead","alldetail","ancienthead","anciendetail","booktext","inventory","vendor","password","passfile","standing_order"]);
         })->weekly();
     }
 }
