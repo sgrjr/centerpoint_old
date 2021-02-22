@@ -1,0 +1,342 @@
+{
+    "updates": [
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/vendor.DBF"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/invent.DBF"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/password.dbf"
+        },
+        {
+            "time": "2021-02-22T01:08:31.976142Z",
+            "table": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/alldetail.DBF"
+        }
+    ],
+    "pending": true,
+    "tables": [
+        {
+            "class": "\\App\\Cache",
+            "table": "cache",
+            "watch": false
+        },
+        {
+            "class": "\\App\\Dbf",
+            "table": "dbfs",
+            "watch": false
+        },
+        {
+            "class": "\\App\\Vendor",
+            "table": "vendors",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 1596196915,
+                    "old_timestamp": 0,
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/vendor.DBF",
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/vendor.DBF",
+                        "filePos": 1704,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1535068800,
+                        "recordCount": 14193,
+                        "headerLength": 1704,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Inventory",
+            "table": "inventories",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 1596196909,
+                    "old_timestamp": 0,
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/invent.DBF",
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/invent.DBF",
+                        "filePos": 3048,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1535155200,
+                        "recordCount": 2475,
+                        "headerLength": 3048,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
+                }
+            ]
+        },
+        {
+            "class": "\\App\\User",
+            "table": "users",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 1596196912,
+                    "old_timestamp": 0,
+                    "rebuilt": true,
+                    "reviewed": "SEEDER_CALLED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/password.dbf",
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/password.dbf",
+                        "filePos": 1985,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 3,
+                        "modifyDate": 1535155200,
+                        "recordCount": 8944,
+                        "headerLength": 1985,
+                        "foxpro": false,
+                        "deleteCount": 0
+                    }
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Alldetail",
+            "table": "alldetails",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 1596196330,
+                    "old_timestamp": 0,
+                    "rebuilt": false,
+                    "reviewed": "PASSED_SHOULD_UPDATE",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/alldetail.DBF",
+                    "headers": {
+                        "name": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/alldetail.DBF",
+                        "filePos": 1768,
+                        "recordPos": -1,
+                        "record": false,
+                        "version": 48,
+                        "modifyDate": 1535068800,
+                        "recordCount": 1001829,
+                        "headerLength": 1768,
+                        "foxpro": true,
+                        "deleteCount": 0
+                    }
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Allhead",
+            "table": "allheads",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 0,
+                    "old_timestamp": 0,
+                    "rebuilt": false,
+                    "reviewed": "INITIALIZED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/allhead.DBF",
+                    "headers": false
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Ancientdetail",
+            "table": "ancientdetails",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 0,
+                    "old_timestamp": 0,
+                    "rebuilt": false,
+                    "reviewed": "INITIALIZED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/ancientdetail.dbf",
+                    "headers": false
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Ancienthead",
+            "table": "ancientheads",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 0,
+                    "old_timestamp": 0,
+                    "rebuilt": false,
+                    "reviewed": "INITIALIZED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/ancienthead.DBF",
+                    "headers": false
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Backdetail",
+            "table": "backdetails",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 0,
+                    "old_timestamp": 0,
+                    "rebuilt": false,
+                    "reviewed": "INITIALIZED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/backdetail.DBF",
+                    "headers": false
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Backhead",
+            "table": "backheads",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 0,
+                    "old_timestamp": 0,
+                    "rebuilt": false,
+                    "reviewed": "INITIALIZED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/backhead.DBF",
+                    "headers": false
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Booktext",
+            "table": "booktexts",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 0,
+                    "old_timestamp": 0,
+                    "rebuilt": false,
+                    "reviewed": "INITIALIZED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/booktext.dbf",
+                    "headers": false
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Brodetail",
+            "table": "brodetails",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 0,
+                    "old_timestamp": 0,
+                    "rebuilt": false,
+                    "reviewed": "INITIALIZED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/brodetail.DBF",
+                    "headers": false
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Brohead",
+            "table": "broheads",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 0,
+                    "old_timestamp": 0,
+                    "rebuilt": false,
+                    "reviewed": "INITIALIZED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/brohead.dbf",
+                    "headers": false
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Command",
+            "table": "commands",
+            "watch": false
+        },
+        {
+            "class": "\\App\\Company",
+            "table": "companies",
+            "watch": false
+        },
+        {
+            "class": "\\App\\Passfile",
+            "table": "passfiles",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 0,
+                    "old_timestamp": 0,
+                    "rebuilt": false,
+                    "reviewed": "INITIALIZED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/passfile.DBF",
+                    "headers": false
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Role",
+            "table": "roles",
+            "watch": false
+        },
+        {
+            "class": "\\App\\RoleUser",
+            "table": "role_user",
+            "watch": false
+        },
+        {
+            "class": "\\App\\StandingOrder",
+            "table": "standing_orders",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 0,
+                    "old_timestamp": 0,
+                    "rebuilt": false,
+                    "reviewed": "INITIALIZED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\rDATA\/standing.DBF",
+                    "headers": false
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Webhead",
+            "table": "webheads",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 0,
+                    "old_timestamp": 0,
+                    "rebuilt": false,
+                    "reviewed": "INITIALIZED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/webhead.DBF",
+                    "headers": false
+                }
+            ]
+        },
+        {
+            "class": "\\App\\Webdetail",
+            "table": "webdetails",
+            "watch": true,
+            "sources": [
+                {
+                    "timestamp": 0,
+                    "old_timestamp": 0,
+                    "rebuilt": false,
+                    "reviewed": "INITIALIZED",
+                    "path": "C:\\sites\\Stephen_Reynolds\\WEBINFO\\RWDATA\/webdetail.DBF",
+                    "headers": false
+                }
+            ]
+        },
+        {
+            "class": "\\App\\WebSocketStatistic",
+            "table": "websockets_statistics_entries",
+            "watch": false
+        }
+    ]
+}

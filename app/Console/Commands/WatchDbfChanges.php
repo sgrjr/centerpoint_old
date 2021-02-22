@@ -54,6 +54,8 @@ class WatchDbfChanges extends Command
             file_put_contents($file_name, json_encode($data, JSON_PRETTY_PRINT));
         }
 
+        if($data->pending === false){
+
         foreach($data->tables AS $tableId=>$table){
 
             if($table->watch === true){
@@ -63,12 +65,12 @@ class WatchDbfChanges extends Command
                 foreach($table->sources AS $sourceId=>$source){
 
                     $newTimeStamp =  filemtime ( $source->path );
-                    $pendingTest = $data->pending === false;
+
                     $timeStampsTest = $newTimeStamp > $source->timestamp;
                     $shouldUpdateTest = $this->shouldUpdate($dbfTable, $source->headers, $source, $newTimeStamp);
                     $source->headers = $dbfTable->getHeader(); 
 
-                   if( $pendingTest  && $timeStampsTest && $shouldUpdateTest){
+                   if( $timeStampsTest && $shouldUpdateTest){
 
                         $source->reviewed = 'PASSED_SHOULD_UPDATE';
                         $newOldTimeStamp = $source->timestamp;
@@ -84,7 +86,7 @@ class WatchDbfChanges extends Command
   
                         \Artisan::call('db:seed --class='. ucfirst($table->table) .'TableSeeder');
                         $source->rebuilt = true;
-                        $data->pending = false;
+                        
                         $source->reviewed = 'SEEDER_CALLED';
                         $data->tables[$tableId]->sources[$sourceId] = $source;
                         file_put_contents($file_name, json_encode($data, JSON_PRETTY_PRINT));
@@ -92,7 +94,6 @@ class WatchDbfChanges extends Command
                    }else{
                         $source->rebuilt = false;
                         $source->reviewed = 'DID_NOT_PASS_SHOULD_UPDATE' . 
-                            '_PENDING_' . ($pendingTest? 'PASSED':'FAILED') .
                             '_TIMESTAMPS_' . ($timeStampsTest? 'PASSED':'FAILED') .
                             '_SHOULDUPDATE_' . ($shouldUpdateTest? 'PASSED':'FAILED');
                         $data->tables[$tableId]->sources[$sourceId] = $source;
@@ -104,10 +105,11 @@ class WatchDbfChanges extends Command
                 }
             }
         }
-        
+        $data->pending = false;
         file_put_contents($file_name, json_encode($data, JSON_PRETTY_PRINT));
-
-        return 1;
+    }
+        
+        return true;
     }
 
     public function getInitialJSon($file_name){

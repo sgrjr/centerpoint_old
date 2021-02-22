@@ -115,7 +115,7 @@ public function index($index = 0, $columns = false){
     public function importAndEmpty(){
 		
 		if($this->parameters->import !== false){
-			$result = \DB::table($this->parameters->import)->insert($this->data->records);
+			$result = $this->model->insert($this->data->records);
 			$this->truncateRecords();
 		}
 
@@ -123,6 +123,7 @@ public function index($index = 0, $columns = false){
 	}
 
 	public function setData(){
+		ini_set('memory_limit','3000M');
 		$startIndex = -1;	
 		$resetCounterAt = 500;
 		$limit = $this->parameters->perPage * $this->parameters->page;
