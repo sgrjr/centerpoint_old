@@ -214,7 +214,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
       }
 
             if(!$matches){
-              $filePath = $path ."/empty.txt";
+              $filePath = public_path() ."/marcs/empty.txt";
               if(file_exists($filePath)){
                 $relativePath = 'empty.txt';
                 $zip->addFile($filePath, $relativePath); 
