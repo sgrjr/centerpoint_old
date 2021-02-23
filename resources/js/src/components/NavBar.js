@@ -70,7 +70,7 @@ const MainNavbar = function (props) {
       className={classes.root}
     >
       {links.main.map(function(it,index){
-        return <MenuItem key={index} onClick={handleMenuClose} className="block"><Link to={it.url}>{it.text}</Link></MenuItem>
+        return <Link to={it.url}><MenuItem key={index} onClick={handleMenuClose} className="block">{it.text}</MenuItem></Link>
       })}
 
 

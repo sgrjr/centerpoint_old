@@ -48,10 +48,10 @@ class CustomMenuLink extends React.Component {
           </MenuItem>)
       default:
 
-        return (<MenuItem className={classes.menuItem} style={{marginRight: "15px"}}>
+        return (<Link to={link.url}><MenuItem className={classes.menuItem} style={{marginRight: "15px"}}>
                   <IconPicker name={link.icon}/>
-                  <Link to={link.url}>{link.text}</Link>
-          </MenuItem>)
+                  {link.text}
+          </MenuItem></Link>)
 
     }
   }
