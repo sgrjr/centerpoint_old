@@ -10,7 +10,6 @@ export default {
                 appDescription
                 siteName
                 searchFilters
-                marcLink
 
                 browse {
                   title
@@ -98,7 +97,6 @@ export default {
                 appDescription
                 siteName
                 searchFilters
-                marcLink
 
                 browse {
                   title
