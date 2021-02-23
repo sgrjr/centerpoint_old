@@ -10,7 +10,9 @@ export default {
                 appDescription
                 siteName
                 searchFilters
-                marcLink
+                marcLink{
+                  zip
+                }
 
                 browse {
                   title

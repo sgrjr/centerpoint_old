@@ -15,6 +15,7 @@ import BookCover from './BookCover'
 import HorizontalList from './HorizontalList'
 import AddToCart from '../Cart/AddToCart'
 import TitlePageSkeleton from './TitlePageSkeleton'
+import GetMarc from '../components/GetMarc'
 
 function ListItemLink(props) {
   return <ListItem component="a" {...props} />;
@@ -104,15 +105,6 @@ class TitlePage extends Component{
       let authorTitle = title.AUTHOR + " Titles";
       
       const circle = <SubtleProgress />
-      let MARC = null
-
-       if(title.markLink !== null){
-                  
-          MARC = <div style={{textAlign:"center"}}><Divider style={{margin:"30px"}} />
-                  <p>MARC: <a href={title.marcLink.view}>view </a>
-                    <a href={title.marcLink.download}> | download</a>
-                  </p></div>
-                }
 
       return (
         <Grid container className="title-page">
@@ -127,7 +119,7 @@ class TitlePage extends Component{
             {firstDivider}
 
             <AddToCart title={title} url={this.props.match.url} createCart={createCart}/>
-             {MARC}
+            <GetMarc isbns={[title.ISBN]} />
           </Grid>
           <Grid item xs={10} md={5} style={{marginTop:"50px"}}>
           <Typography variant="body1" dangerouslySetInnerHTML={{__html: title.SUBTITLE }}></Typography>

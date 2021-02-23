@@ -57,7 +57,7 @@ class AddToCart extends Component{
           <Button variant="outlined" style={{width:"100%"}} onClick={this.sendTitleToCart.bind(this)} type="button" >Add to Cart</Button>
          </div>)
       }else{
-        return <Button variant="outlined" style={{width:"100%"}}><Link style={{width:"100%"}} to={"/login?return="+this.props.url}>Login to Order</Link></Button>;
+        return <Button variant="outlined" style={{width:"90%", margin:"25px"}}><Link style={{width:"100%"}} to={"/login?return="+this.props.url}>Login to Order</Link></Button>;
       }
   
     }     
