@@ -13,3 +13,4 @@ package-lock.json
 storage/addToCartFailure.txt
 /dbf_changes.json
 /schedule.txt
+/public/marcs/*
