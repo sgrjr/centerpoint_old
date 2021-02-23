@@ -239,7 +239,7 @@ class Application {
 
          if ($user->can("VIEW_DASHBOARD")){
           $links->drawer->push(["url"=>"/dashboard", "text"=> $user->name,"icon"=>"home"]);
-          $links->main->push(["url"=>"/dashboard", "text"=> $user->name, "name"=>"brand","icon"=>"notifications"]);
+          $links->main->push(["url"=>"/dashboard", "text"=> $user->name, "name"=>"brand","icon"=>"person"]);
          } 
   
         if ($user->can("VIEW_REGISTER_USER")){

@@ -25,6 +25,7 @@ Route::post('auth/login', 'Auth\LoginController@login');
 Route::get('auth/logout', 'Auth\LoginController@logout');
 
 
+
 /* CLIENT SIDE START */
 
 Route::get('/', 'IndexController@index');
@@ -108,6 +109,7 @@ Route::get('/admin/{dbf}/search/{search}', 'AdminController@viewDBF');
 Route::get('/admin/ask/{table}/{search?}', 'AdminController@ask')->where('search','.*');
 
 Route::get('/img/{template}/{path}', 'ImagesController@images')->where('path','.*');
+Route::post('/download-all-marcs', 'IndexController@marc');
 
 Route::get('/static/{file}', "IndexController@file")->where('file','.*');
 

@@ -58,6 +58,13 @@ const applicationReducer = (state = applicationReducerInit,action)=>{
                 ...action.payload
             }
 
+        case actions.form.DOWNLOAD_MARCS_SUCCESS.type:
+
+        return  {
+            ...state,
+            marcLink: action.payload.zip
+        }
+
         default:
             return state;
 }

@@ -6,6 +6,7 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 import Button from '@material-ui/core/Button';
 import { useHistory } from "react-router-dom";
 import BookCover from './BookCover'
@@ -17,9 +18,13 @@ const viewmore = function(history, url) {
 }
 
 function getTitleBar(props, item, index){
-  let shoppingCart = null
+  let shoppingCart = <RemoveShoppingCartIcon style={{color: "inherit"}}/>
 
-  if(props.viewer && props.viewer.KEY){
+  if(!props.viewer || !props.viewer.KEY){
+    shoppingCart = null
+  }
+
+  if(props.viewer && props.viewer.KEY && item.STATUS !== "Out Of Print"){
       shoppingCart = <IconButton aria-label={`cart ${item.TITLE}`} style={{color: "inherit"}} onClick={function(){
                   props.addTitleToCart(addTitleToCartQuery({
                     REMOTEADDR: props.selectedCart,

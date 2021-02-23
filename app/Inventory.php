@@ -5,13 +5,14 @@ use \App\Helpers\UserTitleData;
 use \App\Core\DbfTableTrait;
 use App\Helpers\Misc;
 use Schema;
+use Carbon\Carbon;
 
 class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
     use DbfTableTrait;
 
     protected $dbfPrimaryKey = 'ISBN';
-    protected $appends = ['coverArt'];
+    protected $appends = ['coverArt','marcLink'];
     protected $table = 'inventories';
 
     public $timestamps = false;
@@ -66,10 +67,21 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
   public function getImageAttribute(){return $this->getImgAttribute($atts);}
   public function getUrlAttribute(){return url("/isbn/" . $this->ISBN);}
+  public function getMarcLinkAttribute(){
+
+    if($this->MARC === "MARC"){
+          return [
+        "view" => url("http://centerpointlargeprint.com/cp_info/cp_marc/".$this->ISBN.".txt"),
+        "download" => url("http://centerpointlargeprint.com/cp_info/cp_marc/".$this->ISBN.".mrc")
+      ];
+    }
+    return null;
+  }
 
   public function referenceStandingOrderList($vendorKey, $list=false){
     return \App\Helpers\Misc::referenceStandingOrderList($vendorKey, $this, $list);
   }
+
 
     public function text(){
         return $this->hasMany('App\Booktext',"KEY","ISBN");
@@ -178,5 +190,45 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     public function getAdvancedTitles(){  
       return Misc::gauranteedBooksCount(30, [ Misc::pubdateMonthsPast(3), Misc::pubdateMonthsPast(12), Misc::pubdateYearsPast(1), Misc::pubdateYearsPast(5)]);
     }
+
+
+    public function getMarcs($_, $args){
+
+      $zip_file_base = '/marcs/'.request()->user()->KEY.'_bulk_'.Carbon::now()->timestamp.'.zip';
+      $matches = false;
+      $zip_file = public_path() . $zip_file_base;
+
+      $zip = new \ZipArchive();
+      $zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+
+      $path = \Config::get('cp')['marc_records_path'];
+     
+      foreach ($args["isbns"] as $isbn)
+      {
+              $filePath = $path ."/".$isbn.".mrc";
+              if(file_exists($filePath)){
+                $matches = true;
+                $relativePath = $isbn.'.mrc';
+                $zip->addFile($filePath, $relativePath); 
+              }
+      }
+
+            if(!$matches){
+              $filePath = $path ."/empty.txt";
+              if(file_exists($filePath)){
+                $relativePath = 'empty.txt';
+                $zip->addFile($filePath, $relativePath); 
+              }
+            }
+
+      $zip->close();
+
+      return [
+        "zip" => $zip_file_base,
+        "isbns" => $args["isbns"]
+      ];
+
+    }
+
 
 }

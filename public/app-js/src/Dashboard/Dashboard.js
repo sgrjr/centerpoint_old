@@ -272,6 +272,10 @@ const mapDispatchToProps = dispatch => {
       },
       updateForm: (e) => {
         dispatch(actions.form.FORM_UPDATE.creator(e))
+      },
+      downloadAllMarcs: (e) => {
+        console.log('called')
+        dispatch(actions.form.DOWNLOAD_ALL_MARCS.creator(e))
       }
     }
   }

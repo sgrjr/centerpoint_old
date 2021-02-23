@@ -34,9 +34,14 @@ class ImagesController extends Controller
 			}
 		}
 
-		$img = Image::make($this->use_path);
-		//$img->save( $this->config["imagesrootpath"] . "/cache/" . $path, 50);
+		try {
+			$img = Image::make($this->use_path);
+			//$img->save( $this->config["imagesrootpath"] . "/cache/" . $path, 50);
+		}
 
+		catch(\Throwable $e){
+			$img = Image::make($this->config["noimagepath"]);
+		}
 
 		try {
 			$template = $this->template;

@@ -49,6 +49,7 @@ export default {
             coverArt
             AUTHORKEY
             AUTHOR
+            STATUS
           }
         }
         query($cp: TitleFilter, $trade: TitleFilter, $advanced: TitleFilter, $page: Int, $cp_limit: Int, $trade_limit: Int, $advanced_limit: Int) {
@@ -120,6 +121,10 @@ export default {
     STATUS
     coverArt
     MARC
+    marcLink{
+      view
+      download
+    }
     byCategory(page: $page, first: $perPage) {
       paginatorInfo {
         perPage
@@ -162,6 +167,7 @@ export default {
         AUTHOR
         coverArt
         LISTPRICE
+        STATUS
       }
     }
     text {
@@ -208,6 +214,10 @@ minTitleQuery: (variables) => {
     STATUS
     coverArt
     MARC
+    marcLink{
+      view
+      download
+    }
     byCategory(page: $page, first: $perPage) {
       paginatorInfo {
         perPage
@@ -250,6 +260,7 @@ minTitleQuery: (variables) => {
         AUTHOR
         coverArt
         LISTPRICE
+        STATUS
       }
     }
     text {

@@ -19,7 +19,8 @@ type Title {
    	SOPLAN: String
    	TITLEKEY: String
    	SUBTITLE: String
-   	MARC: String
+   	MARC: Marc
+    marcLink: String
     HIGHLIGHT: String
    	PUBLISHER: String
    	coverArt: String

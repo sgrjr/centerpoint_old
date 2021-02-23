@@ -13,6 +13,7 @@ type Application {
 	domain: String
 	appDescription: String
 	siteName: String
+	marcLink: String
 }
 
 type Browse {

@@ -6,6 +6,7 @@ return [
     "imagesrootpath" => env("IMAGES_ROOT_PATH"),
     "titleimagesrootpath" => env("TITLE_IMAGES_ROOT_PATH"),
     "noimagepath" => env("NO_IMAGE_PATH"),
+    "marc_records_path" => env("MARC_RECORDS_PATH", "\\cpserver\data\easynet\webnet\cp_info\cp_marc"),
 	"serverimagerootpath" => env("SERVER_IMAGE_ROOT_PATH"),
 	"promotionspath" => env("PROMOTIONS_PATH"),
     "GRAPHQL_URL"=> env("GRAPHQL_URL","/graphql"),

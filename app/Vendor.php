@@ -85,7 +85,7 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
     {
 
           $key = $this->KEY . "_isbns";
-          Cache::forget($key);
+          //Cache::forget($key);
 
           return Cache::remember($key, 1800, function () {
 
@@ -95,8 +95,12 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
             $bro = $this->brodetailsOrders()->pluck('PROD_NO')->toArray();
             $web = $this->webdetailsOrders()->pluck('PROD_NO')->toArray();
             $list = collect(array_merge($all, $ancient,$back,$bro,$web));
+            $newList = [];
 
-            return $list;
+            foreach($list AS $title){
+              $newList[$title] = $title;
+            }
+            return $newList;
           });
     }
 
@@ -173,5 +177,7 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
 
         return $cart;
     }
+
+
 
 }

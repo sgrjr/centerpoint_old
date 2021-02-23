@@ -6,6 +6,7 @@ import OrderSummary from './OrderSummary'
 import PrintIcon from '@material-ui/icons/Print'
 import Typography from '@material-ui/core/Typography'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import GetMarc from '../components/GetMarc'
 
 const useStyles = makeStyles({
   invoice: {
@@ -50,7 +51,7 @@ const useStyles = makeStyles({
 function ContactInfo(props) {
   const classes = useStyles()
 
-  const {BILL_1, BILL_2, BILL_3, BILL_4, CINOTE, PO_NUMBER, REMOTEADDR, invoice} = props.data
+  const {BILL_1, BILL_2, BILL_3, BILL_4, CINOTE, PO_NUMBER, REMOTEADDR, invoice, TRANSNO} = props.data
 
   const print = (e)=>{
 
@@ -69,13 +70,21 @@ function ContactInfo(props) {
     return <CircularProgress color={"secondary"}/>
   }
 
+  let isbns = []
+
+  props.data.items.map(function(item){
+    isbns.push(item.ISBN)
+  })
+  
   return (
 
     <>
+    <GetMarc isbns={isbns} />
+
       <article className={classes.invoice}>
         <header className={classes.header}>
           <Typography variant="h1"><img src={invoice.company_logo} width="200px" alt="centerpoint logo"/></Typography>
-  <Typography>Order: {invoice.title} <br/> PO#: {PO_NUMBER} <br/> INVOICE#: {REMOTEADDR}</Typography>
+  <Typography>Order: {invoice.title} <br/> PO#: {PO_NUMBER} <br/> INVOICE#: {TRANSNO? TRANSNO:"(NOT PROCESSED YET)"}</Typography>
         </header>
         <div className={classes.info}>
           <Typography className={classes.bold}>Invoice to:</Typography>

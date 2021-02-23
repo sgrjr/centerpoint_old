@@ -10,6 +10,7 @@ export default {
                 appDescription
                 siteName
                 searchFilters
+                marcLink
 
                 browse {
                   title
@@ -97,6 +98,7 @@ export default {
                 appDescription
                 siteName
                 searchFilters
+                marcLink
 
                 browse {
                   title
@@ -163,6 +165,7 @@ export default {
         drawer:[{url:"/",text:"Home"},{url:"/login",text:"Login"},{url:"/",text:"CP Connection"},{url:"/",text:"Catalogues &amp; Flyers"}],
         main:[{url:"/",text:"Home"},{url:"/login",text:"Login"}]},
     slider: {slides: []},
+    marcLink: null
 
     //...window.INITIAL_STATE && window.INITIAL_STATE.application? window.INITIAL_STATE.application:{}
 }

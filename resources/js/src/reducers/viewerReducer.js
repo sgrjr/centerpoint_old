@@ -179,7 +179,8 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
                         SALEPRICE: "",
                         TITLE: ISBN,
                         coverArt: "",
-                        id: ""
+                        id: "",
+                        STATUS: ""
                         })
                 
                 }
@@ -410,6 +411,8 @@ case actions.cart.INVOICE_SUCCESS.type:
                     ...action.payload.user.vendor
                 }
             }
+
+            
 /* cart stuff end*/
 
         default:

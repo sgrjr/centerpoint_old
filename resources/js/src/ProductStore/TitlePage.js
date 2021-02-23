@@ -90,14 +90,29 @@ class TitlePage extends Component{
 
       let requireAuth = {}
 
+      let firstDivider = <Divider style={{margin:"30px"}} />
 
       if( viewer === undefined || viewer.KEY === undefined){
         requireAuth.display = "none";
       }
 
+      if( viewer === undefined || viewer.KEY === undefined || title.STATUS === "Out Of Print"){
+        requireAuth.display = "none";
+        firstDivider = null
+      }
+
       let authorTitle = title.AUTHOR + " Titles";
       
       const circle = <SubtleProgress />
+      let MARC = null
+
+       if(title.markLink !== null){
+                  
+          MARC = <div style={{textAlign:"center"}}><Divider style={{margin:"30px"}} />
+                  <p>MARC: <a href={title.marcLink.view}>view </a>
+                    <a href={title.marcLink.download}> | download</a>
+                  </p></div>
+                }
 
       return (
         <Grid container className="title-page">
@@ -109,10 +124,10 @@ class TitlePage extends Component{
             </Grid>
           <Grid item xs={10} md={5}>           
             <BookCover link={""} image={"url(" + title.coverArt + ")"} large={true} />
-            <Divider style={{margin:"30px"}} />
+            {firstDivider}
 
             <AddToCart title={title} url={this.props.match.url} createCart={createCart}/>
-            
+             {MARC}
           </Grid>
           <Grid item xs={10} md={5} style={{marginTop:"50px"}}>
           <Typography variant="body1" dangerouslySetInnerHTML={{__html: title.SUBTITLE }}></Typography>
@@ -207,19 +222,6 @@ class TitlePage extends Component{
                   <Typography><span dangerouslySetInnerHTML={{__html: title.CAT}}/></Typography>
                 </ListItemText>
               </ListItem>
-
-              {()=>{
-                if(title.MARC === "MARC"){
-                return (
-                  <ListItem>
-                    <ListItemText>
-                      <Typography fontWeight={500} fontStyle="italic">MARC: </Typography>
-                    </ListItemText>
-                    <ListItemLink href={"http://www.dgiinc.com/centerpoint/"+title.ISBN+".txt"}>view </ListItemLink>
-                    <ListItemLink href={"http://www.dgiinc.com/centerpoint/"+title.ISBN+".mrc"}> | download</ListItemLink>
-                  </ListItem>)
-                }
-              }}
 
               <ListItem>
                 <ListItemText>

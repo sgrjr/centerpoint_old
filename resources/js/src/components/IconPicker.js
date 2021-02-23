@@ -24,7 +24,8 @@ class IconPicker extends React.Component {
       lock: <LockIcon/>,
       howToReg: <HowToRegIcon/>,
       home: <HomeIcon/>,
-      HEADING: <span/>
+      HEADING: <span/>,
+      person: <AccountCircleIcon/>
     }
     if(this.props.name !== undefined && icons[this.props.name] !== undefined){
       return icons[this.props.name]

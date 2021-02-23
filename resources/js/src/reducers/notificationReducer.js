@@ -126,7 +126,27 @@ export default (state = initState,action)=>{
                 open: true,
                 items:  [{message:"Adding "+action.vars.ISBN+" to Cart ... ", severity:"warning"}]
               }
-              
+
+          case actions.form.DOWNLOAD_MARCS_PENDING.type:
+            return {
+              ...state,
+              open: true,
+              items: [{message:"Marcs are being zipped", severity:"success"}]
+            }
+
+          case actions.form.DOWNLOAD_MARCS_SUCCESS.type:
+            return {
+              ...state,
+              open: true,
+              items: [{message:"Marcs are ready for download.", severity:"success"}]
+            }
+
+          case actions.form.DOWNLOAD_MARCS_ERROR.type:
+            return {
+              ...state,
+              open: true,
+              items: [{message:"Marcs FAILED to be zipped.", severity:"success"}]
+            }              
 
         default:
           return state

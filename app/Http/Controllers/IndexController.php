@@ -57,6 +57,35 @@ class IndexController extends Controller
         ]);
 
     }
+
+    protected function marc(Request $request)
+    {
+      dd($request->user);
+      $token = $request->get('auth');
+      $user = \App\OauthAccessToken::getUser($token);
+      dd(explode('.', $token));
+      dd($user);
+
+        if(strpos($file, "catalog") !== null){
+          $args = ["id"=>$file];
+          $s = \App\Helpers\Application::catalog($args);
+          $path = $s->pdf_path;
+          $headers = [];
+        }else{
+          $path = base_path() . '/app-js/build/static/' . $file;
+          $headers = [];
+        }
+        
+        try {
+          return response()->file($path, $headers);
+        }
+
+        catch(\Throwable $e){
+          abort(404, $e->getMessage());
+        }
+
+
+    }
 	
 	    protected function search(Request $request, $string = false, $category = false)
     {	

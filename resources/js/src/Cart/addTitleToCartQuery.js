@@ -28,6 +28,7 @@ export default (variables) => {
                       coverArt
                       AUTHOR
                       AUTHORKEY
+                      STATUS
                     }
                   }
                 }

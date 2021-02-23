@@ -48,14 +48,14 @@ function OrderSummary(props) {
   const cart = {...props.data }
   const invoice = {...cart.invoice }
 
-  let shipping = <Typography>${invoice.totaling.shipping}</Typography>
+  let shipping = <Typography>${invoice.totaling.shipping.toFixed(2)}</Typography>
   let items = 0
 
   cart.items.map(function(i){
     items += i.REQUESTED
   })
-console.log(items)
-  if(items <= 5){
+
+  if(items <= 5 && cart.TRANSNO === null){
     shipping = <Typography>NOT CALCULATED</Typography>
   }
 
@@ -91,14 +91,14 @@ console.log(items)
       </Table>
       <div className={classes.info}>
         <Typography>Sub-Total: </Typography>
-        <Typography>${invoice.totaling.subtotal}</Typography>
+        <Typography>${invoice.totaling.subtotal.toFixed(2)}</Typography>
         <Typography>Shipping: </Typography>
         {shipping}
         <Typography>Paid: </Typography>
         <Typography>${invoice.totaling.paid.toFixed(2)}</Typography>
         <Divider className={classes.divider} />
         <Typography className={classes.bold}>Total: </Typography>
-        <Typography className={classes.bold}>${invoice.totaling.grandtotal}</Typography>
+        <Typography className={classes.bold}>${invoice.totaling.grandtotal.toFixed(2)}</Typography>
       </div>
     </div>
   )

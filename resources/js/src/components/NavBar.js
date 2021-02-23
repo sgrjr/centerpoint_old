@@ -118,7 +118,7 @@ function menuToggle (event){
     ><ShoppingCartIcon /></IconButton>)
 
 
-      cart = (<Drawer open={props.viewer.cart.open} onClose={props.toggleCart}>
+      cart = (<Drawer anchor={"right"} open={props.viewer.cart.open} onClose={props.toggleCart}>
         <Button onClick={props.toggleCart} startIcon={<ClearIcon />}>
               Close
             </Button>
@@ -136,7 +136,7 @@ function menuToggle (event){
       <AppBar position="static" color={"default"}>
         <Toolbar>
           
-            {shoppingCart}
+            
 
           <Typography className={classes.title} noWrap>
             <img src={"/img/logo.png"} style={{margin:"auto", display:"block", height:"100%"}} alt="logo"/>
@@ -155,6 +155,7 @@ function menuToggle (event){
           })}
 
           </div>
+          <div>{shoppingCart}</div>
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
@@ -164,6 +165,7 @@ function menuToggle (event){
               color="inherit"
             >
               <MoreIcon />
+
             </IconButton>
           </div>
         </Toolbar>

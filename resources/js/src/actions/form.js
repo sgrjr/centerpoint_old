@@ -1,4 +1,5 @@
 import graphql from '../fetchGraphQL'
+import post from '../fetchPost'
 
 /* FORM TYPES AND CREATORS */ 
 const form = { 
@@ -123,6 +124,77 @@ const form = {
         return { type: 'UPDATE_PROFILE_IMAGE_SOURCE', input: value }
       }
   },
+
+   DOWNLOAD_ALL_MARCS: 
+  {
+    type: 'DOWNLOAD_ALL_MARCS',   
+    creator: ({isbns}) => {
+
+      const query = {
+        query: `mutation($isbns: [String]!) {
+        getMarcs(isbns:$isbns){
+            zip
+            isbns
+        }
+      }`,
+    variables: {
+      isbns: isbns
+    }
+  };
+
+      const actions = {
+        pending: form.DOWNLOAD_MARCS_PENDING.creator,
+        success: form.DOWNLOAD_MARCS_SUCCESS.creator,
+        error: form.DOWNLOAD_MARCS_ERROR.creator
+      }
+
+      const opt = {}
+    
+      return graphql(query, actions, opt)
+    }
+  },
+
+  DOWNLOAD_MARCS_PENDING: 
+  {
+      type: 'DOWNLOAD_MARCS_PENDING',   
+      creator: (opts) => {
+        return { type: 'DOWNLOAD_MARCS_PENDING', opts: opts }
+      }
+  },
+
+  DOWNLOAD_MARCS_SUCCESS: 
+  {
+      type: 'DOWNLOAD_MARCS_SUCCESS',   
+      creator: (payload) => {
+        return { type: 'DOWNLOAD_MARCS_SUCCESS', payload: payload.getMarcs }
+      }
+  },
+
+
+  DOWNLOAD_MARCS_ERROR: 
+  {
+      type: 'DOWNLOAD_MARCS_ERROR',   
+      creator: (errors) => {
+        
+        let error = {
+          message: "Zipping Marcs failed!",
+          extensions: {
+            "category": "file zipping"
+          },
+          locations: [
+            {
+              "line": 1,
+              "column": 1
+            }
+          
+        ]};
+
+        errors.push(error)
+        
+        return { type: 'DOWNLOAD_MARCS_ERROR', errors: [error] }
+      }
+  },
+
 }
 
 export default form;

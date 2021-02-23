@@ -16,4 +16,6 @@ type Mutation {
     createCartTitle(REMOTEADDR: String!, REQUESTED: Int, PROD_NO: String!): OrderItem @create(model: "App\\Webdetail")
     deleteCartTitle(id: Int!): User @field(resolver: "App\\Webdetail@deleteMyTitleFromCart")
     updateCartTitle(id: Int!, REMOTEADDR: String, REQUESTED: Int, PROD_NO: String): OrderItem @update(model:"\\App\\Webdetail")
+
+    getMarcs(isbns: [String]!): Marc @field(resolver: "App\\Inventory@getMarcs")
 }
