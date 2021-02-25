@@ -2,6 +2,7 @@
 /node_modules
 /public/.htaccess
 /public/web.config
+/public/marcs
 Homestead.yaml
 Homestead.json
 .env
