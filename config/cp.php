@@ -29,7 +29,6 @@ return [
       "webdetail"=> env("DBF_ROOT_PATH_RW") . "/webdetail.DBF"   
     ],
     "tables" => [
-       
       ["\App\Cache","This is for the application cache drivers use."],
        ["\App\Dbf","a table for tracking table statuses."],
        ["\App\Vendor", "This table lists all our customers."],

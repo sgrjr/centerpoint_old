@@ -73,7 +73,7 @@ function ContactInfo(props) {
   let isbns = []
 
   props.data.items.map(function(item){
-    isbns.push(item.ISBN)
+    isbns.push(item.ISBN? item.ISBN:item.PROD_NO)
   })
   
   return (

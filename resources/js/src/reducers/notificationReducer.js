@@ -128,17 +128,31 @@ export default (state = initState,action)=>{
               }
 
           case actions.form.DOWNLOAD_MARCS_PENDING.type:
+
+            let isbns = ''
+
+            action.opts.isbns.map(function(isbn){
+              isbns += ", " + isbn
+            })
+
             return {
               ...state,
               open: true,
-              items: [{message:"Marcs are being zipped", severity:"success"}]
+              items: [{message:"Marcs are being zipped with " + isbns, severity:"success"}]
             }
 
           case actions.form.DOWNLOAD_MARCS_SUCCESS.type:
+
+           let isbns2 = ''
+
+            action.payload.isbns.map(function(isbn){
+              isbns2 += ", " + isbn
+            })
+
             return {
               ...state,
               open: true,
-              items: [{message:"Marcs are ready for download.", severity:"success"}]
+              items: [{message:"Marcs are ready for download.["+isbns2+"]", severity:"success"}]
             }
 
           case actions.form.DOWNLOAD_MARCS_ERROR.type:

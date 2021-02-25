@@ -205,21 +205,21 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
      
       foreach ($args["isbns"] as $isbn)
       {
+        if($isbn !== null){
               $filePath = $path ."/".$isbn.".mrc";
               if(file_exists($filePath)){
                 $matches = true;
                 $relativePath = $isbn.'.mrc';
                 $zip->addFile($filePath, $relativePath); 
-              }
-      }
-
-            if(!$matches){
-              $filePath = public_path() ."/marcs/empty.txt";
-              if(file_exists($filePath)){
-                $relativePath = 'empty.txt';
-                $zip->addFile($filePath, $relativePath); 
+              }else{
+                $filePath = public_path() ."/marcs/empty.txt";
+                if(file_exists($filePath)){
+                  $relativePath = 'MISSING_'.$isbn.'.txt';
+                  $zip->addFile($filePath, $relativePath); 
+                }
               }
             }
+      }
 
       $zip->close();
 
