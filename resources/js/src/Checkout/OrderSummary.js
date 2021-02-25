@@ -75,7 +75,7 @@ function OrderSummary(props) {
         <TableBody>
         	{cart.items.map((item, index) => (
             <TableRow key={ index }>
-            <TableCell displayPrint="none"><a href={item.url} target="_blank" rel="noopener noreferrer"><img  className="noPrint" style={{width:"75px"}} src={item.coverArt}/></a></TableCell>
+            <TableCell displayprint="none"><a href={item.url} target="_blank" rel="noopener noreferrer"><img  className="noPrint" style={{width:"75px"}} src={item.coverArt}/></a></TableCell>
 
               <TableCell component="th" scope="row">
                 <Typography className={classes.title}>{item.TITLE}</Typography>
