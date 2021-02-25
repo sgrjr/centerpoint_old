@@ -143,16 +143,10 @@ export default (state = initState,action)=>{
 
           case actions.form.DOWNLOAD_MARCS_SUCCESS.type:
 
-           let isbns2 = ''
-
-            action.payload.isbns.map(function(isbn){
-              isbns2 += ", " + isbn
-            })
-
             return {
               ...state,
               open: true,
-              items: [{message:"Marcs are ready for download.["+isbns2+"]", severity:"success"}]
+              items: [{message:"Marcs are ready for download.["+action.payload.isbns.length+"]", severity:"success"}]
             }
 
           case actions.form.DOWNLOAD_MARCS_ERROR.type:

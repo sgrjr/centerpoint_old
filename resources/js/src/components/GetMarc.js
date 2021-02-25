@@ -11,9 +11,18 @@ class GetMarc extends Component{
     render(){ 
       
       if(this.props.marcLink === null || this.props.marcLink === undefined){
-        return <Button color="primary" variant="outlined" style={{clear:"both", display:"block", width:"100%", margin:"25px"}} onClick={(e)=>{this.props.downloadAllMarcs({isbns:this.props.isbns})}}>{"BUILD ZIP FILE OF ALL " + this.props.isbns.length + " Marcs"}</Button>
+        
+        let message = ''
+        if(this.props.isbns.length === 1){
+          message = "BUILD ZIP FILE OF MARC record."
+        }else{
+          message = "BUILD ZIP FILE OF ALL " + this.props.isbns.length + " MARC records."
+        }
+        return <Button color="primary" variant="outlined" style={{clear:"both", display:"block", width:"100%", margin:"15px 0 15px 0"}} onClick={(e)=>{this.props.downloadAllMarcs({isbns:this.props.isbns})}}>{message}</Button>
       }else{
-        return <a style={{clear:"both", display:"block", width:"90%", border:"solid 1px red", margin:"15px 0 15px 0", padding:"25px", textAlign:"center"}} href={this.props.marcLink}>Click to DOWNLOAD Zip file of Marc Records</a>
+        let url = this.props.marcLink
+        window.open(url, "_blank")
+        return <a style={{clear:"both", display:"block", width:"90%", border:"solid 1px red", margin:"15px 0 15px 0", padding:"25px", textAlign:"center"}} href={url}>If download failed, click here to retry.</a>
       }     
   }    
 }
