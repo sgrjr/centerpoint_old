@@ -6,12 +6,13 @@ return [
     "imagesrootpath" => env("IMAGES_ROOT_PATH"),
     "titleimagesrootpath" => env("TITLE_IMAGES_ROOT_PATH"),
     "noimagepath" => env("NO_IMAGE_PATH"),
-    "marc_records_path" => env("MARC_RECORDS_PATH", "\\CPSERVER\Data\Easynet\WEBNET\CP_INFO\CP_Marc\MRC_Files"),
+    "marc_records_path" => env("MARC_RECORDS_PATH"),
 	"serverimagerootpath" => env("SERVER_IMAGE_ROOT_PATH"),
+  "dbfrootpathr" => env("DBF_ROOT_PATH_R"),
 	"promotionspath" => env("PROMOTIONS_PATH"),
     "GRAPHQL_URL"=> env("GRAPHQL_URL","/graphql"),
     "files" => [
-      "vendor"=> env("DBF_ROOT_PATH_RW") . "/vendor.DBF",
+      "vendor"=> env("DBF_ROOT_PATH_RW") . "/VENDOR.DBF",
       "inventory"=> env("DBF_ROOT_PATH_RW") . "/invent.DBF",
       "users"=> env("DBF_ROOT_PATH_RW") . "/password.dbf",
       "alldetail"=> env("DBF_ROOT_PATH_R") . "/alldetail.DBF",
@@ -25,7 +26,7 @@ return [
       "brohead"=> env("DBF_ROOT_PATH_R") . "/brohead.dbf",
       "passfile"=> env("DBF_ROOT_PATH_R") . "/passfile.DBF",
       "standing_order"=> env("DBF_ROOT_PATH_R") . "/standing.DBF",
-      "webhead"=> env("DBF_ROOT_PATH_RW") . "/webhead.DBF",
+      "webhead"=> env("DBF_ROOT_PATH_RW") . "/WEBHEAD.DBF",
       "webdetail"=> env("DBF_ROOT_PATH_RW") . "/webdetail.DBF"   
     ],
     "tables" => [

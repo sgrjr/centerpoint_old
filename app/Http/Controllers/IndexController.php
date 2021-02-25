@@ -29,8 +29,7 @@ class IndexController extends Controller
 
     protected function index(Request $request)
     {	
-
-    $initial_state = '{}';
+          $initial_state = '{}';
     
 	    return view('home',[
           "initial_state" => json_encode($initial_state),
@@ -60,29 +59,8 @@ class IndexController extends Controller
 
     protected function marc(Request $request)
     {
-      dd($request->user);
-      $token = $request->get('auth');
-      $user = \App\OauthAccessToken::getUser($token);
-      dd(explode('.', $token));
-      dd($user);
-
-        if(strpos($file, "catalog") !== null){
-          $args = ["id"=>$file];
-          $s = \App\Helpers\Application::catalog($args);
-          $path = $s->pdf_path;
-          $headers = [];
-        }else{
-          $path = base_path() . '/app-js/build/static/' . $file;
-          $headers = [];
-        }
-        
-        try {
-          return response()->file($path, $headers);
-        }
-
-        catch(\Throwable $e){
-          abort(404, $e->getMessage());
-        }
+            $results = file_get_contents(\Config::get('cp')['marc_records_path'] . "\9781628993844.mrc");
+        dd($results);
 
 
     }

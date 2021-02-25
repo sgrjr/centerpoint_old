@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Carbon\Carbon, DB, Artisan;
+use App\Helpers\UpdateDbfsIfChanged;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +16,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         "\App\Console\Commands\CreateDatabase",
-        \App\Console\Commands\TwiceDailyUpdateCommand::class,
         \App\Console\Commands\WatchDbfChanges::class
     ];
 

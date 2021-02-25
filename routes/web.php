@@ -11,8 +11,10 @@
 */
 
 Route::get('/stephen',function(){
-	$table = \App\AllDetail::dbf()->importAll();
-    dd($table);
+	
+	//dd(file_get_contents(\Config::get('cp')['files']['vendor']));
+	// . '\9781628994452.mrc'), \Config::get('cp')['marc_records_path']);
+	dd(\App\Webhead::dbf(true)->all());
 });
 
 //\Auth::login(\App\User::find(1), true);
@@ -109,7 +111,7 @@ Route::get('/admin/{dbf}/search/{search}', 'AdminController@viewDBF');
 Route::get('/admin/ask/{table}/{search?}', 'AdminController@ask')->where('search','.*');
 
 Route::get('/img/{template}/{path}', 'ImagesController@images')->where('path','.*');
-Route::post('/download-all-marcs', 'IndexController@marc');
+Route::get('/download-all-marcs', 'IndexController@marc');
 
 Route::get('/static/{file}', "IndexController@file")->where('file','.*');
 
