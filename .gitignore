@@ -11,7 +11,8 @@ Homestead.json
 /.vs
 composer.lock
 package-lock.json
-storage/addToCartFailure.txt
+/storage/addToCartFailure.txt
+/storage/missing_marcs.txt
 /dbf_changes.json
 /schedule.txt
 /public/marcs/*

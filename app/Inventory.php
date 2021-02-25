@@ -212,10 +212,13 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
                 $relativePath = $isbn.'.mrc';
                 $zip->addFile($filePath, $relativePath); 
               }else{
-                $filePath = public_path() ."/marcs/empty.txt";
-                if(file_exists($filePath)){
+                $missing_path = public_path() ."/marcs/empty.txt";
+
+                file_put_contents(storage_path() . "/missing_marcs.txt", 'Cannot find MARC record: ' . $filePath . "\n", FILE_APPEND);
+
+                if(file_exists($missing_path)){
                   $relativePath = 'MISSING_'.$isbn.'.txt';
-                  $zip->addFile($filePath, $relativePath); 
+                  $zip->addFile($missing_path, $relativePath); 
                 }
               }
             }
