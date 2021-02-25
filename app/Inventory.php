@@ -195,7 +195,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     public function getMarcs($_, $args){
       $ds = DIRECTORY_SEPARATOR;
 
-      $zip_file_base = $ds . 'marcs'.$ds.request()->user()->KEY.'_bulk_'.Carbon::now()->timestamp.'.zip';
+      $zip_file_base = $ds . 'marcs'.$ds.'compiled_marc_'.Carbon::now()->timestamp.'.zip';
       $matches = false;
       $zip_file = public_path() . $zip_file_base;
 

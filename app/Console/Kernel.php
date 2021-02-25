@@ -34,8 +34,8 @@ class Kernel extends ConsoleKernel
             file_put_contents("schedule.txt", "Schedule Ran: " . Carbon::now() . "\n", FILE_APPEND);
         })->everyThirtyMinutes();
 
-        $schedule->command('command:watchdbfchanges',[["webhead","webdetail","backhead","backdetail","brohead","brodetail"]])->everyThirtyMinutes();
+        $schedule->command(\App\Console\Commands\WatchDbfChanges::class,[["webhead","webdetail","backhead","backdetail","brohead","brodetail"]])->everyThirtyMinutes();
 
-        $schedule->command('command:watchdbfchanges',[["allhead","alldetail","ancienthead","anciendetail","booktext","inventory","vendor","password","passfile","standing_order"]])->weekly();
+        $schedule->command(\App\Console\Commands\WatchDbfChanges::class,[["allhead","alldetail","ancienthead","anciendetail","booktext","inventory","vendor","password","passfile","standing_order"]])->weekly();
     }
 }
