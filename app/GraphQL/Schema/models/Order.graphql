@@ -54,6 +54,10 @@ type Order {
 	TIMESTAMP: String
 	DATESTAMP: String
 	UPS_KEY: String
+	UPS_KEY_2: String
+	UPS_KEY_3: String
+	UPS_KEY_4: String
+	UPS_KEY_5: String
 	BILLWEIGHT: String
 	OSOURCE: String
 	OSOURCE2: String

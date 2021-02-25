@@ -170,6 +170,13 @@ const form = {
       }
   },
 
+  CLEAR_MARC:{
+      type: 'DOWNLOAD_MARCS_SUCCESS',   
+      creator: () => {
+        return { type: 'DOWNLOAD_MARCS_SUCCESS', payload: {isbns:[], zip:null} }
+      }
+  },
+
 
   DOWNLOAD_MARCS_ERROR: 
   {

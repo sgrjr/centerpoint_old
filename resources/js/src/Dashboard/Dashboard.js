@@ -231,6 +231,10 @@ const dashboardQuery = {
               PO_NUMBER
               TRANSNO
               UPS_KEY
+              UPS_KEY_2
+              UPS_KEY_3
+              UPS_KEY_4
+              UPS_KEY_5
             }
           }
           
@@ -242,6 +246,10 @@ const dashboardQuery = {
               PO_NUMBER
               TRANSNO
               UPS_KEY
+              UPS_KEY_2
+              UPS_KEY_3
+              UPS_KEY_4
+              UPS_KEY_5
            }
           }
 
@@ -253,6 +261,10 @@ const dashboardQuery = {
               PO_NUMBER
               TRANSNO
               UPS_KEY
+              UPS_KEY_2
+              UPS_KEY_3
+              UPS_KEY_4
+              UPS_KEY_5
             }
           }
 

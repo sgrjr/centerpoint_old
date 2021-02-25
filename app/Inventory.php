@@ -193,8 +193,9 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
 
     public function getMarcs($_, $args){
+      $ds = DIRECTORY_SEPARATOR;
 
-      $zip_file_base = '/marcs/'.request()->user()->KEY.'_bulk_'.Carbon::now()->timestamp.'.zip';
+      $zip_file_base = $ds . 'marcs'.$ds.request()->user()->KEY.'_bulk_'.Carbon::now()->timestamp.'.zip';
       $matches = false;
       $zip_file = public_path() . $zip_file_base;
 
@@ -206,15 +207,15 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
       foreach ($args["isbns"] as $isbn)
       {
         if($isbn !== null){
-              $filePath = $path ."/".$isbn.".mrc";
+              $filePath = $path .$ds.$isbn.".mrc";
               if(file_exists($filePath)){
                 $matches = true;
                 $relativePath = $isbn.'.mrc';
                 $zip->addFile($filePath, $relativePath); 
               }else{
-                $missing_path = public_path() ."/marcs/empty.txt";
+                $missing_path = public_path() .$ds."marcs".$ds."empty.txt";
 
-                file_put_contents(storage_path() . "/missing_marcs.txt", 'Cannot find MARC record: ' . $filePath . "\n", FILE_APPEND);
+                file_put_contents(storage_path() . $ds."missing_marcs.txt", 'Cannot find MARC record: ' . $filePath . "\n", FILE_APPEND);
 
                 if(file_exists($missing_path)){
                   $relativePath = 'MISSING_'.$isbn.'.txt';

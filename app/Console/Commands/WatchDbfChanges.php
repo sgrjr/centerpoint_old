@@ -37,7 +37,7 @@ class WatchDbfChanges extends Command
      */
     public function handle()
     {
-        //return new UpdateDbfsIfChanged(["webhead","webdetail"]);
+        return new \App\Helpers\UpdateDbfsIfChanged();
     }
 
 }

@@ -51,7 +51,12 @@ export default function RecentOrders(props) {
               <TableCell><a href={"/invoice/" + row.TRANSNO}>view</a></TableCell>
               <TableCell>{row.DATE}</TableCell>
               <TableCell>{row.PO_NUMBER}</TableCell>
-              <TableCell align="right">{row.UPS_KEY}</TableCell>
+              <TableCell align="right">
+              <a href={"https://wwwapps.ups.com/WebTracking/track?track=yes&trackNums="+row.UPS_KEY}>{row.UPS_KEY}</a> 
+              <a href={"https://wwwapps.ups.com/WebTracking/track?track=yes&trackNums="+row.UPS_KEY_2}>{row.UPS_KEY_2}</a> 
+              <a href={"https://wwwapps.ups.com/WebTracking/track?track=yes&trackNums="+row.UPS_KEY_3}>{row.UPS_KEY_3}</a> 
+              <a href={"https://wwwapps.ups.com/WebTracking/track?track=yes&trackNums="+row.UPS_KEY_4}>{row.UPS_KEY_4}</a> 
+              <a href={"https://wwwapps.ups.com/WebTracking/track?track=yes&trackNums="+row.UPS_KEY_5}>{row.UPS_KEY_5}</a> </TableCell>
             </TableRow>
           })}
 

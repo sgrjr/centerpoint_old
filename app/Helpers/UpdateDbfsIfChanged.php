@@ -5,7 +5,7 @@ use Carbon\Carbon, stdclass;
 class UpdateDbfsIfChanged
 {
 
-	public function __construct(Array $tables_to_update = []){
+	public function __construct(Array $tables_to_update = null){
 		
 		$this->tablesToUpdate = $tables_to_update;
 
@@ -39,7 +39,7 @@ class UpdateDbfsIfChanged
                     $timeStampsTest = $newTimeStamp > $source->timestamp;
                     $shouldUpdateTest = $this->shouldUpdate($dbfTable, $source->headers, $source, $newTimeStamp);
                     $source->headers = $dbfTable->getHeader(); 
-                    $included = in_array($source->id, $this->tablesToUpdate);
+                    $included = $this->tablesToUpdate? in_array($source->id, $this->tablesToUpdate):true;
 
                    if( $timeStampsTest && $shouldUpdateTest && $included){
 
