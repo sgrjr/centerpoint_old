@@ -5,9 +5,13 @@ use Carbon\Carbon, stdclass;
 class UpdateDbfsIfChanged
 {
 
-	public function __construct(Array $tables_to_update = null){
-		
-		$this->tablesToUpdate = $tables_to_update;
+	public function __construct($tables_to_update){
+
+    if(is_string($tables_to_update)){
+      $this->tablesToUpdate = explode(",",$tables_to_update);
+    }else{
+      $this->tablesToUpdate = $tables_to_update;
+    }
 
 		$file_name = "dbf_changes.json";
         $now = Carbon::now();

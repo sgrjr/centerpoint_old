@@ -11,7 +11,9 @@ class WatchDbfChanges extends Command
      *
      * @var string
      */
-    protected $signature = 'command:watchdbfchanges';
+    protected $signature = 'command:watchdbfchanges {tables?}';
+
+    // php artisan command:watchdbfchanges "vendor,inventory"
 
     /**
      * The console command description.
@@ -37,7 +39,8 @@ class WatchDbfChanges extends Command
      */
     public function handle()
     {
-        return new \App\Helpers\UpdateDbfsIfChanged();
+        $change = new \App\Helpers\UpdateDbfsIfChanged($this->argument('tables'));
+        return 1;
     }
 
 }
