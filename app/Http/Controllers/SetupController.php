@@ -65,7 +65,7 @@ $update = null;
 		$exitCode .= Artisan::call('db:seed --class=Role_userTableSeeder');
 $exitCode .= Artisan::call('db:seed --class=InventoriesTableSeeder');
 $exitCode .= Artisan::call('db:seed --class=VendorsTableSeeder');
-$exitCode .= Artisan::call('db:seed --class=StandingOrdersTableSeeder');
+$exitCode .= Artisan::call('db:seed --class=Standing_ordersTableSeeder');
 
         $request->session()->flash('message', true);
         return redirect("/setup");   
