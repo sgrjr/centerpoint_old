@@ -62,6 +62,10 @@ class SetupController extends BaseController
 
 		Artisan::call('migrate:reset', ['--force' => true]);
 		$request->session()->flash('message', "Database reset to no seeded tables!");
+        $path = base_path() . DIRECTORY_SEPARATOR . "dbf_changes.json";
+        if(file_exists($path)){
+          unlink($path);
+        }
         return redirect("/setup");   
 
 	}

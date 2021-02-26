@@ -1,6 +1,0 @@
-C:\sites\Stephen_Reynolds\WEBINFO\RWDATA/WEBHEAD.DBF NEW/OLD: 1614340719 - 1614340719
-C:\sites\Stephen_Reynolds\WEBINFO\RWDATA/webdetail.DBF NEW/OLD: 1614341669 - 1614341012
-C:\sites\Stephen_Reynolds\WEBINFO\rDATA/backdetail.DBF NEW/OLD: 1614269218 - 1614269218
-C:\sites\Stephen_Reynolds\WEBINFO\rDATA/backhead.DBF NEW/OLD: 1614269220 - 1614269220
-C:\sites\Stephen_Reynolds\WEBINFO\rDATA/brodetail.DBF NEW/OLD: 1614271020 - 1614271020
-C:\sites\Stephen_Reynolds\WEBINFO\rDATA/brohead.dbf NEW/OLD: 1614271044 - 1614271044

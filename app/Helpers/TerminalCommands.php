@@ -59,9 +59,25 @@ class TerminalCommands
                     break;
 
                 case "DB_MIGRATE":
+                case "MIGRATE":
                     $commandToExecute = "php artisan migrate";
                     break;
+
+                case 'DELETE_DBF_UPDATES':
+                    $path = base_path() . DIRECTORY_SEPARATOR . "dbf_changes.json";
+                    if(file_exists($path)){
+                      unlink($path);
+                    }
+
+                    $commandToExecute = '';
+                    return true;
+                    break;
                 
+                case "SCHEDULE":
+                    $commandToExecute = "php artisan schedule:run";
+                    return \Artisan::call('schedule:run');
+                    break;
+
                 case "OPTIMIZE":
                     $commandToExecute = "php artisan optimize";
                     break;
