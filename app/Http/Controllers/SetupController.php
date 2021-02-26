@@ -15,10 +15,19 @@ class SetupController extends BaseController
 
 		$db = DB::getDatabaseName();
 		$tables = \DB::select("select table_name as 'name', SUM(TABLE_ROWS) as 'rows' FROM INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA='".$db."' group by TABLE_NAME;");
+$updateExists = false;
+$update = null;
+		    $path = base_path() . DIRECTORY_SEPARATOR . "dbf_changes.json";
+                    if(file_exists($path)){
+                      $updateExists = true;
+                      $update = file_get_contents($path);
+                    }
 
         return view('admin.setup', [
             "tables"=> $tables,
-            "error" => \App\Helpers\Misc::getErrors()
+            "error" => \App\Helpers\Misc::getErrors(),
+            "updateExists" => $updateExists,
+            "update"=> $update
         ]);
 		   
 	}
