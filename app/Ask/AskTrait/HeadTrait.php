@@ -84,7 +84,8 @@ trait HeadTrait {
 		}
   
 		$totaling = $this->cartTotaling();
-		$company = \App\Company::first();
+		$company = (object) \Config::get('cp')['company'];
+		file_put_contents('tester', json_encode($company));
   
 	  return[
 			"id" => $this->TRANSNO, //string

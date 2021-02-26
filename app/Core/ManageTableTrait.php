@@ -26,7 +26,7 @@ Trait ManageTableTrait
     }
 
     public function createTable(){
-        
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         if(Schema::hasTable($this->getTable())){
             $this->dropTable();
         }
@@ -37,6 +37,7 @@ Trait ManageTableTrait
                 $table->charset = 'utf8';
 				$table->collation = 'utf8_unicode_ci';
 			});	
+		\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 	}
 
 	public static function seedTable(){

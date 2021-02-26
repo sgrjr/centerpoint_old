@@ -29,7 +29,7 @@ class UserTitleData {
 	}
 
 	private function getPurchased(){
-		return $this->user->vendor->isbns->contains($this->title->ISBN);
+		return in_array($this->title->ISBN, $this->user->vendor->isbns);
 	}
 
 		private function getOnstandingorder(){

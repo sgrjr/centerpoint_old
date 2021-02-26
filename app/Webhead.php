@@ -173,57 +173,6 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
 
 public function webheadSchema($table){ $table->unique('REMOTEADDR'); return $table;	}
 
-public function createCartTitle(\Request $request, $input){
-
-      $w = \App\WebHead::dbf()
-                ->where("REMOTEADDR", "==",$input["REMOTEADDR"])
-                ->first();
-        
-      $w->addToCart($request->user(), $input['ISBN'], $input['QTY']);
-
-      return $request->user();
-}
-
-  public function deleteCartTitle(\Request $request, $input){
-
-        $w = \App\WebHead::dbf()
-                  ->where("REMOTEADDR", "==",$input["REMOTEADDR"])
-                  ->first();
-          
-        $w->deleteFromCart($args['ISBN']);
-
-        return $request->user();
-  }
-
-  public function updateCartTitle(\Request $request, $input){
-
-      $remoteaddr = $input["REMOTEADDR"];
-
-      $detail = \App\WebDetail::dbf()
-            ->where("REMOTEADDR", "==",$remoteaddr)
-            ->where("PROD_NO","==", $input['ISBN'])
-            ->first();
-        
-        unset($input["REMOTEADDR"]);
-        unset($input["ISBN"]);
-
-        foreach($input AS $k=>$v){
-          $detail->$k = $v;
-        }
-
-        $d->dbfSave();
-
-        return $request->user();
-  }
-
-  public function createCart($input){
-      $request = request();
-      if($input === null){$input = [];}
-
-      \App\WebHead::newCart($request->user()->vendor, $input);
-      return $request->user();
-  }
-
   public static function deleteCart($_, $args){
 
       $user = request()->user();      

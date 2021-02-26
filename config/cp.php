@@ -1,15 +1,15 @@
 <?php
 
 return [
-    'dbname' => env("DB_DATABASE"),
+    "dbname" => env("DB_DATABASE"),
     "datarootpath" => env("DATA_FILE_PATH"),
     "imagesrootpath" => env("IMAGES_ROOT_PATH"),
     "titleimagesrootpath" => env("TITLE_IMAGES_ROOT_PATH"),
     "noimagepath" => env("NO_IMAGE_PATH"),
     "marc_records_path" => env("MARC_RECORDS_PATH"),
-	"serverimagerootpath" => env("SERVER_IMAGE_ROOT_PATH"),
-  "dbfrootpathr" => env("DBF_ROOT_PATH_R"),
-	"promotionspath" => env("PROMOTIONS_PATH"),
+    "serverimagerootpath" => env("SERVER_IMAGE_ROOT_PATH"),
+    "dbfrootpathr" => env("DBF_ROOT_PATH_R"),
+    "promotionspath" => env("PROMOTIONS_PATH"),
     "GRAPHQL_URL"=> env("GRAPHQL_URL","/graphql"),
     "files" => [
       "vendor"=> env("DBF_ROOT_PATH_RW") . "/VENDOR.DBF",
@@ -47,7 +47,6 @@ return [
        ["\App\Brodetail","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
        ["\App\Brohead","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
        ["\App\Command",""],
-       ["\App\Company",""],
         ["\App\Ancienthead","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
         ["\App\Ancientdetail","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
        ["\App\Allhead","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
@@ -82,7 +81,7 @@ return [
 		["name"=>"EMPLOYEE"]
       ],
 
-"company" => [[
+"company" => [
 	"name" => "Center Point Large Print",
 	"email" => "contact@centerpointlargeprint.com",
 	"telephone" => "(800) 929-9108",
@@ -92,7 +91,7 @@ return [
 	"website" => "www.centerpointlargeprint.com",
 	"fax" => "(207) 568-3727",
 	"logo" => "/img/logo.png"
-    ]],
+    ],
 
     "image_extensions" => [
       ".png",".PNG",".jpg",".JPG",".jpeg",".bmp",".BMP",".txt"

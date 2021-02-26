@@ -29,13 +29,14 @@ class Kernel extends ConsoleKernel
     {   
        
         //$schedule->command('command:watchdbfchanges')->everyThirtyMinutes();
-
+        /*
         $schedule->call(function () {
             file_put_contents("schedule.txt", "Schedule Ran: " . Carbon::now() . "\n", FILE_APPEND);
         })->everyThirtyMinutes();
+        */
 
-        $schedule->command(\App\Console\Commands\WatchDbfChanges::class,[["webhead","webdetail","backhead","backdetail","brohead","brodetail"]])->everyThirtyMinutes();
+        $schedule->command(\App\Console\Commands\WatchDbfChanges::class,["webheads,webdetails,backheads,backdetails,broheads,brodetails"])->everyMinute();
 
-        $schedule->command(\App\Console\Commands\WatchDbfChanges::class,[["allhead","alldetail","ancienthead","anciendetail","booktext","inventory","vendor","password","passfile","standing_order"]])->weekly();
+        $schedule->command(\App\Console\Commands\WatchDbfChanges::class,["allheads,alldetails,ancientheads,anciendetails,booktexts,inventories,vendors,users,passfiles,standing_orders"])->weekly();
     }
 }

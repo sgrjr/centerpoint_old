@@ -31,21 +31,22 @@ class UpdateDbfsIfChanged
         if($data->pending === false){
 
         foreach($data->tables AS $tableId=>$table){
+            
+            $included = $this->tablesToUpdate? in_array($table->table, $this->tablesToUpdate):true;
 
-            if($table->watch === true){
+            if($table->watch === true && $included){
 
                 $dbfTable = $table->class::getDbfTable();
 
                 foreach($table->sources AS $sourceId=>$source){
-
+                  
                     $newTimeStamp =  filemtime ( $source->path );
-
+                    //file_put_contents('timestamps.txt', $source->path ." NEW/OLD: " . $newTimeStamp . " - " .  $source->timestamp . "\n", FILE_APPEND);
                     $timeStampsTest = $newTimeStamp > $source->timestamp;
                     $shouldUpdateTest = $this->shouldUpdate($dbfTable, $source->headers, $source, $newTimeStamp);
                     $source->headers = $dbfTable->getHeader(); 
-                    $included = $this->tablesToUpdate? in_array($source->id, $this->tablesToUpdate):true;
 
-                   if( $timeStampsTest && $shouldUpdateTest && $included){
+                   if( $timeStampsTest && $shouldUpdateTest){
 
                         $source->reviewed = 'PASSED_SHOULD_UPDATE';
                         $newOldTimeStamp = $source->timestamp;
@@ -71,7 +72,7 @@ class UpdateDbfsIfChanged
                         $source->reviewed = 'DID_NOT_PASS_SHOULD_UPDATE' . 
                             '_TIMESTAMPS_' . ($timeStampsTest? 'PASSED':'FAILED') .
                             '_SHOULDUPDATE_' . ($shouldUpdateTest? 'PASSED':'FAILED') .
-                            'INCLUDED' . ($excluded? 'PASSED':'FAILED');
+                            'INCLUDED' . ($included? 'INCLUDED':'NOT INCLUDED');
                         $data->tables[$tableId]->sources[$sourceId] = $source;
                         file_put_contents($file_name, json_encode($data, JSON_PRETTY_PRINT));
 
