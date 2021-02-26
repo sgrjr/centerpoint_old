@@ -14,7 +14,7 @@ class UpdateDbfsIfChanged
     }
 
 		$file_name = "dbf_changes.json";
-        $now = Carbon::now();
+
 
         if(file_exists($file_name)){
             $data = json_decode(file_get_contents($file_name));
@@ -52,7 +52,7 @@ class UpdateDbfsIfChanged
                         $source->timestamp = $newTimeStamp;
                         $source->old_timestamp = $newOldTimeStamp;
 
-                        $data->updates[] = ["time"=> $now, "table"=>$source->path];
+                        $data->updates[] = ["time"=> Carbon::now(), "table"=>$source->path];
 
                         $data->pending = true;
                         $data->tables[$tableId]->sources[$sourceId] = $source;
