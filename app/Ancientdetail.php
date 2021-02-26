@@ -16,6 +16,12 @@ class Ancientdetail extends BaseModel implements \App\Interfaces\ModelInterface 
         "_config"=>"ancientdetail",
       ];
 
+      protected $ignoreColumns = [ 
+        "PAGES","OUNCES","TESTTRAN","USERPASS","ORDERNUM","CAT","SUBTITLE","ARTICLE","LASTTOUCH","LASTTIME","LASTDATE","TITLEKEY","AUTHORKEY","UNITCOST","ORDEREDBY","PUBDATE","FORMAT","COMPUTER","INVNATURE","FORMAT","PUBLISHER","CATALOG","STATUS","SOPLAN","TIMESTAMP","DATESTAMP","SERIES","REMOTEADDR"
+      ];
+
+      protected $fillable = ["KEY","TRANSNO","DATE","REQUESTED","SHIPPED","PROD_NO","AUTHOR","TITLE","LISTPRICE","DISC","SALEPRICE","SERIES","INDEX"];
+
 	public function head()
     {
         return $this->belongsTo('App\AncientHead','TRANSNO','TRANSNO');

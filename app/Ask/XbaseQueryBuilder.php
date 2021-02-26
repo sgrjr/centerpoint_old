@@ -137,7 +137,7 @@ public function index($index = 0, $columns = false){
 
 			while ($record1=$table->nextRecord() ) {
 				
-					$record = $record1->getRawData();
+					$record = $record1->getRawData($this->model->getIgnoreColumns());
 					
 					unset($record['DELETED']);
 

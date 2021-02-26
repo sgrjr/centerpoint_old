@@ -389,22 +389,18 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
               $table->index('ISBN');
               break;
             case "alldetails":
-              $table->foreign('REMOTEADDR')->references('REMOTEADDR')->on('allheads')->onUpdate('cascade')->onDelete('cascade');
               $table->foreign('TRANSNO')->references('TRANSNO')->on('allheads')->onUpdate('cascade')->onDelete('cascade');
               $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
               break;
             case "ancientdetails":
-              $table->foreign('REMOTEADDR')->references('REMOTEADDR')->on('ancientheads')->onUpdate('cascade')->onDelete('cascade');
               $table->foreign('TRANSNO')->references('TRANSNO')->on('ancientheads')->onUpdate('cascade')->onDelete('cascade');
               $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
               break;
             case "backdetails":
-              $table->foreign('REMOTEADDR')->references('REMOTEADDR')->on('backheads')->onUpdate('cascade')->onDelete('cascade');
               $table->foreign('TRANSNO')->references('TRANSNO')->on('backheads')->onUpdate('cascade')->onDelete('cascade');
               $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
               break;
             case "brodetails":
-              $table->foreign('REMOTEADDR')->references('REMOTEADDR')->on('broheads')->onUpdate('cascade')->onDelete('cascade');
               $table->foreign('TRANSNO')->references('TRANSNO')->on('broheads')->onUpdate('cascade')->onDelete('cascade');
               $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
               break;

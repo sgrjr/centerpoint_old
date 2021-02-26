@@ -211,7 +211,7 @@ public function createCartTitle(\Request $request, $input){
           $detail->$k = $v;
         }
 
-        $d->saveToDbf();
+        $d->dbfSave();
 
         return $request->user();
   }

@@ -10,7 +10,6 @@ Trait ModelTrait
     public function getMemo(){
         $config = Config::get("cp");
         $tablename = $this->getTable();
-        dd($config['tables']);
         return $config["tables"][$tablename]["memo"];
     }
 
@@ -22,6 +21,10 @@ Trait ModelTrait
 
     public function getTableExistsAttribute(){
         return \Schema::hasTable($this->getTable());
+    }
+
+    public function getIgnoreColumns(){
+        return $this->ignoreColumns? $this->ignoreColumns:[];
     }
 
     public function getSeeds(){

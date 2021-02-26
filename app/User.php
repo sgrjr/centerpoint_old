@@ -68,6 +68,8 @@ class User extends Authenticatable implements \App\Interfaces\ModelInterface, \I
         'DATESTAMP' => 'date',
     ];
 
+     protected $ignoreColumns = ["LOGINS","DATEUPDATE","DATESTAMP","MDEPT","MFNAME","TSIGNOFF","TIMESTAMP","TIMEUPDATE","PASSCHANGE","PRINTQUE","SEARCHBY","MULTIBUY","SORTBY","FULLVIEW","SKIPBOUGHT","OUTOFPRINT","OPROCESS","OBEST","OADDTL","OVIEW","ORHIST","OINVO","EXTZN","INSOS","INREG","LINVO","NOEMAILS","ADVERTISE","PROMOTION","PASSDATE","EMCHANGE"];
+
 	public function getNameAttribute(){
        return $this->exists? $this->FIRST . " " . $this->LAST : null;
     }
@@ -81,11 +83,6 @@ class User extends Authenticatable implements \App\Interfaces\ModelInterface, \I
      *
      * @param $password
      */
-
-    /*
-    
-    */
-
 
     public function setUpassAttribute($pass){
        $this->attributes['UPASS'] = \Hash::make($pass);

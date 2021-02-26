@@ -68,7 +68,6 @@ Trait ManageTableTrait
 				case 'dbf':
 					$model->dbf()
 					->skipModel(true)
-					->orderBy("INDEX","DESC")
 					->import($model->getTable())
 					->all()
 					//->reset()
@@ -88,6 +87,7 @@ Trait ManageTableTrait
 
 		$fillable = $this->getFillable();
         $headers = $this->getAttributeTypes();
+        $ignore = $this->getIgnoreColumns();
 
         if(isset($headers["_config"]) ){
         
@@ -100,12 +100,15 @@ Trait ManageTableTrait
             foreach($cols AS $col){
                 $con = $col->getContainer();
                 $name = $con["name"];
-		    	$headers[$name] = [
-                    "name" => $name,
-                    "type" => $con["type"],
-                    "length" => $con["length"],
-                    "nullable" => true
-                ];
+
+                if(!in_array($name,$ignore) ){
+			    	$headers[$name] = [
+	                    "name" => $name,
+	                    "type" => $con["type"],
+	                    "length" => $con["length"],
+	                    "nullable" => true
+	                ];
+            	}
 		    }
             $table->close();
             unset($headers["_config"]);
@@ -113,7 +116,7 @@ Trait ManageTableTrait
            $headers["INDEX"] =[
             "name" => "INDEX",
             "type" => "Int",
-            "length" => 50,
+            "length" => 15,
             "nullable" => false
            ];
 

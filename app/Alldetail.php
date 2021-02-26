@@ -20,6 +20,9 @@ class Alldetail extends BaseModel implements ModelInterface{
 
     protected $presenter = 'App\Presenters\DbfPresenter';
 
+ protected $ignoreColumns = [
+    "JOBBERHOLD","ORDACTION","ORDREASON","TESTTRAN","ORDERNUM","ARTICLE","INVNATURE","SERIES","PUBLISHER","FORMAT","SUBTITLE","CATALOG","STATUS","UNITCOST","TITLEKEY","AUTHORKEY","COMPUTER","TIMESTAMP","DATESTAMP","LASTTOUCH","LASTTIME","LASTDATE","PAGES","OUNCES","PUBDATE","REMOTEADDR","USERPASS","ORDEREDBY","EWHERE","SCARTONNO","TRANSNUM","F856NUM","LASTDATE","PUBLISHER","SOPLAN","CAT","TESTTRAN"
+ ];
 
 	public function head()
     {

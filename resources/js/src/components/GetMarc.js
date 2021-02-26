@@ -21,8 +21,8 @@ class GetMarc extends Component{
         return <Button color="primary" variant="outlined" style={{clear:"both", display:"block", width:"100%", margin:"15px 0 15px 0"}} onClick={(e)=>{this.props.downloadAllMarcs({isbns:this.props.isbns})}}>{message}</Button>
       }else{
         let url = this.props.marcLink
-        window.open(url, "_blank")
-        this.clearMarc()
+        window.open(url)
+        this.props.clearMarc()
         return <a style={{clear:"both", display:"block", width:"90%", border:"solid 1px red", margin:"15px 0 15px 0", padding:"25px", textAlign:"center"}} href={url}>If download doesn't start, click here.</a>
       }
   }    

@@ -307,7 +307,7 @@ class XBaseRecord {
 	     return ($this->deleted?"*":" ").implode("",$this->data);
      }
 
-    function getRawData($skipMemo = true) {
+    function getRawData($ignoreColumns, $skipMemo = true) {
 
         $data = [];
         //$convert_to_valid_utf8 = ['ICOLLNOTE','CUSTNOTE','ACCTNOTE','ACOLLNOTE','ENOTE','SYNOPSIS'];
@@ -316,66 +316,68 @@ class XBaseRecord {
 
         foreach($this->data AS $key=>$value){
 
+
             $col = $this->getColumn($key);
-                        
-            if($col['type'] === "M"){
-                $val = unpack("L", $value)[1];
-                $val = trim($this->table->memo->getMemo($val)["text"]);
-            }else{
-                $val = trim($value);
-            }
-
-            if($val === ""){
-                $val = null;
-            }
-
-            $modify_list = ["C"];
-
-            if(in_array($col->getType(), $modify_list) ){
-                $val = utf8_encode(trim($val));
-            }
-
-            if($col->getType() === "" ){
-                $val = utf8_encode(trim($val));
-            }else if($col->getType() === "N" && !is_numeric($val)){
-                $val = null;
-            }else if($col->getType() === "N"){
-
-                if($col->decimalCount > 0){
-
-                    $val = round(floatval($val),$col->decimalCount);
-                }else{                    
-                    $val = (Int) $val;
-                }
-                
-            }else if($col->getType() === "I" && !is_numeric($val)){
-                $val = null;
-            }else if($col->getType() === "L" ){
-                
-                switch ($value) {
-                    case 'T':
-                    case 'Y':
-                    case 'J':
-                    case '1':
-                    case 1:
-                        $val = true;
-                        break;
-        
-                    default: 
-                        $val = false;
-                }
-            }
-
-            if($val === "" ){$val = null;}
-
-           // if(in_array($col->name, $convert_to_valid_utf8))$val = mb_convert_encoding($val, 'UTF-8', 'UTF-8');
             
-            if($col->name === "UPASS"){
-              $data[$col->name] =  \Hash::make($val);
-            }else{
-                $data[$col->name] = $val;
-            }
+            if(!in_array($col->name, $ignoreColumns)){  
+                if($col['type'] === "M"){
+                    $val = unpack("L", $value)[1];
+                    $val = trim($this->table->memo->getMemo($val)["text"]);
+                }else{
+                    $val = trim($value);
+                }
+
+                if($val === ""){
+                    $val = null;
+                }
+
+                $modify_list = ["C"];
+
+                if(in_array($col->getType(), $modify_list) ){
+                    $val = utf8_encode(trim($val));
+                }
+
+                if($col->getType() === "" ){
+                    $val = utf8_encode(trim($val));
+                }else if($col->getType() === "N" && !is_numeric($val)){
+                    $val = null;
+                }else if($col->getType() === "N"){
+
+                    if($col->decimalCount > 0){
+
+                        $val = round(floatval($val),$col->decimalCount);
+                    }else{                    
+                        $val = (Int) $val;
+                    }
+                    
+                }else if($col->getType() === "I" && !is_numeric($val)){
+                    $val = null;
+                }else if($col->getType() === "L" ){
+                    
+                    switch ($value) {
+                        case 'T':
+                        case 'Y':
+                        case 'J':
+                        case '1':
+                        case 1:
+                            $val = true;
+                            break;
             
+                        default: 
+                            $val = false;
+                    }
+                }
+
+                if($val === "" ){$val = null;}
+
+               // if(in_array($col->name, $convert_to_valid_utf8))$val = mb_convert_encoding($val, 'UTF-8', 'UTF-8');
+                
+                if($col->name === "UPASS"){
+                  $data[$col->name] =  \Hash::make($val);
+                }else{
+                    $data[$col->name] = $val;
+                }
+            }
         }
         
         $data["INDEX"] = (Int) $this->getRecordIndex();
