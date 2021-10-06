@@ -17,7 +17,7 @@ class AddToCart extends Component{
       if(this.props.viewer.KEY){
         if(!this.props.viewer.vendor || this.props.viewer.vendor.carts === undefined){
           this.props.cartGet(cartQuery({perPage:20}))
-        }else if(!this.props.viewer || this.props.viewer.vendor.carts.length < 1 && this.props.authenticated){
+        }else if(this.props.authenticated && !this.props.viewer || this.props.viewer.vendor.carts.length < 1){
           this.props.cartGet(cartQuery({perPage:20}))
         }
       }
@@ -50,12 +50,14 @@ class AddToCart extends Component{
         return null
       }
 
+      if(authenticated){
         if(cart.pending || cart.addToCartPending){
           return <Button disabled variant="outlined" style={{width:"100%"}}><CircularProgress color="primary"/>updating cart ...</Button>
-        }else if(authenticated && title.STATUS !== "Out of Print"){
+        }else if(title.STATUS !== "Out of Print"){
           return (<div>
           <Button variant="outlined" style={{width:"100%"}} onClick={this.sendTitleToCart.bind(this)} type="button" >Add to Cart</Button>
          </div>)
+       }
       }else{
         return <Button variant="outlined" style={{width:"90%", margin:"25px"}}><Link style={{width:"100%"}} to={"/login?return="+this.props.url}>Login to Order</Link></Button>;
       }
@@ -75,10 +77,10 @@ return {
     authenticated: state.viewer && state.viewer.KEY? true:false,
     cart: state.viewer.cart,
     viewer: state.viewer,
-    selectedCart: state.viewer.cart.selectedCart,
-    selectedQuantity:state.viewer.cart.selectedQuantity,
-    open: state.viewer.cart.open,
-    post: state.viewer.cart.post
+    selectedCart: state.viewer && state.viewer.cart? state.viewer.cart.selectedCart:false,
+    selectedQuantity: state.viewer && state.viewer.cart? state.viewer.cart.selectedQuantity:false,
+    open: state.viewer && state.viewer.cart? state.viewer.cart.open:false,
+    post: state.viewer && state.viewer.cart? state.viewer.cart.post:false
      }
 }
 

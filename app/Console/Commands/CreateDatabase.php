@@ -64,10 +64,19 @@ class CreateDatabase extends Command
                 $collation
             ));
 
-            $this->info(sprintf('Successfully created %s database', $db_name));
+            $this->info(sprintf('Successfully created %s database and seeded tables.', $db_name));
+
         } catch (\PDOException $exception) {
             $this->error(sprintf('Failed to create %s database, %s', $db_name, $exception->getMessage()));
         }
+
+        \Artisan::call('migrate');
+        \Artisan::call('passport:client --personal');
+
+        $tables = ["webheads","webdetails","backheads","backdetails","broheads","brodetails","allheads","alldetails","ancientheads","anciendetails","booktexts","inventories","vendors","users","passfiles","standing_orders"];
+
+        $change = new \App\Helpers\UpdateDbfsIfChanged($tables);
+
 
     }
 

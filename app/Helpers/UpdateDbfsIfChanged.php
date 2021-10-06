@@ -59,7 +59,11 @@ class UpdateDbfsIfChanged
                         $data->tables[$tableId]->sources[$sourceId] = $source;
  
                         file_put_contents($file_name, json_encode($data, JSON_PRETTY_PRINT));
-  
+                        
+                        if (!\Schema::hasTable($table->table)) {
+                            \Artisan::call('migrate');
+                        }
+
                         \Artisan::call('db:seed --class='. ucfirst($table->table) .'TableSeeder');
                         $source->rebuilt = true;
                         

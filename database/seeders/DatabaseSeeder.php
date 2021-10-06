@@ -29,14 +29,13 @@ class DatabaseSeeder extends Seeder
             /*10*/'\Database\Seeders\BrodetailsTableSeeder',
             /*11*/'\Database\Seeders\BooktextsTableSeeder',
             /*12*/'\Database\Seeders\CommandsTableSeeder',
-            /*13*/'\Database\Seeders\CompaniesTableSeeder',
-            /*14*/'\Database\Seeders\DbfsTableSeeder',
-            /*15*/'\Database\Seeders\PassfilesTableSeeder',
-            /*16*/'\Database\Seeders\Standing_ordersTableSeeder', //76seconds
-            /*17*/'\Database\Seeders\AllheadsTableSeeder', //18 minutes
-            /*18*/'\Database\Seeders\AlldetailsTableSeeder',//33 m
-            /*19*/'\Database\Seeders\AncientheadsTableSeeder', //33 m
-            /*20*/'\Database\Seeders\AncientdetailsTableSeeder' //103 minutes
+            /*13*/'\Database\Seeders\DbfsTableSeeder',
+            /*14*/'\Database\Seeders\PassfilesTableSeeder',
+            /*15*/'\Database\Seeders\Standing_ordersTableSeeder', //76seconds
+            /*16*/'\Database\Seeders\AllheadsTableSeeder', //18 minutes
+            /*17*/'\Database\Seeders\AlldetailsTableSeeder',//33 m
+            /*18*/'\Database\Seeders\AncientheadsTableSeeder', //33 m
+            /*19*/'\Database\Seeders\AncientdetailsTableSeeder' //103 minutes
         ];
 
         $this->call($list);
