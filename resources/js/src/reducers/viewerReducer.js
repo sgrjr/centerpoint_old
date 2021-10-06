@@ -106,12 +106,12 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
             ...state,
             vendor: {
                 ...state.vendor,
-                carts: action.payload.user.vendor.carts
+                carts: action.payload.viewer.vendor.carts
             },
             cart: {
                 ...state.cart,
                 post: false,
-                selectedCart: state.cart.selectedCart? state.cart.selectedCart:action.payload.user.vendor.carts.data[0].REMOTEADDR,
+                selectedCart: state.cart.selectedCart? state.cart.selectedCart:action.payload.viewer.vendor.carts.data[0].REMOTEADDR,
                 selectedTitle: false,
                 pending:false,
                 addToCartPending: false
@@ -408,7 +408,7 @@ case actions.cart.INVOICE_SUCCESS.type:
                 ...state,
                 vendor: {
                     ...state.vendor,
-                    ...action.payload.user.vendor
+                    ...action.payload.viewer.vendor
                 }
             }
 
