@@ -171,7 +171,7 @@ return {
     catalog: state.application.catalog,
     browse: state.application.browse,
     searchQuery: state.titles.searchQuery,
-    authenticated: state.viewer && state.viewer.KEY? true:false
+    authenticated: state.viewer && !state.viewer.pending && state.viewer.KEY? true:false
      }
 }
 

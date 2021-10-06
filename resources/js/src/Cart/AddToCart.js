@@ -79,8 +79,8 @@ return {
     viewer: state.viewer,
     selectedCart: state.viewer && state.viewer.cart? state.viewer.cart.selectedCart:false,
     selectedQuantity: state.viewer && state.viewer.cart? state.viewer.cart.selectedQuantity:false,
-    open: state.viewer && state.viewer.cart? state.viewer.cart.open:false,
-    post: state.viewer && state.viewer.cart? state.viewer.cart.post:false
+    open: state.viewer && !state.viewer.pending && state.viewer.cart? state.viewer.cart.open:false,
+    post: state.viewer && !state.viewer.pending && state.viewer.cart? state.viewer.cart.post:false
      }
 }
 
