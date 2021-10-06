@@ -102,11 +102,10 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
 /*cart stuff start*/
     case actions.cart.CART_SUCCESS.type:
     case actions.cart.CART_TITLE_ADDED_SUCCESS.type:
-        return {
+        let newState = {
             ...state,
             vendor: {
-                ...state.vendor,
-                carts: action.payload.viewer.vendor.carts
+                ...state.vendor
             },
             cart: {
                 ...state.cart,
@@ -119,6 +118,11 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
      
         }
   
+        if(action.payload.viewer && action.payload.viewer.vendor !== null && action.payload.viewer.vendor !== undefined){
+           newState.vendor.carts: action.payload.viewer.vendor.carts
+        }
+
+        return newState
 
  case actions.cart.CART_DELETE_PENDING.type:
 
