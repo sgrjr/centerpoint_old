@@ -90480,7 +90480,7 @@ AddToCart.propTypes = {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    authenticated: state.viewer && state.viewer.KEY ? true : false,
+    authenticated: state.viewer && !state.viewer.pending && state.viewer.KEY ? true : false,
     cart: state.viewer.cart,
     viewer: state.viewer,
     selectedCart: state.viewer && state.viewer.cart ? state.viewer.cart.selectedCart : false,
