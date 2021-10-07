@@ -102,7 +102,7 @@ return {
     browse: state.application.browse,
     query: state.titles.query,
     queryVars: state.titles.queryVars,
-    selectedCart: state.viewer? state.viewer.cart.selectedCart:null,
+    selectedCart: state.viewer && !state.viewer.pending? state.viewer.cart.selectedCart:null,
     viewer: state.viewer
      }
 }
