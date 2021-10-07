@@ -5,7 +5,6 @@ import actions from '../actions';
 import {Button, Typography} from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
-import CartList from './CartList';
 import cartQuery from './cartQuery'
 import addTitleToCartQuery from '../Cart/addTitleToCartQuery'
 import { Link } from "react-router-dom";
@@ -51,7 +50,9 @@ class AddToCart extends Component{
       }
 
       if(authenticated){
-        if(cart.pending || cart.addToCartPending){
+        if(!viewer.vendor){
+          return <div/>
+        }else if(cart.pending || cart.addToCartPending){
           return <Button disabled variant="outlined" style={{width:"100%"}}><CircularProgress color="primary"/>updating cart ...</Button>
         }else if(title.STATUS !== "Out of Print"){
           return (<div>

@@ -20,11 +20,9 @@ const viewmore = function(history, url) {
 function getTitleBar(props, item, index){
   let shoppingCart = <RemoveShoppingCartIcon style={{color: "inherit"}}/>
 
-  if(!props.viewer || !props.viewer.KEY){
+  if(!props.viewer || !props.viewer.KEY || !props.viewer.vendor){
     shoppingCart = null
-  }
-
-  if(props.viewer && props.viewer.KEY && item.STATUS !== "Out Of Print"){
+  }else if(props.viewer && props.viewer.KEY && item.STATUS !== "Out Of Print"){
       shoppingCart = <IconButton aria-label={`cart ${item.TITLE}`} style={{color: "inherit"}} onClick={function(){
                   props.addTitleToCart(addTitleToCartQuery({
                     REMOTEADDR: props.selectedCart,

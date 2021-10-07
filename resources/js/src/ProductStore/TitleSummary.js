@@ -7,7 +7,7 @@ import BookCover from './BookCover'
 export default function TitleSummary(props) {
   let addToCart = null
 
-  if(props.authenticated){
+  if(props.authenticated && props.viewer.vendor){
     addToCart =  <AddToCart title={props} url={props.match.url} createCart={props.createCart}/>
   }
 

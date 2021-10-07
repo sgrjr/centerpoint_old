@@ -120,8 +120,26 @@ const auth = {
                     }
                     data{
                       id
-                      REMOTEADDR
+                      INDEX
+                      KEY
+                      DATE
                       PO_NUMBER
+                      TRANSNO
+                      REMOTEADDR
+                      ISCOMPLETE
+
+                      items{
+                              id
+                              INDEX
+                              PROD_NO
+                              TITLE
+                              REQUESTED
+                              SALEPRICE
+                              coverArt
+                              AUTHOR
+                              AUTHORKEY
+                              url
+                            }
                     }
                   }
                 }

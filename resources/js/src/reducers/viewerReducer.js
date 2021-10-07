@@ -102,15 +102,27 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
 /*cart stuff start*/
     case actions.cart.CART_SUCCESS.type:
     case actions.cart.CART_TITLE_ADDED_SUCCESS.type:
-        let cartStateChange = {
+        let newVendor = false
+        if(state.vendor){
+            newVendor = {...state.vendor}
+        }
+        if(action.payload.viewer.vendor !== null){
+            newVendor = {...newVendor, ...action.payload.viewer.vendor}
+        }
+
+        let newDefaultSelectedCart = false
+
+        if(action.payload.viewer.vendor){
+            newDefaultSelectedCart = action.payload.viewer.vendor.carts.data[0].REMOTEADDR
+        }
+
+        return {
             ...state,
-            vendor: {
-                ...state.vendor
-            },
+            vendor: newVendor,
             cart: {
                 ...state.cart,
                 post: false,
-                selectedCart: state.cart.selectedCart? state.cart.selectedCart:action.payload.viewer.vendor.carts.data[0].REMOTEADDR,
+                selectedCart: state.cart.selectedCart? state.cart.selectedCart:newDefaultSelectedCart,
                 selectedTitle: false,
                 pending:false,
                 addToCartPending: false
@@ -118,11 +130,6 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
      
         }
   
-        if(action.payload.viewer && action.payload.viewer.vendor !== null && action.payload.viewer.vendor !== undefined){
-           cartStateChange.vendor.carts = action.payload.viewer.vendor.carts
-        }
-
-        return cartStateChange
 
  case actions.cart.CART_DELETE_PENDING.type:
 
