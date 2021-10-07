@@ -106,14 +106,14 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
         if(state.vendor){
             newVendor = {...state.vendor}
         }
-        if(action.payload.viewer.vendor !== null){
-            newVendor = {...newVendor, ...action.payload.viewer.vendor}
+        if(action.payload.user.vendor !== null){
+            newVendor = {...newVendor, ...action.payload.user.vendor}
         }
 
         let newDefaultSelectedCart = false
 
-        if(action.payload.viewer.vendor){
-            newDefaultSelectedCart = action.payload.viewer.vendor.carts.data[0].REMOTEADDR
+        if(action.payload.user.vendor){
+            newDefaultSelectedCart = action.payload.user.vendor.carts.data[0].REMOTEADDR
         }
 
         return {
