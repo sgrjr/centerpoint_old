@@ -1,0 +1,23 @@
+type Mutation {
+
+    createUser(input: CreateUserInput!): User @create
+    updateUser(input: UpdateUserInput!): User @update
+    deleteUser(input: UpdateUserInput!): User @delete
+    
+    userProfilePhoto(profilePicture: Upload!): User @field(resolver: "App\\Models\\User@updateProfilePhoto")
+
+    loginUser(input: LoginUserInput!): User @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator")
+    adminLoginUser(input: AdminLoginUserInput!): User @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@adminLoginUser")
+
+    logoutUser: Application @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@logoutUser")
+    
+    createCart(input: CreateCartInput!): User @field(resolver: "App\\GraphQL\\Mutations\\CreateCartMutator")
+    deleteCart(id: ID, REMOTEADDR: String): User @field(resolver: "App\\Models\\Webhead@deleteCart")
+    updateCart(input: UpdateCartInput!): Order @field(resolver: "App\\Models\\Webhead@updateMyCart")
+
+    createCartTitle(REMOTEADDR: String!, REQUESTED: Int, PROD_NO: String!): OrderItem @field(resolver: "App\\Models\\Webdetail@addTitleToCart")
+    deleteCartTitle(id: Int!): User @field(resolver: "App\\Models\\Webdetail@deleteMyTitleFromCart")
+    updateCartTitle(id: Int!, REMOTEADDR: String, REQUESTED: Int, PROD_NO: String): OrderItem @update(model:"\\App\\Models\\Webdetail")
+
+    getMarcs(isbns: [String]!): Marc @field(resolver: "App\\Models\\Inventory@getMarcs")
+}

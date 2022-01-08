@@ -1,0 +1,5 @@
+type TitleTextBody {
+    type: String
+    subject: String
+    body: String
+}

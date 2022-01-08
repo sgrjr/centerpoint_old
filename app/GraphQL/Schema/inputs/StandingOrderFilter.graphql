@@ -1,0 +1,7 @@
+input StandingOrderFilter {
+    INDEX: Int @like
+    KEY: String @like
+    SOSERIES: String @like
+    DISC: Float @where(operator:">=")
+    QUANTITY: String @eq
+}
