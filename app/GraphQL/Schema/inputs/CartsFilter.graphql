@@ -1,4 +1,0 @@
-input CartsFilter {
-    key: String @like(key:"KEY")
-    iscomplete: Boolean @like(key:"ISCOMPLETE")
-}
