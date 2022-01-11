@@ -3,6 +3,9 @@
 use DB, Config, Schema;
 use App\Helpers\StringHelper;
 use App\Models\Dbf;
+use stdclass;
+
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class DatabaseManager {
 
@@ -61,7 +64,7 @@ class DatabaseManager {
 			$table = new $tc[0];
 			$table->exists = $table->tableExists;
 			$table->mysqlCount = 0; //find another solution for this data
-			$tables[$key] = $table;
+			$tables[$table->getTable()] = $table;
 		}
 
 		$this->tables = $tables;
@@ -159,7 +162,7 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 		if($opt->name === "ALL"){
 			foreach($this->tables AS $t){
 				if($t->isFromDbf() && Schema::hasTable($t->getTable()) === false){	
-					//Contintue if table is to be seeded from a migration and created from a schema defined in the model
+					//Continue if table is to be seeded from a migration and created from a schema defined in the model
 					$headers = $this->getHeaders($t->getTable());
 					$this->schema($t->getTable(), $headers);
 					$this->addResult("imported fresh", $t->getTable(), false);
@@ -191,14 +194,22 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 		 return $this;
 	}
 
+	public function dropAllTables(){
+		$opt = new stdclass;
+        $opt->name = "ALL";
+        $this->dropTable($opt);
+
+	}
 	public function dropTable($opt){
 
 		if($opt->name === "ALL"){
-			
 			foreach($this->tables AS $t){
 				if($t->source !== "SEED"){
-					$t->dropTable;
-					$this->addResult("Table " . $opt->name . " was deleted.", $t->getTable(), false);
+					if(Schema::hasTable($t->getTable())){
+						$t->dropTable();
+						$this->addResult("Table " . $t->name . " was deleted.", $t->getTable(), false);
+					}
+
 				}		
 			}
 			
@@ -213,6 +224,7 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 	}
 	
 	public function truncateTable($opt){
+		\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
 		$table = $this->getTableByName($opt->name);
 
@@ -228,19 +240,33 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 			$this->addResult("Nothing Happened.");
 		}
 
+		\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
 		return $this;
 	}
 	
 	public function seedTable($opt){
-		
+		 $output = new ConsoleOutput();
+
 		if($opt->name === "ALL"){
 		
 			foreach($this->tables AS $t){
-				$t->seedTable();
-				$this->addResult($t->getTable() ." was seeded.", false, false);
+
+				if($t->first() === null){
+					$output->writeln($t->getTable() . " started...");
+					$start = microtime(true);
+					$t->seedTable();
+					$this->addResult($t->getTable() ." was seeded.", false, false);
+					$time_elapsed_secs = microtime(true) - $start;
+					$output->writeln(" => " . round($time_elapsed_secs/60,2) . " min");
+				}
+
 			}
 			return $this;
 		}
+
+		$start = microtime(true);
+		$output->writeln($opt->name . " started...");
 		$table = $this->getTableByName($opt->name);
 		
 		$result = $table->seedTable();
@@ -251,21 +277,22 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 			$this->addResult($table->getTable() ." was seeded.", false, false);
 		}
 
+		$time_elapsed_secs = microtime(true) - $start;
+		$output->writeln($opt->name." " . round($time_elapsed_secs/60,3) . " min");
 		return $this;
 	}
 
-	public function rebuildAllDbfTables(){
+	public function rebuildAllDbfTables($shouldSeed = true){
 		
 		$start_time = microtime(true); 
 
 		\DB::raw("SET autocommit=0;SET unique_checks=0;SET foreign_key_checks=0; SET innodb_autoinc_lock_mode = 2;");
 
 			foreach($this->tables AS $t){
-				if($t->isFromDbf()){
-					$opt = new \stdclass;
-					$opt->name = $t->getTable();
-					$this->rebuildTable($opt, false);
-				}
+				$opt = new \stdclass;
+				$opt->name = $t->getTable();
+				$opt->seed = $shouldSeed;
+				$this->rebuildTable($opt, false);
 			}
 
 		\DB::raw("SET unique_checks=1;SET foreign_key_checks=1; SET innodb_autoinc_lock_mode = 2;");
@@ -281,6 +308,26 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 
 	}
 
+		public function seedAllTables(){
+			$opt = new \stdclass;
+			$opt->name = "ALL";
+			$this->seedTable($opt);		
+			$this->addResult("Tables were was seeded.", false, false);
+			return $this;
+		}
+
+		public function truncateAllTables(){
+			\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+			foreach($this->tables AS $t){
+				$result = $t->emptyTable();
+				$this->addResult($t->getTable() ." was truncated. == ", false, false);
+			}
+			\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+			$this->addResult("Tables were was truncated", false, false);
+
+			return $this;
+		}
+
 	public function rebuildTable($opt, $ini = true){
 			
 		if(\Schema::hasTable($opt->name)){
@@ -292,7 +339,7 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 			$this->createTable($opt);
 			$this->addResult($opt->name ." was rebuilt.", false, false);
 
-			if(\Schema::hasTable($opt->name)){
+			if($opt->seed && \Schema::hasTable($opt->name)){
 				$this->seedTable($opt);
 				$this->addResult($opt->name ." was seeded.", false, false);
 			}
@@ -353,7 +400,7 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 			}
 			return $tables;
 
-		}else{		
+		}else{
 			return $this->tables[$name];
 		}
 

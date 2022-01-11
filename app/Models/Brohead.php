@@ -12,6 +12,7 @@ class Brohead extends BaseModel implements \App\Interfaces\ModelInterface {
 	protected $seed = [
     	'dbf_brohead'
   	];
+  	 protected $indexes = ["TRANSNO", "KEY"];
 
       protected $attributeTypes = [ 
         "_config"=>"brohead",

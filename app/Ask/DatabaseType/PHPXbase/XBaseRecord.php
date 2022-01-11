@@ -16,7 +16,6 @@ define ("DBFFIELD_TYPE_DATETIME","T");	// DateTime
 define ("DBFFIELD_TYPE_INDEX","I");    // Index 
 define ("DBFFIELD_IGNORE_0","0");		// ignore this field
 
-
 class XBaseRecord {
 
     var $zerodate = 0x253d8c;
@@ -26,26 +25,13 @@ class XBaseRecord {
     var $inserted;
     var $recordIndex;
     
-    public function __construct($table, $recordIndex, $rawData=false) {
+ public function __construct($table, $recordIndex, $rawData=false) {
         $this->table =& $table;
         $this->recordIndex=$recordIndex;
-        $this->data = array();
-
-        if ($rawData && strlen($rawData)>0) {
-	        $this->inserted=false;
-        	$this->deleted=(ord($rawData[0])!="32");
-        	foreach ($table->getColumns() as $column) {
-            	$this->data[$column->getName()]= trim(substr($rawData,$column->getBytePos(),$column->getDataLength()));
-        	}
-    	} else {
-       
-	    	$this->inserted=true;
-	    	$this->deleted=false;
-	    	foreach ($table->getColumns() as $column) {
-		    	$this->data[]=str_pad("", $column->getDataLength(),chr(0));
-	    	}
-    	}
+        $this->data = [];
+        $this->rawData = $rawData;
     }
+
     function isDeleted() {
         return $this->deleted;
     }
@@ -307,24 +293,27 @@ class XBaseRecord {
 	     return ($this->deleted?"*":" ").implode("",$this->data);
      }
 
-    function getRawData($ignoreColumns, $skipMemo = true) {
+    function getRawDataFunc($val, $col, $table) {
 
-        $data = [];
+        $ignoreColumns = [];
+        $skipMemo = false;
         //$convert_to_valid_utf8 = ['ICOLLNOTE','CUSTNOTE','ACCTNOTE','ACOLLNOTE','ENOTE','SYNOPSIS'];
-
-        ini_set('mbstring.substitute_character', 32);
-
-        foreach($this->data AS $key=>$value){
-
-
-            $col = $this->getColumn($key);
+        if($col->getName() === "SERIES"){
+            //truncating SERIES data that is too long to container length
+            //a necessary hack because of some really bad data in: Webdetails, 
+            $length = $col->getContainer()["length"];
+            $val = substr($val,0,$length);
+        }
+        
+        //ini_set('mbstring.substitute_character', 32);
             
-            if(!in_array($col->name, $ignoreColumns)){  
-                if($col['type'] === "M"){
-                    $val = unpack("L", $value)[1];
-                    $val = trim($this->table->memo->getMemo($val)["text"]);
+            if(!in_array($col->name, $ignoreColumns)){
+
+                if($col['type'] === "M" && $val !== null && $val !== false && $val != 'undefined'){
+                    $val = unpack("L", $val)[1];
+                    $val = $table->memo->getMemo($val)["text"];
                 }else{
-                    $val = trim($value);
+                    $val = trim($val);
                 }
 
                 if($val === ""){
@@ -344,7 +333,6 @@ class XBaseRecord {
                 }else if($col->getType() === "N"){
 
                     if($col->decimalCount > 0){
-
                         $val = round(floatval($val),$col->decimalCount);
                     }else{                    
                         $val = (Int) $val;
@@ -354,7 +342,7 @@ class XBaseRecord {
                     $val = null;
                 }else if($col->getType() === "L" ){
                     
-                    switch ($value) {
+                    switch ($val) {
                         case 'T':
                         case 'Y':
                         case 'J':
@@ -370,23 +358,54 @@ class XBaseRecord {
 
                 if($val === "" ){$val = null;}
 
-               // if(in_array($col->name, $convert_to_valid_utf8))$val = mb_convert_encoding($val, 'UTF-8', 'UTF-8');
                 
                 if($col->name === "UPASS"){
-                  $data[$col->name] =  \Hash::make($val);
-                }else{
-                    $data[$col->name] = $val;
+                  $val =  \Hash::make($val);
                 }
             }
-        }
-        
-        $data["INDEX"] = (Int) $this->getRecordIndex();
-        $data["DELETED"] = $this->isDeleted();
+         return $val;
+     }
 
-         return $data;
+     function getRawData($ignoreColumns = [], $skipMemo = true){
+        return $this->loopData($ignoreColumns, 'getRawDataFunc');
      }
 
      function getRawDataSimplest() {
+        return $this->loopData();
+     }
+
+
+     function loopData($ignoreColumns = [], $transform = false){
+
+        if ($this->rawData && strlen($this->rawData)>0) {
+            $this->inserted=false;
+            $this->deleted=(ord($this->rawData[0])!="32");
+            foreach ($this->table->getColumns() as $column) {
+                $columnName = $column->getName();
+
+                if(!in_array($columnName, $ignoreColumns)){
+                    $val = substr($this->rawData,$column->getBytePos(),$column->getDataLength());
+                    if($transform !== false){
+                        $val = trim($this->$transform($val, $column, $this->table));
+                    }
+                    if($val === ""){$val = null;}
+                    $this->data[$columnName]= $val;
+                }
+            }
+        } else {
+       
+            $this->inserted=true;
+            $this->deleted=false;
+            foreach ($table->getColumns() as $column) {
+                if(!in_array($column->getName(), $ignoreColumns)){
+                    $val = str_pad("", $column->getDataLength(),chr(0));
+                    if($val === ""){$val = null;}
+                    $this->data[]=$val;
+                }
+            }
+        }
+
+        $this->data["INDEX"] = (Int) $this->getRecordIndex();
         return $this->data;
      }
 }

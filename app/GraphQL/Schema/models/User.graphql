@@ -4,9 +4,11 @@ type User {
 
 	cart(id:ID, REMOTEADDR:String!): Order @field(resolver: "App\\Models\\Webhead@getMyCart")
 	invoice(id:ID, TRANSNO:String!): Order @field(resolver: "App\\Models\\Vendor@getInvoice")
+	roles:[Role]
 
 	photo: String
 	id: ID!
+	public_id: String
 	token: String
 	name: String
 	EMAIL: String

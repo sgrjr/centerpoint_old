@@ -122,86 +122,58 @@ public function index($index = 0, $columns = false){
 		return $this;
 	}
 
-	public function setData(){
+	public function setData(){ 
+
 		$startIndex = -1;	
 		$resetCounterAt = 500;
 		$limit = $this->parameters->perPage * $this->parameters->page;
+		
+		$bigdbfs = ["alldetails", "allheads","ancientheads","ancientdetails","users"];
+
 
 		foreach($this->table AS $table){
+			
+			
+			if(in_array($this->model->getTable(), $bigdbfs)){
+				$table->foreach($this->model);
+			}else{
+				$allRecords = $table->recordsToArray($this->model);
 
-			$allRecords = $table->recordsToArray();
-			$counter = 0;
-			$total = 0;
-			$index = 0; 
+					$counter = 0;
+					$total = 0;
+					$index = 0; 
 
-			while ($index < count($allRecords) ) {
-					
-					unset($allRecords[$index]['DELETED']);
+					while ($index < count($allRecords) ) {
+							
+							unset($allRecords[$index]['DELETED']);
 
-					if($this->test($allRecords[$index])){
-						$this->addDataRecord($allRecords[$index], false, true, $this->parameters->lists);
-						$counter++;
-						$total++;		
+							if($this->test($allRecords[$index])){
+								$this->addDataRecord(\Arr::except($allRecords[$index], $this->model->getIgnoreColumns()), false, true, $this->parameters->lists);
+								$counter++;
+								$total++;		
+							}
+							
+							if($counter === $resetCounterAt) {
+								if($this->parameters->import){
+									$this->importAndEmpty();
+									$counter = 0;
+								}
+							}else if($total >= $limit){
+								break;
+							}
+							$index++;				
 					}
-					
-					if($counter === $resetCounterAt) {
-						if($this->parameters->import){
-							$this->importAndEmpty();
-							$counter = 0;
-						}
-					}else if($total >= $limit){
-						break;
-					}
-					$index++;				
+				}
+
+				if($this->parameters->import){
+					$this->importAndEmpty();
+				}
 			}
-		}
 
-		if($this->parameters->import){
-			$this->importAndEmpty();
-		}
 
         return $this;
 	}
-	public function setData1(){
-		ini_set('memory_limit','3000M');
-		$startIndex = -1;	
-		$resetCounterAt = 500;
-		$limit = $this->parameters->perPage * $this->parameters->page;
-
-		foreach($this->table AS $table){
-
-			$table->open();
-			$table->moveTo($startIndex);
-			$counter = 0;
-			$total = 0;
-
-			while ($record1=$table->nextRecord() ) {
-					$record = $record1->getRawData($this->model->getIgnoreColumns());
-					
-					unset($record['DELETED']);
-
-					if($this->test($record)){
-						$this->addDataRecord($record, false, true, $this->parameters->lists);
-						$counter++;
-						$total++;		
-					}
-					
-					if($counter === $resetCounterAt) {
-						$this->importAndEmpty();
-						$counter = 0;
-					}else if($total >= $limit){
-						break;
-					}				
-			}
-
-			$table->close();
-		}
-
-		$this->importAndEmpty();
-
-        return $this;
-	}
-
+	
 	public function get($loadToArray = false){
 		if($loadToArray){
 			$this->setData();

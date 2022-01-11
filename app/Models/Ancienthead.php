@@ -14,6 +14,8 @@ class Ancienthead extends BaseModel implements \App\Interfaces\ModelInterface {
   'dbf_ancienthead'
  ];
 
+ protected $indexes = ["TRANSNO", "KEY"];
+
  protected $attributeTypes = [ 
   "_config"=>"ancienthead", 
  ];

@@ -30,27 +30,31 @@ return [
       "webdetail"=> env("DBF_ROOT_PATH_RW") . "/webdetail.DBF"   
     ],
     "tables" => [
-      ["\App\Cache","This is for the application cache drivers use."],
-      ["\App\Dbf","a table for tracking table statuses."],
-      ["\App\Passfile","This holds basically pairs of name/value for drop down choices in programming. It also holds the discounts for wholesaler accounts."],
-       ["\App\WebSocketStatistic","This is a log for the Websocket server."],
-      ["\App\Vendor", "This table lists all our customers."],
-      ["\App\Inventory","This table lists our entire current inventory"],
-       ["\App\Booktext","This file holds the book copy associated with inventory records. ID Key is KEY (ISBN)"],
-      ["\App\User","This table lists customer credentials and preferences."],
-      ["\App\Role",''],["\App\RoleUser",""],
-       ["\App\StandingOrder","This file holds info on our standing orders and choice customers. ID KEY IS KEY (Customer Key)"],
-       ["\App\Webhead","This is where HEADER information of the customer’s order is kept. These are orders coming off the website only. The key is field: remoteaddr  Orders are stored here until processed and then sent to files broHead.dbf and broDetail.dbf on RDATA."],
-       ["\App\Webdetail","This is where the DETAILS of a customer’s order is kept. These are orders coming off the website only. The key is field: remoteaddr  Orders are stored here until processed and then sent to files broHead.dbf and broDetail.dbf on RDATA."],
-        ["\App\Backdetail","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
-       ["\App\Backhead","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
-       ["\App\Brodetail","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
-       ["\App\Brohead","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
-       ["\App\Command",""],
-        ["\App\Ancienthead","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
-        ["\App\Ancientdetail","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
-       ["\App\Allhead","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
-       ["\App\Alldetail","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"]
+      ["\App\Models\Cache","This is for the application cache drivers use."],
+      ["\App\Models\Dbf","a table for tracking table statuses."],
+      ["\App\Models\Passfile","This holds basically pairs of name/value for drop down choices in programming. It also holds the discounts for wholesaler accounts."],
+      ["\App\Models\Vendor", "This table lists all our customers."],
+      ["\App\Models\Inventory","This table lists our entire current inventory"],
+      ["\App\Models\Booktext","This file holds the book copy associated with inventory records. ID Key is KEY (ISBN)"],
+      ["\App\Models\User","This table lists customer credentials and preferences."],
+      ["\App\Models\Role",''],
+      ["\App\Models\RoleUser",""],
+      ["\App\Models\Permission",''],
+      ["\App\Models\PermissionRole",''],
+      ["\App\Models\StandingOrder","This file holds info on our standing orders and choice customers. ID KEY IS KEY (Customer Key)"],
+      
+      ["\App\Models\Webhead","This is where HEADER information of the customer’s order is kept. These are orders coming off the website only. The key is field: remoteaddr  Orders are stored here until processed and then sent to files broHead.dbf and broDetail.dbf on RDATA."],
+      ["\App\Models\Backhead","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
+      ["\App\Models\Brohead","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
+      ["\App\Models\Ancienthead","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
+      ["\App\Models\Allhead","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
+
+      ["\App\Models\Webdetail","This is where the DETAILS of a customer’s order is kept. These are orders coming off the website only. The key is field: remoteaddr  Orders are stored here until processed and then sent to files broHead.dbf and broDetail.dbf on RDATA."],
+      ["\App\Models\Backdetail","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"], 
+      ["\App\Models\Brodetail","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
+      ["\App\Models\Command",""],
+      ["\App\Models\Ancientdetail","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"],
+      ["\App\Models\Alldetail","These are basically the same Header and lineitem orders file, just different states, like inprocess, or processed and archived, or backordered,The ID Key to all these files is Transno (N 13). Similar to: broHead.dbf, broDetail.dbf, allHead.dbf,allDetail.dbf,oldallHead.dbf,oldallDetail.dbf,ancientHead.dbf ancientDetail.dbf"]
        //["\App\Order","This is a log of all titles purchased by vendor."],
        //["\App\OrderItem","This is a log of all titles purchased by vendor."],
        
@@ -80,6 +84,34 @@ return [
 		["name"=>"VENDOR"],
 		["name"=>"EMPLOYEE"]
       ],
+
+  "permissions" => [
+    ["name"=>"VIEW_REGISTER_USER","description"=>""],
+    ["name"=>"VIEW_DASHBOARD","description"=>""],
+    ["name"=>"VIEW_VENDORS","description"=>""],
+    ["name"=>"MODIFY_ADMIN_RESOURCE","description"=>""],
+    ["name"=>"ADMIN_APP","description"=>""],
+    ["name"=>"LIST_ALL_USERS","description"=>""]
+  ],
+
+  "permission_role" => [
+    ["role_id"=>1, "permission_id"=>1],
+    ["role_id"=>1, "permission_id"=>2],
+    ["role_id"=>1, "permission_id"=>3],
+    ["role_id"=>1, "permission_id"=>4],
+    ["role_id"=>1, "permission_id"=>5],
+    ["role_id"=>1, "permission_id"=>6],
+    ["role_id"=>2, "permission_id"=>1],
+    ["role_id"=>2, "permission_id"=>2],
+    ["role_id"=>2, "permission_id"=>3],
+    ["role_id"=>2, "permission_id"=>4],
+    ["role_id"=>2, "permission_id"=>5],
+    ["role_id"=>2, "permission_id"=>6],
+    ["role_id"=>4, "permission_id"=>1],
+    ["role_id"=>4, "permission_id"=>2],
+    ["role_id"=>4, "permission_id"=>3],
+    ["role_id"=>3, "permission_id"=>2]
+  ],
 
 "company" => [
 	"name" => "Center Point Large Print",

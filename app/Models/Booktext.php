@@ -11,6 +11,7 @@ class Booktext extends BaseModel implements \App\Interfaces\ModelInterface {
    protected $seed = [
     'dbf_booktext'
   ];
+  protected $indexes = ["KEY"];
 	protected $dbfPrimaryKey = 'INDEX';
 
       protected $attributeTypes = [

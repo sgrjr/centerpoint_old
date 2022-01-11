@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import actions from '../actions';
 import { connect } from 'react-redux'
-import Link from '@material-ui/core/Link';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -28,9 +28,7 @@ class AdminUsers extends Component {
    	}
    }
    componentDidMount(){
-      if(!this.props.users || !this.props.admin.pending){
         this.nextPage()
-      }
     }
 
     loadUsers(){
@@ -48,7 +46,7 @@ class AdminUsers extends Component {
     }
 
   render(){
-	 let loginUser = this.props.adminLoginUser
+	 let loginUser = this.props.loginUser
   	let heading = null
     let headerStyle = {
       margin:"15px"
@@ -67,6 +65,7 @@ class AdminUsers extends Component {
   	
         <TableHead>
           <TableRow>
+          <TableCell>edit</TableCell>
             <TableCell>test</TableCell>
             <TableCell>Name</TableCell>
             <TableCell align="right">EMAIL</TableCell>
@@ -77,10 +76,11 @@ class AdminUsers extends Component {
 
           {this.props.users && this.props.users.data.map((row, id) => {
             return <TableRow key={id}>
+              <TableCell><Link to={"/dashboard/admin/users/"+row.public_id}><IconPicker name="edit"/></Link></TableCell>
               <TableCell><button onClick={()=>{
-              	loginUser({id: row.id})
+              	loginUser({id: row.public_id})
               	return <Navigate to={"/dashboard"} />
-          	}}>TEST</button></TableCell>
+          	}}><IconPicker name="login"/></button></TableCell>
               <TableCell>{row.FIRST} {row.LAST}</TableCell>
               <TableCell align="right">{row.EMAIL}</TableCell>
             </TableRow>
@@ -107,7 +107,7 @@ const adminUsersQuery = (variables)=>{
               EMAIL
               FIRST
               LAST
-              id
+              public_id
             }
           }    
   }  
@@ -120,6 +120,7 @@ const adminUsersQuery = (variables)=>{
 
 const mapStateToProps = (state)=>{
 return {
+    admin: state.admin,
     users: state.admin.data.users
      }
 }
@@ -129,7 +130,7 @@ const mapDispatchToProps = dispatch => {
       adminUsersGet: (query) => {
         dispatch(actions.admin.ADMIN_GET.creator(query))
       },
-      adminLoginUser:(input)=>{
+      loginUser:(input)=>{
       	dispatch(actions.auth.ADMIN_GET_USER.creator(input))
       }
     }

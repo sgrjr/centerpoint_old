@@ -15,6 +15,7 @@ class Webdetail extends BaseModel implements \App\Interfaces\ModelInterface {
     'dbf_webdetail'
   ];
 
+   protected $indexes = ["REMOTEADDR", "PROD_NO", "KEY"];
 	protected $appends = [];
       protected $attributeTypes = [ 
         "_config"=>"webdetail",

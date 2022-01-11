@@ -15,6 +15,7 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
 
     private $VENDOR_CACHE_MINUTES = 15;
 	protected $table = "vendors";
+    protected $indexes = ["KEY"];
 
 	protected $dbfPrimaryKey = 'KEY';
     protected $casts = [
@@ -184,7 +185,5 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
 
         return $cart;
     }
-
-
 
 }

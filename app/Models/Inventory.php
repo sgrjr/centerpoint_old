@@ -14,7 +14,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     protected $dbfPrimaryKey = 'ISBN';
     protected $appends = ['coverArt','marcLink'];
     protected $table = 'inventories';
-
+    protected $indexes = ["ISBN"];
     public $timestamps = false;
 
     protected $seed = [
@@ -233,6 +233,5 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
       ];
 
     }
-
 
 }

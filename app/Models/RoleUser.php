@@ -33,4 +33,8 @@ protected $attributeTypes = [
    public function dbfSave(){
     return $this;
    }
+
+   public function getIndexesAttribute(){
+    return ["role_id","user_id"];
+   }
 }

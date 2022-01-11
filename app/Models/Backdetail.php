@@ -14,6 +14,8 @@ class Backdetail extends BaseModel implements \App\Interfaces\ModelInterface {
         "_config"=>"backdetail",
       ];
 
+      protected $indexes = ["TRANSNO", "KEY", "PROD_NO"];
+
 	public function head()
     {
         return $this->belongsTo('App\Models\Backhead','TRANSNO','TRANSNO');

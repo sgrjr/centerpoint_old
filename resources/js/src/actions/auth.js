@@ -190,9 +190,9 @@ const auth = {
         let query = null;
           
           const {id} = creds
-
+          console.log(id)
           query ={query: `mutation {
-          adminLoginUser(input: {id: ${id}}) {
+          adminLoginUser(input: {id: "${id}"}) {
             token
             id
             KEY

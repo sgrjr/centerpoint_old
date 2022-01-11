@@ -77,11 +77,11 @@ trait AuthenticatesUsersTrait
 
     public function adminLogin(Request $request, array $args = [])
     {
-        if($this->guard()->user() && $this->guard()->user()->can('LIST_ALL_USERS')){
-            $user = User::where('id',$args['id'])->first();
+        if($request->user() && $request->user()->can('LIST_ALL_USERS')){
+            $user = User::where('id',base64_decode($args['id']))->first();
             return $user;
         } else {
-            return $this->guard()->user();
+            return $request->user();
         }
     }
 

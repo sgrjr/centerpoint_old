@@ -12,9 +12,10 @@ class Backhead extends BaseModel implements \App\Interfaces\ModelInterface {
 	  protected $seed = [
     'dbf_backhead'
   ];
-      protected $attributeTypes = [ 
-        "_config"=>"backhead",
-      ];	
+  protected $indexes = ["TRANSNO", "KEY"];
+  protected $attributeTypes = [ 
+    "_config"=>"backhead",
+  ];	
 
   public function items(){
     return $this->hasMany('\App\Models\Backdetail','TRANSNO','TRANSNO');

@@ -14,19 +14,12 @@ class PermissionRequested {
       $this->request = $request;
       $this->options = $options;
 
-      $this->config = [
-      	"VIEW_REGISTER_USER",
-      	"VIEW_DASHBOARD",
-      	"VIEW_VENDORS",
-      	"MODIFY_ADMIN_RESOURCE",
-		    "ADMIN_APP",
-		    "LIST_ALL_USERS"
-      ];
+      $this->config = \App\Models\Permission::all()->toArray();
 
       $this->validateRequest();
 
       $function = StringHelper::camelCase($this->request); 
-   	call_user_func(array($this, $function));
+   		call_user_func(array($this, $function));
 
    }
 

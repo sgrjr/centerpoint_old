@@ -59,7 +59,7 @@ input LoginUserInput {
 }
 
 input AdminLoginUserInput {
-    id: Int! @rules(apply: ["required", "integer"])
+    id: String!
 }
 
 input CreateCartTitleInput{

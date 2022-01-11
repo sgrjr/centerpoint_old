@@ -275,7 +275,6 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
 
                         case "Float": //F	N	d	Floating numeric field of width n with d decimal places,
                             return ['float',[$length]];
-                            $table->float($n);//	FLOAT equivalent to the table
                             break;
 
                         case "Date": //D	-	-	Date
@@ -350,7 +349,7 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
 					}
     }
 
-    public static function setUpTableFromHeaders($table_name, $table, $headers){
+    public static function setUpTableFromHeaders($table, $headers){
 
         foreach($headers AS $h){
     
@@ -360,7 +359,7 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
           if(!isset($funcArray[1])){$p = [];}else{$p = $funcArray[1];}
          
           if(strpos($h["name"], '_id') !== false){
-              $table->unsignedInteger($h["name"]);
+              isset($h["index"])? $table->unsignedInteger($h["name"])->index():$table->unsignedInteger($h["name"]);
           }else if(count($p) === 0){
               $table->$func($h["name"])->nullable();
     			}else if(count($p) === 1){
@@ -371,54 +370,7 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
               $table->$func($h["name"])->nullable();           
     			}
 
-          switch($h['name']){
-            case "KEY":
-              $table->index('KEY');
-              break;
-            case "TRANSNO":
-              $table->index('TRANSNO');
-              break;
-            case "REMOTEADDR":
-              $table->index('REMOTEADDR');
-              break;
-          }
     		}
-
-          switch($table_name){
-            case "inventories":
-              $table->index('ISBN');
-              break;
-            case "alldetails":
-              $table->foreign('TRANSNO')->references('TRANSNO')->on('allheads')->onUpdate('cascade')->onDelete('cascade');
-              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
-              break;
-            case "ancientdetails":
-              $table->foreign('TRANSNO')->references('TRANSNO')->on('ancientheads')->onUpdate('cascade')->onDelete('cascade');
-              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
-              break;
-            case "backdetails":
-              $table->foreign('TRANSNO')->references('TRANSNO')->on('backheads')->onUpdate('cascade')->onDelete('cascade');
-              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
-              break;
-            case "brodetails":
-              $table->foreign('TRANSNO')->references('TRANSNO')->on('broheads')->onUpdate('cascade')->onDelete('cascade');
-              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
-              break;
-            case "webdetails":
-              $table->foreign('REMOTEADDR')->references('REMOTEADDR')->on('webheads')->onUpdate('cascade')->onDelete('cascade');
-              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
-              break;
-            case "booktexts":
-              $table->foreign('KEY')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
-              break;
-            case "role_user":
-              $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
-              $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-              break;
-            case "standing_orders":
-              $table->foreign('KEY')->references('KEY')->on('vendors')->onUpdate('cascade')->onDelete('cascade');
-              break;
-          }
           return $table;
       }
 

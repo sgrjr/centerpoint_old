@@ -6,6 +6,7 @@ use App\Ask\DatabaseType\PHPXbase\XBaseTable as DbfTable;
 Trait ModelTrait
 {
 	protected $memo = "needs a Memo";
+    protected $indexes = [];
 
     public function getMemo(){
         $config = Config::get("cp");
@@ -58,5 +59,19 @@ Trait ModelTrait
             return [];  
 		}
 	}
+
+    public function isFromDbf(){
+        $ans = false;
+
+        foreach($this->getSeeds() AS $seed){
+            if($seed["type"] === "dbf"){$ans = true;}
+        }
+
+        return $ans;
+    }
+
+    public function getIndexesAttribute(){
+        return $this->indexes;
+    }
 
 }

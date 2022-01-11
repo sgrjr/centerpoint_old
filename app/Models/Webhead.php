@@ -12,7 +12,7 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
   public $timestamps = false;
 	protected $appends = [];
 	protected $table = "webheads";
-
+  protected $indexes = ["REMOTEADDR", "KEY"];
 	protected $dbfPrimaryKey = 'REMOTEADDR';
     protected $seed = [
     'dbf_webhead'

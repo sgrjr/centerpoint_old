@@ -13,6 +13,7 @@ class Dbf extends BaseModel implements \App\Interfaces\ModelInterface {
 	protected $appends = ["properties"];
 	
 	protected $seed = [];
+     protected $indexes = [];
 
  	protected $attributeTypes = [
         "source"=>[
@@ -23,7 +24,8 @@ class Dbf extends BaseModel implements \App\Interfaces\ModelInterface {
        "name"=>[
             "name" => "name",
             "type" => "String",
-            "length" => 255
+            "length" => 255,
+            "unique" => true
            ],
        "memo"=>[
             "name" => "memo",
@@ -37,15 +39,5 @@ class Dbf extends BaseModel implements \App\Interfaces\ModelInterface {
            ],
         "timestamps" => true
       ];
-
-
-	public function schema($table){
-		$table->string('name')->unique();
-		$table->string('source');
-		$table->text('memo');
-		$table->string('model');
-		$table->timestamps();
-		return $table;
-	}
 
 }

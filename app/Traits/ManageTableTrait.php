@@ -33,9 +33,51 @@ Trait ManageTableTrait
 
 		Schema::create($this->getTable(),function($table) {
 				$table->increments('id');
-                $table = \App\Helpers\Misc::setUpTableFromHeaders($this->getTable(), $table, $this->headers);
+                $table = \App\Helpers\Misc::setUpTableFromHeaders($table, $this->headers);
                 $table->charset = 'utf8';
 				$table->collation = 'utf8_unicode_ci';
+
+				foreach($this->indexes as $index){
+					$table->index($index);
+				}
+
+		          switch($this->getTable()){
+
+		            case "alldetails":
+		              $table->foreign('TRANSNO')->references('TRANSNO')->on('allheads')->onUpdate('cascade')->onDelete('cascade');
+		              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
+		              break;
+		            case "ancientdetails":
+		              $table->foreign('TRANSNO')->references('TRANSNO')->on('ancientheads')->onUpdate('cascade')->onDelete('cascade');
+		              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
+		              break;
+		            case "backdetails":
+		              $table->foreign('TRANSNO')->references('TRANSNO')->on('backheads')->onUpdate('cascade')->onDelete('cascade');
+		              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
+		              break;
+		            case "brodetails":
+		              $table->foreign('TRANSNO')->references('TRANSNO')->on('broheads')->onUpdate('cascade')->onDelete('cascade');
+		              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
+		              break;
+		            case "webdetails":
+		              $table->foreign('REMOTEADDR')->references('REMOTEADDR')->on('webheads')->onUpdate('cascade')->onDelete('cascade');
+		              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
+		              break;
+		            case "booktexts":
+		              $table->foreign('KEY')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
+		              break;
+		            case "role_user":
+		              $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
+		              $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+		              break;
+		            case "standing_orders":
+		              $table->foreign('KEY')->references('KEY')->on('vendors')->onUpdate('cascade')->onDelete('cascade');
+		              break;
+		            case "dbfs":
+		              $table->unique('name');
+		              break;
+		          }
+
 			});	
 		\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 	}
@@ -67,13 +109,12 @@ Trait ManageTableTrait
 					break;
 
 				case 'dbf':
-					$model->dbf()
+					$resp = $model->dbf()
 					->skipModel(true)
 					->import($model->getTable())
 					->all()
 					//->reset()
 					;
-
 				default:
 					break;
 			}
@@ -111,6 +152,7 @@ Trait ManageTableTrait
 	                ];
             	}
 		    }
+
             $table->close();
             unset($headers["_config"]);
 

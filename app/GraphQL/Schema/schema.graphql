@@ -3,6 +3,8 @@ type Query {
     
     users(filter: UserFilter): [User!]!  @userCan(ability: "LIST_ALL_USERS", model: "App\\Models\\User") @paginate(defaultCount: 15, model:"App\\Models\\User")
 
+    user(id: String): User @field(resolver:"\\App\\Models\\User@findByHash")
+
     titles(filter: TitleFilter): [Title!]! @paginate(defaultCount: 15, model:"App\\Models\\Inventory")
 
     title(filter: TitleFilter): Title @first(model:"App\\Models\\Inventory")

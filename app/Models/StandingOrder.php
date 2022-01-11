@@ -8,7 +8,8 @@ class StandingOrder extends BaseModel implements \App\Interfaces\ModelInterface 
 
 	protected $table = "standing_orders";	
 	protected $dbfPrimaryKey = 'INDEX';
-	  protected $seed = [
+    protected $indexes = ["KEY"];
+      protected $seed = [
         'dbf_standing_order'
       ];
 
@@ -30,11 +31,5 @@ class StandingOrder extends BaseModel implements \App\Interfaces\ModelInterface 
     {
     	return $this->belongsTo('App\Models\Vendor', 'KEY', 'KEY');
     }
-
-    public function standingordersSchema($table){
-		$table->foreign('KEY')->references('KEY')->on('vendors');
-		//find out why there are keys in password that are not in vendor so i can uncoment this.
-		return $table;
-	}
 	
 }

@@ -13,11 +13,4 @@ class Passfile extends BaseModel implements \App\Interfaces\ModelInterface{
       protected $attributeTypes = [ 
         "_config"=>"passfile",
       ];
-
-		public function passfileSchema($table){
-		//$table->decimal('discount', 5, 2);
-		//$table->decimal('listprice', 5, 2);
-		//$table->decimal('saleprice', 5, 2);
-		return $table;
-	}
 }

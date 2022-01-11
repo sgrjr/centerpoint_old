@@ -16,6 +16,8 @@ class Ancientdetail extends BaseModel implements \App\Interfaces\ModelInterface 
         "_config"=>"ancientdetail",
       ];
 
+      protected $indexes = ["TRANSNO", "KEY", "PROD_NO"];
+
       protected $ignoreColumns = [ 
         "PAGES","OUNCES","TESTTRAN","USERPASS","ORDERNUM","CAT","SUBTITLE","ARTICLE","LASTTOUCH","LASTTIME","LASTDATE","TITLEKEY","AUTHORKEY","UNITCOST","ORDEREDBY","PUBDATE","FORMAT","COMPUTER","INVNATURE","FORMAT","PUBLISHER","CATALOG","STATUS","SOPLAN","TIMESTAMP","DATESTAMP","SERIES","REMOTEADDR"
       ];

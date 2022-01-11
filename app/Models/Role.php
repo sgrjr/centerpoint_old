@@ -19,10 +19,7 @@ class Role extends BaseModel implements \App\Interfaces\ModelInterface {
            ]
       ];
 
-  public function schema($table){
-    $table->string('name');
-    return $table;
-   }
+    protected $indexes = [];
 
 	public function permissions()
     {

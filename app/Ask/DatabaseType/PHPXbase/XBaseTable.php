@@ -22,6 +22,13 @@
 use App\Ask\DatabaseType\PHPXbase\XBaseColumn; 
 use App\Ask\DatabaseType\PHPXbase\Memo; 
 
+function convert($size)
+{
+    $unit=array('b','kb','mb','gb','tb','pb');
+    return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+}
+
+
 class XBaseTable {
 
     var $name;
@@ -160,38 +167,48 @@ class XBaseTable {
         return $this->record;
     }
 
-    function importAll(){
-        ini_set('memory_limit','3000M');
-        $startIndex = -1;
-
-        file_put_contents('import_all.json', json_encode($this->getColumnNames()) . "\n", FILE_APPEND);
-
-        $this->open();
-        $this->moveTo($startIndex);
-           
-        while ($record1=$this->nextRecord() ) {
-            file_put_contents('import_all.json', json_encode($record1->getRawDataSimplest()) . "\n", FILE_APPEND);
-        }
-
-        $this->close();
-        return true;
-    }
-
-    function recordsToArray(){
-        ini_set('memory_limit','3000M');
+    function recordsToArray($model){
+        ini_set('memory_limit','512M');
         $startIndex = -1;
         $this->open();
         $this->moveTo($startIndex);
         $list = [];
 
         while ($record1=$this->nextRecord() ) {
-            $list[] = $record1->getRawDataSimplest();
+            $list[] = $record1->getRawData($model->getIgnoreColumns());
         }
 
         $this->close();
 
         return $list;
     }
+
+        function foreach($model){
+            
+            ini_set('memory_limit','512M');
+            $startIndex = -1;
+            $this->open();
+            $this->moveTo($startIndex);
+            $bag = [];
+
+            while ($record1=$this->nextRecord() ) {
+                $rd = $record1->getRawData($model->getIgnoreColumns());
+                $bag[] = $rd;
+
+                if(count($bag) > 400){
+                    $model->insert($bag);
+                    $bag = [];
+                }
+            }
+
+            $this->close();
+
+            $model->insert($bag);
+            $bag = [];
+
+            return $this;
+        }
+
     
     function previousRecord() {
 

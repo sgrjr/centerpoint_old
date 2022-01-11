@@ -19,6 +19,8 @@ use App\Traits\GetsPermissionTrait;
 
 class User extends Authenticatable implements \App\Interfaces\ModelInterface, \Illuminate\Contracts\Auth\CanResetPassword {
 
+  
+
   use AskTrait, ManageTableTrait, ModelTrait, PresentableTrait, CanResetPassword, DbfTableTrait, HasApiTokens, GetsPermissionTrait;
 
     /**
@@ -37,7 +39,7 @@ class User extends Authenticatable implements \App\Interfaces\ModelInterface, \I
      */
 	
 
-	protected $appends = [];
+	protected $appends = ["public_id"];
 	
 	/**
 	 * The database table used by the model.
@@ -69,6 +71,10 @@ class User extends Authenticatable implements \App\Interfaces\ModelInterface, \I
     ];
 
      protected $ignoreColumns = ["LOGINS","DATEUPDATE","DATESTAMP","MDEPT","MFNAME","TSIGNOFF","TIMESTAMP","TIMEUPDATE","PASSCHANGE","PRINTQUE","SEARCHBY","MULTIBUY","SORTBY","FULLVIEW","SKIPBOUGHT","OUTOFPRINT","OPROCESS","OBEST","OADDTL","OVIEW","ORHIST","OINVO","EXTZN","INSOS","INREG","LINVO","NOEMAILS","ADVERTISE","PROMOTION","PASSDATE","EMCHANGE"];
+
+   public function getIndexesAttribute(){
+    return ["KEY"];
+   }
 
 	public function getNameAttribute(){
        return $this->exists? $this->FIRST . " " . $this->LAST : null;
@@ -381,6 +387,22 @@ public function getMemo(){
 
     private function nameProfileImage($user){
       return base64_encode($user->id . $user->EMAIL);
+    }
+
+    public static function findByHash($root, $args, $request){
+
+      $id = $args['id'];
+
+      if($request->user()->can("LIST_ALL_USERS") ){
+        
+        $id = base64_decode($id);
+        return static::where('id',$id)->first();
+      }
+      return null;
+    }
+
+    public function getPublicIdAttribute(){
+      return base64_encode($this->id);
     }
     
 }

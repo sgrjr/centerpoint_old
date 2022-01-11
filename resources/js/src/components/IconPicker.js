@@ -12,11 +12,13 @@ import ClearIcon from '@mui/icons-material/Clear'
 import CreateIcon from '@mui/icons-material/Create'
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 import ExpandIcon from '@mui/icons-material/ExpandMore'
 import ForwardIcon from "@mui/icons-material/ArrowForwardIos"
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import HomeIcon from '@mui/icons-material/Home';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import LoginIcon from '@mui/icons-material/Login';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -53,6 +55,7 @@ class IconPicker extends React.Component {
       create: <CreateIcon />,
       dashboard: <DashboardIcon/>,
       delete: <DeleteIcon />,
+      edit: <EditIcon/>,
       expand: <ExpandIcon />,
       forward: <ForwardIcon/>,
       HEADING: <span/>,
@@ -62,6 +65,7 @@ class IconPicker extends React.Component {
       lock: <LockIcon/>,
       lockOpen: <LockOpenIcon/>,
       lockOutlined: <LockOutlinedIcon/>,
+      login: <LoginIcon />,
       moreVertical: <MoreVerticalIcon/>,
       none : <span />,
       navigateNext: <NavigateNextIcon/>,
