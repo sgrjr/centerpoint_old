@@ -19,14 +19,14 @@ class ImagesController extends Controller
 
 	if (!file_exists($this->use_path)){
 
-		$this->use_path = $this->config["imagesrootpath"] . "/cache/" . $path;
+		//$this->use_path = $this->config["imagesrootpath"] . "/cache/" . $path;
 
-		if(!file_exists($this->use_path)){
+		//if(!file_exists($this->use_path)){
 			$this->use_path = $this->config["serverimagerootpath"] . "/" . $path;
 			
 				$remote = true;
 				$test = @get_headers($this->use_path);
-			}
+		//	}
 
 		if (!isset($test) || $test === false || $test[0] === 'HTTP/1.1 404 Not Found'){	
 				$this->use_path = $this->config["noimagepath"];

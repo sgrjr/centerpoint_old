@@ -74,6 +74,18 @@ class TerminalCommands
                     $commandToExecute = '';
                     return true;
                     break;
+
+                case "DB_SEED":
+                    $commandToExecute = "php artisan db:seed";
+                    break;
+
+                case "DB_TRUNCATE":
+                    $commandToExecute = "php artisan db:truncate";
+                    break;
+
+                 case "DB_BUILD":
+                    $commandToExecute = "php artisan db:rebuild";
+                    break;
                 
                 case "SCHEDULE":
                     $commandToExecute = "php artisan schedule:run";
