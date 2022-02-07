@@ -53,11 +53,13 @@ if(opt1.file !== undefined && opt1.file !== null && opt1.file !== ""){
           
       })
       .catch(error => {
+
          let err = {
           debugMessage:error,
           message:"Request failed!",
           severity:"warning"
          }
+
           dispatch(actions.error([err]));
       })
   }

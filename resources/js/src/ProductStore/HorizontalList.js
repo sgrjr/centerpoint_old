@@ -10,11 +10,8 @@ import Button from '@material-ui/core/Button';
 import BookCover from './BookCover'
 //import Paper from '@material-ui/core/Paper';
 import addTitleToCartQuery from '../Cart/addTitleToCartQuery'
-import {Navigate } from 'react-router-dom';
+import WithRouter from '../components/WithRouter'
 
-const viewmore = function(url) {
-    return <Navigate  to={url} />
-}
 
 function getTitleBar(props, item, index){
   let shoppingCart = <IconPicker name="shoppingCartRemove" />
@@ -40,7 +37,7 @@ function getTitleBar(props, item, index){
               }
             /> )
 }
-export default function SingleLineGridList(props) {
+function SingleLineGridList(props) {
 
     const {listTitle, items, pageInfo} = props
 
@@ -54,8 +51,8 @@ export default function SingleLineGridList(props) {
     let button2 = null
 
     if(props.url != null){
-      button = <Button variant="outlined" onClick={() => viewmore(props.url)}>view more</Button>
-      button2 = <Button variant="outlined" onClick={() => viewmore( props.url)}>view more</Button>
+      button = <Button variant="outlined" onClick={() => props.navigate(props.url)}>view more</Button>
+      button2 = <Button variant="outlined" onClick={() => props.navigate( props.url)}>view more</Button>
     }
 
     if(items === undefined || items === null){
@@ -95,3 +92,5 @@ export default function SingleLineGridList(props) {
   );
   }
 }
+
+export default WithRouter(SingleLineGridList)

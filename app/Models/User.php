@@ -238,7 +238,6 @@ public function getMemo(){
         }
         return $user;
       }else{
-        dd($user, $credentials);
         $user->password = $user->UPASS;
         $user->save();
       }

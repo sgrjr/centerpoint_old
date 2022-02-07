@@ -1,6 +1,7 @@
 <?php namespace App\Helpers;
 
 use Rebing\GraphQL\GraphQLController;
+use Illuminate\Support\Str;
 
 class Misc
 {
@@ -35,20 +36,45 @@ class Misc
   }
 
   public static function getErrors(){
-    $error = "";
+    $error = "ERRORS:\n";
     $log = "";
+    $total_lines = 0;
 
-    $error_file = base_path() . "/storage/addToCartFailure.txt";
-    if(file_exists($error_file)){
-      $error =  file_get_contents($error_file);
+    $error_file = @fopen(base_path() . "/storage/addToCartFailure.txt", "r");
+    $exists = file_exists($error_file);
+
+    if ($error_file) {
+        while (($buffer = fgets($error_file, 4096)) !== false && $total_lines < 30000) {
+            $error .= $buffer;
+            $total_lines++;
+        }
+        if (!feof($log_file)) {
+            $error .= "Error: unexpected fgets() fail\n";
+        }
+        $error .= "Number of Lines: " . $total_lines . "\n";
+        fclose($error_file);
     }
 
-    $log_file = base_path() . "/storage/logs/laravel.log";
-    if(file_exists($log_file)){
-      $log =  file_get_contents($log_file);
+    $log_file = @fopen(base_path() . "/storage/logs/laravel.log", "r");
+    $total_lines = 0;
+    $regex = "/[[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]]/m";
+    if ($log_file) {
+        while (($buffer = fgets($log_file, 4096)) !== false) {
+            if(preg_match($regex,$buffer)){
+                $log .= $buffer;
+                $total_lines++;
+            }
+            
+            
+        }
+        if (!feof($log_file)) {
+            $log .= "Error: unexpected fgets() fail\n";
+        }
+        $log .= "Number of Lines: " . $total_lines . "\n";
+        fclose($log_file);
     }
 
-    return $error . "<br /><br />" . $log;
+    return $error . "\nLOG: \n" . $log;
   }
 
   public static function defaultParameters($args = false){ 
@@ -382,5 +408,6 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
             , $code
             );
 	}
+
 }
 

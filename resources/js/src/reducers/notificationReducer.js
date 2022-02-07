@@ -38,9 +38,10 @@ export default (state = initState,action)=>{
         case actions.notification.NOTIFICATION_ADD_ERROR.type:
         case actions.auth.AUTH_ERROR.type:
         case actions.admin.ADMIN_ERROR.type:
+
           newState = {
               ...state,
-              items: [...action.errors,...state.errors],
+              items: [...action.errors,...state.items],
               open: true
           }
           newState.item = newState.items[newState.items.length-1]

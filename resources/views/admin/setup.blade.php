@@ -51,6 +51,20 @@
 <li>Run php artisan migrate</li>
 <li>Run php artisan serve</li>
 </ol>
+
+<hr />
+<ul>
+	@foreach($tests AS $test)
+<li><input type="checkbox" id="scales" name="scales" 
+
+	@if ($test->passed)
+	checked
+	@endif 
+
+	 > {{$test->name}}</li>
+	@endforeach
+</ul>
+
 <hr />
  	<form action="/setup/terminal" method="post">
 	  <input type="hidden" name="_token" id="csrf-token" value="{{ Session::token() }}" />
@@ -100,9 +114,7 @@ Additional Links:
 	    <span>error: </span>
 		<textarea name="error" form="errorform" rows="25" style="width:100%;">{{$error}}</textarea>
 	  <input type="submit" value="CLEAR_SERVER_ERRORS">
-	</form
-
-</form>
+	</form>
 
 @if($updateExists)
 	{{$update}}

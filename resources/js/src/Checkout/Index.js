@@ -7,17 +7,8 @@ import invoiceQuery from './invoiceQuery'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import actions from '../actions';
+import WithRouter from '../components/WithRouter'
 
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-
-export function withRouter( Child ) {
-  return ( props ) => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const params = useParams();
-    return <Child { ...props } navigate={ navigate } params={params} location={ location } />;
-  }
-}
 
 class Index extends React.Component {
 
@@ -95,4 +86,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index))
+export default WithRouter(connect(mapStateToProps, mapDispatchToProps)(Index))

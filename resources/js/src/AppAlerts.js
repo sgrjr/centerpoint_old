@@ -17,19 +17,19 @@ class AppAlerts extends Component{
         const open = this.props.open
         const handleAlerts = this.props.dissmissAlerts
         const alert = this.props.item
-
+        const alertsCount = this.props.alertsCount
     if(open){
         return(
 
       <Stack className="noPrint" direction="column" justifyContent="space-evenly" alignItems="flex-end" spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={open}
-                    autoHideDuration={6000}
+                    autoHideDuration={12000}
                   onClose={handleAlerts}
                   severity={alert.severity}
                   anchorOrigin={{ vertical:"bottom", horizontal:"right" }}
                 >
-                    <MuiAlert onClose={handleAlerts} severity={alert.severity}  variant="filled" >
-                    {alert.message} {alert.debugMessage? alert.debugMessage:""}
+                    <MuiAlert onClose={handleAlerts} severity={alert.extensions && alert.extensions.severity? alert.extensions.severity:alert.severity}  variant="filled" >
+                    [{alertsCount}] {alert.message} {alert.debugMessage? alert.debugMessage:""} {alert.extensions && alert.extensions.reason? alert.extensions.reason:""}
                     </MuiAlert>
                 </Snackbar>
       </Stack>)}else{
@@ -46,7 +46,8 @@ class AppAlerts extends Component{
 const mapStateToProps = (state)=>{
 return {
     open: state.notification.open,
-    item: state.notification.item
+    item: state.notification.item,
+    alertsCount: state.notification.items.length
      }
 }
 

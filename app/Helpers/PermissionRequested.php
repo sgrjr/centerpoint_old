@@ -17,15 +17,21 @@ class PermissionRequested {
       $this->config = \App\Models\Permission::all()->toArray();
 
       $this->validateRequest();
-
       $function = StringHelper::camelCase($this->request); 
    		call_user_func(array($this, $function));
 
    }
 
    private function validateRequest(){
-   	 
-   	 if(in_array($this->request, $this->config)){
+   	 $permission_exists = false;
+
+   	 foreach ($this->config as $permission) {
+		    if (strpos($this->request, $permission["name"]) !== FALSE) {
+		        $permission_exists = true;
+		    }
+			}
+
+   	 if($permission_exists){
    	 	return true;
    	 }else{
    	 	abort(403, 'Check your spelling Mr. Developer. '.$this->request.' has not be registered. ' . json_encode($this->config));
@@ -47,6 +53,7 @@ class PermissionRequested {
    }
 
    function viewDashboard(){
+
 	  $this->can = true;
     $this->setReason("YOU_ARE LOGGED_IN");   
    }

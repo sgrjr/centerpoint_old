@@ -4,7 +4,7 @@ import MuiLink from '@mui/material/Link'
 import Typography from '@mui/material/Typography';
 import IconPicker from '../components/IconPicker';
 import { withStyles } from '@mui/styles'
-import {Navigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const useStyles =  (theme => ({
   footer: {

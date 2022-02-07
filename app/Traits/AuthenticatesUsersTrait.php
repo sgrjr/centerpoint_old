@@ -8,6 +8,9 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use App\Models\User;
 use App\Events\UserLoggedIn;
 
+use stdclass;
+use App\Exceptions\CustomException;
+
 trait AuthenticatesUsersTrait
 {
     use RedirectsUsers, ThrottlesLogins;
@@ -32,6 +35,17 @@ trait AuthenticatesUsersTrait
      */
     public function login(Request $request, array $args = [])
     {
+
+        $setup_tests = new \App\Helpers\SetupTests();
+        
+        if(!$setup_tests->test('OAUTH_CLIENT_EXISTS')->passed){
+                throw new CustomException(
+                    'Cannot authenticate any user.', //message
+                    'Application is not setup.', //reason
+                    'error'//severity
+                );
+
+        } 
 
         $vars = $request->get('variables');
         if($vars === null){
@@ -61,7 +75,6 @@ trait AuthenticatesUsersTrait
             $this->fireLockoutEvent($request);
             return $this->sendLockoutResponse($request);
         }
-        
         if ($user = $this->attemptLogin($request)) {
             return $this->sendLoginResponse($request, $user);
         }
@@ -119,6 +132,7 @@ trait AuthenticatesUsersTrait
      */
     protected function attemptLogin(Request $request)
     {
+
         $valid_user = false;
         $credentials =  $this->credentials($request);
 

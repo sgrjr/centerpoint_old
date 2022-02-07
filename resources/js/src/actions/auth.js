@@ -89,7 +89,7 @@ const auth = {
       
 
       creator: (errors) => {
-        errors.push({
+        /*errors.push({
           message: "Login Failed!",
           severity:"error",
           extensions: {
@@ -101,7 +101,7 @@ const auth = {
               "column": 5
             }
           
-        ]});
+        ]});*/
 
 
         return { type: 'AUTH_ERROR', errors: errors }
