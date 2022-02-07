@@ -11,9 +11,11 @@ use App\Image\Templates\MySmall;
 class ImagesController extends Controller
 {
     public function images($template, $path){
+
 		$this->config = Config::get('cp');
 		$this->use_path = null;
 		$this->setPath($template, $path);
+
 		$remote = false;
 		$test = false;
 
@@ -25,6 +27,7 @@ class ImagesController extends Controller
 			$this->use_path = $this->config["serverimagerootpath"] . "/" . $path;
 			
 				$remote = true;
+
 				$test = @get_headers($this->use_path);
 		//	}
 

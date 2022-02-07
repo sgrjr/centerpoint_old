@@ -191,3 +191,4 @@ Cannot find MARC record: C:\Users\steph\Documents\Stephen_Reynolds\cp_marc\97816
 Cannot find MARC record: C:\Users\steph\Documents\Stephen_Reynolds\cp_marc\9781683249054.mrc
 Cannot find MARC record: C:\Users\steph\Documents\Stephen_Reynolds\cp_marc\9781683249108.mrc
 Cannot find MARC record: C:\Users\steph\Documents\Stephen_Reynolds\cp_marc\9781683249139.mrc
+Cannot find MARC record: \\CPSERVER\Data\Easynet\WEBNET\CP_INFO\CP_Marc\MRC_Files\9780593153444.mrc
