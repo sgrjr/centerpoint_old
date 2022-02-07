@@ -21,15 +21,15 @@ class ImagesController extends Controller
 
 	if (!file_exists($this->use_path)){
 
-		//$this->use_path = $this->config["imagesrootpath"] . "/cache/" . $path;
+		$this->use_path = $this->config["imagesrootpath"] . "/cache/" . $path;
 
-		//if(!file_exists($this->use_path)){
+		if(!file_exists($this->use_path)){
 			$this->use_path = $this->config["serverimagerootpath"] . "/" . $path;
 			
 				$remote = true;
 
 				$test = @get_headers($this->use_path);
-		//	}
+		}
 
 		if (!isset($test) || $test === false || $test[0] === 'HTTP/1.1 404 Not Found'){	
 				$this->use_path = $this->config["noimagepath"];
@@ -39,7 +39,9 @@ class ImagesController extends Controller
 
 		try {
 			$img = Image::make($this->use_path);
-			$img->save( $this->config["imagesrootpath"] . "/cache/" . $path, 50);
+			if($this->use_path !== $this->config['noimagepath']){
+				$img->save( $this->config["imagesrootpath"] . "/cache/" . $path, 50);
+			}
 		}
 
 		catch(\Throwable $e){
@@ -67,11 +69,16 @@ class ImagesController extends Controller
 
 			case "profile-photo":
 				$this->setProfilePhotoPath($template, $path);
-			break;
+				break;
 
 			case "promotions":
 				$this->setPromotionsPhotoPath($template, $path);
-			break;
+				break;
+
+			case "slider":
+				$this->setSliderPhotoPath($template, $path);
+				break;
+
 
 			default:
 				$this->setDefaultPhotoPath($template, $path);
@@ -151,6 +158,12 @@ class ImagesController extends Controller
 
 	private function setDefaultPhotoPath($template, $path){
 		$this->use_path = $this->config["titleimagesrootpath"] . "/" . $path;
+		$this->template = $template;
+		return $this;
+	}
+
+	private function setSliderPhotoPath($template, $path){
+		$this->use_path = $this->config["imagesrootpath"] . "/slider/" . $path;
 		$this->template = $template;
 		return $this;
 	}

@@ -14,24 +14,24 @@ return [
 
 		//#1
 		[
-			"image"=>"/slider/1_image.png",
+			"image"=>"/img/slider/1_image.png",
 			"caption"=>"",
 		],
 
 		//#2
 		[
-			"image"=>"/slider/2_image.png",
+			"image"=>"/img/slider/2_image.png",
              "link"=>"http://dev.centerpointlargeprint.com/isbn/9781643582153",
 		],
 
 		//#3
 		[
-			"image"=>"/slider/3_image.png"
+			"image"=>"/img/slider/3_image.png"
 		],
 
 		//#4
 		[
-			"image"=>"/slider/4_image.png"
+			"image"=>"/img/slider/4_image.png"
 		]
 	
 	/* EXAMPLES:
