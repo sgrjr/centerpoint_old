@@ -173,7 +173,7 @@ function menuToggle (event){
 
         <li><BrowseProducts browse={props.browse} open={false}/></li>
 
-      {links.shortCuts.map(function(it,index){
+      {links.shortCuts && links.shortCuts.map(function(it,index){
             return <li key={index}><Link to={it.url}>{it.text}</Link></li>
           })}
           </ul>

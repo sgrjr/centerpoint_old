@@ -28,18 +28,7 @@ export default {
         query: (variables) => {
             return {
             query:`
-        fragment TitleFragment on TitlePaginator {
-          paginatorInfo {
-            count
-            currentPage
-            firstItem
-            hasMorePages
-            lastItem
-            lastPage
-            perPage
-            total
-          }
-          data {
+        fragment TitleFragment on Title {
             INDEX
             ISBN
             TITLE
@@ -50,16 +39,15 @@ export default {
             AUTHORKEY
             AUTHOR
             STATUS
-          }
         }
-        query($cp: TitleFilter, $trade: TitleFilter, $advanced: TitleFilter, $page: Int, $cp_limit: Int, $trade_limit: Int, $advanced_limit: Int) {
-          cp: titles(filter: $cp, page: $page, first:$cp_limit) {
+        query {
+          cpTitles {
             ...TitleFragment
           }
-          trade: titles(filter: $trade, page: $page, first:$trade_limit) {
+          tradeTitles{
             ...TitleFragment
           }
-          advanced: titles(filter: $advanced, page: $page, first:$advanced_limit) {
+          advancedTitles {
             ...TitleFragment
           }
         }
