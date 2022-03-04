@@ -181,7 +181,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     }
 
     public static function getCPTitles(){
-      return Misc::gauranteedBooksCount(10, [
+      return Misc::gauranteedBooksCount(15, [
         Misc::getYearMonth()["machine"]."00", 
         Misc::getYearMonth(-2)["machine"]."00",
         Misc::getYearMonth(-6)["machine"]."00", 
@@ -190,7 +190,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     }
 
     public static  function getTradeTitles(){  
-      return Misc::gauranteedBooksCount(10, [
+      return Misc::gauranteedBooksCount(15, [
         Misc::getYearMonth()["machine"]."00", 
         Misc::getYearMonth(-1)["machine"]."00", 
         Misc::getYearMonth(-2)["machine"]."00",
@@ -199,7 +199,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     }
 
     public static  function getAdvancedTitles(){  
-      return Misc::gauranteedBooksCount(20, [ 
+      return Misc::gauranteedBooksCount(30, [ 
         Misc::getYearMonth(1)["machine"]."00", 
         Misc::getYearMonth()["machine"]."00",
         Misc::getYearMonth(-1)["machine"]."00",

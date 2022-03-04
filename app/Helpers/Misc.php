@@ -295,8 +295,10 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
                     $results4 = $results3->concat($results4);
                     return $results4->splice(0,$count);
 				}
-            }            
+            }
+                    
 	}
+     return $results;   
 }
 
     public static function resolveTypeToMysqlFunc($h){
