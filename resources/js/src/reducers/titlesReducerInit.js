@@ -28,7 +28,7 @@ export default {
         query: (variables) => {
             return {
             query:`
-        fragment TitleFragment on TitlePaginator {
+        fragment TitleFragment on TitlesPaginator {
              paginatorInfo {
               perPage
               total
