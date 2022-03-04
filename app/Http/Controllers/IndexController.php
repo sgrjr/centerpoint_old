@@ -56,14 +56,6 @@ class IndexController extends Controller
         ]);
 
     }
-
-    protected function marc(Request $request)
-    {
-            $results = file_get_contents(\Config::get('cp')['marc_records_path'] . "\9781628993844.mrc");
-        dd($results);
-
-
-    }
 	
 	    protected function search(Request $request, $string = false, $category = false)
     {	
@@ -149,6 +141,23 @@ class IndexController extends Controller
       return view('log', [
         "items"=> \App\Request::all()
       ]);
+    }
+
+    public function marc(Request $request, $file){
+        $append = "";
+        if (strpos($file,".mrc") === false){
+          $append = ".mrc";
+        }
+          $path = \Config::get('cp')['marc_records_path'] . '/' . $file . $append;
+          $headers = [];
+
+        try {
+          return response()->download($path, $file.$append, $headers);
+        }
+
+        catch(\Throwable $e){
+          abort(404, $e->getMessage());
+        }
     }
 
     public function file(Request $request, $file){

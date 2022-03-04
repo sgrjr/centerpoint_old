@@ -35,6 +35,7 @@ Route::get('/invoice/{invoiceId}', function () {return view('app');});
 Route::get('/download-all-marcs', '\App\Http\Controllers\IndexController@marc');
 
 Route::get('/static/{file}', "\App\Http\Controllers\IndexController@file")->where('file','.*');
+Route::get('/files/marc/{file}', "\App\Http\Controllers\IndexController@marc")->where('file','.*');
 Route::get('/files/{file}', '\App\Http\Controllers\IndexController@files');
 Route::get('/files', '\App\Http\Controllers\IndexController@filesIndex');
 Route::get('/logs', '\App\Http\Controllers\IndexController@logs');
