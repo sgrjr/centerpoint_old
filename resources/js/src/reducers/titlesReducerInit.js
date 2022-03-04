@@ -41,13 +41,13 @@ export default {
             STATUS
         }
         query {
-          cpTitles {
+          cp: cpTitles {
             ...TitleFragment
           }
-          tradeTitles{
+          trade: tradeTitles{
             ...TitleFragment
           }
-          advancedTitles {
+          advanced: advancedTitles {
             ...TitleFragment
           }
         }
