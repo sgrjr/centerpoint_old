@@ -117,7 +117,7 @@ function ContactInfo(props) {
           <Button
             variant="contained"
             color="primary"
-            startIcon={<IconPicker name="print" />}
+            startIcon={<IconPicker icon="print" />}
             onClick={print}
             className="noPrint"
           >

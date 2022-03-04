@@ -34,9 +34,9 @@ function CartHeader(props) {
 
   const handleClick = (e) => {
 
-  	const properties = {id: props.cart.id, INDEX:props.cart.INDEX, PO_NUMBER: po}
-  	console.log(properties)
+  const properties = {id: props.cart.id, INDEX:props.cart.INDEX, PO_NUMBER: po}
 	const query = cartUpdateMutation({input: properties})
+	
 	props.cartSave(query)
     setEditable(editable === true ? false: true)
   }
@@ -92,7 +92,7 @@ function CartHeader(props) {
 				onClick={handleBlur}
 				size="small"
 			>
-			  <IconPicker name="create" />
+			  <IconPicker icon="create" />
 			</IconButton>
 		</>
 	}

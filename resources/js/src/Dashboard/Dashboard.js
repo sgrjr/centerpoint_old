@@ -8,28 +8,20 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import clsx from 'clsx';
-import Drawer from '@material-ui/core/Drawer';
+
 import IconPicker from '../components/IconPicker'
 import DashboardNav from './DashboardNav'
 import Signin from '../Auth/Signin'
 import { Outlet } from 'react-router-dom'
 import {Navigate } from 'react-router-dom';
 
+import styles from "../styles.js"
+
 const drawerWidth = 240;
 
   const useStyles = (theme => ({
     root: {
-      display: 'flex',
-    },
-    toolbar: {
-      paddingRight: 24, // keep right padding when drawer closed
-    },
-    toolbarIcon: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      padding: '0 8px',
-      ...theme.mixins.toolbar,
+
     },
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
@@ -46,9 +38,6 @@ const drawerWidth = 240;
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
-    button: {
-      marginRight: 36,
-    },
     menuButtonHidden: {
       display: 'none',
     },
@@ -62,15 +51,7 @@ const drawerWidth = 240;
       }),
     },
     drawerPaperClose: {
-      overflowX: 'hidden',
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      width: theme.spacing(7),
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9),
-      },
+
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
@@ -114,7 +95,7 @@ class Dashboard extends Component{
         const { classes, links} = this.props;    
         const {open} = this.state
         const toggleDrawer = this.toggleDrawer.bind(this)
-        const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
         const content = () => {
           if(this.props.user.vendor !== undefined){
             return <Outlet />
@@ -136,26 +117,21 @@ class Dashboard extends Component{
           if(this.props.user.vendor == undefined){
             return <div/>
           }else {
-            return <div className="noPrint"><Drawer
-            variant="permanent"
-            classes={{
-              paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-            }}
+            return <div
+            className={styles.dashboardDrawer}
             open={open}
           >
-            <div className={classes.toolbarIcon}>
               <IconButton onClick={toggleDrawer}>
-                <IconPicker name="chevronLeft" />
+                <IconPicker icon={open? "chevronLeft":"chevronRight"} />
               </IconButton>
-            </div>
-            <Divider />
+
               {dashboardnav()}
-          </Drawer></div>
+          </div>
           }
         }
 
         return(
-          <div className={classes.root}>
+          <div className={styles.dashboard +" "+ "drawer-is-open-"+open}>
          
           <Drawr />
          

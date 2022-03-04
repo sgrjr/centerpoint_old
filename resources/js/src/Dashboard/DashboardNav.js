@@ -1,40 +1,28 @@
 import React from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-
-import Divider from '@material-ui/core/Divider';
 import IconPicker from '../components/IconPicker'
-import useStyles from './DashboardNavStyle.js'
 import {Link} from 'react-router-dom'
+import styles from "../styles.js"
+
 export default function DashboardNav(props) {
 
   const {links} = props
-  const classes = useStyles();
 
   return (<React.Fragment>
-    <List>
+    <ul>
     {links.map(function(link, index){
 
       if(link.icon === "HEADING"){
-      return <div key={index}><Divider /><ListSubheader inset>{link.text}</ListSubheader></div>
+        return <li key={index} className={styles.listHeader}><hr/>{link.text}</li>
       }else{
-      return(
-             <ListItem button key={index} classes={classes}>
-              <ListItemIcon>
-              <IconPicker name={link.icon}/>
-              </ListItemIcon>
-              <Link to={link.url}><ListItemText primary={link.text} /></Link>
-            </ListItem>
+        return(
+            <li key={index}>
+             <Link to={link.url}><IconPicker icon={link.icon}/> {link.text}</Link>
+            </li>
       )
     }
 
   })}
-  </List>
-
-  <Divider />
+  </ul>
 
   </React.Fragment>
   );

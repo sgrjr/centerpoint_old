@@ -17,8 +17,8 @@ if(props.user.vendor && props.user.vendor.isbns){
     {props.user.vendor.isbns.map(function(isbn,i){
     	if(list[isbn] === undefined){
     		list[isbn] = isbn
-			return <span style={{float:"left", margin:"10px"}}><BookCover link={"/isbn/" + isbn} image={"url(img/small/" + isbn + ".jpg)"} large={false}/>
-      <a href={"http://centerpointlargeprint.com/cp_info/cp_marc/"+isbn+".mrc"}>download marc</a></span>
+			return <span key={i} style={{float:"left", margin:"10px"}}><BookCover link={"/isbn/" + isbn} image={"url(img/small/" + isbn + ".jpg)"} large={false}/>
+      <a href={"/static/marcs/"+isbn+".mrc"}>download marc</a></span>
     	}
     })}
 

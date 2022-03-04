@@ -3,13 +3,15 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import { Grid, withStyles } from '@material-ui/core';
 import actions from '../actions';
-import { useParams, useLocation } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import Progress from '@material-ui/core/LinearProgress';
 import Image from '../components/Image'
 import BrowseProducts from '../components/BrowseProducts'
 import TitleSummary from './TitleSummary'
 import SearchSuggestions from './SearchSuggestions'
+import WithRouter from '../components/WithRouter'
+
+import styles from '../styles'
 
 const useStyles = theme => ({
       paper: {
@@ -21,19 +23,28 @@ const useStyles = theme => ({
 
 class SearchPage extends Component{
 
+    constructor(props){
+      super(props);
+      const savedOpts = JSON.parse(localStorage.getItem("centerpoint_large_print_user_options"))
+
+      this.state = {
+        options:savedOpts? savedOpts:{minify:false}
+      }
+    }
+
     componentDidMount(){
 
       window.addEventListener('scroll', this.listenToScroll.bind(this))
 
-      const { search, filter } = this.props.params
-
-      const fltr = filter
+      let { search, filter } = this.props.params
 
       if(!search){
-        //
-      }else{
+        search = '';
+        filter = 'isbn';
+      }
+
         let filters = {}
-        filters[fltr] = search;
+        filters[filter] = search;
 
        // if(fltr !== "title" || fltr !== "title" || fltr !== "title" || ){
        //   filters["invnature"] = "CENTE";
@@ -46,37 +57,49 @@ class SearchPage extends Component{
           perPage: this.props.pagination.perPage,
           filters
           }))
-      }
         
     }
 
     componentDidUpdate(newProps){
-      const { search, filter } = newProps.params
+      let { search, filter } = newProps.params
       
-      const fltr = filter.toLowerCase()
-      const pFltr = this.props.params.filter.toLowerCase()
-
-      if(search !== this.props.params.search || fltr !== pFltr || newProps.pagination.perPage !== this.props.pagination.perPage){
-        if(!search){
-          //
-        }else{
-          let filters = {}
-          filters[fltr] = search;
-  
-          if(fltr !== "title" || fltr !== "isbn" || fltr !== "isbn"){
-            filters["invnature"] = "CENTE";
-            filters["reverseStatus"] = "Out Of Print";
-          }
-  
-          //NO TRADE TITLES, NOT OLDER THAN 5 years, NOT OUT OF PRINT
-          this.props.titlesGet(this.props.searchQuery({
-            keep: true,
-            page: newProps.pagination.page,
-            perPage: newProps.pagination.perPage,
-            filters
-            }))
-        }
+      if(!search){
+        filter = 'isbn';
+        search = '';
+      }else{
+        filter = filter.toLowerCase()
       }
+
+      let fltr = this.props.params.filter
+
+      if(!fltr){
+        fltr = 'isbns'
+      }else{
+        fltr = fltr.toLowerCase();
+      }
+
+        if(search !== this.props.params.search || fltr !== filter || newProps.pagination.perPage !== this.props.pagination.perPage){
+          if(!search){
+            //
+          }else{
+            let filters = {}
+            filters[this.props.params.filter] = this.props.params.search;
+
+            //if(fltr !== "title" || fltr !== "isbn" || fltr !== "isbn"){
+            //  filters["invnature"] = "CENTE";
+            //  filters["reverseStatus"] = "Out Of Print";
+            //}
+
+            //NO TRADE TITLES, NOT OLDER THAN 5 years, NOT OUT OF PRINT
+            this.props.titlesGet(this.props.searchQuery({
+              keep: true,
+              page: newProps.pagination.page,
+              perPage: newProps.pagination.perPage,
+              filters
+              }))
+          }
+        }
+
 
     }
 
@@ -96,7 +119,7 @@ class SearchPage extends Component{
           }else if(this.props.titlesProgress){
             viewmore = <Progress color="primary" />
           }else if(lists && lists[0] && lists[0][1].paginatorInfo.hasMorePages){
-            viewmore = <Button size="small" variant="outlined" style={{height:"30px", margin: "auto auto"}} onClick={() => this.props.incrementPagination()}>view more</Button>
+            viewmore = <button className="outlined" onClick={() => this.props.incrementPagination()}>view more</button>
           }
 
         let errors = null
@@ -106,32 +129,35 @@ class SearchPage extends Component{
             return <li>{er.message}</li>;
           })
         }
+        if(lists[0][1].paginatorInfo.total < 1 || this.props.params.search === ""){
+          searchSuggestions = <div><h2>Nothing matched your searched. Try a suggestion below.</h2><SearchSuggestions itemData={lists[1][1].data}/></div>
+        }
 
-        if(lists[0][1].paginatorInfo.total < 1){
-          searchSuggestions = <SearchSuggestions />
+        const toggleMinMaxView = (e)=>{
+          const newState = {...this.state}
+          newState.options.minify = !this.state.options.minify
+          this.setState(newState)
+          localStorage.setItem("centerpoint_large_print_user_options", JSON.stringify(newState.options))
         }
 
         return(
-        <div style={{margin:"30px"}}>
+        <div style={{margin:"30px"}} className={"minify-"+this.state.options.minify}>
        {errors}
-        <Grid container justifyContent = "center"  className={classes.searchMain}>
+        <Grid container justifyContent="center"  className={classes.searchMain}>
 
-                <Grid item sm={12} md={2}>
-                <a href={this.props.catalog.pdf_link} target="_BLANK" rel="noopener noreferrer">
-                    <Image src={this.props.catalog.image_link} style={{"height":"209px", "width":"160px", margin:"auto", display:"block"}} alt=""/>
-                  </a>
-                  <BrowseProducts browse={this.props.browse} open={false}/>
-
-                  {viewmore}
-
-                  <p>Loaded: {lists[0][1].paginatorInfo.total === 0? 0:lists[0][1].paginatorInfo.perPage} | Matches: {lists[0][1].paginatorInfo.total}</p>
-
-
-                  </Grid>
                 <Grid item sm={12} md={8} className={"box "+ classes.gridItem}>
 
+                  <div>
+                    Loaded: {lists[0][1].paginatorInfo.total === 0? 0:lists[0][1].paginatorInfo.perPage} | 
+                    Matches: {lists[0][1].paginatorInfo.total} | 
+                    {viewmore} | 
+                    <button className={styles.outlined} onClick={(e)=>{toggleMinMaxView(e);}}>{this.state.options.minify? "expand":"collapse"}</button>
+                  </div>
+                  
+                  <hr/>
+
                   {lists[0][1].data.map(title=>{
-                    return <TitleSummary key={title.ISBN} {...title} createCart={createCart} authenticated={this.props.authenticated} url={pathname} viewer={viewer}/>
+                        return <TitleSummary minify={this.state.options.minify} key={title.ISBN} {...title} createCart={createCart} authenticated={this.props.authenticated} url={pathname} viewer={viewer}/>
                     })}
                   
                   {searchSuggestions}
@@ -200,8 +226,4 @@ const mapDispatchToProps = dispatch => {
     }
   }
 
-const SearchPageWithParams = (props) => {
-  return <SearchPage {...props} params={useParams()} location={useLocation()}/>
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(SearchPageWithParams))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(WithRouter(SearchPage)))

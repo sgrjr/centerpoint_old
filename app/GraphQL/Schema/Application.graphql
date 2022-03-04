@@ -6,7 +6,7 @@ type Application {
 	csrftoken: String
 	browse: [Browse]
 	catalog(id:String): Catalog
-	searchFilters: [String]
+	searchFilters: [[String]]
 	slider: Carousel
 	links: Links
 	client: String
@@ -46,6 +46,7 @@ type CarouselSlide {
 type Links {
 	main: [Link]
     drawer: [Link]
+    shortCuts: [Link]
 }
 
 type Link {

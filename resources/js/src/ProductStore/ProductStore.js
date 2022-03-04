@@ -6,7 +6,6 @@ import WelcomeSlider from './WelcomeSlider'
 import actions from '../actions';
 import HorizontalList from './HorizontalList'
 import Image from '../components/Image'
-import BrowseProducts from '../components/BrowseProducts'
 
 function TitleLists(props){
 
@@ -74,18 +73,17 @@ class ProductStore extends Component{
         return(
         <div>
        {errors}
-       <WelcomeSlider slider={slider} />
-        <Grid container >
-                <Grid item xs={12} md={3}>
-                  <a href={this.props.catalog.pdf_link} target="_BLANK" rel="noopener noreferrer">
-                    <Image src={this.props.catalog.image_link} style={{"height":"209px", "width":"160px", margin:"auto", display:"block"}} alt=""/>
-                  </a>
-                  <BrowseProducts browse={this.props.browse} open={false}/>
-                  </Grid>
-                <Grid item xs={12} md={8}>
+       {/*<WelcomeSlider slider={slider} />*/}
+        <Grid>
+          {/*<Grid item xs={12} md={3}>
+            <a href={this.props.catalog.pdf_link} target="_BLANK" rel="noopener noreferrer">
+              <Image src={this.props.catalog.image_link} style={{"height":"209px", "width":"160px", margin:"auto", display:"block"}} alt=""/>
+            </a>
+            </Grid>*/}
+            <Grid item xs={12} lg={8} style={{margin:"auto"}}>
+              {titleLists}
+            </Grid>
 
-                  {titleLists}
-                </Grid>
          </Grid>
          </div>
         )
@@ -108,10 +106,9 @@ return {
     pagination: state.titles.pagination,
     titlesProgress: state.titles.pending,
     catalog: state.application.catalog,
-    browse: state.application.browse,
     query: state.titles.query,
     queryVars: state.titles.queryVars,
-    selectedCart: state.viewer.cart.selectedCart,
+    selectedCart: state.viewer && state.viewer.cart? state.viewer.cart.selectedCart:false,
     viewer: state.viewer
      }
 }

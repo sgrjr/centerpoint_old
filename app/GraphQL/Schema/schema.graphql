@@ -5,9 +5,11 @@ type Query {
 
     user(id: String): User @field(resolver:"\\App\\Models\\User@findByHash")
 
-    titles(filter: TitleFilter): [Title!]! @paginate(defaultCount: 15, model:"App\\Models\\Inventory")
+    titles(filter: TitleFilter @scope(name:"customer")): [Title!]! @paginate(defaultCount: 15, model:"App\\Models\\Inventory")
 
     title(filter: TitleFilter): Title @first(model:"App\\Models\\Inventory")
+
+    searchSuggestions(filter: TitleFilter): SearchSuggestions @field(resolver:"\\App\\Models\\Inventory@getSearchSuggestions")
 
     # Upcoming Titles
     cpTitles: [Title] @field(resolver:"\\App\\Models\\Inventory@getCPTitles")

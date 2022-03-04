@@ -19,7 +19,7 @@ class CustomMenuLink extends React.Component {
         return (<MenuItem className={classes.menuItem} style={{marginRight: "15px"}}>
                 <Link to={link.url}>
                   <Badge badgeContent={data.processingCount}>
-                  <IconPicker name={link.icon}/>
+                  <IconPicker icon={link.icon}/>
                   </Badge>
                   {link.text}
                 </Link>
@@ -36,7 +36,7 @@ class CustomMenuLink extends React.Component {
                 onClick={toggleDrawer}
                 >
                     <Badge badgeContent={data.cartsCount} color="secondary">
-                    <IconPicker name={link.icon}/>
+                    <IconPicker icon={link.icon}/>
                     </Badge>
                   </IconButton>
             </MenuItem>)
@@ -49,7 +49,7 @@ class CustomMenuLink extends React.Component {
       default:
 
         return (<Link to={link.url}><MenuItem className={classes.menuItem} style={{marginRight: "15px"}}>
-                  <IconPicker name={link.icon}/>
+                  <IconPicker icon={link.icon}/>
                   {link.text}
           </MenuItem></Link>)
 

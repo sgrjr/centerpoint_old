@@ -14,17 +14,18 @@ const ITEM_HEIGHT = 42;
 
 const TitleList = (props) => {
 
-    return  (<div>
+    return  (<>
+
         <h2>{props.list.title}</h2>
         
         {props.list.items.map(function(item, index){
-          return (<MenuItem key={index} onClick={props.handleClose}>
+          return (<li key={index} onClick={props.handleClose}>
           <Link style={{color:"inherit"}} to={item.url}>{item.text}</Link>
-        </MenuItem>)
+        </li>)
         })}
  
       <Divider light />
-    </div>);
+    </>);
 
 }
 
@@ -42,28 +43,12 @@ const LongMenu = (props) =>{
 
   return (
     <React.Fragment>
-      <IconButton
-        aria-label="more"
-        aria-controls="long-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-        style={{borderRadius:"unset", width:"100%"}}
-      >
-        Browse
-        <IconPicker name="moreVertical" />
-      </IconButton>
+      <span onClick={handleClick}><IconPicker icon={"moreVertical"} />Browse</span>
       <Menu
         id="long-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        PaperProps={{
-          style: {
-            maxHeight: ITEM_HEIGHT * 8,
-            width: 300,
-            marginTop: "50px"
-          },
-        }}
       >
         {props.browse.map(function(list, index){
           return <TitleList key={index} list={list} handleClose={handleClose}/>

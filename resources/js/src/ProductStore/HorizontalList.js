@@ -14,7 +14,7 @@ import WithRouter from '../components/WithRouter'
 
 
 function getTitleBar(props, item, index){
-  let shoppingCart = <IconPicker name="shoppingCartRemove" />
+  let shoppingCart = <IconPicker icon="shoppingCartRemove" />
 
   if(!props.viewer || !props.viewer.KEY || !props.viewer.vendor){
     shoppingCart = null
@@ -26,7 +26,7 @@ function getTitleBar(props, item, index){
                     QTY: 1
                   }));
                 }}>
-                  <IconPicker name="shoppingCartAdd" />
+                  <IconPicker icon="shoppingCartAdd" />
                 </IconButton>
     }
     return ( <ImageListItemBar 
@@ -51,8 +51,8 @@ function SingleLineGridList(props) {
     let button2 = null
 
     if(props.url != null){
-      button = <Button variant="outlined" onClick={() => props.navigate(props.url)}>view more</Button>
-      button2 = <Button variant="outlined" onClick={() => props.navigate( props.url)}>view more</Button>
+      button = <button className={"outlined"} onClick={() => props.navigate(props.url)}>+</button>
+      button2 = <button className={"outlined"} onClick={() => props.navigate( props.url)}>+</button>
     }
 
     if(items === undefined || items === null){
@@ -69,7 +69,7 @@ function SingleLineGridList(props) {
   return (
     <div className={"titles"} >
         <Grid item xs={12} style={{padding:"15px"}}>
-          <Typography variant={props.titleSize} ><span dangerouslySetInnerHTML={{__html: listTitle}}/> {button}</Typography> 
+          <h2 style={{textAlign:"center", fontSize:"2rem"}}><span dangerouslySetInnerHTML={{__html: listTitle}}/> {button}</h2> 
         </Grid>
 
       <ImageList className={"titles-list-root" + displayHorizontal }>

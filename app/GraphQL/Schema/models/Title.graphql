@@ -34,4 +34,6 @@ type Title {
    	byPublisher: [Title!]! @hasMany(type:"paginator", defaultCount: 5)
     userData: UserTitleData @method(name: "getUserData")
     text: [TitleText] @hasMany(defaultCount:5, model:"App\\Booktext")
+    url: String
+    featured: Boolean
 }

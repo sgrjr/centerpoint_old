@@ -11,6 +11,17 @@ import Divider from '@material-ui/core/Divider'
 import CartHeader from './CartHeader'
 import Badge from '@material-ui/core/Badge'
 
+function tradeTitleShipping(titles){
+  let getsTradeTitleShipping = false
+
+   for(const title of titles) {
+      if(title.INVNATURE.includes("CENT")){getsTradeTitleShipping = false; break;}
+      if(title.INVNATURE.includes("TRADE")){getsTradeTitleShipping = true}
+   }
+
+  return getsTradeTitleShipping
+}
+
 function CartSingle(props) {
   const {cart, deleteCart, deleteFromCart, cartSave, history, updateTitleQuantity, cartCheckout, selectCart} = props
 
@@ -48,7 +59,7 @@ function CartSingle(props) {
     	<Accordion expanded={props.expanded} onChange={handleChange(id)}>
       
         <AccordionSummary
-          expandIcon={<IconPicker name="expand" />}
+          expandIcon={<IconPicker icon="expand" />}
           aria-controls="panel1a-content"
           id="panel1a-header"
           style={{backgroundColor:"rgba(0, 0, 0, 0.12)"}}
@@ -66,7 +77,7 @@ function CartSingle(props) {
           </List>
         </AccordionDetails>
         <Divider variant="middle" />
-        <CartFooter {...totals} cart={cart} deleteCart={deleteCart} history={history} cartCheckout={cartCheckout}/>
+        <CartFooter {...totals} cart={cart} deleteCart={deleteCart} history={history} cartCheckout={cartCheckout} tradeTitleShipping={tradeTitleShipping(cart.items)}/>
       </Accordion>
     </React.Fragment>
   )

@@ -21,7 +21,7 @@ return [
 		//#2
 		[
 			"image"=>"/img/slider/2_image.png",
-             "link"=>"http://dev.centerpointlargeprint.com/isbn/9781643582153",
+             "link"=>"/isbn/9781643582153",
 		],
 
 		//#3

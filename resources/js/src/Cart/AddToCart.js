@@ -9,6 +9,8 @@ import cartQuery from './cartQuery'
 import addTitleToCartQuery from '../Cart/addTitleToCartQuery'
 import { Link } from "react-router-dom";
 
+import styles from "../styles"
+
 class AddToCart extends Component{
 
     componentDidMount(){
@@ -46,7 +48,7 @@ class AddToCart extends Component{
       const status = title.STATUS.toLowerCase().split(" ")
 
       if(status.includes('out') && status.includes('of') && status.includes('print')){
-        return null
+        return <button className="outlined outline-disabled">Out of Print!</button>
       }
 
       if(authenticated){
@@ -56,7 +58,7 @@ class AddToCart extends Component{
           return <Button disabled variant="outlined" style={{width:"100%"}}><CircularProgress color="primary"/>updating cart ...</Button>
         }else if(title.STATUS !== "Out of Print"){
           return (<div>
-          <Button variant="outlined" style={{width:"100%"}} onClick={this.sendTitleToCart.bind(this)} type="button" >Add to Cart</Button>
+          <button className={styles.addToCartButton} onClick={this.sendTitleToCart.bind(this)} >Add to Cart</button>
          </div>)
        }
       }else{

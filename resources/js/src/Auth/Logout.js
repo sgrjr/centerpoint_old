@@ -6,11 +6,12 @@ import actions from '../actions';
 
 class Logout extends React.Component {
 
-  render(){
+  componentDidMount(){
     if(this.props.viewer !== false){
       this.props.logout()
     }
-
+  }
+  render(){
     return <Navigate  to={"/"} />
   }
 }

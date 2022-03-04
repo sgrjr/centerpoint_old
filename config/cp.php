@@ -127,6 +127,22 @@ return [
 
     "image_extensions" => [
       ".png",".PNG",".jpg",".JPG",".jpeg",".bmp",".BMP",".txt"
+    ],
+
+  "search_suggestions"=>[
+      
+      ["id"=>1, "coverArt"=>"https://www.faithwords.com/wp-content/uploads/2017/09/Mystery-Thriller-Genre-Category-Featured-Image.png?fit=1200%2C628", "TITLE"=>"Thriller, genre", "AUTHOR"=>"Thriller", "url"=>"/search/thriller/genre","featured"=>true],
+      ["id"=>2, "coverArt"=>"https://jcproductionstorage.blob.core.windows.net/jc-image-storage/1.148191-24112016-GuitarJPEG.jpg?w=1440&h=768&fit=fill&f=faces&q=50", "TITLE"=>"Elissa Altman, Author", "AUTHOR"=>"Elissa Altman", "url"=>"/search/altman/author","featured"=>false],
+      ["id"=>3, "coverArt"=>"https://www.babelio.com/users/AVT_Douglas-Preston_3020.jpeg", "TITLE"=>"Preston Douglas, author", "AUTHOR"=>"Preston Douglas", "url"=>"/search/prestondouglas/author","featured"=>false],
+      ["id"=>4, "coverArt"=>"https://www.organicauthority.com/.image/t_share/MTU5MzMwMTc1NDkwNzI5NTY4/save-money.jpg", "TITLE"=>"Less than $20, Great Price", "AUTHOR"=>"List Price", "url"=>"/search/20/price","featured"=>false],
+      ["id"=>5, "coverArt"=>"https://lindsaygodfree.com/wp-content/uploads/2019/01/twin-flames-lindsaygodfree.jpg", "TITLE"=>"Romance, genre", "AUTHOR"=>"Romance", "url"=>"/search/romance/genre","featured"=>true],
+      ["id"=>6, "coverArt"=>"https://images.unsplash.com/photo-1558642452-9d2a7deb7f62", "TITLE"=>"Honey", "AUTHOR"=>"@helloimnik", "url"=>"/search/honey/title","featured"=>false],
+      ["id"=>7, "coverArt"=>"https://images.unsplash.com/photo-1516802273409-68526ee1bdd6", "TITLE"=>"Basketball", "AUTHOR"=>"@helloimnik", "url"=>"/search/ball/title","featured"=>false],
+      ["id"=>8, "coverArt"=>"https://static.fdocuments.in/img/1200x630/reader011/image/20181230/5564792cd8b42ae57c8b5789.png?t=1607972552", "TITLE"=>"Western, genre", "AUTHOR"=>"Western", "url"=>"/search/western/genre","featured"=>true],
+      ["id"=>9, "coverArt"=>"https://images.unsplash.com/photo-1597645587822-e99fa5d45d25", "TITLE"=>"Mushrooms", "AUTHOR"=>"@helloimnik", "url"=>"/search/mushroom/title","featured"=>false],
+      ["id"=>10, "coverArt"=>"https://images.unsplash.com/photo-1567306301408-9b74779a11af", "TITLE"=>"Tomato", "AUTHOR"=>"@helloimnik", "url"=>"/search/tomato/title","featured"=>false],
+      ["id"=>11, "coverArt"=>"https://images.unsplash.com/photo-1471357674240-e1a485acb3e1", "TITLE"=>"Sea Star", "AUTHOR"=>"@helloimnik", "url"=>"/search/sea/title","featured"=>false],
+      ["id"=>12, "coverArt"=>"/img/original/9781628999266.jpg", "TITLE"=>"Poor Man's Feast, book", "AUTHOR"=>"Elissa Altman", "url"=>"/isbn/9781628999266","featured"=>true],
     ]
 
 ];

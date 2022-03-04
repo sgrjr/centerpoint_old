@@ -31,8 +31,8 @@ const Slide = function(props)
 {
 
     return (
-        <Box style={{width:"100%", margin:0, padding:0}}>
-            <Link to={props.item.link? props.item.link:""}><img src={props.item.image} style={{width:"100%"}} alt={"slide"}/></Link>
+        <Box>
+            <Link to={props.item.link? props.item.link:""}><img src={props.item.image} style={{width:"100%", minHeight:"190px"}} alt={"slide"}/></Link>
         </Box>
     )
 }

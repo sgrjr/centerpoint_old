@@ -124,7 +124,7 @@ class SigninPage extends React.Component {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <IconPicker name="lockOutlined" />
+          <IconPicker icon="lockOutlined" />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign In

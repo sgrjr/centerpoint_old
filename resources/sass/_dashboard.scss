@@ -1,0 +1,60 @@
+.dashboard {
+
+  display: flex;
+
+  .dashboard-drawer{
+    border:none;
+    margin-left:30px;
+    width:180px;
+  }
+
+  ul{
+    list-style:none;
+    padding-left:5px;
+    overflow-x:hidden;
+    white-space:nowrap;
+    border:solid 1px $gray;
+    border-left:none;
+    border-bottom:none;
+
+    li svg {
+      margin-right:15px;
+    }
+  }
+
+}
+
+
+.list-header {
+  padding-left:72px;
+}
+
+.dashboard.drawer-is-open-false {
+  ul{
+    list-style:none;
+    padding-left:8px;
+  }  
+
+    .dashboard-drawer{
+      animation: close-drawer 1s ease;
+      width:40px;
+    }
+
+}
+
+
+.dashboard.drawer-is-open-true {
+  .dashboard-drawer {
+    animation: open-drawer .7s ease;
+  }
+}
+
+@keyframes open-drawer {
+    from {width: 40px;}
+    to {width: 180px;}
+}
+
+@keyframes close-drawer {
+    from {width: 180px;}
+    to {width: 40px;}
+}

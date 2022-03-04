@@ -1,47 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { connect } from 'react-redux'
-
-const useStyles = makeStyles(theme => ({
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    // marginTop: theme.spacing(8),
-    padding: theme.spacing(6, 0),
-    marginTop: "50px"
-  },
-  footerImage : {
-    width: "50px",
-    margin: "auto auto"
-  }
-}));
+import styles from '../styles'
 
 const Footer = function(props) {
-  const classes = useStyles();
   const { description, title } = props;
 
   return (
-    <footer className={classes.footer + " noPrint"}>
-      <Container maxWidth="lg">
-        <Typography variant="h6" align="center" gutterBottom>
-          <span id="footerlogo" className={classes.footerImage} />
-        </Typography>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          {description}
-        </Typography>
-        <Typography variant="body2" color="textSecondary" align="center">
-          {'© '}
-          {new Date().getFullYear()}
-          {' '}
-          <Link color="inherit" to="/">
-            {title ?? "home"}
-          </Link>
-          {'.'}
-        </Typography>
-      </Container>
+    <footer className={styles.footer}>
+
+      <section>
+        <ul>
+          <li>CENTER POINT LARGE PRINT INC.</li>
+          <li>LARGE PRINT PUBLISHER</li>
+          <li></li>
+          <li>600 BROOKS ROAD</li>
+          <li>KNOX, MAINE 04986</li>
+          <li>TOLL FREE: 1-800-929-9108</li>
+          <li>FAX: 1-207-568-3727</li>
+        </ul>
+        <ul>
+          <li><a href="#">Shop</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Shipping & Returns</a></li>
+          <li><a href="#">Payment Methods</a></li>
+        </ul>
+      </section>
+
+      <section><p>© 2022 by CENTER POINT LARGE PRINT</p></section>
     </footer>
   );
 }

@@ -32,6 +32,7 @@ export default (variables) => {
                             AUTHOR
                             AUTHORKEY
                             url
+                            INVNATURE
                           }
                           invoice {
                             id

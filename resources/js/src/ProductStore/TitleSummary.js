@@ -10,8 +10,22 @@ export default function TitleSummary(props) {
   if(props.authenticated && props.viewer.vendor){
     addToCart =  <AddToCart title={props} url={props.url} createCart={props.createCart}/>
   }
-
-  return (
+  if(props.minify){
+     return (
+              <div className="minified-titles">
+                <div style={{height:"75px", overflow:"hidden"}}>
+                    <img src={"url(" + props.coverArt + ")"} alt={`${props.TITLE} cover`} />
+                </div>
+                <div>
+                  <Link to={"/isbn/"+props.ISBN}>"<span dangerouslySetInnerHTML={{__html: props.TITLE}}/>" | {props.ISBN} | {props.AUTHOR} | $ {props.LISTPRICE} | {props.CAT}</Link>
+                 </div>
+                <div>
+                  {addToCart}
+                </div>
+              </div>
+  );
+  }else{
+    return (
               <Grid container className="search-results" direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2} >
                 <Grid item xs={3}>
                   <div>
@@ -36,4 +50,6 @@ export default function TitleSummary(props) {
                 </Grid>
                 </Grid>
   );
+  }
+  
 }

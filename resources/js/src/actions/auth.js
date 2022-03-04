@@ -70,6 +70,11 @@ const auth = {
               text
               icon
             }
+            shortCuts {
+              url
+              text
+              icon
+            }
           }
         }
       }`};
@@ -149,6 +154,7 @@ const auth = {
                               AUTHOR
                               AUTHORKEY
                               url
+                              INVNATURE
                             }
                     }
                   }
@@ -161,6 +167,11 @@ const auth = {
                     icon
                   }
                   main {
+                    url
+                    text
+                    icon
+                  }
+                  shortCuts {
                     url
                     text
                     icon

@@ -86,10 +86,10 @@ class IconPicker extends React.Component {
       store: <StoreIcon/>
     }
 
-    if(this.props.name !== undefined && icons[this.props.name] !== undefined){
-      return icons[this.props.name]
+    if(this.props.icon !== undefined && icons[this.props.icon] !== undefined){
+      return icons[this.props.icon]
     }else{
-      console.log('missing icon => ', this.props.name, this.props)
+      console.log('missing icon => ', this.props.icon, this.props)
       return null
     }
       
@@ -97,7 +97,7 @@ class IconPicker extends React.Component {
 }
 
 IconPicker.propTypes = {
-  name: PropTypes.string,
+  icon: PropTypes.string,
 };  
 
 export default IconPicker

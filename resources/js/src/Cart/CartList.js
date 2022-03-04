@@ -62,7 +62,7 @@ export default function CartList(props) {
   if(cart.pending){
     return <Button disabled variant="outlined" style={{width:"100%"}}><CircularProgress color="primary"/>loading cart ...</Button>
   }else{
-      return (<><Button fullWidth={true} onClick={createCart} endIcon={<IconPicker name="add" />}>Create New Cart</Button> {items()}</>)
+      return (<><Button fullWidth={true} onClick={createCart} endIcon={<IconPicker icon="add" />}>Create New Cart</Button> {items()}</>)
   }
 
 }

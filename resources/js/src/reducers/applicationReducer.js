@@ -22,12 +22,19 @@ const applicationReducer = (state = applicationReducerInit,action)=>{
             }
         
         case actions.application.APP_UPDATE_SUCCESS.type:
-            return {
-                ...state,
-                pending:false,
-                links: {
-                    ...state.links,
-                    drawer: action.payload.application.links.drawer
+            if(action.payload.application){
+
+                return {
+                    ...state,
+                    pending:false,
+                    links: {
+                        ...state.links,
+                        drawer: action.payload.application.links.drawer
+                    }
+                }
+            }else{
+                return {
+                    ...state
                 }
             }            
 
@@ -49,7 +56,7 @@ const applicationReducer = (state = applicationReducerInit,action)=>{
 
             return {
                 ...state,
-                searchfilter: action.filter
+                searchFilter: action.filter
             }
 
         case actions.auth.AUTH_LOGOUT_SUCCESS.type:

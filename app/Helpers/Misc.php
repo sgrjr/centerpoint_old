@@ -119,7 +119,28 @@ class Misc
     return $parameters;
   }
 
-  
+  public static function getYearMonth($int = false){
+
+    $effectiveDate = date("Y").date("m");
+
+        if(!$int){
+            $effectiveDate = date('Ym', strtotime("+0 months", strtotime($effectiveDate)));
+            return [
+                "machine"=> $effectiveDate, 
+                "human" => date("F") . " " . date("Y")
+            ];
+        }else{
+            $effectiveDate = date('Ym', strtotime((string) $int ." months", strtotime($effectiveDate)));
+            $readable = date('M Y', strtotime((string) $int ." months", strtotime($effectiveDate)));
+
+            return [
+                "machine"=> $effectiveDate,
+                "human" => $readable
+            ];
+        }
+
+    }
+
   public static function getMonth($increment = false, $int = false){
 	if(!$increment){
         if($int){

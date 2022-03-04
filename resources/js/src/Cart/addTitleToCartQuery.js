@@ -29,6 +29,7 @@ export default (variables) => {
                       AUTHOR
                       AUTHORKEY
                       STATUS
+                      INVNATURE
                     }
                   }
                 }

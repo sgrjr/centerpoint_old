@@ -5,11 +5,11 @@ import actions from '../actions';
 import {Button} from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from "react-router-dom";
+import styles from "../styles.js"
 
 class GetMarc extends Component{
 
     render(){ 
-      console.log(this.props)
       if(this.props.marcLink === null || this.props.marcLink === undefined){
         
         let message = ''
@@ -18,7 +18,7 @@ class GetMarc extends Component{
         }else{
           message = "BUILD ZIP FILE OF ALL " + this.props.isbns.length + " MARC records."
         }
-        return <Button color="primary" variant="outlined" style={{clear:"both", display:"block", width:"100%", margin:"15px 0 15px 0"}} onClick={(e)=>{this.props.downloadAllMarcs({isbns:this.props.isbns})}}>{message}</Button>
+        return <button className={styles.getMarc + " outlined"} onClick={(e)=>{this.props.downloadAllMarcs({isbns:this.props.isbns})}}>{message}</button>
       }else{
         let url = this.props.marcLink
         window.open(url)

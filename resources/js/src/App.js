@@ -18,6 +18,7 @@ import { Provider } from 'react-redux';
 import SearchPage from './ProductStore/SearchPage'
 import SearchResults from './ProductStore/SearchPage'
 import TitlePage from './ProductStore/TitlePage'
+import Promotions from './ProductStore/PromotionsPage'
 import {withStyles, withTheme} from '@material-ui/core/styles'
 import {
   BrowserRouter as Router,
@@ -43,7 +44,7 @@ class App extends React.Component {
       
         <Routes>
           <Route path="/" exact={true} element={<ProductStore />}/> 
-
+          <Route path="/promotions" element={<Promotions/>}/>
           <Route path="/dashboard" element={<Dashboard />}>
             <Route path="" element={<DashboardMain/>}/>
             <Route path="admin/users" element={<AdminUsers/>}/>
@@ -62,6 +63,9 @@ class App extends React.Component {
             <Route path=":search/:filter" element={<SearchResults/>}/>
           </Route>
           <Route path="/isbn/:isbn" element={<TitlePage />}/>
+
+          <Route path="*" element={<SearchPage/>}/>
+
         </Routes>
       
       

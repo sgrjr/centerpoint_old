@@ -31,6 +31,7 @@ export default (attributes) => {
                               AUTHOR
                               AUTHORKEY
                               url
+                              INVNATURE
                             }
                           }
                           

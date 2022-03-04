@@ -3,46 +3,28 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import IconPicker from '../components/IconPicker';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import { withStyles } from "@material-ui/core/styles"
+//import MenuItem from '@material-ui/core/MenuItem';
+//import FormControl from '@material-ui/core/FormControl';
+//import Select from '@material-ui/core/Select';
+//import { withStyles } from "@material-ui/core/styles"
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import actions from '../actions';
 import {useParams} from 'react-router-dom'
-
-const useStyles = theme => ({
-    searchForm: {
-        padding: '1px 2px',
-        display: 'flex',
-        alignItems: 'center',
-        boxShadow: "none",
-        background : "transparent",
-        height:"75px",
-        marginBottom:"15px"
-      },
-      input: {
-        borderBottom: "1px solid gray",
-        width: "50%"
-      },
-      iconButton: {
-        padding: 5,
-        border:"none",
-        background : "transparent"
-      }
-});
+import styles from '../styles.js'
 
 class SearchForm extends React.Component {
     componentDidUpdate(prevProps){
       if(prevProps.search !== this.props.search || prevProps.searchFilter !== this.props.searchFilter){
-        this.props.submitSearch()
+        if(this.props.search.trim() !== "" && !this.props.authPending){
+          this.props.submitSearch()
+        }
       }
       
     }
 
     render() {
-        const { search, classes, searchfilters, searchfilter, params } = this.props;
+        const { search, searchFilters, searchFilter, params } = this.props;
 
         const handleChange = event => {
           this.props.updateSearchFilter(event.target.value);
@@ -58,52 +40,50 @@ class SearchForm extends React.Component {
         }
 
         return (
-            <Paper component="form" className={classes.searchForm}>
-              
-            <FormControl className={classes.iconButton}>
-
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={searchfilter}
+            <div className={styles.searchForm}>
+            <form>
+              <select
+                label-id={styles.formSelect}
+                id={styles.formSelect}
+                className={styles.formSelect}
+                value={searchFilter}
                 onChange={handleChange}
               >
-                  {searchfilters.map(function(filter){
-                    return <MenuItem  className={classes.menuItem} key={filter} value={filter}>{filter}</MenuItem>
+                  {searchFilters.map(function(filter){
+                    return <option key={filter[0]} value={filter[0]}>{filter[1]}</option>
                   })}
                 
-              </Select>
-            </FormControl>
-      
-            <InputBase
-              className={classes.input}
-              placeholder={"Search by " + searchfilter +"..."}
-              inputProps={{ 'aria-label': search}}
+              </select>
+               <input
+              id={styles.searchInput}
+              placeholder={"Search by " + searchFilter +"..."}
+              aria-label={"search"}
               onChange={handleTextChange}
               value={search}
             />
-            <IconButton type="submit" onClick={submitSearch} className={classes.iconButton} aria-label="search">
-              <IconPicker name="search" />
-            </IconButton>
-          </Paper>
+            <button type="submit" onClick={submitSearch} className={styles.iconButton} aria-label="search">
+              <IconPicker icon="search" />
+            </button>
+            </form>
+      
+           
+          </div>
         );
     }
 }
 
-const form = withStyles(useStyles)(SearchForm);
-
-form.propTypes = {
-    classes: PropTypes.object,
-    searchfilter: PropTypes.string,
-    searchfilters: PropTypes.array,
-    search: PropTypes.string,
+SearchForm.propTypes = {
+    searchFilter: PropTypes.string,
+    searchFilters: PropTypes.array,
+    search: PropTypes.string
   };
   
   const mapStateToProps = (state)=>{
     return {
-      searchfilters: state.application.searchfilters,
-      searchfilter: state.application.searchfilter,
+      searchFilters: state.application.searchFilters,
+      searchFilter: state.application.searchFilter,
       search: state.application.search,
+      authPending: state.viewer.pending
          }
     }
 
@@ -118,4 +98,4 @@ form.propTypes = {
       }
     }
 
-  export default connect(mapStateToProps, mapDispatchToProps)(form)
+  export default connect(mapStateToProps, mapDispatchToProps)(SearchForm)

@@ -80,7 +80,6 @@ class TitlePage extends Component{
         if(title.text !== undefined && title.text !== null){
           return title.text.map(function(t,i){
             return (<Grid item xs={10} key={i} style={{marginTop:"30px"}}>
-          <Typography variant="h4">{t.body.subject}: </Typography>
             <Typography variant="body1"  dangerouslySetInnerHTML={{ __html: t.body.body }} ></Typography>
             </Grid>)
           })

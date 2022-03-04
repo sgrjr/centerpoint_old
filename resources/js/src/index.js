@@ -62,7 +62,7 @@ const theme = createTheme({
         padding: 1.5*spacing,
         '&.titles-list-root': {
           flexWrap: 'nowrap',
-          backgroundColor:"rgb(46, 46, 46)",
+          backgroundColor:"#008afc",
           color:"white",
         },
         '&.titles-list-root-scroll': {
@@ -179,6 +179,11 @@ const theme = createTheme({
     },
 
 },
+  palette:{
+    background:{
+      footer:"#008afc"
+    },
+}
 }
 });
 

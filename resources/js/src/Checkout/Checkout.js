@@ -34,7 +34,7 @@ function Checkout(props) {
       <Typography variant="h2">{props.data.invoice.title}</Typography>
       <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <AccordionSummary 
-          expandIcon={<IconPicker name="expand" />}
+          expandIcon={<IconPicker icon="expand" />}
           aria-controls="panel1a-content"
           id="step-1-header"
         >
@@ -48,7 +48,7 @@ function Checkout(props) {
           <Button
             variant="contained"
             color="primary"
-            endIcon={<IconPicker name="navigateNext"/>}
+            endIcon={<IconPicker icon="navigateNext"/>}
             onClick={()=> handleClick('panel2')}
           >
             Next Step
@@ -57,7 +57,7 @@ function Checkout(props) {
       </Accordion>
       <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
         <AccordionSummary 
-          expandIcon={<IconPicker name="expand" />}
+          expandIcon={<IconPicker icon="expand" />}
           aria-controls="panel1a-content"
           id="step-2-header"
         >
@@ -69,7 +69,7 @@ function Checkout(props) {
         <Divider />
         <AccordionActions className={classes.footer}>
           <Button
-            startIcon={<IconPicker name="navigateBefore"/>}
+            startIcon={<IconPicker icon="navigateBefore"/>}
             onClick={()=> handleClick('panel1')}
           >
             Previous Step

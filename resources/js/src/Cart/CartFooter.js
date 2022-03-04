@@ -24,11 +24,11 @@ const useStyles =  (theme => ({
   }
 }))
 
-let incentiveText = (quantity, goal) => {
-  if (quantity < goal) {
-    return `Add ${goal - quantity} more books to get free shipping!`
-  } else {
+let incentiveText = (quantity, goal, tradeTitleShipping) => {
+  if (quantity >= goal || tradeTitleShipping) {
     return 'You qualify for free shipping!'
+  } else {
+    return `Add ${goal - quantity} more books to get free shipping!`
   }
 }
 
@@ -46,20 +46,20 @@ class CartItem extends React.Component {
   return (
     <footer className={classes.footer}>
 
-      <Button variant="contained" color="primary" endIcon={<IconPicker name="chevronRight" disabled={props.quantity > 0 ? false : true}/>} ><Link to={'/dashboard/cart/' + props.cart.REMOTEADDR} style={linkStyle}>Check out</Link></Button>      
+      <Button variant="contained" color="primary" endIcon={<IconPicker icon="chevronRight" disabled={props.quantity > 0 ? false : true}/>} ><Link to={'/dashboard/cart/' + props.cart.REMOTEADDR} style={linkStyle}>Check out</Link></Button>      
       
       <Typography className={classes.total}>Cart total: <strong>${props.price.toFixed(2)}</strong></Typography>
       
       <Button
         variant="contained"
         color="error"
-        endIcon={<IconPicker name="delete" />}
+        endIcon={<IconPicker icon="delete" />}
         onClick={()=>{
           props.deleteCart({id:props.cart.id})
         }}
       >delete cart</Button>
 
-      <Typography className={classes.incentive}>{incentiveText(props.quantity, 5)}</Typography>
+      <Typography className={classes.incentive}>{incentiveText(props.quantity, 5, props.tradeTitleShipping)}</Typography>
       
     </footer>
   )

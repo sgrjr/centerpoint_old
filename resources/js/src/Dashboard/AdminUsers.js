@@ -51,8 +51,13 @@ class AdminUsers extends Component {
     let headerStyle = {
       margin:"15px"
     }
+
+    if(!this.props.users){
+      return <Link to={"/dashboard"}>UNAUTHORIZED</Link>
+    }
+
   	if(this.props.users && this.props.users.paginatorInfo){
-  		heading = <div style={{textAlign:"center", width:"100%", fontWeight:"bold", fontSize:"2rem"}}><button onClick={this.prevPage.bind(this)}><IconPicker name={"back"}/></button><span style={headerStyle}>Page {this.props.users.paginatorInfo.currentPage} of {this.props.users.paginatorInfo.lastPage}</span><button onClick={this.nextPage.bind(this)}><IconPicker name={"forward"}/></button></div>
+  		heading = <div style={{textAlign:"center", width:"100%", fontWeight:"bold", fontSize:"2rem"}}><button onClick={this.prevPage.bind(this)}><IconPicker icon={"back"}/></button><span style={headerStyle}>Page {this.props.users.paginatorInfo.currentPage} of {this.props.users.paginatorInfo.lastPage}</span><button onClick={this.nextPage.bind(this)}><IconPicker icon={"forward"}/></button></div>
   	}
 
   return (
@@ -76,11 +81,11 @@ class AdminUsers extends Component {
 
           {this.props.users && this.props.users.data.map((row, id) => {
             return <TableRow key={id}>
-              <TableCell><Link to={"/dashboard/admin/users/"+row.public_id}><IconPicker name="edit"/></Link></TableCell>
+              <TableCell><Link to={"/dashboard/admin/users/"+row.public_id}><IconPicker icon="edit"/></Link></TableCell>
               <TableCell><button onClick={()=>{
               	loginUser({id: row.public_id})
               	return <Navigate to={"/dashboard"} />
-          	}}><IconPicker name="login"/></button></TableCell>
+          	}}><IconPicker icon="login"/></button></TableCell>
               <TableCell>{row.FIRST} {row.LAST}</TableCell>
               <TableCell align="right">{row.EMAIL}</TableCell>
             </TableRow>
@@ -96,7 +101,6 @@ class AdminUsers extends Component {
 const adminUsersQuery = (variables)=>{
  return { query:`query ($page: Int, $first:Int) {
           users (first:$first, page:$page) {
-
           	paginatorInfo{
       			lastPage
       			perPage

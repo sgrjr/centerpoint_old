@@ -36,6 +36,11 @@ export default {
                     text
                     icon
                   }
+                  shortCuts {
+                    url
+                    text
+                    icon
+                  }
                 }
 
                 slider {
@@ -85,6 +90,7 @@ export default {
                               AUTHOR
                               AUTHORKEY
                               url
+                              INVNATURE
                           }
                       }
                       
@@ -123,6 +129,11 @@ export default {
                     text
                     icon
                   }
+                  shortCuts {
+                    url
+                    text
+                    icon
+                  }
                 }
 
                 slider {
@@ -152,8 +163,8 @@ export default {
     appdescription:"The Smart Choice for Large Print! | 1-800-929-9108",
     sitename: "Center Point Large Print",
     search: "",
-    searchfilters: ["title","author","isbn","listprice"],
-    searchfilter: "title",
+    searchFilters: ["title","author","isbn","listprice"],
+    searchFilter: "title",
     browse:[],
     catalog:{
         image_link:"",
@@ -161,7 +172,9 @@ export default {
       },
     links:{
         drawer:[{url:"/",text:"Home"},{url:"/login",text:"Login"},{url:"/",text:"CP Connection"},{url:"/",text:"Catalogues &amp; Flyers"}],
-        main:[{url:"/",text:"Home"},{url:"/login",text:"Login"}]},
+        main:[{url:"/",text:"Home"},{url:"/login",text:"Login"}], 
+        shortCuts:[]
+      },
     slider: {slides: []},
     marcLink: null
 

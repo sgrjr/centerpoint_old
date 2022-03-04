@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//dd(App\Helpers\Application::links(auth()->user()));
+
 //The Following all get view from javascript
 Route::get('/', function () {return view('app');});
 Route::get('/login', function () {return view('app');});
@@ -58,3 +60,5 @@ Route::get('/admin/tests/{id}', '\App\Http\Controllers\ApplicationController@tes
 Route::post('/admin/application/env', '\App\Http\Controllers\ApplicationController@postUpdateEnv');
 Route::post('/admin/application/error', '\App\Http\Controllers\ApplicationController@postUpdateError');
 */
+
+Route::any('{catchall}', function(){return view('app');})->where('catchall', '.*');

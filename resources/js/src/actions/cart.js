@@ -283,6 +283,8 @@ const cart = {
         success: cart.CART_UPDATE_SUCCESS.creator,
         error: cart.CART_UPDATE_ERROR.creator
       }
+      if (query.variables.input.INDEX){query.variables.input.INDEX = parseInt(query.variables.input.INDEX);}
+      if (query.variables.input.id){query.variables.input.id = parseInt(query.variables.input.id);}
 
       return graphql(query, actions)
     } 
@@ -339,7 +341,6 @@ const cart = {
   {
       type: 'CART_DELETE_TITLE_SUCCESS',   
       creator: (payload) => {
-        console.log(payload, 77)
         return { type: 'CART_DELETE_TITLE_SUCCESS', data: payload.deleteCartTitle, message:{message:"Delete Title from Cart success.", severity:"success"}   }
       }
   },

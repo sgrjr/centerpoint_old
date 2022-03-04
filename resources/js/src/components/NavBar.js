@@ -12,7 +12,7 @@ import Drawer from '@material-ui/core/Drawer';
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
-//import BrowseProducts from './BrowseProducts'
+import BrowseProducts from './BrowseProducts'
 import SearchForm from './SearchForm'
 import actions from '../actions';
 import CustomMenuLink from './CustomMenuLink'
@@ -21,6 +21,8 @@ import Cart from '../Cart/Cart'
 import {withTheme} from '@material-ui/core/styles'
 //fix this to dynamic some time
 import useStyles from './NavbarStyle.js'
+
+import styles from '../styles.js'
 
 const MainNavbar = function (props) {
   const classes = useStyles(props.theme);
@@ -112,11 +114,11 @@ function menuToggle (event){
       className={classes.menuButton}
       aria-label="open drawer"
       onClick={props.toggleCart}
-    ><IconPicker name="shoppingCartOutlined" /></IconButton>)
+    ><IconPicker icon="shoppingCartOutlined" /></IconButton>)
 
 
       cart = (<Drawer anchor={"right"} open={props.viewer.cart.open} onClose={props.toggleCart}>
-        <Button onClick={props.toggleCart} startIcon={<IconPicker name="clear" />}>
+        <Button onClick={props.toggleCart} startIcon={<IconPicker icon="clear" />}>
               Close
             </Button>
         <Cart />
@@ -125,21 +127,15 @@ function menuToggle (event){
     }
 
   return (
-      <div>
+      <div className={styles.mainNavigation}>
       
       {cart}
 
-    <div className={classes.grow}>
-      <AppBar position="static" color={"default"}>
-        <Toolbar>
-          
-            
-
+        <header>
           <Typography className={classes.title} noWrap>
-            <img src={"/img/original/logo.png"} style={{margin:"auto", display:"block", height:"100%"}} alt="logo"/>
+            {/*<img src={"/img/original/logo.png"} style={{margin:"auto", display:"block", height:"100%"}} alt="logo"/>*/}
           </Typography>
 
-          <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
           
           {links.main.map(function(it,index){
@@ -161,21 +157,27 @@ function menuToggle (event){
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <IconPicker name="expand" />
+              <IconPicker icon="expand" />
 
             </IconButton>
           </div>
-        </Toolbar>
-      </AppBar>
+        </header>
 
-      <Grid container justifyContent={"flex-end"}>
-        <Grid item xs={12} md={8}>
-          <SearchForm submitSearch={props.handleSubmitSearch} params={props.params}/>
-         </Grid>
-      </Grid>
+
+       <SearchForm submitSearch={props.handleSubmitSearch} params={props.params}/>
+
       {renderMobileMenu}
       {renderMenu}
-    </div></div>
+
+      <ul className="quick-links">
+
+        <li><BrowseProducts browse={props.browse} open={false}/></li>
+
+      {links.shortCuts.map(function(it,index){
+            return <li key={index}><Link to={it.url}>{it.text}</Link></li>
+          })}
+          </ul>
+    </div>
   );
 }
 
@@ -188,13 +190,11 @@ class Navbar extends React.Component {
 
   render(){
 
-    return <div className="noPrint">
-      <MainNavbar {...this.props} handleSubmitSearch={this.handleSubmitSearch.bind(this)}/>
-      </div>
+    return <MainNavbar {...this.props} handleSubmitSearch={this.handleSubmitSearch.bind(this)}/>
   }
 
   handleSubmitSearch(){
-    let url = "/search/" + this.props.search + "/" + this.props.searchfilter
+    let url = "/search/" + this.props.search + "/" + this.props.searchFilter
     this.props.navigate(url)
   }
 }
@@ -206,15 +206,16 @@ Navbar.propTypes = {
 
 const mapStateToProps = (state)=>{
   return {
+    browse: state.application.browse,
     query: state.application.query,
     queryVars: state.application.query,
     viewer: state.viewer,
     links: state.application.links,
-    searchfilters: state.application.searchfilters,
+    searchFilters: state.application.searchFilters,
     browse: state.application.browse,
     cptitles: state.application.cptitles,
     search: state.application.search,
-    searchfilter: state.application.searchfilter
+    searchFilter: state.application.searchFilter
        }
   }
   

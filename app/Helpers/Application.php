@@ -39,7 +39,7 @@ class Application {
 	}
 
 	private static function browse(){
-   // \Cache::forget('browse_products');
+    \Cache::forget('browse_products');
 		return \Cache::rememberForever('browse_products', function () {
 	          return static::calcBrowseProducts();
 	      }); 
@@ -47,7 +47,11 @@ class Application {
 
 	 private static function calcBrowseProducts(){
           
-        $cats = ["Romance","Romance - Christian","Romance - Historical","Romance - Suspense",
+        $cats = [
+            "Romance",
+            "Romance - Christian",
+            "Romance - Historical",
+            "Romance - Suspense",
             "Fiction",
             "Fiction - History", 
             "Fiction - General",
@@ -73,10 +77,14 @@ class Application {
             $genre_items[] = \App\Helpers\Misc::makeSearchUrl($cat, "category");
         }
         
+        $now = \App\Helpers\Misc::getYearMonth();
+        $now2 = \App\Helpers\Misc::getYearMonth(1);
+        $now3 = \App\Helpers\Misc::getYearMonth(2);
+
         $months = [
-          \App\Helpers\Misc::makeSearchUrl("202003", "DATE", "2020 March"),
-          \App\Helpers\Misc::makeSearchUrl("202004", "DATE", "2020 April"),
-          \App\Helpers\Misc::makeSearchUrl("202005", "DATE", "2020 May")
+          \App\Helpers\Misc::makeSearchUrl($now["machine"], "DATE", $now["human"]),
+          \App\Helpers\Misc::makeSearchUrl($now2["machine"], "DATE", $now2["human"]),
+          \App\Helpers\Misc::makeSearchUrl($now3["machine"], "DATE", $now3["human"])
         ];
 
         return [
@@ -210,22 +218,28 @@ class Application {
     }
 
 	private static function searchFilters(){
-		return ["title","isbn","uthor","listprice"];
+		return [["title","Title"],["isbns","ISBN"],["author","Author"],["price","Price"],["genre","Genre"],["series","Series"]];
 	}
+
 	private static function slider(){
 		return \Config::get('slider_welcome');
 	}
-	private static function links($user){
-    
+
+	public static function links($user){
 
 		$links = new \stdclass;
   
         $links->drawer = collect([]);
         $links->main = collect([]);
+        $links->shortCuts = collect([]);
+
+        $links->shortCuts->push(["url"=>"/promotions", "text"=> 'Catalogs and Flyers',"icon"=>""]);
+        $links->shortCuts->push(["url"=>"/lists/top-25", "text"=> 'Top 25 for ' . date("F"),"icon"=>""]);
+        $links->shortCuts->push(["url"=>"/lists/upcoming-titles", "text"=> 'Upcoming Titles',"icon"=>""]);
+        $links->shortCuts->push(["url"=>"/lists/clearance-titles", "text"=> 'Clearance Titles',"icon"=>""]);
 
         $links->main->push(["url"=>"/", "text"=> 'Home',"icon"=>"home"]);
-        $links->drawer->push([ "url"=>"#", "text"=> 'CP Connection',"icon"=>"calendar"]);
-        $links->drawer->push([ "url"=>"#", "text"=> 'Catalogues, Flyers',"icon"=>"paw"]);
+        $links->drawer->push([ "url"=>"/promotions", "text"=> 'Catalogues, Flyers',"icon"=>"paw"]);
 
         if(!$user){
           $links->drawer->push([ "url"=>"/login", "text"=> 'Login',"icon"=>"lockOpen"]);

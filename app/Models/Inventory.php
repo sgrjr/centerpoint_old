@@ -6,6 +6,7 @@ use App\Traits\DbfTableTrait;
 use App\Helpers\Misc;
 use Schema;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
@@ -233,5 +234,16 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
       ];
 
     }
+
+    public function getSearchSuggestions(){
+      return [
+        "paginatorInfo"=>["total"=>12, "count"=>12],
+        "data"=> \Config::get('cp')["search_suggestions"]
+      ];
+    }
+
+  public function scopeCustomer(Builder $query): Builder {
+    return $query->where('id', ">=", 37);
+  }
 
 }

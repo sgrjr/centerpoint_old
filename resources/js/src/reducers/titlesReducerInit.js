@@ -145,6 +145,7 @@ export default {
         LISTPRICE
         AUTHORKEY
         AUTHOR
+        INVNATURE
       }
     }
     byAuthor(page: $page, first: $perPage) {
@@ -168,6 +169,7 @@ export default {
         coverArt
         LISTPRICE
         STATUS
+        INVNATURE
       }
     }
     text {
@@ -238,6 +240,7 @@ minTitleQuery: (variables) => {
         LISTPRICE
         AUTHORKEY
         AUTHOR
+        INVNATURE
       }
     }
     byAuthor(page: $page, first: $perPage) {
@@ -261,6 +264,7 @@ minTitleQuery: (variables) => {
         coverArt
         LISTPRICE
         STATUS
+        INVNATURE
       }
     }
     text {
@@ -279,9 +283,15 @@ minTitleQuery: (variables) => {
   },
 
   searchQuery: (variables = {}) => {
+
+    if(variables.filters.price !== undefined){
+      variables.filters.price = parseFloat(parseFloat(variables.filters.price).toFixed(2))
+    }
+
     return {
     
     query:`query($page: Int, $perPage: Int, $filters: TitleFilter) {
+
   search: titles(page: $page, first: $perPage, filter: $filters) {
     paginatorInfo {
       count
@@ -310,6 +320,22 @@ minTitleQuery: (variables) => {
       PUBLISHER
     }
   }
+
+      searchSuggestions {
+        data {
+          id
+          TITLE
+          AUTHOR
+          coverArt
+          INVNATURE
+          url
+          featured
+        }
+        paginatorInfo{
+          total
+          count
+        }
+      }
 }  
     `, 
     variables: variables
