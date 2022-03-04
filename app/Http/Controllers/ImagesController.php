@@ -24,7 +24,7 @@ class ImagesController extends Controller
 		$this->use_path = $this->config["imagesrootpath"] . "/cache/" . $path;
 
 		if(!file_exists($this->use_path)){
-			$this->use_path = $this->config["serverimagerootpath"] . "/" . $path;
+			$this->use_path = $this->config["serverimagerootpath"] . DIRECTORY_SEPARATOR . $path;
 			$remote = true;
 			$test = @get_headers($this->use_path);	
 		}
