@@ -72,8 +72,8 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
     if($this->MARC === "MARC"){
           return [
-        "view" => url("http://centerpointlargeprint.com/cp_info/cp_marc/".$this->ISBN.".txt"),
-        "download" => url("http://centerpointlargeprint.com/cp_info/cp_marc/".$this->ISBN.".mrc")
+        "view" => url("/files/marc/".$this->ISBN.".txt"),
+        "download" => url("/files/marc/".$this->ISBN.".mrc")
       ];
     }
     return null;
@@ -180,16 +180,31 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
       return $query->get();
     }
 
-    public function getCPTitles(){
-      return Misc::gauranteedBooksCount(15, [Misc::pubdateNow(), Misc::pubdateMonthsPast(3), Misc::pubdateMonthsPast(12), Misc::pubdateYearsPast(5)]);  
+    public static function getCPTitles(){
+      return Misc::gauranteedBooksCount(10, [
+        Misc::getYearMonth()["machine"]."00", 
+        Misc::getYearMonth(-2)["machine"]."00",
+        Misc::getYearMonth(-6)["machine"]."00", 
+        Misc::getYearMonth(-12)["machine"]."00"
+      ]);  
     }
 
-    public function getTradeTitles(){  
-      return Misc::gauranteedBooksCount(15, [Misc::pubdateMonthsPast(1), Misc:: pubdateMonthsPast(3), Misc::pubdateMonthsPast(6),Misc::pubdateYearsPast(5)], "TRADE"); 
+    public static  function getTradeTitles(){  
+      return Misc::gauranteedBooksCount(10, [
+        Misc::getYearMonth()["machine"]."00", 
+        Misc::getYearMonth(-1)["machine"]."00", 
+        Misc::getYearMonth(-2)["machine"]."00",
+        Misc::getYearMonth(-3)["machine"]."00"
+      ], "TRADE"); 
     }
 
-    public function getAdvancedTitles(){  
-      return Misc::gauranteedBooksCount(30, [ Misc::pubdateMonthsPast(3), Misc::pubdateMonthsPast(12), Misc::pubdateYearsPast(1), Misc::pubdateYearsPast(5)]);
+    public static  function getAdvancedTitles(){  
+      return Misc::gauranteedBooksCount(20, [ 
+        Misc::getYearMonth(1)["machine"]."00", 
+        Misc::getYearMonth()["machine"]."00",
+        Misc::getYearMonth(-1)["machine"]."00",
+        Misc::getYearMonth(-2)["machine"]."00"
+      ]);
     }
 
 

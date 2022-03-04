@@ -156,7 +156,7 @@ class IndexController extends Controller
         }
 
         catch(\Throwable $e){
-          abort(404, $e->getMessage());
+          return response()->download(public_path() .DIRECTORY_SEPARATOR."marcs".DIRECTORY_SEPARATOR."missing.mrc", "missing-".$file.".txt");
         }
     }
 

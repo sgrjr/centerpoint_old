@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//dd(App\Helpers\Application::links(auth()->user()));
-
 //The Following all get view from javascript
 Route::get('/', function () {return view('app');});
 Route::get('/login', function () {return view('app');});
