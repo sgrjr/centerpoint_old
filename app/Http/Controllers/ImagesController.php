@@ -25,17 +25,8 @@ class ImagesController extends Controller
 
 		if(!file_exists($this->use_path)){
 			$this->use_path = $this->config["serverimagerootpath"] . "/" . $path;
-<<<<<<< HEAD
 			$remote = true;
-			$test = @get_headers($this->use_path);
-		}else{
-			$test = true;
-=======
-			
-				$remote = true;
-
-				$test = @get_headers($this->use_path);
->>>>>>> 9a6f644a855ead5cf59a330c3860adaec804cdf1
+			$test = @get_headers($this->use_path);	
 		}
 
 		if (!isset($test) || $test !== true){	
