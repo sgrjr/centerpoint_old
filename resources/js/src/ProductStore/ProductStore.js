@@ -34,7 +34,7 @@ function TitleLists(props){
               background = headers[name].back
             }
 
-            return <HorizontalList key={index} items={list[1]} pageInfo={list[1].paginatorInfo} listTitle={title} 
+            return <HorizontalList key={index} items={list[1].data} pageInfo={list[1].paginatorInfo} listTitle={title} 
             url={url} displayHorizontal={displayHorizontal} background={background} 
             addTitleToCart={props.addTitleToCart} 
             selectedCart={props.selectedCart}

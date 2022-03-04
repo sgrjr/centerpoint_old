@@ -118,7 +118,7 @@ class SearchPage extends Component{
             return <Progress color="primary" />
           }else if(this.props.titlesProgress){
             viewmore = <Progress color="primary" />
-          }else if(lists && lists[0] && lists[0][1].paginatorInfo.hasMorePages){
+          }else if(lists && lists[0] && lists[0][1].paginatorInfo !== null && lists[0][1].paginatorInfo.hasMorePages){
             viewmore = <button className="outlined" onClick={() => this.props.incrementPagination()}>view more</button>
           }
 
@@ -129,9 +129,11 @@ class SearchPage extends Component{
             return <li>{er.message}</li>;
           })
         }
-        if(lists[0][1].paginatorInfo.total < 1 || this.props.params.search === ""){
-          searchSuggestions = <div><h2>Nothing matched your searched. Try a suggestion below.</h2><SearchSuggestions itemData={lists[1][1].data}/></div>
-        }
+
+          if(lists[0][1].paginatorInfo === null || lists[0][1].paginatorInfo.total < 1 || this.props.params.search === ""){
+            searchSuggestions = <div><h2>Nothing matched your searched. Try a suggestion below.</h2><SearchSuggestions itemData={lists[1][1].data}/></div>
+          }
+
 
         const toggleMinMaxView = (e)=>{
           const newState = {...this.state}
@@ -148,15 +150,15 @@ class SearchPage extends Component{
                 <Grid item sm={12} md={8} className={"box "+ classes.gridItem}>
 
                   <div>
-                    Loaded: {lists[0][1].paginatorInfo.total === 0? 0:lists[0][1].paginatorInfo.perPage} | 
-                    Matches: {lists[0][1].paginatorInfo.total} | 
+                    Loaded: {lists[0][1].paginatorInfo === null || lists[0][1].paginatorInfo.total === 0? 0:lists[0][1].paginatorInfo.perPage} | 
+                    Matches: {lists[0][1].paginatorInfo !== null && lists[0][1].paginatorInfo.total} | 
                     {viewmore} | 
                     <button className={styles.outlined} onClick={(e)=>{toggleMinMaxView(e);}}>{this.state.options.minify? "expand":"collapse"}</button>
                   </div>
                   
                   <hr/>
 
-                  {lists[0][1].data.map(title=>{
+                  {lists[0][1].data && lists[0][1].data.map(title=>{
                         return <TitleSummary minify={this.state.options.minify} key={title.ISBN} {...title} createCart={createCart} authenticated={this.props.authenticated} url={pathname} viewer={viewer}/>
                     })}
                   
@@ -164,7 +166,7 @@ class SearchPage extends Component{
 
                   {viewmore}
 
-                  <p>Loaded: {lists[0][1].paginatorInfo.total === 0? 0:lists[0][1].paginatorInfo.perPage} | Matches: {lists[0][1].paginatorInfo.total}</p>
+                  <p>Loaded: {lists[0][1].paginatorInfo  === null || lists[0][1].paginatorInfo.total === 0? 0:lists[0][1].paginatorInfo.perPage} | Matches: {lists[0][1].paginatorInfo !== null? lists[0][1].paginatorInfo.total:0}</p>
 
                 </Grid>
          </Grid>

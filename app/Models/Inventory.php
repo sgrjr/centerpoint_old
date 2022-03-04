@@ -181,30 +181,34 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     }
 
     public static function getCPTitles(){
-      return Misc::gauranteedBooksCount(15, [
+      $data = Misc::gauranteedBooksCount(15, [
         Misc::getYearMonth()["machine"]."00", 
         Misc::getYearMonth(-2)["machine"]."00",
         Misc::getYearMonth(-6)["machine"]."00", 
         Misc::getYearMonth(-12)["machine"]."00"
-      ]);  
+      ]);
+
+      return Misc::dataToPaginator($data);  
     }
 
     public static  function getTradeTitles(){  
-      return Misc::gauranteedBooksCount(15, [
+      $data = Misc::gauranteedBooksCount(15, [
         Misc::getYearMonth()["machine"]."00", 
         Misc::getYearMonth(-1)["machine"]."00", 
         Misc::getYearMonth(-2)["machine"]."00",
         Misc::getYearMonth(-3)["machine"]."00"
       ], "TRADE"); 
+      return Misc::dataToPaginator($data);  
     }
 
     public static  function getAdvancedTitles(){  
-      return Misc::gauranteedBooksCount(30, [ 
+      $data = Misc::gauranteedBooksCount(30, [ 
         Misc::getYearMonth(1)["machine"]."00", 
         Misc::getYearMonth()["machine"]."00",
         Misc::getYearMonth(-1)["machine"]."00",
         Misc::getYearMonth(-2)["machine"]."00"
       ]);
+      return Misc::dataToPaginator($data);  
     }
 
 

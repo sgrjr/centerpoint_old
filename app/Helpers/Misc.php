@@ -432,5 +432,21 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
             );
 	}
 
+    public static function dataToPaginator($data){
+        $x = new \stdclass;
+        $total = count($data);
+
+        $x->paginatorInfo = new \stdclass;
+        $x->paginatorInfo->count = $total;
+        $x->paginatorInfo->currentPage = 1;
+        $x->paginatorInfo->total = $total;
+        $x->paginatorInfo->perPage = $total;
+        $x->paginatorInfo->firstItem = 1;
+        $x->paginatorInfo->hasMorePages = false;
+
+        $x->data = $data;
+        return $x;
+    }
+
 }
 

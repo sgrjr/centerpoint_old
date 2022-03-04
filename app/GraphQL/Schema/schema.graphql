@@ -12,13 +12,13 @@ type Query {
     searchSuggestions(filter: TitleFilter): SearchSuggestions @field(resolver:"\\App\\Models\\Inventory@getSearchSuggestions")
 
     # Upcoming Titles
-    cpTitles: [Title] @field(resolver:"\\App\\Models\\Inventory@getCPTitles")
+    cpTitles: TitlesPaginator @field(resolver:"\\App\\Models\\Inventory@getCPTitles")
 
     # Trade Titles
-    tradeTitles: [Title] @field(resolver:"\\App\\Models\\Inventory@getTradeTitles")
+    tradeTitles: TitlesPaginator @field(resolver:"\\App\\Models\\Inventory@getTradeTitles")
     
     # Advanced Titles
-    advancedTitles: [Title] @field(resolver:"\\App\\Models\\Inventory@getAdvancedTitles")
+    advancedTitles: TitlesPaginator @field(resolver:"\\App\\Models\\Inventory@getAdvancedTitles")
 }
 
 #import ./Admin.graphql

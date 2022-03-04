@@ -1,7 +1,10 @@
 type Paginator {
     count:Int
     currentPage: Int
+    lastPage: Int
     total: Int
     perPage: Int
     firstItem: Int
+    lastItem: Int
+    hasMorePages: Boolean
 }

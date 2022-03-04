@@ -28,17 +28,28 @@ export default {
         query: (variables) => {
             return {
             query:`
-        fragment TitleFragment on Title {
-            INDEX
-            ISBN
-            TITLE
-            INVNATURE
-            LISTPRICE
-            PUBDATE
-            coverArt
-            AUTHORKEY
-            AUTHOR
-            STATUS
+        fragment TitleFragment on TitlePaginator {
+             paginatorInfo {
+              perPage
+              total
+              count
+              currentPage
+              firstItem
+              lastItem
+              hasMorePages
+            }
+            data{
+              INDEX
+              ISBN
+              TITLE
+              INVNATURE
+              LISTPRICE
+              PUBDATE
+              coverArt
+              AUTHORKEY
+              AUTHOR
+              STATUS
+            }
         }
         query {
           cp: cpTitles {
