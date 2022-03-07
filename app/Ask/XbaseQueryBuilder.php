@@ -68,7 +68,7 @@ public function find($primaryKeyValue){
 		->setPerPage(1)
 		->setPage(1)
 		->where($this->model->getDbfPrimaryKey(),"===", $primaryKeyValue)
-		->get()->records->first();
+		->first();
 }
 
 public function index($index = 0, $columns = false){
@@ -107,7 +107,7 @@ public function index($index = 0, $columns = false){
 	   }
 
 	   	if(count($this->data->records) >= 1){
-			return $this->data->records->first();
+			return $this->data->records[0];
 	   	}
 	   	return $this->data->records;
 	}
@@ -175,11 +175,8 @@ public function index($index = 0, $columns = false){
 	}
 	
 	public function get($loadToArray = false){
-		if($loadToArray){
-			$this->setData();
-		}else{
-			$this->setData1();
-		}
+		$this->setData();
+
 		$r = new \stdclass;
 		$r->paginatorInfo = $this->data->paginator;
 		$r->data = $this->data->records;
@@ -188,9 +185,10 @@ public function index($index = 0, $columns = false){
 	}
 
 public function first($columns = false){
+
 	$this->setPerPage(1);
 	if(count($this->parameters->tests) < 1){
-		if($this->parameters->index < 0){$this->parameters->index = 0;}
+		if($this->parameters->index < 0 || !$this->parameters->index){$this->parameters->index = 0;}
 		return $this->index($this->parameters->index, $columns);
 	}else{
 		$res = $this->get(true)->data;

@@ -25,11 +25,11 @@
 
 	/* sample data */	
 	$fields = array(
-		array("bool" , DBFFIELD_TYPE_LOGICAL),
-		array("memo" , DBFFIELD_TYPE_MEMO),
-		array("date" , DBFFIELD_TYPE_DATE),
-		array("number" , DBFFIELD_TYPE_NUMERIC, 3, 0),
-		array("string" , DBFFIELD_TYPE_CHAR, 50),
+		array("bool" , $this->types->DBFFIELD_TYPE_LOGICAL),
+		array("memo" , $this->types->DBFFIELD_TYPE_MEMO),
+		array("date" , $this->types->DBFFIELD_TYPE_DATE),
+		array("number" , $this->types->DBFFIELD_TYPE_NUMERIC, 3, 0),
+		array("string" , $this->types->DBFFIELD_TYPE_CHAR, 50),
 	);
 	
 	/* create a new table */

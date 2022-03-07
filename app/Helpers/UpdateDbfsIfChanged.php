@@ -36,7 +36,7 @@ class UpdateDbfsIfChanged
 
             if($table->watch === true && $included){
 
-                $dbfTable = $table->class::getDbfTable();
+                $dbfTable = $table->class->getDbfTable();
 
                 foreach($table->sources AS $sourceId=>$source){
                   

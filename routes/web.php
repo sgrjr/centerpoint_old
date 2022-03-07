@@ -27,6 +27,8 @@ Route::get('/search/{string}/{category}', function () {return view('app');});
 Route::get('/admin/cms', function () {return view('app');});
 Route::get('/cms', function () {return view('app');});
 
+Route::get('/dbfs', '\App\Http\Controllers\IndexController@dbf');
+
 Route::get('/cart/{cartId}', function () {return view('app');});
 Route::get('/invoice/{invoiceId}', function () {return view('app');});
 
@@ -51,6 +53,7 @@ Route::get('/update-from-github', '\App\Http\Controllers\SetupController@pull');
 Route::get('/setup/table/{action}/{table}', '\App\Http\Controllers\SetupController@tableAction');
 
 Route::get('/img/{template}/{path}', '\App\Http\Controllers\ImagesController@images')->where('path','.*');
+
 
 /*
 Route::get('/admin/application', '\App\Http\Controllers\ApplicationController@index');

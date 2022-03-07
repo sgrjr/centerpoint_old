@@ -31,7 +31,8 @@ class XBaseColumn extends \ArrayObject {
         $reserved3,
         $indexed,
         $colIndex,
-        $bytePos
+        $bytePos,
+        $table
     ) {
         $this->rawname=$name;
         $this->name=preg_replace('/[^a-zA-Z0-9-_\.]/','', strpos($name,"0x00")!==false?substr($name,0,strpos($name,"0x00")):$name);
@@ -50,6 +51,8 @@ class XBaseColumn extends \ArrayObject {
             "length"=>$this->getLength(),
             "type"=>$this->getType()
         ];
+
+        $this->table = $table;
     }
 
     public function offsetSet($offset, $value) {
@@ -83,10 +86,10 @@ class XBaseColumn extends \ArrayObject {
     }
     function getDataLength() {
 	    switch ($this->type) {
-            case DBFFIELD_TYPE_DATE : return 8;
-            case DBFFIELD_TYPE_DATETIME : return 8;
-            case DBFFIELD_TYPE_LOGICAL : return 1;
-            case DBFFIELD_TYPE_MEMO : return 10;
+            case $this->table->types->DBFFIELD_TYPE_DATE : return 8;
+            case $this->table->types->DBFFIELD_TYPE_DATETIME : return 8;
+            case $this->table->types->DBFFIELD_TYPE_LOGICAL : return 1;
+            case $this->table->types->DBFFIELD_TYPE_MEMO : return 10;
             default : return $this->length;
 	    }
     }

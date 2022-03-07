@@ -51,7 +51,7 @@ class XBaseWritableTable extends XBaseTable {
 		$i=0;
 		foreach ($fields as $field) {
 			if (!$field || !is_array($field) || sizeof($field)<2) trigger_error ("fields argument error, must be array of arrays", E_USER_ERROR);
-			$column = new XBaseColumn($field[0],$field[1],0,@$field[2],@$field[3],0,0,0,0,0,0,$i,$recordByteLength);
+			$column = new XBaseColumn($field[0],$field[1],0,@$field[2],@$field[3],0,0,0,0,0,0,$i,$recordByteLength, $this);
 			$recordByteLength += $column->getDataLength();
 			$columnNames[$i]=$field[0];
 			$columns[$i]=$column;
@@ -143,18 +143,76 @@ class XBaseWritableTable extends XBaseTable {
         }
         $this->writeChar(0x0d);
 	}
+
+	function save($serialized_record, $index){
+		$this->open();
+
+		if(strlen($serialized_record) !== $this->recordByteLength){
+			throw new \ErrorException(
+          		'Cannot Save to file. Data for DBF is wrong Byte Length.'
+        	);
+		}
+
+		if(isset($index) && $index !== null && $index !== false ){
+			$this->moveTo($index);
+			$offset = $this->headerLength+($index*$this->recordByteLength);
+		}else{
+			$this->record = new XBaseRecord($this, $index,$serialized_record);
+			$offset = $this->headerLength+($this->recordCount*$this->recordByteLength);
+			$this->recordCount+=1;
+		}
+
+		fseek($this->fp,$offset);
+		fwrite($this->fp,$serialized_record);
+		
+		if ($this->record->inserted) $this->writeHeader();
+		
+		fflush($this->fp);
+
+		$this->close();
+		return $this->record;
+	}
+
+	function update($record){
+		$this->record = $record;
+		$this->writeRecord();
+	}
+
 	function appendRecord() {
-		$this->record = new XBaseRecord($this,$this->recordCount);
+		$this->record = new XBaseRecord($this, $this->recordCount,$this->recordCount);
 		$this->recordCount+=1;
 		return $this->record;
 	}
+
+	function readAll(){
+		
+		fseek($this->fp,$this->headerLength);
+		//Output lines until EOF is reached
+		echo "<ol>";
+
+		while(($buffer = fgets($this->fp, $this->recordByteLength)) !== false) {
+		  echo "<li>".$buffer. "</li>";
+		}
+		if (!feof($this->fp)) {
+        	echo "Error: unexpected fgets() fail\n";
+    	}
+		echo "</ol>";
+	}
 	function writeRecord() {
-		fseek($this->fp,$this->headerLength+($this->record->recordIndex*$this->recordByteLength));
-		$data = $this->record->serializeRawData();
+		
+		$data = $this->record->serialize();
 
+		if(strlen($data) !== $this->recordByteLength){
+			throw new \ErrorException(
+          		'Cannot Save to file. Data for DBF is wrong Byte Length.'
+        	);
+		}
+
+		$offset = $this->headerLength+($this->record->recordIndex*$this->recordByteLength);
+		fseek($this->fp,$offset);
 		fwrite($this->fp,$data);
-
 		if ($this->record->inserted) $this->writeHeader();
+		
 		fflush($this->fp);
 	}
 	function deleteRecord() {

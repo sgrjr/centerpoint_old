@@ -9,6 +9,5 @@ use App\Traits\PresentableTrait;
 
 class BaseModel extends Model
 {
-
 	use AskTrait, ManageTableTrait, ModelTrait, PresentableTrait;
 }

@@ -56,8 +56,23 @@ class XBaseTable {
     public function __construct ($name, $kipMemo = true) {
         $this->name=$name;
         $this->skipMemo = true;
+
+        $this->types = new \stdclass;
+        $this->types->DBFFIELD_TYPE_MEMO = "M";      // Memo type field.
+        $this->types->DBFFIELD_TYPE_CHAR = "C";      // Character field.
+        $this->types->DBFFIELD_TYPE_NUMERIC = "N";   // Numeric
+        $this->types->DBFFIELD_TYPE_FLOATING = "F";  // Floating point
+        $this->types->DBFFIELD_TYPE_DATE = "D";      // Date
+        $this->types->DBFFIELD_TYPE_LOGICAL = "L";   // Logical - ? Y y N n T t F f (? when not initialized).
+        $this->types->DBFFIELD_TYPE_DATETIME = "T";  // DateTime
+        $this->types->DBFFIELD_TYPE_INDEX = "I";    // Index 
+        $this->types->DBFFIELD_IGNORE_0 = "0";       // ignore this field
     }
     
+    function newRecord($fields = []) {
+        return new XBaseRecord($this, false, $fields);
+    }
+
     function open() {
         //file name of dbf file
 	    $fn = $this->name;
@@ -129,7 +144,8 @@ class XBaseTable {
                 $this->readBytes(7),	// reserved3
                 $this->readByte()!=0,	// indexed
                 $i,						// colIndex
-                $bytepos				// bytePos
+                $bytepos,				// bytePos,
+                $this
             );
             $bytepos+=$column->getLength();
             $this->columnNames[$i] = $column->getName();
@@ -160,6 +176,7 @@ class XBaseTable {
         if ($this->recordPos+1 >= $this->recordCount) return false;
         $this->recordPos++;
         $this->record = new XBaseRecord($this,$this->recordPos,$this->readBytes($this->recordByteLength));
+
         if ($this->record->isDeleted()) {
             $this->deleteCount++;
         }
@@ -175,7 +192,7 @@ class XBaseTable {
         $list = [];
 
         while ($record1=$this->nextRecord() ) {
-            $list[] = $record1->getRawData($model->getIgnoreColumns());
+            $list[] = $record1->getData();
         }
 
         $this->close();
@@ -287,23 +304,23 @@ class XBaseTable {
      public function getHeader(){
             $header = new \stdclass;
             $header->name = $this->name;
-            //$header->fp = $this->fp;
-            //$header->name = $this->isStream;
+            $header->fp = $this->fp;
+            $header->name = $this->isStream;
             $header->filePos = $this->filePos;
             $header->recordPos = $this->recordPos;
             $header->record = $this->record;
             $header->version = $this->version;
             $header->modifyDate = $this->modifyDate;
             $header->recordCount = $this->recordCount;
-            //$header->recordByteLength = $this->recordByteLength;
-           // $header->inTransaction = $this->inTransaction;
-            //$header->encrypted = $this->encrypted;
-            //$header->mdxFlag = $this->mdxFlag;
-            //$header->languageCode = $this->languageCode;
-            //$header->columns = $this->columns;
-            //$header->columnNames = $this->columnNames;
+            $header->recordByteLength = $this->recordByteLength;
+            $header->inTransaction = $this->inTransaction;
+            $header->encrypted = $this->encrypted;
+            $header->mdxFlag = $this->mdxFlag;
+            $header->languageCode = $this->languageCode;
+            $header->columns = $this->columns;
+            $header->columnNames = $this->columnNames;
             $header->headerLength = $this->headerLength;
-            //$header->backlist = $this->backlist;
+            $header->backlist = $this->backlist;
             $header->foxpro = $this->foxpro;
             $header->deleteCount = $this->deleteCount;
 

@@ -1,22 +1,6 @@
 <?
-/**
-* ----------------------------------------------------------------
-*			XBase
-*			api_conversion.php	
-* 
-*  Developer        : Erwin Kooi
-*  released at      : Jan 2006
-*  last modified by : Erwin Kooi
-*  date modified    : Jan 2006
-*
-*  You're free to use this code as long as you don't alter it
-*  Copyright (c) 2005 Cyane Dynamic Web Solutions
-*  Info? Mail to info@cyane.nl
-* 
-* --------------------------------------------------------------
-*
+/*
 * This file implements the default dBase functions as described in the PHP docs
-*
 **/
 
 require_once "Column.class.php";

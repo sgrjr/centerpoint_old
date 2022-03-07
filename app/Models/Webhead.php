@@ -1,21 +1,34 @@
 <?php namespace App\Models;
 
 use App\Traits\DbfTableTrait;
+use App\Traits\DbfValidationTrait;
 
 class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
 
 	use \App\Ask\AskTrait\HeadTrait;
   use DbfTableTrait;
+  use DbfValidationTrait;
 
-  public $fillable = ["KEY","ATTENTION", "DATE","BILL_1","BILL_2"."BILL_3","BILL_4","COMPANY","STREET","CITY","STATE","POSTCODE","VOICEPHONE","OSOURCE","ISCOMPLETE", "ROOM","DEPT","COUNTRY","FAXPHONE","EMAIL","SENDEMCONF","PO_NUMBER","CINOTE","CXNOTE","TRANSNO"];
+  public $fillable = ["INDEX","KEY","ATTENTION", "DATE","BILL_1","BILL_2"."BILL_3","BILL_4","COMPANY","STREET","CITY","STATE","POSTCODE","VOICEPHONE","OSOURCE","ISCOMPLETE", "ROOM","DEPT","COUNTRY","FAXPHONE","EMAIL","SENDEMCONF","PO_NUMBER","CINOTE","CXNOTE","TRANSNO","DATESTAMP","TIMESTAMP","LASTDATE","LASTTIME","LASTTOUCH","REMOTEADDR","DELETED"];
 
   public $timestamps = false;
 	protected $appends = [];
 	protected $table = "webheads";
   protected $indexes = ["REMOTEADDR", "KEY"];
 	protected $dbfPrimaryKey = 'REMOTEADDR';
-    protected $seed = [
+  protected $seed = [
     'dbf_webhead'
+  ];
+
+  protected $requiredAttributes = [
+    "KEY",
+    "DATE",
+    "DATESTAMP",
+    "TIMESTAMP",
+    "LASTDATE",
+    "LASTTIME",
+    "LASTTOUCH",
+    "REMOTEADDR"
   ];
 
   protected $attributeTypes = [ 
@@ -101,44 +114,139 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
       return $this;
     }
 
+  public function prepCartArgs($args, $user){
+
+    if(!$user || !$user === null || !$user->vendor){
+      throw new \ErrorException(
+          'VALIDATION FAILED. User or Vendor data missing to prepare cart properties.'
+        );
+    }
+
+    /* flatten any values from input */
+    if(isset($args['input'])){
+      foreach($args['input'] AS $key=>$val){
+        $newCart->$key = $val;
+      }
+      unset($args['input']);
+    }
+
+    /* MAKE SURE ARGS HAVE ISCOMPLETE */
+    if(!array_key_exists('ISCOMPLETE', $args) || $args['ISCOMPLETE'] === "" || $args['ISCOMPLETE'] === ""){
+      $args["ISCOMPLETE"] = false;
+    }
+
+    /* MAKE SURE ARGS HAVE OSOURCE */
+    if(!array_key_exists('OSOURCE', $args) || $args['OSOURCE'] === "" || $args['OSOURCE'] === ""){
+      $args["OSOURCE"] = "INTERNET ORDER";
+    }
+
+    /* MAKE SURE ARGS HAVE REMOTEADDR */
+    if(!array_key_exists('REMOTEADDR', $args) || $args['REMOTEADDR'] === "" || $args['REMOTEADDR'] === ""){
+      $uid=  time();//uniqid();
+      $zip = substr($user->KEY,0,5);
+      $args["REMOTEADDR"] = $uid . $zip;
+    }
+
+    /* MAKE SURE ARGS HAVE DATE && TIME INFO */
+    /*
+    DATE = 20220126
+    DATESTAMP = 20220126
+    TIMESTAMP = 10:57:17
+    LASTDATE = 20220126
+    LASTTIME = 10:57:17
+    
+    */
+    $now = \Carbon\Carbon::now();
+
+    if(!array_key_exists('DATE', $args) || $args['DATE'] === "" || $args['DATE'] === ""){
+      $args["DATE"] = $now->format("Ymd");
+    }
+    if(!array_key_exists('DATESTAMP', $args) || $args['DATESTAMP'] === "" || $args['DATESTAMP'] === ""){
+      $args["DATESTAMP"] = $now->format("Ymd");
+    }
+    if(!array_key_exists('LASTDATE', $args) || $args['LASTDATE'] === "" || $args['LASTDATE'] === ""){
+      $args["LASTDATE"] = $now->format("Ymd");
+    }
+    if(!array_key_exists('TIMESTAMP', $args) || $args['TIMESTAMP'] === "" || $args['TIMESTAMP'] === ""){
+      $args["TIMESTAMP"] = $now->format("h:i:s");
+    }
+    if(!array_key_exists('LASTTIME', $args) || $args['LASTTIME'] === "" || $args['LASTTIME'] === ""){
+      $args["LASTTIME"] = $now->format("h:i:s");
+    }
+
+    /* MAKE SURE ARGS HAVE USER & VENDOR INFO */
+    /*
+    KEY = string
+    ORDEREDBY = $email
+    LASTTOUCH = $email
+    BILL_1 = $user->vendor->ORGNAME;
+    BILL_2 =   "c/o " . $user->vendor->FIRST . " " . $user->vendor->LAST;
+    BILL_3 =   $user->vendor->STREET;
+    BILL_4 =   $user->vendor->CITY . ", " . $user->vendor->STATE . " " . $user->vendor->ZIP5;
+    COMPANY =  $user->vendor->ORGNAME;
+    STREET =  $user->vendor->STREET;
+    CITY =  $user->vendor->CITY;
+    STATE =  $user->vendor->STATE;
+    POSTCODE =  $user->vendor->ZIP5;
+    VOICEPHONE =  $user->vendor->VOICEPHONE;
+    */
+
+    if(!array_key_exists('KEY', $args) || $args['KEY'] === "" || $args['KEY'] === ""){
+      $args["KEY"] = $user->KEY;
+    }
+    if(!array_key_exists('ORDEREDBY', $args) || $args['ORDEREDBY'] === "" || $args['ORDEREDBY'] === ""){
+      $args["ORDEREDBY"] = $user->EMAIL;
+    }
+    if(!array_key_exists('LASTTOUCH', $args) || $args['LASTTOUCH'] === "" || $args['LASTTOUCH'] === ""){
+      $args["LASTTOUCH"] = $user->EMAIL;
+    }
+    if(!array_key_exists('BILL_1', $args) || $args['BILL_1'] === "" || $args['BILL_1'] === ""){
+      $args["BILL_1"] = $user->vendor->ORGNAME;
+    }
+    if(!array_key_exists('BILL_2', $args) || $args['BILL_2'] === "" || $args['BILL_2'] === ""){
+      $args["BILL_2"] = "c/o " . $user->vendor->FIRST . " " . $user->vendor->LAST;
+    }
+    if(!array_key_exists('BILL_3', $args) || $args['BILL_3'] === "" || $args['BILL_3'] === ""){
+      $args["BILL_3"] = $user->vendor->STREET;
+    }
+    if(!array_key_exists('BILL_4', $args) || $args['BILL_4'] === "" || $args['BILL_4'] === ""){
+      $args["BILL_4"] = $user->vendor->CITY . ", " . $user->vendor->STATE . " " . $user->vendor->ZIP5;
+    }
+    if(!array_key_exists('COMPANY', $args) || $args['COMPANY'] === "" || $args['COMPANY'] === ""){
+      $args["COMPANY"] = $user->vendor->ORGNAME;
+    }
+    if(!array_key_exists('STREET', $args) || $args['STREET'] === "" || $args['STREET'] === ""){
+      $args["STREET"] = $user->vendor->STREET;
+    }
+    if(!array_key_exists('CITY', $args) || $args['CITY'] === "" || $args['CITY'] === ""){
+      $args["CITY"] = $user->vendor->CITY;
+    }
+    if(!array_key_exists('STATE', $args) || $args['STATE'] === "" || $args['STATE'] === ""){
+      $args["STATE"] = $user->vendor->STATE;
+    }
+    if(!array_key_exists('POSTCODE', $args) || $args['POSTCODE'] === "" || $args['POSTCODE'] === ""){
+      $args["POSTCODE"] = $user->vendor->ZIP5;
+    }
+    if(!array_key_exists('VOICEPHONE', $args) || $args['VOICEPHONE'] === "" || $args['VOICEPHONE'] === ""){
+      $args["VOICEPHONE"] = $user->vendor->VOICEPHONEL;
+    }
+
+    return $args;
+  }
 
 	public static function newCart($user, $args, $returnCart = false){
     //\DB::enableQueryLog();
-      $input = [];
-
-      if(isset($args['input'])){
-        $input = $args['input'];
-      }
-	    $uid=  time();//uniqid();
-      
-      $zip = substr($user->KEY,0,5);
-      $REMOTEADDR =  $uid . $zip;
-      $mytime = \Carbon\Carbon::now()->format("Ymd");
-      
       $newCart = new \App\Models\Webhead;
-      $newCart->REMOTEADDR = $REMOTEADDR;
-      $newCart->KEY = $user->KEY;
-      $newCart->DATE = $mytime;
-      $newCart->BILL_1 = $user->vendor->ORGNAME;
-      $newCart->BILL_2 =   "c/o " . $user->vendor->FIRST . " " . $user->vendor->LAST;
-      $newCart->BILL_3 =   $user->vendor->STREET;
-      $newCart->BILL_4 =   $user->vendor->CITY . ", " . $user->vendor->STATE . " " . $user->vendor->ZIP5;
-      $newCart->COMPANY =  $user->vendor->ORGNAME;
-      $newCart->STREET =  $user->vendor->STREET;
-      $newCart->CITY =  $user->vendor->CITY;
-      $newCart->STATE =  $user->vendor->STATE;
-      $newCart->POSTCODE =  $user->vendor->ZIP5;
-      $newCart->VOICEPHONE =  $user->vendor->VOICEPHONE;
-      $newCart->OSOURCE = "INTERNET ORDER";
-      $newCart->ISCOMPLETE = false;
+      $args = $newCart->prepCartArgs($args,$user);
+      $newCart->validate($args);
+      $dbf_record = $newCart->getDbfTable()->newRecord($args);
+      $dbf_record->save();
+      dd($dbf_record);
 
-      foreach($input AS $key=>$val){
-        $newCart->$key = $val;
-      }
-  //must save to DBF first to get the new INDEX
+      //must save to DBF first to get the new INDEX
        $newCart->INDEX = $newCart->dbfSave();
        $newCart->save();
-    // file_put_contents('time', json_encode(\DB::getQueryLog()) . '----' .$newCart->INDEX . "\n", FILE_APPEND);
+        // file_put_contents('time', json_encode(\DB::getQueryLog()) . '----' .$newCart->INDEX . "\n", FILE_APPEND);
 
        if($returnCart){
           return $newCart;

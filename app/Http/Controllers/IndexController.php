@@ -27,6 +27,31 @@ class IndexController extends Controller
     ]);
   }
 
+  protected function dbf(Request $request)
+    {   
+///
+      //$web = \App\Models\Webhead::dbf()->index(2);
+      $web = new \App\Models\Webhead();
+      $web->KEY = "TEST666";
+      $index = $web->dbfSave();
+      return json_encode($index->data);
+      return json_encode($index);
+      $returnCart = false;
+      $args = [];
+      $newC = \App\Models\Webhead::newCart($user, $args, $returnCart);
+      return $newC;
+      /*for($i=0; $i<100; $i++){
+          $data = \App\Models\Webhead::dbf()->findByIndex($i);
+          $data->updateDbf("FASTAVAIL","TEST");
+          $data->dbfSave();
+      }
+  
+      return view('dbf',[
+          "data" => $data
+        ]);
+        */
+    }
+
     protected function index(Request $request)
     {	
           $initial_state = '{}';

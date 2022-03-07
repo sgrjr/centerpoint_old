@@ -17,6 +17,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     protected $table = 'inventories';
     protected $indexes = ["ISBN"];
     public $timestamps = false;
+    public $fillable = ["INDEX","FASTAVAIL","ISBN","AUTHOR","TITLE",'PUBDATE',"STATUS","CAT","FCAT","SCAT","FORMAT","PAGES","SERIES","SOPLAN","INVNATURE", "AUTHORKEY","TITLEKEY", "SUBTITLE", "HIGHLIGHT", "MARC", "PUBLISHER"];
 
     protected $seed = [
       'dbf_inventory'

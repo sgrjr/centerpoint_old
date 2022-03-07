@@ -7,6 +7,17 @@ use Config, Schema;
 
 trait AskTrait {
 
+    public $changedProperties;
+
+    public function getChangedProperties(){
+        return $this->changedProperties;
+    }
+
+
+    public function updateDbf($propertyName, $value){
+        $this->changedProperties[$propertyName] = $value;
+        return $this;
+    }
     public static function xbaseQueryBuilder($root, $writable, $import)
     {
        return new \App\Ask\XbaseQueryBuilder($root, $writable, $import);
@@ -44,70 +55,8 @@ trait AskTrait {
  public function dbfSave()
     {
         $table = $this->dbf(true)->getTable();
-
         if(is_array($table)){$table = $table[0];}
-
-        $table->open();
-
-        $headers = $table->getColumnNames();
-        
-        // If the model already exists in the database we can just update our record
-        // that is already in this database using the current IDs in this "where"
-        // clause to only update this model. Otherwise, we'll just insert them.
-
-        $table->moveTo((int) $this->INDEX);
-        $record = $table->getRecord();
-
-        if ($this->INDEX !== null && $record !== null) {
-
-            foreach($this->attributes AS $columnName => $value){
-                if(strtolower($columnName) !== "index" && in_array($columnName, $headers)) {
-                 $record->setObjectByName($columnName,$value);
-                }
-            }
-
-            $table->writeRecord();
-
-           return $this->INDEX;
-        }
-
-        // If the model is brand new, we'll insert it into our database and set the
-        // ID attribute on the model to the value of the newly inserted row's ID
-        // which is typically an auto-increment value managed by the database.
-        else {
- 
-	        if ($this->fireModelEvent('creating') === false) {
-	            return false;
-	        }
-
-            /* insert new data */
-            $r = $table->appendRecord();
-           
-            foreach($this->attributes AS $key=>$value){
-
-                if(strtolower($key) !== "index" && in_array($key, $headers)) {
-                    $r->setObjectByName($key,$value);
-                }
-            }
-
-            $table->writeRecord();
-
-	        // We will go ahead and set the exists property to true, so that it is set when
-	        // the created event is fired, just in case the developer tries to update it
-	        // during the event. This will allow them to do so and run an update here.
-	        //$this->exists = true;
-	        $this->wasRecentlyCreated = true;
-	        //$this->fireModelEvent('created', false);
-	        $saved = $table->getRecordCount()-1;
-        }
-
-        if ($saved) {
-            //$this->finishSave($options);
-        }
-        
-        $table->close();
-
-        return $saved;
+        return $table->save($this->serialize(), $this->INDEX, isset($this->INDEX) && $this->INDEX !== null);
     }
 
 /*
@@ -170,11 +119,10 @@ trait AskTrait {
         return static::xbaseQueryBuilder($model, $writable, $import);
     }
 
-    public static function getDbfTable(){
-        $model = new static;
+    public function getDbfTable(){
         $table = false;
 
-        foreach($model->getSeeds() AS $seed){
+        foreach($this->getSeeds() AS $seed){
 
             if($seed["type"] === "dbf"){
                 $table = new WritableTable($seed["path"]);
@@ -185,5 +133,9 @@ trait AskTrait {
         return $table;
     }
 
-}
+    public function serialize(){
+        $dbf = $this->getDbfTable()->newRecord( $this->toArray() );
+        return $dbf->serialize();
+    }
 
+}
