@@ -3,7 +3,7 @@ export default (variables) => {
   return {
 
     query:`  mutation ($input: UpdateCartInput!){
-                updateCart(input: $input){
+                updateOrCreateCart(input: $input){
                   id
                           INDEX
                           KEY

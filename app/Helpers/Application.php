@@ -263,7 +263,7 @@ class Application {
         if ($user->can("ADMIN_APP")){
           $links->drawer->push([ "url"=>"/dashboard/admin", "text"=> 'Admin',"icon"=>"HEADING"]);
           $links->drawer->push([ "url"=>"/dashboard/admin/users", "text"=> 'Users',"icon"=>"personSearch"]);
-          $links->drawer->push([ "url"=>"/dashboard/admin/inventories", "text"=> 'Inventory',"icon"=>"books"]);
+          $links->drawer->push([ "url"=>"/dashboard/admin/titles", "text"=> 'Inventory',"icon"=>"books"]);
           $links->drawer->push([ "url"=>"/dashboard/admin/vendors", "text"=> 'Vendors',"icon"=>"store"]);
           $links->drawer->push([ "url"=>"/dashboard/admin/db", "text"=> 'Database',"icon"=>"dashboard"]);
           $links->drawer->push([ "url"=>"/dashboard/admin/orders", "text"=> 'Orders',"icon"=>"paid"]);

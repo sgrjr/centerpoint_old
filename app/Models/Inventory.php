@@ -89,18 +89,22 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
         return $this->hasMany('App\Models\Booktext',"KEY","ISBN");
 	  }
 
-   public function getUserData()
+   public function getUserData($user = false)
     {
 
-      if(request()->user() !== null){
-        $user = new UserTitleData($this, request()->user());
+      if($user === false){
+        $user === request()->user;
+      }
+
+      if($user !== null){
+        $u = new UserTitleData($this, $user);
 
          return (object) [
-          "price"=> $user->price,
-          "purchased"=>$user->purchased,
-          "onstandingorder"=>$user->onstandingorder,
-          "discount"=>$user->discount,
-          "isbn"=>$user->isbn
+          "price"=> $u->price,
+          "purchased"=>$u->purchased,
+          "onstandingorder"=>$u->onstandingorder,
+          "discount"=>$u->discount,
+          "isbn"=>$u->isbn
         ];
       }else{
         return new \stdclass;
@@ -182,6 +186,13 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     }
 
     public static function getCPTitles(){
+
+      return static::
+        where("PUBDATE",">=", Misc::getYearMonth()["machine"]."00")
+        ->where("INVNATURE","CENTE")
+        ->where("PUBDATE","<", Misc::getYearMonth(1)["machine"]."00");
+
+      /*
       $data = Misc::gauranteedBooksCount(15, [
         Misc::getYearMonth()["machine"]."00", 
         Misc::getYearMonth(-2)["machine"]."00",
@@ -189,27 +200,41 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
         Misc::getYearMonth(-12)["machine"]."00"
       ]);
 
-      return Misc::dataToPaginator($data);  
+      return $data;
+
+      return Misc::dataToPaginator($data); */ 
     }
 
-    public static  function getTradeTitles(){  
+    public static  function getTradeTitles(){ 
+
+      return static::
+        where("PUBDATE",">=", Misc::getYearMonth(1)["machine"]."00")
+        ->where("INVNATURE","TRADE");
+
+      /*
+
       $data = Misc::gauranteedBooksCount(15, [
         Misc::getYearMonth()["machine"]."00", 
         Misc::getYearMonth(-1)["machine"]."00", 
         Misc::getYearMonth(-2)["machine"]."00",
         Misc::getYearMonth(-3)["machine"]."00"
       ], "TRADE"); 
-      return Misc::dataToPaginator($data);  
+      return Misc::dataToPaginator($data);*/  
     }
 
-    public static  function getAdvancedTitles(){  
+    public static  function getAdvancedTitles(){ 
+
+    return static::
+        where("PUBDATE",">=", Misc::getYearMonth(1)["machine"]."00")
+        ->where("INVNATURE","CENTE");
+       /*  
       $data = Misc::gauranteedBooksCount(30, [ 
         Misc::getYearMonth(1)["machine"]."00", 
         Misc::getYearMonth()["machine"]."00",
         Misc::getYearMonth(-1)["machine"]."00",
         Misc::getYearMonth(-2)["machine"]."00"
       ]);
-      return Misc::dataToPaginator($data);  
+      return Misc::dataToPaginator($data);  */
     }
 
 
@@ -255,11 +280,19 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
     }
 
-    public function getSearchSuggestions(){
-      return [
-        "paginatorInfo"=>["total"=>12, "count"=>12],
-        "data"=> \Config::get('cp')["search_suggestions"]
-      ];
+    public function getSearchSuggestions() {
+      return static::where('id', 122)
+        ->orWhere('id', 55)
+        ->orWhere('id', 65)
+        ->orWhere('id', 75)
+        ->orWhere('id', 85)
+        ->orWhere('id', 95)
+        ->orWhere('id', 155)
+        ->orWhere('id', 255)
+        ->orWhere('id', 355)
+        ->orWhere('id', 655)
+        ->orWhere('id', 755)
+        ->orWhere('id', 550);
     }
 
   public function scopeCustomer(Builder $query): Builder {

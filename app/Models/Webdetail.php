@@ -5,7 +5,7 @@ use \App\Models\Inventory;
 
 class Webdetail extends BaseModel implements \App\Interfaces\ModelInterface {
 
-	use \App\Ask\AskTrait\DetailTrait;
+  use \App\Ask\AskTrait\DetailTrait;
   use DbfTableTrait;
    
    	public $timestamps = false;
@@ -50,71 +50,73 @@ class Webdetail extends BaseModel implements \App\Interfaces\ModelInterface {
 	    return $this->belongsTo('\App\Models\User','KEY','KEY');
 	  }
 
-	//responding to events
-public static function prepareUpdateCartTitle($model){
-  return $model;
+
+public function fillAttributes($user = false){
+
+   //fininsh figuring creating and updating carttitles and eventually deleting them
+    if(!$user){$user = request()->user;}
+
+    $now = \Carbon\Carbon::now();
+
+    $this
+      ->setIfNotSet('REQUESTED', 1)
+      ->setIfNotSet('KEY',$user->KEY)
+      ->setIfNotSet('REMOTEADDR','getRemoteAddr', false, $user)
+      ->setIfNotSet('SHIPPED', 0)
+      ->setIfNotSet('PROD_NO',null);
+
+    // Set Attributes Related to Book
+    $book = Inventory::where('ISBN', $this->PROD_NO)->first();
+
+    $bookAtts = ["ARTICLE","TITLE","AUTHOR","LISTPRICE","STATUS","AUTHORKEY","TITLEKEY","FORMAT","SERIES","PUBLISHER","CAT","PAGES","PUBDATE","INVNATURE","SOPLAN"];
+    foreach($bookAtts AS $att){
+        $this->setIfNotSet($att, $book->$att);
+    }
+
+    //Set Attributes Viewer/Vendor Related
+    $viewerTitleData = $book->getUserData($user);
+    //viewerTitleData is returning an empty object WHY WHY WHY WhY ????
+
+      $this
+      ->setIfNotSet('LISTPRICE',round(floatval($book->LISTPRICE),2), true)
+      ->setIfNotSet('SALEPRICE',$viewerTitleData->price, true)
+      ->setIfNotSet('DISC',$viewerTitleData->discount, true)
+      ->setIfNotSet('DATE',\Carbon\Carbon::now()->format("Ymd"))
+      ->setIfNotSet('DATESTAMP',\Carbon\Carbon::now()->format("Ymd"))
+      ->setIfNotSet('LASTDATE',\Carbon\Carbon::now()->format("Ymd"), true)
+      ->setIfNotSet('TIMESTAMP',\Carbon\Carbon::now()->format("H"))
+      ->setIfNotSet('LASTTIME',\Carbon\Carbon::now()->format("H"), true)
+      ->setIfNotSet('ORDEREDBY',$user->SNAME)
+      ->setIfNotSet('LASTTOUCH',$user->SNAME, true)
+      ->setIfNotSet('COMPUTER',$user->SNAME)
+      ->setIfNotSet('USERPASS',null);//disabled as returns TOO LONG error Why whould UPASS be needed here anyhow? $user->UPASS      
+
+      return $this;
+  }
+
+public function getRemoteAddr($user){
+    $cart = \App\Models\Webhead::dbfUpdateOrCreate(false, [], false, false, $user);
+    return $cart->REMOTEADDR;
 }
 
-public static function prepareNewCartTitle($model){
-
-      $user = request()->user();
-
-      if($model->REMOTEADDR === false || $model->REMOTEADDR === ""){
-        $cart = \App\Models\Webhead::newCart($user, [], true);
-        $model->REMOTEADDR = $cart->REMOTEADDR;
-      }
-
-      $model->KEY = $user->KEY;
-      $model->SHIPPED = 0;
-
-      $bookAtts = ["ARTICLE","TITLE","AUTHOR","LISTPRICE","STATUS","AUTHORKEY","TITLEKEY","FORMAT","SERIES","PUBLISHER","CAT","PAGES","PUBDATE","INVNATURE","SOPLAN"];
-      $book = Inventory::where('ISBN', $model->PROD_NO)->first();
-      
-      $viewerTitleData = $book->getUserData($user);
-      
-      foreach($bookAtts AS $att){
-        $model->$att = $book->$att;
-      }
-     
-      $model->LISTPRICE = round(floatval($model->LISTPRICE),2);
-      $model->SALEPRICE = $viewerTitleData->price;
-      $model->DISC = $viewerTitleData->discount;
-      $model->DATE = \Carbon\Carbon::now()->format("Ymd"); //20171205
-      $model->DATESTAMP = \Carbon\Carbon::now()->format("Ymd"); //20171208
-      $model->LASTDATE = \Carbon\Carbon::now()->format("Ymd"); //20171208
-      $model->TIMESTAMP = \Carbon\Carbon::now()->format("H"); //12:17:07
-      $model->LASTTIME = \Carbon\Carbon::now()->format("H"); //12:17:07
-
-      $model->ORDEREDBY = $user->SNAME;//stephanieiberer   
-      $model->LASTTOUCH = $user->SNAME; //stephanieiberer
-      $model->COMPUTER = $user->SNAME; //stephanieiberer
-      $model->USERPASS = null; //disabled as returns TOO LONG error Why whould UPASS be needed here anyhow? $user->UPASS;       
-
-      return $model;
-}
 	protected static function boot()
     {
         parent::boot();
 
         Webdetail::creating(function ($model) {
-            $model = static::prepareNewCartTitle($model);
+            //;
         });
 
         Webdetail::saved(function ($model) {
-        	if(!isset($model->INDEX)){
-            	$model->INDEX = $model->dbfSave();
-            	$model->save();
-        	}else{
-        		$model->dbfSave();
-        	}
+        	//
         });
 
         Webdetail::updating(function ($model) {
-            $model = static::prepareUpdateCartTitle($model);
+           //
         });
 
         Webdetail::deleted(function ($model) {
-           $model->dbfDelete();
+           //
         });
 
 

@@ -2,7 +2,7 @@ type OrderItem {
     coverArt: String
     id: ID!
     url: String
-    INDEX: String!
+    INDEX: String
     KEY: String
     TRANSNO: String
     REQUESTED: Int

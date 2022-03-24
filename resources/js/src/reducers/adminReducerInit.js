@@ -11,11 +11,11 @@ export default {
       adminQuery: `query{viewer{EMAIL}}`,
       titlesQuery: {
         "page":1,
-        "perPage":10
+        "first":10
       },
       titleQuery: {
         "page":1,
-        "perPage":10,
+        "first":10,
         "isbn": "9781611731996"
       },
 }

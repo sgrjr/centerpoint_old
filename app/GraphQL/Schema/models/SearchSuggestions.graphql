@@ -1,4 +1,0 @@
-type SearchSuggestions {
-    paginatorInfo: Paginator
-    data:[Title] 
-}

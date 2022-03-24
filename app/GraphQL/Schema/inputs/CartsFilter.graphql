@@ -1,4 +1,5 @@
 input CartsFilter {
     key: String @like(key:"KEY")
     iscomplete: Boolean @like(key:"ISCOMPLETE")
+    remoteaddr: String @eq(key:"REMOTEADDR")
 }

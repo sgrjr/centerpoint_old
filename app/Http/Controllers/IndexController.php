@@ -29,27 +29,42 @@ class IndexController extends Controller
 
   protected function dbf(Request $request)
     {   
-///
-      //$web = \App\Models\Webhead::dbf()->index(2);
-      $web = new \App\Models\Webhead();
-      $web->KEY = "TEST666";
-      $index = $web->dbfSave();
-      return json_encode($index->data);
-      return json_encode($index);
-      $returnCart = false;
-      $args = [];
-      $newC = \App\Models\Webhead::newCart($user, $args, $returnCart);
-      return $newC;
-      /*for($i=0; $i<100; $i++){
-          $data = \App\Models\Webhead::dbf()->findByIndex($i);
-          $data->updateDbf("FASTAVAIL","TEST");
-          $data->dbfSave();
+
+      $vars = [
+        "input" => [
+          "id"=> 4773,
+          "PROD_NO" => 9781984841537,
+          "REQUESTED" => 10,
+          "REMOTEADDR" => "164674587001060"
+        ]
+      ];
+      $user = \App\Models\User::find(1);
+
+      $result = \App\Models\Webdetail::where("id",4773)->first()->dbfDelete();
+
+      //$web = \App\Models\Webhead::where("INDEX",230)->first();
+      //$web->PO_NUMBER = "999";
+     
+      //$mod = $web->dbfSave();
+
+      echo "<h1>Write Log</h1><ol>";
+      $log = json_decode(file_get_contents("DBF_WRITES.txt"));
+
+      if($log !== null){
+        foreach($log AS $entry){
+          echo "<li style='border-bottom:solid 1px gray;'>".$entry->string."</li>";
+
+          if(isset($entry->more->index)){
+            $dbf = new \App\Ask\DatabaseType\PHPXbase\XBaseWritableTable($entry->file_name);
+            $dbf->moveTo($entry->more->index);
+            echo "<div>".$dbf->getRecord()->serialize()."</div>";
+            $dbf->close();
+          }
+
+          echo "<p>SENT/WRITTEN [".$entry->time_stamp." - ".strlen($entry->string)." - ".$entry->file_name." - ".json_encode($entry->more)."]</p>";
+        }
       }
-  
-      return view('dbf',[
-          "data" => $data
-        ]);
-        */
+      echo "</ol>";
     }
 
     protected function index(Request $request)

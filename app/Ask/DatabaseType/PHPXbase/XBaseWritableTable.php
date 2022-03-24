@@ -89,6 +89,7 @@ class XBaseWritableTable extends XBaseTable {
 
 	    $fn = $this->name;
 	    $this->isStream=strpos($this->name,"://")!==false;
+
 	    if (!$this->isStream) {
 	    	if (!file_exists($fn)) $fn = $this->name.".DBF";
 	    	if (!file_exists($fn)) $fn = $this->name.".dbf";
@@ -97,11 +98,7 @@ class XBaseWritableTable extends XBaseTable {
     	}
     	$this->name = $fn;
     	
-    	if (file_exists($fn) && true) {
-		    if ($this->fp = fopen($fn,"r+")) $this->readHeader();
-	    } else {
-		    if ($this->fp = fopen($fn,"w+")) $this->writeHeader();
-    	}
+		if($this->fp = fopen($fn,"r+")) $this->readHeader();
 
 		return $this->fp!=false;
     }
@@ -144,34 +141,73 @@ class XBaseWritableTable extends XBaseTable {
         $this->writeChar(0x0d);
 	}
 
-	function save($serialized_record, $index){
+	function save($serialized_record, $model){		
 		$this->open();
-
+	
 		if(strlen($serialized_record) !== $this->recordByteLength){
 			throw new \ErrorException(
           		'Cannot Save to file. Data for DBF is wrong Byte Length.'
         	);
 		}
 
-		if(isset($index) && $index !== null && $index !== false ){
-			$this->moveTo($index);
-			$offset = $this->headerLength+($index*$this->recordByteLength);
+		if($model->INDEX !== null){
+			$model->INDEX = intVal($model->INDEX);
+		}
+
+		if(isset($model->INDEX) && $model->INDEX !== null && $model->INDEX !== false && $model->INDEX <= $this->count()+1){
+			$this->moveTo($model->INDEX);
+			$offset = $this->headerLength+($model->INDEX*$this->recordByteLength);
 		}else{
-			$this->record = new XBaseRecord($this, $index,$serialized_record);
+			$this->record = new XBaseRecord($this, null, $serialized_record);
 			$offset = $this->headerLength+($this->recordCount*$this->recordByteLength);
+			$model->INDEX = $this->recordCount;
 			$this->recordCount+=1;
 		}
+		
+		$this->log($serialized_record, ["index"=>$this->record->recordIndex]);
 
 		fseek($this->fp,$offset);
 		fwrite($this->fp,$serialized_record);
 		
 		if ($this->record->inserted) $this->writeHeader();
 		
+		$this->moveTo($model->INDEX);
 		fflush($this->fp);
-
 		$this->close();
-		return $this->record;
+
+		foreach($this->record->getData(["DELETED"]) AS $k=>$v){
+			$model->$k = $v;
+		}
+
+		return $model;
 	}
+
+	function delete($model){
+		if($this->fp === null){$this->open();}
+		$this->moveTo($model->INDEX);
+		$this->deleteRecord();
+		$this->close();
+		return true;
+	}
+
+	function unDelete($model){
+		if($this->fp === null){$this->open();}
+		$this->moveTo($model->INDEX);
+		$this->undeleteRecord();
+		$this->close();
+		return true;
+	}
+/*
+	/// If the model already exists in the database we can just delete our record
+        // that is already in this database using the current IDs in this "where"
+        // clause to only update this model. Otherwise, we'll just insert them.
+        $table->moveTo((int) $this->INDEX);
+        $record = $table->getRecord();
+        if ($record !== null) {
+            $record->setDeleted(true);
+            $table->writeRecord();
+        }
+        */
 
 	function update($record){
 		$this->record = $record;
@@ -198,6 +234,27 @@ class XBaseWritableTable extends XBaseTable {
     	}
 		echo "</ol>";
 	}
+
+	function log($var, $additional_data = []){
+		$log_file = "DBF_WRITES.txt";
+		$newLog = new \stdclass;
+
+		if(file_exists($log_file)){
+			$log = json_decode(file_get_contents($log_file));
+			if($log === null){$log = [];}
+		}else{
+			$log = [];
+		}
+
+		$newLog->string = $var;
+		$newLog->file_name = $this->getName();
+		$newLog->time_stamp = (new \Datetime)->format('D M d, Y h:m:s A');
+		$newLog->more = $additional_data;
+
+		$log[] = $newLog;
+		file_put_contents($log_file,json_encode($log));
+	}
+
 	function writeRecord() {
 		
 		$data = $this->record->serialize();
@@ -218,14 +275,12 @@ class XBaseWritableTable extends XBaseTable {
 	function deleteRecord() {
 		$this->record->deleted=true;
 		fseek($this->fp,$this->headerLength+($this->record->recordIndex*$this->recordByteLength));
-		fwrite($this->fp,"!");
-		flush($this->fp);
+		fwrite($this->fp,"*");
 	}
 	function undeleteRecord() {
 		$this->record->deleted=false;
 		fseek($this->fp,$this->headerLength+($this->record->recordIndex*$this->recordByteLength));
 		fwrite($this->fp," ");
-		flush($this->fp);
 	}
 	function pack() {
 		$newRecordCount = 0;

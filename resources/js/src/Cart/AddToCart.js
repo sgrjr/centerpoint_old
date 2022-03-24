@@ -17,9 +17,9 @@ class AddToCart extends Component{
 
       if(this.props.viewer.KEY){
         if(!this.props.viewer.vendor || this.props.viewer.vendor.carts === undefined){
-          this.props.cartGet(cartQuery({perPage:20}))
+          this.props.cartGet(cartQuery({first:20}))
         }else if(this.props.authenticated && !this.props.viewer || this.props.viewer.vendor.carts.length < 1){
-          this.props.cartGet(cartQuery({perPage:20}))
+          this.props.cartGet(cartQuery({first:20}))
         }
       }
     }

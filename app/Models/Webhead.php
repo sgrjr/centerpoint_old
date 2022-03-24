@@ -9,7 +9,7 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
   use DbfTableTrait;
   use DbfValidationTrait;
 
-  public $fillable = ["INDEX","KEY","ATTENTION", "DATE","BILL_1","BILL_2"."BILL_3","BILL_4","COMPANY","STREET","CITY","STATE","POSTCODE","VOICEPHONE","OSOURCE","ISCOMPLETE", "ROOM","DEPT","COUNTRY","FAXPHONE","EMAIL","SENDEMCONF","PO_NUMBER","CINOTE","CXNOTE","TRANSNO","DATESTAMP","TIMESTAMP","LASTDATE","LASTTIME","LASTTOUCH","REMOTEADDR","DELETED"];
+  public $fillable = ["INDEX","KEY","ATTENTION", "DATE","BILL_1","BILL_2","BILL_3","BILL_4","COMPANY","STREET","CITY","STATE","POSTCODE","VOICEPHONE","OSOURCE","ISCOMPLETE", "ROOM","DEPT","COUNTRY","FAXPHONE","EMAIL","SENDEMCONF","PO_NUMBER","CINOTE","CXNOTE","TRANSNO","DATESTAMP","TIMESTAMP","LASTDATE","LASTTIME","LASTTOUCH","REMOTEADDR","DELETED"];
 
   public $timestamps = false;
 	protected $appends = [];
@@ -74,8 +74,61 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
     }else{
       return \App\Models\Vendor::ask()->where("KEY","===", $key)->first();
     }
+  }
 
-    
+  public function generateRemoteAddr($user){
+      $uid=  time();//uniqid();
+      $zip = substr($user->KEY,0,5);
+      return $uid . $zip;
+  }
+
+  public function fillAttributes($user = false){
+
+    /* MAKE SURE ARGS HAVE USER & VENDOR INFO */
+    /*
+    KEY = string
+    ORDEREDBY = $email
+    LASTTOUCH = $email
+    BILL_1 = $user->vendor->ORGNAME;
+    BILL_2 =   "c/o " . $user->vendor->FIRST . " " . $user->vendor->LAST;
+    BILL_3 =   $user->vendor->STREET;
+    BILL_4 =   $user->vendor->CITY . ", " . $user->vendor->STATE . " " . $user->vendor->ZIP5;
+    COMPANY =  $user->vendor->ORGNAME;
+    STREET =  $user->vendor->STREET;
+    CITY =  $user->vendor->CITY;
+    STATE =  $user->vendor->STATE;
+    POSTCODE =  $user->vendor->ZIP5;
+    VOICEPHONE =  $user->vendor->VOICEPHONE;
+    */
+
+    if(!$user){$user = request()->user;}
+
+    $now = \Carbon\Carbon::now();
+
+    $this
+      ->setIfNotSet('KEY',$user->KEY)
+      ->setIfNotSet('REMOTEADDR',$this->generateRemoteAddr($user))
+      ->setIfNotSet('ISCOMPLETE', false)
+      ->setIfNotSet('OSOURCE','INTERNET ORDER')
+      ->setIfNotSet('DATE', $now->format("Ymd"))
+      ->setIfNotSet('DATESTAMP', $now->format("Ymd"))
+      ->setIfNotSet('LASTDATE', $now->format("Ymd"))
+      ->setIfNotSet('TIMESTAMP', $now->format("h:i:s"))
+      ->setIfNotSet('LASTTIME', $now->format("h:i:s"))
+      ->setIfNotSet('ORDEREDBY',$user->EMAIL)
+      ->setIfNotSet('LASTTOUCH',$user->KEY)
+      ->setIfNotSet('BILL_1',$user->vendor->ORGNAME)
+      ->setIfNotSet('BILL_2',"c/o " . $user->vendor->FIRST . " " . $user->vendor->LAST)
+      ->setIfNotSet('BILL_3',$user->vendor->STREET)
+      ->setIfNotSet('BILL_4',$user->vendor->CITY . ", " . $user->vendor->STATE . " " . $user->vendor->ZIP5Y)
+      ->setIfNotSet('COMPANY',$user->vendor->ORGNAME)
+      ->setIfNotSet('STREET',$user->vendor->STREET)
+      ->setIfNotSet('CITY',$user->vendor->CITY)
+      ->setIfNotSet('STATE',$user->vendor->STATE)
+      ->setIfNotSet('POSTCODE',$user->vendor->ZIP5)
+      ->setIfNotSet('VOICEPHONE',$user->vendor->VOICEPHONE);
+
+      return $this;
   }
 
     public function updateShipping()
@@ -109,150 +162,9 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
       }
       
       $this->dbfSave();
-      $this->save();
       
       return $this;
     }
-
-  public function prepCartArgs($args, $user){
-
-    if(!$user || !$user === null || !$user->vendor){
-      throw new \ErrorException(
-          'VALIDATION FAILED. User or Vendor data missing to prepare cart properties.'
-        );
-    }
-
-    /* flatten any values from input */
-    if(isset($args['input'])){
-      foreach($args['input'] AS $key=>$val){
-        $newCart->$key = $val;
-      }
-      unset($args['input']);
-    }
-
-    /* MAKE SURE ARGS HAVE ISCOMPLETE */
-    if(!array_key_exists('ISCOMPLETE', $args) || $args['ISCOMPLETE'] === "" || $args['ISCOMPLETE'] === ""){
-      $args["ISCOMPLETE"] = false;
-    }
-
-    /* MAKE SURE ARGS HAVE OSOURCE */
-    if(!array_key_exists('OSOURCE', $args) || $args['OSOURCE'] === "" || $args['OSOURCE'] === ""){
-      $args["OSOURCE"] = "INTERNET ORDER";
-    }
-
-    /* MAKE SURE ARGS HAVE REMOTEADDR */
-    if(!array_key_exists('REMOTEADDR', $args) || $args['REMOTEADDR'] === "" || $args['REMOTEADDR'] === ""){
-      $uid=  time();//uniqid();
-      $zip = substr($user->KEY,0,5);
-      $args["REMOTEADDR"] = $uid . $zip;
-    }
-
-    /* MAKE SURE ARGS HAVE DATE && TIME INFO */
-    /*
-    DATE = 20220126
-    DATESTAMP = 20220126
-    TIMESTAMP = 10:57:17
-    LASTDATE = 20220126
-    LASTTIME = 10:57:17
-    
-    */
-    $now = \Carbon\Carbon::now();
-
-    if(!array_key_exists('DATE', $args) || $args['DATE'] === "" || $args['DATE'] === ""){
-      $args["DATE"] = $now->format("Ymd");
-    }
-    if(!array_key_exists('DATESTAMP', $args) || $args['DATESTAMP'] === "" || $args['DATESTAMP'] === ""){
-      $args["DATESTAMP"] = $now->format("Ymd");
-    }
-    if(!array_key_exists('LASTDATE', $args) || $args['LASTDATE'] === "" || $args['LASTDATE'] === ""){
-      $args["LASTDATE"] = $now->format("Ymd");
-    }
-    if(!array_key_exists('TIMESTAMP', $args) || $args['TIMESTAMP'] === "" || $args['TIMESTAMP'] === ""){
-      $args["TIMESTAMP"] = $now->format("h:i:s");
-    }
-    if(!array_key_exists('LASTTIME', $args) || $args['LASTTIME'] === "" || $args['LASTTIME'] === ""){
-      $args["LASTTIME"] = $now->format("h:i:s");
-    }
-
-    /* MAKE SURE ARGS HAVE USER & VENDOR INFO */
-    /*
-    KEY = string
-    ORDEREDBY = $email
-    LASTTOUCH = $email
-    BILL_1 = $user->vendor->ORGNAME;
-    BILL_2 =   "c/o " . $user->vendor->FIRST . " " . $user->vendor->LAST;
-    BILL_3 =   $user->vendor->STREET;
-    BILL_4 =   $user->vendor->CITY . ", " . $user->vendor->STATE . " " . $user->vendor->ZIP5;
-    COMPANY =  $user->vendor->ORGNAME;
-    STREET =  $user->vendor->STREET;
-    CITY =  $user->vendor->CITY;
-    STATE =  $user->vendor->STATE;
-    POSTCODE =  $user->vendor->ZIP5;
-    VOICEPHONE =  $user->vendor->VOICEPHONE;
-    */
-
-    if(!array_key_exists('KEY', $args) || $args['KEY'] === "" || $args['KEY'] === ""){
-      $args["KEY"] = $user->KEY;
-    }
-    if(!array_key_exists('ORDEREDBY', $args) || $args['ORDEREDBY'] === "" || $args['ORDEREDBY'] === ""){
-      $args["ORDEREDBY"] = $user->EMAIL;
-    }
-    if(!array_key_exists('LASTTOUCH', $args) || $args['LASTTOUCH'] === "" || $args['LASTTOUCH'] === ""){
-      $args["LASTTOUCH"] = $user->EMAIL;
-    }
-    if(!array_key_exists('BILL_1', $args) || $args['BILL_1'] === "" || $args['BILL_1'] === ""){
-      $args["BILL_1"] = $user->vendor->ORGNAME;
-    }
-    if(!array_key_exists('BILL_2', $args) || $args['BILL_2'] === "" || $args['BILL_2'] === ""){
-      $args["BILL_2"] = "c/o " . $user->vendor->FIRST . " " . $user->vendor->LAST;
-    }
-    if(!array_key_exists('BILL_3', $args) || $args['BILL_3'] === "" || $args['BILL_3'] === ""){
-      $args["BILL_3"] = $user->vendor->STREET;
-    }
-    if(!array_key_exists('BILL_4', $args) || $args['BILL_4'] === "" || $args['BILL_4'] === ""){
-      $args["BILL_4"] = $user->vendor->CITY . ", " . $user->vendor->STATE . " " . $user->vendor->ZIP5;
-    }
-    if(!array_key_exists('COMPANY', $args) || $args['COMPANY'] === "" || $args['COMPANY'] === ""){
-      $args["COMPANY"] = $user->vendor->ORGNAME;
-    }
-    if(!array_key_exists('STREET', $args) || $args['STREET'] === "" || $args['STREET'] === ""){
-      $args["STREET"] = $user->vendor->STREET;
-    }
-    if(!array_key_exists('CITY', $args) || $args['CITY'] === "" || $args['CITY'] === ""){
-      $args["CITY"] = $user->vendor->CITY;
-    }
-    if(!array_key_exists('STATE', $args) || $args['STATE'] === "" || $args['STATE'] === ""){
-      $args["STATE"] = $user->vendor->STATE;
-    }
-    if(!array_key_exists('POSTCODE', $args) || $args['POSTCODE'] === "" || $args['POSTCODE'] === ""){
-      $args["POSTCODE"] = $user->vendor->ZIP5;
-    }
-    if(!array_key_exists('VOICEPHONE', $args) || $args['VOICEPHONE'] === "" || $args['VOICEPHONE'] === ""){
-      $args["VOICEPHONE"] = $user->vendor->VOICEPHONEL;
-    }
-
-    return $args;
-  }
-
-	public static function newCart($user, $args, $returnCart = false){
-    //\DB::enableQueryLog();
-      $newCart = new \App\Models\Webhead;
-      $args = $newCart->prepCartArgs($args,$user);
-      $newCart->validate($args);
-      $dbf_record = $newCart->getDbfTable()->newRecord($args);
-      $dbf_record->save();
-      dd($dbf_record);
-
-      //must save to DBF first to get the new INDEX
-       $newCart->INDEX = $newCart->dbfSave();
-       $newCart->save();
-        // file_put_contents('time', json_encode(\DB::getQueryLog()) . '----' .$newCart->INDEX . "\n", FILE_APPEND);
-
-       if($returnCart){
-          return $newCart;
-       }
-      return $user;
-	}
 
   public function submitOrder($props = false){
 
@@ -264,7 +176,6 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
     
     $this->ISCOMPLETE = "T";
     $this->dbfSave();
-    $this->save();
 
     return $this;
   }
@@ -283,46 +194,50 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
 
 public function webheadSchema($table){ $table->unique('REMOTEADDR'); return $table;	}
 
-  public static function deleteCart($_, $args){
+public static function deleteCart($_, $args, $request){
 
-      $user = request()->user();      
-      
-        if(isset($args['id'])){
-            $cart = static::where('id', $args['id'])->where('KEY', $user->KEY)->first();
-        }else{
-            $cart = static::where('REMOTEADDR', $args['REMOTEADDR'])->where('KEY', $user->KEY)->first();
-        }
+      $user = $request->user;  
+
+      if($user === null){
+        return new \App\Models\User;
+      }
+      //file_put_contents('test.txt',json_encode($user->vendor->) );
+    
+      $cart = static::where('id', $args['id'])->where('KEY', $user->KEY)->first();
 
       if($cart !== null){
-        $cart->items()->delete();
-        $cart->delete();
+        foreach($cart->items() AS $item){
+          $item->dbfDelete();
+        }
+        $cart->dbfDelete();
       }
 
-
       if($user->vendor->cartsCount <= 0){
-          $args = ["input"=>[]];
-          $newcart = static::newCart($user, $args);
+          $attributes = ["input"=>[]];
+          $newcart = static::dbfUpdateOrCreate(false, $attributes, $request);
       }
 
       return $user;
   }
 
-    public function updateMyCart($_, $args){
+    public function updateMyCart($_, $args, $user = false){
       
-      $user = request()->user();
+
     
     if(isset($args['input']['id'])){
-        $cart = static::where('id', $args['input']['id'])->where('KEY', $user->KEY)->first();
-    }elseif(isset($args['input']['REMOTEADDR'])){
-        $cart = static::where('REMOTEADDR', $args['input']['REMOTEADDR'])->where('KEY', $user->KEY)->first();
+      $cart = static::where('id', $args['input']['id'])->where('KEY', $user->KEY)->first();
+    }else if(isset($args['input']['REMOTEADDR'])){
+      $cart = static::where('REMOTEADDR', $args['input']['REMOTEADDR'])->where('KEY', $user->KEY)->first();
     }else{
-      $cart = static::newCart(auth()->user(), $args["input"], true);
+      $cart = static::newCart($user, $args["input"], true);
     }
 
-      $args['input']['KEY'] = $user->KEY;
-      $args['input']['DATE'] = \Carbon\Carbon::now()->format("Ymd");
-      $cart->update($args['input']);
-      return $cart;
+      
+
+      foreach($args['input'] AS $k=>$v){
+        $cart->$k = $v;
+      }
+      return $cart->dbfSave();
 }
 
     public function getMyCart($_, $args){
@@ -357,12 +272,7 @@ protected static function boot()
         });
 
         static::saved(function ($model) {
-         if(!isset($model->INDEX)){
-              $model->INDEX = $model->dbfSave();
-              $model->save();
-          }else{
-            $model->dbfSave();
-          }
+          //
         });
 
         static::updating(function ($model) {
@@ -370,7 +280,7 @@ protected static function boot()
         });
 
         static::deleted(function ($model) {
-           $model->dbfDelete();
+           //$model->dbfDelete();
         });
     }
 

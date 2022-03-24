@@ -48,14 +48,14 @@ class ProductStore extends Component{
 
     componentDidMount(){
       if(!this.props.lists || this.props.lists.length === 0){
-        this.props.titlesGet(this.props.query(this.props.queryVars)) 
+        this.props.titlesGet(this.props.query({first:25})) 
       }
     }
 
     render(){
 
         if(this.props.lists[0] && this.props.lists[0][0] === "search" && !this.props.titlesProgress){
-          this.props.titlesGet(this.props.query(this.props.queryVars)) 
+          this.props.titlesGet(this.props.query()) 
         }
 
         const { slider, lists } = this.props;
@@ -107,7 +107,6 @@ return {
     titlesProgress: state.titles.pending,
     catalog: state.application.catalog,
     query: state.titles.query,
-    queryVars: state.titles.queryVars,
     selectedCart: state.viewer && state.viewer.cart? state.viewer.cart.selectedCart:false,
     viewer: state.viewer
      }

@@ -15,8 +15,8 @@ function tradeTitleShipping(titles){
   let getsTradeTitleShipping = false
 
    for(const title of titles) {
-      if(title.INVNATURE.includes("CENT")){getsTradeTitleShipping = false; break;}
-      if(title.INVNATURE.includes("TRADE")){getsTradeTitleShipping = true}
+      if(title.INVNATURE && title.INVNATURE.includes("CENT")){getsTradeTitleShipping = false; break;}
+      if(title.INVNATURE && title.INVNATURE.includes("TRADE")){getsTradeTitleShipping = true}
    }
 
   return getsTradeTitleShipping
@@ -48,7 +48,7 @@ function CartSingle(props) {
     list = <ListItem>No items</ListItem>
   } else {
     list = cart.items.map((item, index) => {
-      return (<CartItem key={ index } titleIndex={ index } cartIndex={ props.index } {...item} cartSave={cartSave} deleteFromCart={deleteFromCart} cartId={cart.REMOTEADDR} updateTitleQuantity={updateTitleQuantity}/>)
+      if(item.INDEX) {return (<CartItem key={ index } titleIndex={ index } cartIndex={ props.index } {...item} cartSave={cartSave} deleteFromCart={deleteFromCart} cartId={cart.REMOTEADDR} updateTitleQuantity={updateTitleQuantity}/>)}
     })
   }
 

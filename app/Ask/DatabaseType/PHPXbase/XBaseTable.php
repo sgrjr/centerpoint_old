@@ -53,7 +53,7 @@ class XBaseTable {
     var $foxpro;
     var $deleteCount=0;
 
-    public function __construct ($name, $kipMemo = true) {
+    public function __construct ($name, $skipMemo = true) {
         $this->name=$name;
         $this->skipMemo = true;
 

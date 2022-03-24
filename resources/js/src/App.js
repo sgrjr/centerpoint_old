@@ -10,6 +10,7 @@ import Dashboard from './Dashboard/Dashboard'
 import DashboardMain from './Dashboard/Main'
 import AdminUsers from './Dashboard/AdminUsers'
 import AdminUser from './Dashboard/AdminUser'
+import AdminTitles from './Dashboard/AdminTitles'
 
 import ProductStore from './ProductStore/ProductStore'
 import Cart from './Cart/Cart'
@@ -49,6 +50,7 @@ class App extends React.Component {
             <Route path="" element={<DashboardMain/>}/>
             <Route path="admin/users" element={<AdminUsers/>}/>
             <Route path="admin/users/:userid" element={<AdminUser/>}/>
+             <Route path="admin/titles" element={<AdminTitles/>}/>
 
             <Route path="cart" exact={true} element={<Cart />}/>
             <Route path="cart/:cartid" element={<CartCheckout />}/>

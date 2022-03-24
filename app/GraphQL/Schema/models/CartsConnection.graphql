@@ -1,4 +1,0 @@
-type CartsConnection {
-    paginatorInfo: Paginator
-    data:[Order] 
-}

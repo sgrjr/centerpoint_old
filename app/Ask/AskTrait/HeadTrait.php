@@ -21,14 +21,27 @@ trait HeadTrait {
 		return $total * 1.00;
 	}
 
-	public function getKeyAttribute(){ return $this->attributes["KEY"];}
+	public function getKeyAttribute(){ 
+		if(isset($this->attributes['KEY'])){
+			return $this->attributes["KEY"];
+		}else{
+			return false;
+		}
+	}
+
 	public function getRemoteaddrAttribute(){
 		if(isset($this->attributes["REMOTEADDR"])){
 			return $this->attributes["REMOTEADDR"];
 		}
-		return null;
+		return false;
 	}
-	public function getDateAttribute(){return $this->attributes["DATE"];}
+	public function getDateAttribute(){
+		if(isset($this->attributes['DATE'])){
+			return $this->attributes["DATE"];
+		}else{
+			return false;
+		}
+	}
 
 	public function getInvoiceDatesAttribute(){
 	  $invoiceDates = [];

@@ -7,7 +7,8 @@ type User {
 	roles:[Role]
 
 	photo: String
-	id: ID!
+	id: ID
+	INDEX: String
 	public_id: String
 	token: String
 	name: String

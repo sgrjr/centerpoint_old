@@ -30,7 +30,6 @@ class UpdateCartTitle
         
         $d->REQUESTED = $args["input"]['REQUESTED'];
         $d->dbfSave();
-        $d->save();
 
         return $user;
     }

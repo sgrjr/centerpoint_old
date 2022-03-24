@@ -1,4 +1,0 @@
-type TitlesPaginator {
-  paginatorInfo: Paginator
-  data:[Title!]!
-}

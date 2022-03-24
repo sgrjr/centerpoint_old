@@ -15,7 +15,7 @@ class Cart extends Component{
 
     componentDidMount(){
         if(this.props.carts.length <= 0 ){
-          this.props.cartGet(cartQuery({perPage:20}))
+          this.props.cartGet(cartQuery({first:20}))
         }
     }
 

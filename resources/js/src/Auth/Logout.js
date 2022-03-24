@@ -7,7 +7,7 @@ import actions from '../actions';
 class Logout extends React.Component {
 
   componentDidMount(){
-    if(this.props.viewer !== false){
+    if(this.props.viewer !== false && this.props.viewer !== null){
       this.props.logout()
     }
   }

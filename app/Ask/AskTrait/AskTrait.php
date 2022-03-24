@@ -37,27 +37,62 @@ trait AskTrait {
     {
         $table = $this->dbf(true)->getTable();
         if(is_array($table)){$table = $table[0];}
-
-        // If the model already exists in the database we can just delete our record
-        // that is already in this database using the current IDs in this "where"
-        // clause to only update this model. Otherwise, we'll just insert them.
-        $table->moveTo((int) $this->INDEX);
-        $record = $table->getRecord();
-        if ($record !== null) {
-
-            $record->setDeleted(true);
-            $table->writeRecord();
-        }
-
-        return $this;
+        $result = $table->delete($this);
+        if($result){$this->delete();}
+        return true;
     }
 
  public function dbfSave()
     {
         $table = $this->dbf(true)->getTable();
         if(is_array($table)){$table = $table[0];}
-        return $table->save($this->serialize(), $this->INDEX, isset($this->INDEX) && $this->INDEX !== null);
+        $model = $table->save($this->serialize(), $this);
+        $model->save();
+        return $model;
     }
+
+public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=false, $x=false, $user=false) {
+    
+     if(isset($request) && $request !== false && $user === false){
+      $user = $request->user;
+     } else if($user === false){
+      $user = request()->user;
+     }
+
+     if(isset($attributes["input"])){$attributes = $attributes["input"];}
+
+     if(!isset($attributes["id"])){
+        $model = (new static($attributes))->fillAttributes($user);
+     }else{
+        $model = static::where('id', $attributes['id'])->where('KEY', $user->KEY)->first();
+     }
+
+     if($model === null){
+        unset($attributes["id"]);
+        $model = (new static($attributes))->fillAttributes($user);
+     }else{
+        foreach($attributes AS $k=>$v){
+            $model->$k = $v;
+        }
+     }
+
+     $model = $model->dbfSave();
+     return $model;
+}
+
+public function fillAttributes($user = false){return $this;}
+
+public function setIfNotSet($key, $val, $force = false, $func_arg = false){
+
+    if($force || !isset($this->$key) || $this->$key === null || $this->$key === false){
+        if(method_exists($this,$val)){
+            $this->$key = $this->$val($func_arg);
+        }else{
+            $this->$key = $val;
+        }
+    }
+    return $this;
+}
 
 /*
     public function create(array $attributes = [])

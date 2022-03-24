@@ -62,10 +62,28 @@ input AdminLoginUserInput {
     id: String!
 }
 
-input CreateCartTitleInput{
-    REMOTEADDR: String!
-    ISBN: String
-    QTY: Int
+input UpdateCartTitleInput{
+    id: ID
+    INDEX: String
+    KEY: String
+    TRANSNO: String
+    REQUESTED: Int
+    PROD_NO: String
+    PUBDATE: String
+    AUTHOR: String
+    TITLE: String
+    INVNATURE: String
+    SERIES: String
+    DATE: String
+    SOPLAN: String
+    REMOTEADDR: String
+    ORDEREDBY: String
+    LISTPRICE: String
+    SALEPRICE: String
+    STATUS: String
+    ISBN10: String
+    ISBN13: String
+    STATUS: String
 }
 
 input DeleteCartTitleInput {

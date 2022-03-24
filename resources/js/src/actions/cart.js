@@ -176,7 +176,7 @@ const cart = {
         error: cart.CART_ERROR.creator
       }
 
-      const query = cartTitleUpdateMutation(attributes)
+      const query = cartTitleUpdateMutation({input:attributes})
       return graphql(query, actions)
 
     } 
@@ -294,7 +294,7 @@ const cart = {
   {
       type: 'CART_UPDATE_SUCCESS',   
       creator: (payload) => {
-        return { type: 'CART_UPDATE_SUCCESS', payload: payload.updateCart, message:{message:"Cart updated.", severity:"success"} }
+        return { type: 'CART_UPDATE_SUCCESS', payload: payload.updateOrCreateCart, message:{message:"Cart updated.", severity:"success"} }
       }
   },
 

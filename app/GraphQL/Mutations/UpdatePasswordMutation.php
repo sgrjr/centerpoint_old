@@ -51,7 +51,6 @@ class UpdatePasswordMutation extends Mutation
       }
       
         $w->dbfSave();
-        $w->save();
       return $w;
     }
 }

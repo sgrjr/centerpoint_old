@@ -1,8 +1,8 @@
 export default (attributes) => {
 
   return {
-    query:`mutation ($id:Int!, $REQUESTED:Int){
-      updateCartTitle(id:$id, REQUESTED: $REQUESTED){
+    query:`mutation ($input: UpdateCartTitleInput!){
+      updateOrCreateCart(input: $input){
         user {
                       vendor {
                         carts(first:100){

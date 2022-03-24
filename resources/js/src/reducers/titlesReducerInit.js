@@ -28,7 +28,7 @@ export default {
         query: (variables) => {
             return {
             query:`
-        fragment TitleFragment on TitlesPaginator {
+        fragment TitleFragment on TitlePaginator {
              paginatorInfo {
               perPage
               total
@@ -51,14 +51,14 @@ export default {
               STATUS
             }
         }
-        query {
-          cp: cpTitles {
+        query ($first:Int!){
+          cp: cpTitles (first:$first){
             ...TitleFragment
           }
-          trade: tradeTitles{
+          trade: tradeTitles(first:$first){
             ...TitleFragment
           }
-          advanced: advancedTitles {
+          advanced: advancedTitles(first:$first) {
             ...TitleFragment
           }
         }
@@ -67,40 +67,10 @@ export default {
           }
         },
 
-/*
-  date: String @where(operator: ">=", key:"PUBDATE", clause:"where")
-  dateBefore: String @where(operator: "<=", key:"PUBDATE", clause:"where")
-  invnature: String @like(key:"INVNATURE")
-  onhand: Boolean @eq(key:"ONHAND")
-  category: String @like( key:"CAT")
-  status: String @like( key:"STATUS")
-  reverseStatus: String @noteq( key: "STATUS")
-  pubStatus: String @like( key:"PUBSTATUS")
-  publisher: String @like( key:"PUBLISHER")
-
-  console.log(pad(now.getFullYear(),4), pad(now.getDate(),2), pad(now.getMonth(),2))
-  */
-
-        queryVars: {
-          page: 1,
-          cp: {
-            dateBefore:pad(now.getFullYear(),4) +  pad(now.getMonth()) + pad(now.getDate(),2),
-            invnature: "CENTE"
-          },
-          cp_limit: 15,
-          trade: {
-            dateBefore:pad(now.getFullYear(),4) +  pad(now.getMonth()) + pad(now.getDate(),2),
-            invnature: "TRADE"
-          },
-          trade_limit:15,
-          advanced: {date:pad(now.getFullYear(),4) +  pad(now.getMonth()+1,2) + "00"},
-          advanced_limit:30
-        },
-
-     titleQuery: (variables) => {
+  titleQuery: (variables) => {
     return {
     
-    query:`query ($page: Int, $perPage: Int, $isbn: String) {
+    query:`query ($page: Int, $first: Int!, $isbn: String) {
  title(filter: { isbn: $isbn }) {
     id
     LISTPRICE
@@ -124,7 +94,7 @@ export default {
       view
       download
     }
-    byCategory(page: $page, first: $perPage) {
+    byCategory(page: $page, first: $first) {
       paginatorInfo {
         perPage
         lastPage
@@ -147,7 +117,7 @@ export default {
         INVNATURE
       }
     }
-    byAuthor(page: $page, first: $perPage) {
+    byAuthor(page: $page, first: $first) {
       paginatorInfo {
         perPage
         lastPage
@@ -196,7 +166,7 @@ export default {
 minTitleQuery: (variables) => {
     return {
     
-    query:`query ($page: Int, $perPage:Int, $isbn:String) {
+    query:`query ($page: Int, $first:Int!, $isbn:String) {
         title(filter: { isbn: $isbn }) {
     id
     LISTPRICE
@@ -219,7 +189,7 @@ minTitleQuery: (variables) => {
       view
       download
     }
-    byCategory(page: $page, first: $perPage) {
+    byCategory(page: $page, first: $first) {
       paginatorInfo {
         perPage
         lastPage
@@ -242,7 +212,7 @@ minTitleQuery: (variables) => {
         INVNATURE
       }
     }
-    byAuthor(page: $page, first: $perPage) {
+    byAuthor(page: $page, first: $first) {
       paginatorInfo {
         perPage
         lastPage
@@ -289,9 +259,9 @@ minTitleQuery: (variables) => {
 
     return {
     
-    query:`query($page: Int, $perPage: Int, $filters: TitleFilter) {
+    query:`query($page: Int, $first: Int!, $filters: TitleFilter) {
 
-  search: titles(page: $page, first: $perPage, filter: $filters) {
+  search: titles(page: $page, first: $first, filter: $filters) {
     paginatorInfo {
       count
       currentPage
@@ -320,7 +290,7 @@ minTitleQuery: (variables) => {
     }
   }
 
-      searchSuggestions {
+      searchSuggestions(first:12) {
         data {
           id
           TITLE

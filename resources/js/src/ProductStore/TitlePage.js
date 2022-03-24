@@ -30,7 +30,7 @@ class TitlePage extends Component{
       if(!this.props.title || this.props.title.ISBN !== isbn){
           this.props.titleGet(this.props.minTitleQuery({
             "page":1,
-            "perPage":10,
+            "first":10,
             "isbn": isbn
           }))
       }
@@ -44,13 +44,13 @@ class TitlePage extends Component{
       if(isFirstRender){
         this.props.titleGet(this.props.minTitleQuery({
           "page":1,
-          "perPage":10,
+          "first":10,
           "isbn": isbn
         }))
       }else if(this.props.viewer.KEY && this.props.getUserData && !this.props.titlepending){
         this.props.titleGet(this.props.titleQuery({
           "page":1,
-          "perPage":10,
+          "first":10,
           "isbn": isbn
         }))
       }

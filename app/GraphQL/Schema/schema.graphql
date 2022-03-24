@@ -5,20 +5,22 @@ type Query {
 
     user(id: String): User @field(resolver:"\\App\\Models\\User@findByHash")
 
-    titles(filter: TitleFilter @scope(name:"customer")): [Title!]! @paginate(defaultCount: 15, model:"App\\Models\\Inventory")
+    titles(filter: TitleFilter @scope(name:"customer")): [Title!]! @paginate( model:"App\\Models\\Inventory")
 
     title(filter: TitleFilter): Title @first(model:"App\\Models\\Inventory")
 
-    searchSuggestions(filter: TitleFilter): SearchSuggestions @field(resolver:"\\App\\Models\\Inventory@getSearchSuggestions")
+    searchSuggestions(filter: TitleFilter): [Title] @paginate(builder:"\\App\\Models\\Inventory@getSearchSuggestions")
 
     # Upcoming Titles
-    cpTitles: TitlesPaginator @field(resolver:"\\App\\Models\\Inventory@getCPTitles")
+    cpTitles: [Title] @paginate(builder:"\\App\\Models\\Inventory@getCPTitles")
 
     # Trade Titles
-    tradeTitles: TitlesPaginator @field(resolver:"\\App\\Models\\Inventory@getTradeTitles")
+    tradeTitles: [Title] @paginate(builder:"\\App\\Models\\Inventory@getTradeTitles")
     
     # Advanced Titles
-    advancedTitles: TitlesPaginator @field(resolver:"\\App\\Models\\Inventory@getAdvancedTitles")
+    advancedTitles: [Title] @paginate(builder:"\\App\\Models\\Inventory@getAdvancedTitles")
+
+    carts(filter: CartsFilter, perPage:Int, first:Int): [Order] @paginate(model:"\\App\\Models\\Webhead")
 }
 
 #import ./Admin.graphql

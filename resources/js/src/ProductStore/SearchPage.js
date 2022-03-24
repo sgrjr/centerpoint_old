@@ -54,7 +54,7 @@ class SearchPage extends Component{
         //NO TRADE TITLES, NOT OLDER THAN 5 years, NOT OUT OF PRINT
         this.props.titlesGet(this.props.searchQuery({
           page: this.props.pagination.page,
-          perPage: this.props.pagination.perPage,
+          first: this.props.pagination.perPage,
           filters
           }))
         
@@ -94,7 +94,7 @@ class SearchPage extends Component{
             this.props.titlesGet(this.props.searchQuery({
               keep: true,
               page: newProps.pagination.page,
-              perPage: newProps.pagination.perPage,
+              first: newProps.pagination.perPage,
               filters
               }))
           }
@@ -150,8 +150,7 @@ class SearchPage extends Component{
                 <Grid item sm={12} md={8} className={"box "+ classes.gridItem}>
 
                   <div>
-                    Loaded: {lists[0][1].paginatorInfo === null || lists[0][1].paginatorInfo.total === 0? 0:lists[0][1].paginatorInfo.perPage} | 
-                    Matches: {lists[0][1].paginatorInfo !== null && lists[0][1].paginatorInfo.total} | 
+                    Loaded: {lists[0][1].paginatorInfo === null || lists[0][1].paginatorInfo.count === 0? 0:lists[0][1].paginatorInfo.count} of {lists[0][1].paginatorInfo !== null && lists[0][1].paginatorInfo.total} | 
                     {viewmore} | 
                     <button className={styles.outlined} onClick={(e)=>{toggleMinMaxView(e);}}>{this.state.options.minify? "expand":"collapse"}</button>
                   </div>
@@ -166,7 +165,7 @@ class SearchPage extends Component{
 
                   {viewmore}
 
-                  <p>Loaded: {lists[0][1].paginatorInfo  === null || lists[0][1].paginatorInfo.total === 0? 0:lists[0][1].paginatorInfo.perPage} | Matches: {lists[0][1].paginatorInfo !== null? lists[0][1].paginatorInfo.total:0}</p>
+                  <p>Loaded: {lists[0][1].paginatorInfo === null || lists[0][1].paginatorInfo.count === 0? 0:lists[0][1].paginatorInfo.count} of {lists[0][1].paginatorInfo !== null && lists[0][1].paginatorInfo.total}</p>
 
                 </Grid>
          </Grid>
