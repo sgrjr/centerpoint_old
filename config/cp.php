@@ -113,8 +113,8 @@ return [
     ["role_id"=>3, "permission_id"=>2]
   ],
 
-  "oauth_personal_access_clients" => [["id"=> 1, "client_id"=>1]],
-  "oauth_clients" => [["id"=> 1, "user_id"=>null, "name"=>"centerpoint Personal Access Client","secret"=>"Ndqds22UynmH0Fusn8dbsMdSXFnU9usvdDoDKAlY", "provider"=> NULL, "redirect"=>'https://dev.centerpointlargeprint.com', "personal_access_client"=>1, "password_client"=>0, "revoked"=>0]],
+  "oauth_personal_access_clients" => ["id"=> 1, "client_id"=>1],
+  "oauth_clients" => ["id"=> 1, "user_id"=>1, "name"=>"centerpoint Personal Access Client","secret"=>"Ndqds22UynmH0Fusn8dbsMdSXFnU9usvdDoDKAlY", "provider"=> NULL, "redirect"=>"https://dev.centerpointlargeprint.com", "personal_access_client"=>1, "password_client"=>0, "revoked"=>0],
 
 "company" => [
 	"name" => "Center Point Large Print",
