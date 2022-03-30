@@ -12,7 +12,7 @@ class DatabaseSeed extends Command
      *
      * @var string
      */
-    protected $signature = 'db:seed {table?}';
+    protected $signature = 'db:seed {overwrite?} {table?}';
 
     /**
      * The console command description.
@@ -42,17 +42,13 @@ class DatabaseSeed extends Command
         $dm = new \App\Helpers\DatabaseManager();
         $output = new ConsoleOutput();
 
-        if(isset($table)){
-            $opt = new \stdclass;
-            $opt->name = $table;
-            $dm->seedTable($opt);
-        }else{
-            $dm->seedAllTables();
-        }
+        $opt = new \stdclass;
+        $opt->name = $this->argument('table')? $this->argument('table'):"ALL";
+        $opt->overwrite = $this->argument('overwrite')?:false;
+        $dm->seedTable($opt);
 
-        foreach($dm->results AS $result){
-            $output->writeln($result->message);
-        }
+        $output->writeln("Seeding complete.");
+
 
         return Command::SUCCESS;
     }

@@ -15,14 +15,12 @@ class XBaseRecord {
     var $inserted;
     var $recordIndex;
     
- public function __construct($table, $recordIndex, $rawData) {
-
-        if(is_null($table->fp)){return false;}
+ public function __construct($table, $recordIndex, $rawData, $deleted) {
 
         $this->table =& $table;
 
-        if($recordIndex === null){
-            $this->recordIndex=$table->getRecordCount();
+        if($recordIndex === null || $recordIndex === false){
+            $this->recordIndex=$this->table->getRecordCount();
             $this->inserted = true;
         }else{
             $this->recordIndex=$recordIndex;

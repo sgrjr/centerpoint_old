@@ -15,9 +15,9 @@ class Dbfs extends Migration
     public function up()
     {
         $dm = new DatabaseManager();
-
         $shouldBeSeeded = false;
-        $dm->rebuildAllDbfTables($shouldBeSeeded);
+        $db_name = config("database.connections.mysql.database");
+        $dm->rebuildAllDbfTables($db_name, $shouldBeSeeded);
     }
 
     /**
@@ -27,7 +27,7 @@ class Dbfs extends Migration
      */
     public function down()
     {
-        $dm = new DatabaseManager();
-        $dm->dropAllTables();
+        $db_name = config("database.connections.mysql.database");
+        \App\Helpers\DatabaseManager::dropDatabaseIfExists($db_name);
     }
 }

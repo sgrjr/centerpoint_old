@@ -15,7 +15,21 @@ class SetupController extends BaseController
 
 		$db = DB::getDatabaseName();
 
-		$tables = \DB::select("select table_name as 'name', SUM(TABLE_ROWS) as 'rows' FROM INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA='".$db."' group by TABLE_NAME;");
+		try {
+				$tables = \DB::select("select table_name as 'name', SUM(TABLE_ROWS) as 'rows' FROM INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA='".$db."' group by TABLE_NAME;");
+		}
+
+
+		catch(\Illuminate\Database\QueryException $e){
+			Artisan::call('db:create');
+			config(["database.connections.mysql.database" => config("database.connections.mysql.database")]);
+			DB::reconnect('mysql');
+
+			Artisan::call('migrate');
+
+			$tables = \DB::select("select table_name as 'name', SUM(TABLE_ROWS) as 'rows' FROM INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA='".$db."' group by TABLE_NAME;");
+		}
+
 		$updateExists = false;
 		$update = null;
 		    $path = base_path() . DIRECTORY_SEPARATOR . "dbf_changes.json";

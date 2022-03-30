@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use App\Ask\DatabaseType\PHPXbase\XBaseWritableTable as WritableTable;
+use App\Ask\DatabaseType\PHPXbase\XBaseTable;
 use Config, Schema;
 
 trait AskTrait {
@@ -12,14 +12,13 @@ trait AskTrait {
     public function getChangedProperties(){
         return $this->changedProperties;
     }
-
-
     public function updateDbf($propertyName, $value){
         $this->changedProperties[$propertyName] = $value;
         return $this;
     }
-    public static function xbaseQueryBuilder($root, $writable, $import)
+    public static function xbaseQueryBuilder($writable, $import)
     {
+        $root = new static;
        return new \App\Ask\XbaseQueryBuilder($root, $writable, $import);
     }
 
@@ -77,7 +76,7 @@ public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=fa
      }
 
      $model = $model->dbfSave();
-     return $model;
+     return $user;
 }
 
 public function fillAttributes($user = false){return $this;}
@@ -143,7 +142,7 @@ public function setIfNotSet($key, $val, $force = false, $func_arg = false){
         }else if($model->source === "XML"){
             return static::csvQueryBuilder($model);
         }else {
-            return static::xbaseQueryBuilder($model, $writable, $import);
+            return static::xbaseQueryBuilder($writable, $import);
         }
 
     }
@@ -151,25 +150,25 @@ public function setIfNotSet($key, $val, $force = false, $func_arg = false){
 
     public static function dbf($writable = false, $import = false){
         $model = new static;
-        return static::xbaseQueryBuilder($model, $writable, $import);
-    }
-
-    public function getDbfTable(){
-        $table = false;
-
-        foreach($this->getSeeds() AS $seed){
-
-            if($seed["type"] === "dbf"){
-                $table = new WritableTable($seed["path"]);
-            }  
-
-        }
-        $table->open();
-        return $table;
+        return $model->xbaseQueryBuilder($writable, $import);
     }
 
     public function serialize(){
-        $dbf = $this->getDbfTable()->newRecord( $this->toArray() );
+        $deleted = false;
+        $index = false;
+        
+        $attributes = $this->toArray();
+        if(isset($attributes["DELETED"])){
+            $deleted = $attributes["DELETED"];
+            unset($attributes["DELETED"]);
+        }
+        
+      if(isset($attributes["INDEX"])){
+        $index = $attributes["INDEX"];
+        unset($attributes["INDEX"]);
+      }
+        
+        $dbf = $this->dbf()->getTable()[0]->newRecord( $attributes, $deleted, $index );
         return $dbf->serialize();
     }
 

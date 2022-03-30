@@ -52,8 +52,8 @@ trait AuthenticatesUsersTrait
             $vars = [];
         }
 
+
         if($request->wantsJson() && count($vars) > 0){
-            
             $query = $request->get('variables');
             $request->request->add([ $this->username() => $query['email'] ]);
             $request->request->add(['password' => $query['password']]);
@@ -63,7 +63,6 @@ trait AuthenticatesUsersTrait
 		}else if($request->wantsJson()){
             $request->request->add([ $this->username() => $args['email']]);
             $request->request->add(['password' => $args['password']]);
-
         }
         
        $this->validateLogin($request);
@@ -144,11 +143,6 @@ trait AuthenticatesUsersTrait
                 $valid_user = true;
                 $user = $record;        
 			}
-		}
-
-        //no valid user could be found in MYSQL database then check dbf file and wil store in mysql if found
-        if($valid_user !== true){
-           $valid_user = User::createCredentialsFromPasswordsTable($credentials);
 		}
 
         if($valid_user === true ){

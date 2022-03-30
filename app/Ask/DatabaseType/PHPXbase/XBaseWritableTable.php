@@ -4,15 +4,6 @@
 *			XBase
 *			XBaseWritableTable.class.php	
 * 
-*  Developer        : Erwin Kooi
-*  released at      : Jan 2005
-*  last modified by : Erwin Kooi
-*  date modified    : Jan 2006
-*
-*  You're free to use this code as long as you don't alter it
-*  Copyright (c) 2005 Cyane Dynamic Web Solutions
-*  Info? Mail to info@cyane.nl
-* 
 * --------------------------------------------------------------
 *
 * This class extends the main entry to a DBF table file, with writing abilities
@@ -22,7 +13,14 @@
 use App\Ask\DatabaseType\PHPXbase\XBaseColumn; 
 
 class XBaseWritableTable extends XBaseTable {
-	
+	private function init(){
+		$this->writable = true;
+	}
+
+	public function __destruct() {
+        $this->close();
+    }
+
 	/* static */
 	function cloneFrom($table) {
 		$result = new XBaseWritableTable($table->name);
@@ -74,7 +72,7 @@ class XBaseWritableTable extends XBaseTable {
 	    if ($result->openWrite($filename,true)) return $result;
 	    return false;
 	}
-/*
+
     function openWrite($filename=false,$overwrite=false) {
 	    if (!$filename) $filename = $this->name;
 	    if (file_exists($filename) && !$overwrite) {
@@ -83,24 +81,6 @@ class XBaseWritableTable extends XBaseTable {
 		    if ($this->fp = fopen($filename,"w+")) $this->writeHeader();
     	}
     	return $this->fp!=false;
-    }
-*/
-    function open() {
-
-	    $fn = $this->name;
-	    $this->isStream=strpos($this->name,"://")!==false;
-
-	    if (!$this->isStream) {
-	    	if (!file_exists($fn)) $fn = $this->name.".DBF";
-	    	if (!file_exists($fn)) $fn = $this->name.".dbf";
-	    	if (!file_exists($fn)) $fn = $this->name.".Dbf";
-	    	if (!file_exists($fn)) trigger_error ($this->name." cannot be found", E_USER_ERROR);
-    	}
-    	$this->name = $fn;
-    	
-		if($this->fp = fopen($fn,"r+")) $this->readHeader();
-
-		return $this->fp!=false;
     }
     
     function writeHeader() {
@@ -141,12 +121,11 @@ class XBaseWritableTable extends XBaseTable {
         $this->writeChar(0x0d);
 	}
 
-	function save($serialized_record, $model){		
-		$this->open();
-	
+	function save($serialized_record, $model){	
+		
 		if(strlen($serialized_record) !== $this->recordByteLength){
 			throw new \ErrorException(
-          		'Cannot Save to file. Data for DBF is wrong Byte Length.'
+          		'Cannot Save to file. Data for DBF is wrong Byte Length.' . strlen($serialized_record) . '-' . $this->recordByteLength . ' - ' . $serialized_record
         	);
 		}
 
@@ -158,7 +137,7 @@ class XBaseWritableTable extends XBaseTable {
 			$this->moveTo($model->INDEX);
 			$offset = $this->headerLength+($model->INDEX*$this->recordByteLength);
 		}else{
-			$this->record = new XBaseRecord($this, null, $serialized_record);
+			$this->record = new XBaseRecord($this, false, $serialized_record, false);
 			$offset = $this->headerLength+($this->recordCount*$this->recordByteLength);
 			$model->INDEX = $this->recordCount;
 			$this->recordCount+=1;
@@ -171,30 +150,25 @@ class XBaseWritableTable extends XBaseTable {
 		
 		if ($this->record->inserted) $this->writeHeader();
 		
-		$this->moveTo($model->INDEX);
-		fflush($this->fp);
-		$this->close();
+		$this->moveTo($model->INDEX);		
 
-		foreach($this->record->getData(["DELETED"]) AS $k=>$v){
-			$model->$k = $v;
+		foreach($this->record->getData() AS $k=>$v){
+			if(!in_array($k, $model->getIgnoreColumns())){
+				$model->$k = $v;
+			}
 		}
-
 		return $model;
 	}
 
 	function delete($model){
-		if($this->fp === null){$this->open();}
 		$this->moveTo($model->INDEX);
 		$this->deleteRecord();
-		$this->close();
 		return true;
 	}
 
 	function unDelete($model){
-		if($this->fp === null){$this->open();}
 		$this->moveTo($model->INDEX);
 		$this->undeleteRecord();
-		$this->close();
 		return true;
 	}
 /*
@@ -215,7 +189,7 @@ class XBaseWritableTable extends XBaseTable {
 	}
 
 	function appendRecord() {
-		$this->record = new XBaseRecord($this, $this->recordCount,$this->recordCount);
+		$this->record = new XBaseRecord($this, $this->recordCount,[], false);
 		$this->recordCount+=1;
 		return $this->record;
 	}
@@ -261,7 +235,7 @@ class XBaseWritableTable extends XBaseTable {
 
 		if(strlen($data) !== $this->recordByteLength){
 			throw new \ErrorException(
-          		'Cannot Save to file. Data for DBF is wrong Byte Length.'
+          		'Cannot Save to file. Data for DBF is wrong Byte Length.' . strlen($data) . '-' . $this->recordByteLength
         	);
 		}
 

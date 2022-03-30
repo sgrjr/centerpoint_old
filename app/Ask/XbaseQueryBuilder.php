@@ -36,9 +36,6 @@ public function setTable(){
 		        $table = new Table($seed["path"]);
 				$this->table[] = $table;
 		    }
-
-		     
-
         }
 
     return $this;
@@ -103,6 +100,8 @@ public function index($index = 0, $columns = false){
 
     	}
 	   	$details["INDEX"] = $table->getRecordPos();
+	   	$details["DELETED"] = $record->isDeleted();
+	   	
 	   	$this->addDataRecord($details);
 	   }
 
@@ -115,8 +114,10 @@ public function index($index = 0, $columns = false){
     public function importAndEmpty(){
 		
 		if($this->parameters->import !== false){
+			\Schema::disableForeignKeyConstraints();
 			$result = $this->model->insert($this->data->records);
 			$this->truncateRecords();
+			\Schema::enableForeignKeyConstraints();
 		}
 
 		return $this;
@@ -127,16 +128,8 @@ public function index($index = 0, $columns = false){
 		$startIndex = -1;	
 		$resetCounterAt = 500;
 		$limit = $this->parameters->perPage * $this->parameters->page;
-		
-		$bigdbfs = ["alldetails", "allheads","ancientheads","ancientdetails","users"];
-
 
 		foreach($this->table AS $table){
-			
-			
-			if(in_array($this->model->getTable(), $bigdbfs)){
-				$table->foreach($this->model);
-			}else{
 				$allRecords = $table->recordsToArray($this->model);
 
 					$counter = 0;
@@ -144,8 +137,6 @@ public function index($index = 0, $columns = false){
 					$index = 0; 
 
 					while ($index < count($allRecords) ) {
-							
-							unset($allRecords[$index]['DELETED']);
 
 							if($this->test($allRecords[$index])){
 								$this->addDataRecord(\Arr::except($allRecords[$index], $this->model->getIgnoreColumns()), false, true, $this->parameters->lists);
@@ -162,7 +153,6 @@ public function index($index = 0, $columns = false){
 								break;
 							}
 							$index++;				
-					}
 				}
 
 				if($this->parameters->import){

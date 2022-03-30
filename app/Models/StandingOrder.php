@@ -17,6 +17,10 @@ class StandingOrder extends BaseModel implements \App\Interfaces\ModelInterface 
         "_config"=>"standing_order",
       ];
 
+    public $foreignKeys = [
+        ["KEY","KEY","vendors"], //KEY references KEY on vendors
+    ];
+
     public function scopeActive($query)
     {
         return $query->where('QUANTITY', '>', 0);

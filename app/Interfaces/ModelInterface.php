@@ -2,7 +2,7 @@
 
 interface ModelInterface {
     public function createTable();
-    public static function seedTable();
+    public function seedTable();
     public function dropTable();
     public function emptyTable();
     public function delete();

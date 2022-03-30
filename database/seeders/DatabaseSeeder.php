@@ -14,8 +14,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-
         $dm = new \App\Helpers\DatabaseManager();
-        $dm->seedAllTables();
+        $opt = new \stdclass;
+        $opt->name = "ALL";
+        $opt->overwrite = false;
+        $dm->seedTable($opt);
     }
 }

@@ -3,26 +3,13 @@ import Button from '@mui/material/Button';
 import MuiLink from '@mui/material/Link'
 import Typography from '@mui/material/Typography';
 import IconPicker from '../components/IconPicker';
-import { withStyles } from '@mui/styles'
 import { Link } from 'react-router-dom';
 
-const useStyles =  (theme => ({
-  footer: {
-    display: 'grid',
-    gridTemplateColumns: '1fr auto',
-    gridGap: '8px',
-    padding: '8px 24px',
-    alignItems: 'center'
-  },
-  incentive: {
-    gridColumn: 'span 2',
-    fontSize: '.8rem',
-    textAlign: 'right'
-  },
-  total: {
-    fontSize: '1rem'
-  }
-}))
+const classes = {
+  footer:"cart-footer",
+  incentive:"incentive",
+  total:"total"
+}
 
 let incentiveText = (quantity, goal, tradeTitleShipping) => {
   if (quantity >= goal || tradeTitleShipping) {
@@ -36,8 +23,7 @@ class CartItem extends React.Component {
 
   render(){
 
-  const props = this.props
-  const { classes } = props;   
+  const props = this.props   
   const linkStyle = {
     width:"100%",
     height:"100%",
@@ -67,4 +53,4 @@ class CartItem extends React.Component {
 
 }
 
-export default withStyles(useStyles)(CartItem);
+export default CartItem;

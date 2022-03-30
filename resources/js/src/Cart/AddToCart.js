@@ -30,13 +30,17 @@ class AddToCart extends Component{
       }
     }
     sendTitleToCart(){
-      this.props.addTitleToCart(addTitleToCartQuery({
+      const input = {
         REMOTEADDR: this.props.selectedCart,
-        ISBN: this.props.title.ISBN,
-        QTY: this.props.selectedQuantity
-      }));
-    }
+        PROD_NO: this.props.title.ISBN,
+        REQUESTED: this.props.selectedQuantity
+      }
 
+      if(input.REMOTEADDR === false){
+        delete input.REMOTEADDR;
+      }
+      this.props.addTitleToCart(addTitleToCartQuery({input:input}));
+    }
 
     render(){ 
       const {authenticated, open, viewer, cart, toggleSimpleCarts, title } = this.props

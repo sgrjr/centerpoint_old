@@ -20,11 +20,13 @@ function getTitleBar(props, item, index){
     shoppingCart = null
   }else if(props.viewer && props.viewer.pending !== true && props.selectedCart && props.viewer.KEY && item.STATUS !== "Out Of Print"){
       shoppingCart = <IconButton aria-label={`cart ${item.TITLE}`} style={{color: "inherit"}} onClick={function(){
-                  props.addTitleToCart(addTitleToCartQuery({
-                    REMOTEADDR: props.selectedCart,
-                    ISBN: item.ISBN,
-                    QTY: 1
-                  }));
+                  
+          const input = {
+            REMOTEADDR: props.selectedCart,
+            PROD_NO: item.ISBN,
+            REQUESTED: 1
+          }
+      props.addTitleToCart(addTitleToCartQuery({input: input}));
                 }}>
                   <IconPicker icon="shoppingCartAdd" />
                 </IconButton>

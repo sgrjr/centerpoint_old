@@ -11,10 +11,10 @@ type Mutation {
 
     logoutUser: Application @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@logoutUser")
     
-    updateOrCreateCart(input: UpdateCartInput!): Order @field(resolver: "App\\Models\\Webhead@dbfUpdateOrCreate")
+    updateOrCreateCart(input: UpdateCartInput!): User @field(resolver: "App\\Models\\Webhead@dbfUpdateOrCreate")
     deleteCart(id: ID, REMOTEADDR: String): User @field(resolver: "App\\Models\\Webhead@deleteCart")
 
-    updateOrCreateCartTitle(input: UpdateCartTitleInput!): OrderItem @field(resolver: "App\\Models\\Webdetail@dbfUpdateOrCreate")
+    updateOrCreateCartTitle(input: UpdateCartTitleInput!): User @field(resolver: "App\\Models\\Webdetail@dbfUpdateOrCreate")
     deleteCartTitle(id: Int!): User @field(resolver: "App\\Models\\Webdetail@deleteMyTitleFromCart")
 
     getMarcs(isbns: [String]!): Marc @field(resolver: "App\\Models\\Inventory@getMarcs")

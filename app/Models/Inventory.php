@@ -12,16 +12,15 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
     use DbfTableTrait;
 
+    protected $table = 'inventories';
     protected $dbfPrimaryKey = 'ISBN';
     protected $appends = ['coverArt','marcLink'];
-    protected $table = 'inventories';
+    
     protected $indexes = ["ISBN"];
     public $timestamps = false;
-    public $fillable = ["INDEX","FASTAVAIL","ISBN","AUTHOR","TITLE",'PUBDATE',"STATUS","CAT","FCAT","SCAT","FORMAT","PAGES","SERIES","SOPLAN","INVNATURE", "AUTHORKEY","TITLEKEY", "SUBTITLE", "HIGHLIGHT", "MARC", "PUBLISHER"];
+    public $fillable = ["INDEX","FASTAVAIL","ISBN","AUTHOR","TITLE",'PUBDATE',"STATUS","CAT","FCAT","SCAT","FORMAT","PAGES","SERIES","SOPLAN","INVNATURE", "AUTHORKEY","TITLEKEY", "SUBTITLE", "HIGHLIGHT", "MARC", "PUBLISHER", "DELETED"];
 
-    protected $seed = [
-      'dbf_inventory'
-    ];
+    protected $seed = ['dbf_inventory'];
 
   protected $attributeTypes = [ 
         "_config"=>"inventory",

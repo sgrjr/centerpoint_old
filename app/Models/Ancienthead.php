@@ -5,16 +5,11 @@ class Ancienthead extends BaseModel implements \App\Interfaces\ModelInterface {
 	use \App\Ask\AskTrait\HeadTrait;
   use DbfTableTrait;
 
-	protected $table = "ancientheads";
-
-	protected $dbfPrimaryKey = 'TRANSNO';
-
-	protected $appends = [];
-	 protected $seed = [
-  'dbf_ancienthead'
- ];
-
- protected $indexes = ["TRANSNO", "KEY"];
+protected $table = "ancientheads";
+protected $dbfPrimaryKey = 'TRANSNO';
+protected $appends = [];
+protected $seed = ['dbf_ancienthead'];
+protected $indexes = ["TRANSNO", "KEY"];
 
  protected $attributeTypes = [ 
   "_config"=>"ancienthead", 

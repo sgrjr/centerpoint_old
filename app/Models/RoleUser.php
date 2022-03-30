@@ -30,6 +30,11 @@ protected $attributeTypes = [
            ]
       ];
 
+    public $foreignKeys = [
+        ["role_id","id","roles"], //rold_id references id on roles
+        ["user_id","id","users"], //user_id references id on users
+    ];
+
    public function dbfSave(){
     return $this;
    }

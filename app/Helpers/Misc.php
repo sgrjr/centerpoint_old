@@ -398,10 +398,14 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
 					}
     }
 
-    public static function setUpTableFromHeaders($table, $headers){
+    public static function isIndex($name, $model){
+        return in_array($name, $model->indexes);
+    }
+
+    public static function setUpTableFromHeaders($table, $headers, $model){
 
         foreach($headers AS $h){
-    
+
           $funcArray = \App\Helpers\Misc::resolveTypeToMysqlFunc($h);
           $func = $funcArray[0];
 
@@ -410,16 +414,35 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
           if(strpos($h["name"], '_id') !== false){
               isset($h["index"])? $table->unsignedInteger($h["name"])->index():$table->unsignedInteger($h["name"]);
           }else if(count($p) === 0){
-              $table->$func($h["name"])->nullable();
-    			}else if(count($p) === 1){
-              $table->$func($h["name"], $p[0])->nullable();
-    			}else if(count($p) === 2){
-              $table->$func($h["name"], $p[0], $p[1])->nullable();
-    			}else{
-              $table->$func($h["name"])->nullable();           
-    			}
+            if(static::isIndex($h["name"], $model)){
+                $table->$func($h["name"])->nullable()->index();
+            } else{
+                $table->$func($h["name"])->nullable();
+            }
+    	}else if(count($p) === 1){   
+            if(static::isIndex($h["name"], $model)){
+                $table->$func($h["name"], $p[0])->nullable()->index();
+            } else{
+                $table->$func($h["name"], $p[0])->nullable();
+            }
+    	}else if(count($p) === 2){
+              
+            if(static::isIndex($h["name"], $model)){
+                $table->$func($h["name"], $p[0], $p[1])->nullable()->index();
+            } else{
+                $table->$func($h["name"], $p[0], $p[1])->nullable();
+            }
+    	}else{
+              
+            if(static::isIndex($h["name"], $model)){
+                $table->$func($h["name"])->nullable()->index();
+            } else{
+                $table->$func($h["name"])->nullable();
+            }           
+    	}
 
     		}
+
           return $table;
       }
 
