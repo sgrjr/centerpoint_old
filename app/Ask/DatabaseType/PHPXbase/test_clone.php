@@ -4,13 +4,6 @@
 *			XBase
 *			test_clone.php	
 * 
-*  Developer        : Erwin Kooi
-*  released at      : Jan 2006
-*  last modified by : Erwin Kooi
-*  date modified    : Jan 2006
-*                                                               
-*  Info? Mail to info@cyane.nl
-* 
 * --------------------------------------------------------------
 *
 * Demonstration how to clone table meta-data to another and copy records

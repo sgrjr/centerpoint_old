@@ -5,7 +5,7 @@ export default {
 		    pending: false,
 		    addToCartPending: false,
 		    selectedTitle: false,
-		    selectedCart: "NEW_UNSAVED_CART",
+		    selectedCart: false,
 		    selectedQuantity: 1,
 		    open: false,
 		    post: false,

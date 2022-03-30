@@ -30,4 +30,5 @@ class Permission extends BaseModel implements \App\Interfaces\ModelInterface
            ]
         ];
 
+    public $fillable = ["name","description"];
 }

@@ -20,6 +20,22 @@ class StringHelper {
 		$string = str_replace(" ", "", str_replace("-", "_", strtolower($string)));
 		return str_replace("&#8217;","",$string);
 	}
+
+	public static function dbfPathToModel($path){
+		$path = explode("\\", $path);
+		$name = $path[count($path)-1];
+		$name = strtolower($name);
+		$name = str_replace(".dbf","",$name);
+		$name = ucfirst($name);
+		return "\\App\\Models\\" . $name;
+	}
+
+	function convert($size)
+	{
+	    $unit=array('b','kb','mb','gb','tb','pb');
+	    return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+	}
+
 }
 
 

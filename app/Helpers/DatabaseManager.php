@@ -12,20 +12,22 @@ class DatabaseManager {
 	public $files= [];
 	public $commands = [];
 
-	public function __construct(){
+	public function __construct($reset = false){
 		$this->config = Config::get("cp");
 
 		$this->results = [];
 		
 		//SHOULD GRAB FROM CONFIG FILE ONLY IF "tables" is not populated in database
 		//then tables should be grabbed from database
-		//mange touches to db tables
+		//manage touches to db tables
 		$this->commands = $this->config["commands"];
 		$this
-			->setDB()
+			->setDB($reset)
 			->setTables();
 		//ini_set('max_execution_time', 1000000);
 		//ini_set('memory_limit', '1.5G');
+
+		$this->console = new ConsoleOutput();
 	}
 
 	private function addResult($message, $table = false, $error = true){
@@ -41,11 +43,14 @@ class DatabaseManager {
         check if db exists
         Booleon will be set; TRUE/FALSE
         */
-	public function setDB(){
+	public function setDB($reset){
 
-        $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME =  ?";
-        $db = DB::select($query, [$this->config["dbname"]]);
-		
+        if($reset){
+        	static::dropDatabaseIfExists($this->config["dbname"]);
+        }
+
+        $db = static::createDBIfNotExists($this->config["dbname"]);
+
 		if(isset($db[0])){
 			$this->dbStatus = true;
 		}else{
@@ -113,26 +118,11 @@ class DatabaseManager {
 		return $this;
 	}
 
-	private function loadManager(){
 
-			if(!Schema::hasTable('dbfs') ){
-				$opt = new \stdclass;
-				$opt->name = "dbfs";
-				$this->createTable($opt);
-			}
-
-			if(\App\Models\Dbf::mysql()->count() < 1 ){
-				$rows = $this->getTables();
-				$this->importList("dbfs", $rows);
-			}
-
-			return $this;
-	}
 
 public function execute(\Illuminate\Http\Request $request, $viewer){
 			$this
 				->setViewer($viewer)
-				->loadManager()
 				->validateCommand($request)
 				->doAction()
 				->completed()
@@ -164,7 +154,8 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 				if($t->isFromDbf() && Schema::hasTable($t->getTable()) === false){	
 					//Continue if table is to be seeded from a migration and created from a schema defined in the model
 					$headers = $this->getHeaders($t->getTable());
-					$this->schema($t->getTable(), $headers);
+					dd('line ' . 157);
+					//$this->schema($t->getTable(), $headers);
 					$this->addResult("imported fresh", $t->getTable(), false);
 				}	
 			}
@@ -180,13 +171,16 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 			$table = $this->getTableByName($opt->name);
 			
 			if(!$table->isFromDbf() || is_array($table->getSeeds()) ){
+
 				$table->createTable();
+	
 				$this->addResult("Table " . $opt->name . " was created.", $table->getTable(), false);
 				return $this;
 			}else if($table !== null){	
-				$headers = $this->getHeaders($table->getTable());
-				$this->schema($table->getTable(), $headers);
-				$this->addResult("Table " . $opt->name . " was created.", $table->getTable(), false);
+				dd('line ' . 177);
+				//$headers = $this->getHeaders($table->getTable());
+				//$this->schema($table->getTable(), $headers);
+				//$this->addResult("Table " . $opt->name . " was created.", $table->getTable(), false);
 			}
 
 		}
@@ -215,9 +209,13 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 			
 			
 		}else{
-			$table = $this->getTableByName( $opt->name);
-			$table->dropTable();
-			$this->addResult("Table " . $opt->name . " was deleted.", $opt->name, false);
+			if(Schema::hasTable($opt->name)){
+				$table = $this->getTableByName( $opt->name);
+				\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+				$table->dropTable();
+				\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+				$this->addResult("Table " . $opt->name . " was deleted.", $opt->name, false);
+			}
 		}
 		
 		return $this;
@@ -244,92 +242,84 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 
 		return $this;
 	}
-	
+
+	private function seedATable($t){
+		$this->console->writeln($t->getTable() . " started...");
+		$start = microtime(true);
+		$t->seedTable();
+		$this->console->writeLn($t->getTable() ." was seeded.");
+		$time_elapsed_secs = microtime(true) - $start;
+		$this->console->writeln(" => " . round($time_elapsed_secs/60,2) . " min");
+	}
+
 	public function seedTable($opt){
-		 $output = new ConsoleOutput();
 
 		if($opt->name === "ALL"){
 		
 			foreach($this->tables AS $t){
 
-				if($t->first() === null){
-					$output->writeln($t->getTable() . " started...");
-					$start = microtime(true);
-					$t->seedTable();
-					$this->addResult($t->getTable() ." was seeded.", false, false);
-					$time_elapsed_secs = microtime(true) - $start;
-					$output->writeln(" => " . round($time_elapsed_secs/60,2) . " min");
+				if($opt->overwrite === true || $opt->overwrite === 'true'){
+					$this->seedATable($t);
+				}else if($t->first() === null){
+					$this->seedATable($t);
+				}else{
+					$this->console->writeln("Table '" . $t->getTable() . "' not seeded.");
 				}
 
 			}
 			return $this;
-		}
-
-		$start = microtime(true);
-		$output->writeln($opt->name . " started...");
-		$table = $this->getTableByName($opt->name);
-		
-		$result = $table->seedTable();
-
-		if(!$result){
-			$this->addResult("ERROR: Database is missing table named: " . $table->getTable());	
 		}else{
-			$this->addResult($table->getTable() ." was seeded.", false, false);
+			$tables = explode(',', $opt->name);
+
+			foreach($tables AS $table){
+				$start = microtime(true);
+				$table = $this->getTableByName($table);
+				
+				$result = false;
+
+				if($opt->overwrite === true || $opt->overwrite === 'true'){
+					$this->seedATable($table);
+				}else if($table->first() === null){
+					$this->seedATable($table);
+				}else{
+					$this->console->writeln("Database table ".$table->getTable()." not seeded because it already contains entries.");
+				}
+
+				$time_elapsed_secs = microtime(true) - $start;
+				$this->console->writeln($opt->name." " . round($time_elapsed_secs/60,3) . " min");
+			}
 		}
 
-		$time_elapsed_secs = microtime(true) - $start;
-		$output->writeln($opt->name." " . round($time_elapsed_secs/60,3) . " min");
 		return $this;
 	}
 
-	public function rebuildAllDbfTables($shouldSeed = true){
-		
-		$start_time = microtime(true); 
+	public function rebuildAllTables($db_name, $shouldSeed = true){
 
-		\DB::raw("SET autocommit=0;SET unique_checks=0;SET foreign_key_checks=0; SET innodb_autoinc_lock_mode = 2;");
-
-			foreach($this->tables AS $t){
-				$opt = new \stdclass;
-				$opt->name = $t->getTable();
-				$opt->seed = $shouldSeed;
-				$this->rebuildTable($opt, false);
-			}
-
-		\DB::raw("SET unique_checks=1;SET foreign_key_checks=1; SET innodb_autoinc_lock_mode = 2;");
-		\DB::commit();
-
-			$length = \Carbon\Carbon::createFromTimeStamp($start_time)->diffInSeconds()/60;
-
-			$this->addResult("Tables were was seeded ( " . $length ." minutes)", false, false);
-
-
-			return $this;
-
-
+		\Artisan::call('migrate:fresh');
+		\Artisan::call('passport:client --personal');
+		if($shouldSeed) \Artisan::call('db:seed');
+		return $this;
 	}
 
-		public function seedAllTables(){
+	public function rebuildAllDbfTables($db_name, $shouldSeed = true){
+
+		$start_time = microtime(true); 
+
+		foreach($this->tables AS $t){
 			$opt = new \stdclass;
-			$opt->name = "ALL";
-			$this->seedTable($opt);		
-			$this->addResult("Tables were was seeded.", false, false);
-			return $this;
+			$opt->name = $t->getTable();
+			$opt->seed = $shouldSeed;
+			$this->rebuildTable($opt, false);
 		}
 
-		public function truncateAllTables(){
-			\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-			foreach($this->tables AS $t){
-				$result = $t->emptyTable();
-				$this->addResult($t->getTable() ." was truncated. == ", false, false);
-			}
-			\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-			$this->addResult("Tables were was truncated", false, false);
+		$length = \Carbon\Carbon::createFromTimeStamp($start_time)->diffInSeconds()/60;
 
-			return $this;
-		}
+		$this->addResult("Tables were was seeded ( " . $length ." minutes)", false, false);
+
+		return $this;
+	}
 
 	public function rebuildTable($opt, $ini = true){
-			
 		if(\Schema::hasTable($opt->name)){
 			$this->dropTable($opt);
 			$this->addResult($opt->name ." was dropped.", false, false);
@@ -337,14 +327,13 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 		
 		if(! \Schema::hasTable($opt->name)){
 			$this->createTable($opt);
-			$this->addResult($opt->name ." was rebuilt.", false, false);
 
+			$this->addResult($opt->name ." was rebuilt.", false, false);
 			if($opt->seed && \Schema::hasTable($opt->name)){
 				$this->seedTable($opt);
 				$this->addResult($opt->name ." was seeded.", false, false);
 			}
 		}
-
 		return $this; 
 	}
 	
@@ -420,21 +409,114 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 
 		foreach($this->results AS $r){
 			if(!$r->error && $r->table !== false){
+			$manager = Dbf::where("name", $r->table)->first();
 
-				
-					$manager = Dbf::where("name", $r->table)->first();
-
-					if($manager === null){
-						$manager = new Dbf();
-					}
-					$manager->updated_at = \Carbon\Carbon::now()->toDateTimeString();
-					$manager->save();
+			if($manager === null){
+				$manager = new Dbf();
+			}
+			$manager->updated_at = \Carbon\Carbon::now()->toDateTimeString();
+			$manager->save();
 				
 			}			
 		}
 
 		}
 		return $this;
+	}
+
+	public static function rebuild($db_name, $shouldSeed = false, $table = false){
+		$dm = new static();
+
+        if($table){
+        	$tables = explode(',', $table);
+
+        	foreach($tables AS $table){
+        		$opt = new stdclass;
+        		$opt->name = $table;
+        		$opt->seed = $shouldSeed;
+        		$opt->overwrite = true;
+	            $dm->dropTable($opt);
+        	}
+
+        	foreach($tables AS $table){
+        		$dm = new static();
+	            $opt = new \stdclass;
+	            $opt->name = $table;
+	            $opt->seed = $shouldSeed;
+	            $opt->overwrite = true;
+	            $dm->rebuildTable($opt);
+        	}
+
+        }else{
+        	$dm = new static(true);
+            $dm->rebuildAllTables($db_name, $shouldSeed);
+        }
+	}
+
+	public static function dropDatabaseIfExists($name){
+		config(["database.connections.mysql.database" => null]);
+        DB::reconnect('mysql');
+        $query = "DROP DATABASE IF EXISTS $name;";
+        DB::statement($query);
+	}
+
+	private static function createDatabase($name){
+		$charset = config("database.connections.mysql.charset",'utf8mb4');
+        $collation = config("database.connections.mysql.collation",'utf8mb4_unicode_ci');
+
+        config(["database.connections.mysql.database" => null]);
+
+        DB::reconnect('mysql');
+
+        $query = "CREATE DATABASE IF NOT EXISTS $name CHARACTER SET $charset COLLATE $collation;";
+
+        DB::statement($query);
+        DB::statement("USE $name;");
+
+        config(["database.connections.mysql.database" => $name]);
+	}
+
+	public function createDBIfNotExists($db_name){
+		
+		if(!static::databaseExists($db_name)){
+			static::createDatabase($db_name);
+		}
+		return true;
+	}
+
+	private static function databaseExists($db_name){
+		$query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME =  ?";
+        $db = DB::select($query, [$db_name]);
+        if (empty($db)) {
+            //'No db exist of that name!';
+            return false;
+        } else {
+            //'db already exists!';
+            return true;
+        }
+	}
+
+	public function foreignKeysUp(){
+		foreach($this->tables AS $model){
+
+			if($model->isFromDbf() && Schema::hasTable($model->getTable()) !== false){
+		        $model->addForeignKeys();
+			}	
+		}
+	}
+
+	public function foreignKeysDown(){
+		foreach($this->tables AS $model){
+
+			try{
+				$model->dropForeignKeys();
+			}
+
+			catch(\Exception $e){
+				//keep going
+				dd($e);
+			}
+		}
 	}
 
 }

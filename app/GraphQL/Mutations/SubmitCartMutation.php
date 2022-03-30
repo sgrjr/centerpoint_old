@@ -34,7 +34,6 @@ class SubmitCartMutation extends Mutation
         if(isset($args["cartIndex"])){
             $w = \App\Models\Webhead::dbf()->index($args["cartIndex"]);
         }else{
-            //$user = (new \App\Models\Viewer($args))->user;
             $w = \App\Models\Webhead::dbf()
                 ->where("REMOTEADDR", "===",$args["REMOTEADDR"])
                 //->where("KEY", "===",$user->KEY)

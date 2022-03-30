@@ -14,7 +14,13 @@ class Backdetail extends BaseModel implements \App\Interfaces\ModelInterface {
         "_config"=>"backdetail",
       ];
 
-      protected $indexes = ["TRANSNO", "KEY", "PROD_NO"];
+      protected $indexes = ["KEY"];
+
+    public $foreignKeys = [
+        ["TRANSNO","TRANSNO","backheads"], //TRANSNO references TRANSNO on backheads
+        ["PROD_NO","ISBN","inventories"], //PROD_NO references ISBN on inventories
+    ];
+
 
 	public function head()
     {

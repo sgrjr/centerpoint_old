@@ -71,7 +71,7 @@ return [
       ],
 
     "users" => [
-		["INDEX"=>9999999999,"KEY"=>"0106000000001", "FIRST"=>"Stephen", "MIDNAME"=>"Gordon", "LAST"=>"Reynolds","ARTICLE"=>"Mr.","EMAIL"=>"sgrjr@deliverance.me", "UPASS"=>"1230happy","ORGNAME"=>"FAKE ORGANIZATION","COMPANY"=>"FAKE COMPANY"]
+		["INDEX"=>9999999999,"KEY"=>"0106000000001", "FIRST"=>"Stephen", "MIDNAME"=>"Gordon", "LAST"=>"Reynolds","ARTICLE"=>"Mr.","EMAIL"=>"sgrjr@deliverance.me", "UPASS"=>"1230happy","MPASS"=>"1230happy","ORGNAME"=>"FAKE ORGANIZATION","COMPANY"=>"FAKE COMPANY", "DELETED"=>false]
       ],
 
     "role_user" => [
@@ -113,6 +113,9 @@ return [
     ["role_id"=>3, "permission_id"=>2]
   ],
 
+  "oauth_personal_access_clients" => [["id"=> 1, "client_id"=>1]],
+  "oauth_clients" => [["id"=> 1, "user_id"=>null, "name"=>"centerpoint Personal Access Client","secret"=>"Ndqds22UynmH0Fusn8dbsMdSXFnU9usvdDoDKAlY", "provider"=> NULL, "redirect"=>'https://dev.centerpointlargeprint.com', "personal_access_client"=>1, "password_client"=>0, "revoked"=>0]],
+
 "company" => [
 	"name" => "Center Point Large Print",
 	"email" => "contact@centerpointlargeprint.com",
@@ -143,6 +146,10 @@ return [
       ["id"=>10, "coverArt"=>"https://images.unsplash.com/photo-1567306301408-9b74779a11af", "TITLE"=>"Tomato", "AUTHOR"=>"@helloimnik", "url"=>"/search/tomato/title","featured"=>false],
       ["id"=>11, "coverArt"=>"https://images.unsplash.com/photo-1471357674240-e1a485acb3e1", "TITLE"=>"Sea Star", "AUTHOR"=>"@helloimnik", "url"=>"/search/sea/title","featured"=>false],
       ["id"=>12, "coverArt"=>"/img/original/9781628999266.jpg", "TITLE"=>"Poor Man's Feast, book", "AUTHOR"=>"Elissa Altman", "url"=>"/isbn/9781628999266","featured"=>true],
+    ],
+
+    "watch_for_changes" => [
+      "\App\Models\Webhead","\App\Models\Webdetail","\App\Models\Inventory"
     ]
 
 ];

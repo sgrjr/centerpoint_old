@@ -15,13 +15,19 @@ class Webdetail extends BaseModel implements \App\Interfaces\ModelInterface {
     'dbf_webdetail'
   ];
 
-   protected $indexes = ["REMOTEADDR", "PROD_NO", "KEY"];
+   protected $indexes = ["KEY"];
 	protected $appends = [];
       protected $attributeTypes = [ 
         "_config"=>"webdetail",
       ];
 
     protected $fillable = ["REQUESTED", "REMOTEADDR", "PROD_NO", "INDEX", "KEY"];
+
+    public $foreignKeys = [
+        ["REMOTEADDR","REMOTEADDR","webheads"], //REMOTEADDR references REMOTEADDR on webheads
+        ["PROD_NO","ISBN","inventories"], //PROD_NO references ISBN on inventories
+    ];
+
 
     public function getBookConnection(array $record = []){
 

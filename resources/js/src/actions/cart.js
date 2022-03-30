@@ -47,7 +47,7 @@ const cart = {
   {
       type: 'CART_TITLE_ADDED_SUCCESS',   
       creator: (payload) => {
-        return { type: 'CART_TITLE_ADDED_SUCCESS', payload: payload.createCartTitle, message:{message: "Title added to cart.", severity:"success"} }
+        return { type: 'CART_TITLE_ADDED_SUCCESS', payload: payload.updateOrCreateCartTitle, message:{message: "Title added to cart.", severity:"success"} }
       }
   },
 
@@ -225,8 +225,8 @@ const cart = {
         success: cart.CART_CREATE_SUCCESS.creator,
         error: cart.CART_ERROR.creator
       }
-
-      const query = cartCreateMutation();
+      const input = {}
+      const query = cartCreateMutation({input:input});
 
       return graphql(query, actions)
     } 
@@ -309,7 +309,8 @@ const cart = {
   {
       type: 'CART_TITLE_UPDATE_SUCCESS',   
       creator: (payload) => {
-        return { type: 'CART_TITLE_UPDATE_SUCCESS', payload: payload.updateCartTitle, message:{message:"Cart title updated.", severity:"success"}  }
+        console.log(payload)
+        return { type: 'CART_TITLE_UPDATE_SUCCESS', payload: payload.updateOrCreateCartTitle, message:{message:"Cart title updated.", severity:"success"}  }
       }
   },
 
@@ -349,7 +350,7 @@ const cart = {
   {
       type: 'CART_CREATE_SUCCESS',   
       creator: (data) => {
-        return { type: 'CART_CREATE_SUCCESS', data: data.createCart, message:{message:"Cart created.", severity:"success"}   }
+        return { type: 'CART_CREATE_SUCCESS', data: data.updateOrCreateCart, message:{message:"Cart created.", severity:"success"}   }
       }
   },
 

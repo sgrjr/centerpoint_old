@@ -2,18 +2,10 @@
 /**
 * ----------------------------------------------------------------
 *			XBase
-*			test_api.php	
-* 
-*  Developer        : Erwin Kooi
-*  released at      : Jan 2005
-*  last modified by : Erwin Kooi
-*  date modified    : Jan 2005
-*                                                               
-*  Info? Mail to info@cyane.nl
+*			test_api.php
 * 
 * --------------------------------------------------------------
 *
-* R/W with api demonstration / compare with PHP integrated dbase functions
 *
 **/
 

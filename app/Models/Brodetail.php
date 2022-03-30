@@ -15,6 +15,11 @@ class Brodetail extends BaseModel implements \App\Interfaces\ModelInterface{
         "_config"=>"brodetail",
       ];
 
+    public $foreignKeys = [
+        ["TRANSNO","TRANSNO","broheads"], //TRANSNO references TRANSNO on allheads
+        ["PROD_NO","ISBN","inventories"], //PROD_NO references ISBN on inventories
+    ];
+
 	public function head()
     {
         return $this->belongsTo('App\Models\Brohead','TRANSNO','TRANSNO');

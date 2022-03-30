@@ -1,9 +1,6 @@
-<?php
-
-namespace App\Console\Commands;
+<?php namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 class DatabaseRebuild extends Command
 {
@@ -12,7 +9,7 @@ class DatabaseRebuild extends Command
      *
      * @var string
      */
-    protected $signature = 'db:rebuild {table?}';
+    protected $signature = 'db:rebuild {shouldSeed?} {table?}';
 
     /**
      * The console command description.
@@ -38,24 +35,8 @@ class DatabaseRebuild extends Command
      */
     public function handle()
     {
-        $table = $this->argument('table');
-        $dm = new \App\Helpers\DatabaseManager();
-        $output = new ConsoleOutput();
-
-        if(isset($table)){
-            $opt = new \stdclass;
-            $opt->name = $table;
-            $opt->seed = false;
-            $dm->rebuildTable($opt);
-        }else{
-            $shouldSeed = false;
-            $dm->rebuildAllDbfTables($shouldSeed);
-        }
-
-        foreach($dm->results AS $result){
-            $output->writeln($result->message);
-        }
-
+        $db_name = config("database.connections.mysql.database");
+        \App\Helpers\DatabaseManager::rebuild($db_name, $this->argument('shouldSeed') === "seed", $this->argument('table'));
         return Command::SUCCESS;
     }
 }

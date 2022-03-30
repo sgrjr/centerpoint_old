@@ -4,19 +4,7 @@
 *			XBase
 *			test.php	
 * 
-*  Developer        : Erwin Kooi
-*  released at      : Nov 2005
-*  last modified by : Erwin Kooi
-*  date modified    : Jan 2005
-*                                                               
-*  Info? Mail to info@cyane.nl
-* 
 * --------------------------------------------------------------
-*
-* Basic demonstration
-* download the sample tables from:
-* http://www.cyane.nl/phpxbase.zip
-*
 **/
 
 	/* load the required classes */

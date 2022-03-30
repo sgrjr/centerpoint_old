@@ -38,7 +38,7 @@ export default function CartList(props) {
     }else{
 
       let crt = {
-        REMOTEADDR: "NEW_UNSAVED_CART",
+        REMOTEADDR: false,
         items: []
       }
 

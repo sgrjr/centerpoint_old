@@ -16,13 +16,19 @@ class Ancientdetail extends BaseModel implements \App\Interfaces\ModelInterface 
         "_config"=>"ancientdetail",
       ];
 
-      protected $indexes = ["TRANSNO", "KEY", "PROD_NO"];
+      protected $indexes = ["KEY"];
 
       protected $ignoreColumns = [ 
         "PAGES","OUNCES","TESTTRAN","USERPASS","ORDERNUM","CAT","SUBTITLE","ARTICLE","LASTTOUCH","LASTTIME","LASTDATE","TITLEKEY","AUTHORKEY","UNITCOST","ORDEREDBY","PUBDATE","FORMAT","COMPUTER","INVNATURE","FORMAT","PUBLISHER","CATALOG","STATUS","SOPLAN","TIMESTAMP","DATESTAMP","SERIES","REMOTEADDR"
       ];
 
       protected $fillable = ["KEY","TRANSNO","DATE","REQUESTED","SHIPPED","PROD_NO","AUTHOR","TITLE","LISTPRICE","DISC","SALEPRICE","SERIES","INDEX"];
+
+    public $foreignKeys = [
+        ["TRANSNO","TRANSNO","ancientheads"], //TRANSNO references TRANSNO on ancientheads
+        ["PROD_NO","ISBN","inventories"], //PROD_NO references ISBN on inventories
+    ];
+
 
 	public function head()
     {

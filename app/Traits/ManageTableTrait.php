@@ -3,99 +3,93 @@
 use Config, Schema;
 use App\Ask\DatabaseType\PHPXbase\XBaseTable as DbfTable;
 
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Helper\ProgressBar;
+
 Trait ManageTableTrait
 {
 
 	 public function dropTable(){
-
 		\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 	    \Schema::dropIfExists( $this->getTable() );
 		\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
 		return $this;
-	
 	}
 
-        public function emptyTable(){
-		    static::truncate();
-		    return $this;
-	    }
+    public function emptyTable(){
+    	if( \Schema::hasTable($this->getTable() ) ){
+    		\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+	    	static::truncate();
+			\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+    	}
+    	
+	    return $this;
+    }
 
     public function manager(){
         return \App\Models\Dbf::where('name',"LIKE", $this->getTable())->first();
     }
 
     public function createTable(){
-        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         if(Schema::hasTable($this->getTable())){
             $this->dropTable();
         }
 
 		Schema::create($this->getTable(),function($table) {
-				$table->increments('id');
-                $table = \App\Helpers\Misc::setUpTableFromHeaders($table, $this->headers);
-                $table->charset = 'utf8';
-				$table->collation = 'utf8_unicode_ci';
+			$table->increments('id');
+            $table = \App\Helpers\Misc::setUpTableFromHeaders($table, $this->headers, $this);
+            $table->charset = 'utf8';
+			$table->collation = 'utf8_unicode_ci';
+		});		
 
-				foreach($this->indexes as $index){
-					$table->index($index);
-				}
-
-		          switch($this->getTable()){
-
-		            case "alldetails":
-		              $table->foreign('TRANSNO')->references('TRANSNO')->on('allheads')->onUpdate('cascade')->onDelete('cascade');
-		              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
-		              break;
-		            case "ancientdetails":
-		              $table->foreign('TRANSNO')->references('TRANSNO')->on('ancientheads')->onUpdate('cascade')->onDelete('cascade');
-		              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
-		              break;
-		            case "backdetails":
-		              $table->foreign('TRANSNO')->references('TRANSNO')->on('backheads')->onUpdate('cascade')->onDelete('cascade');
-		              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
-		              break;
-		            case "brodetails":
-		              $table->foreign('TRANSNO')->references('TRANSNO')->on('broheads')->onUpdate('cascade')->onDelete('cascade');
-		              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
-		              break;
-		            case "webdetails":
-		              $table->foreign('REMOTEADDR')->references('REMOTEADDR')->on('webheads')->onUpdate('cascade')->onDelete('cascade');
-		              $table->foreign('PROD_NO')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
-		              break;
-		            case "booktexts":
-		              $table->foreign('KEY')->references('ISBN')->on('inventories')->onUpdate('cascade')->onDelete('cascade');
-		              break;
-		            case "role_user":
-		              $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
-		              $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-		              break;
-		            case "standing_orders":
-		              $table->foreign('KEY')->references('KEY')->on('vendors')->onUpdate('cascade')->onDelete('cascade');
-		              break;
-		            case "dbfs":
-		              $table->unique('name');
-		              break;
-		          }
-
-			});	
-		\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+		return $this;
 	}
 
-	public static function seedTable(){
-		\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-		$model = new static;
-    	
-		\Eloquent::unguard();
-		
-    	$model->emptyTable();
+	public function updateTable(){
+		$model = (new static)->emptyTable()->createTable()->seedTable()->addForeignKeys();
+		unset($model);
+	}
 
-        foreach($model->getSeeds() AS $seed){ // array[type,id,path]
+	public function addForeignKeys(){
+		$keys = $this->getForeignKeys();
+
+		Schema::table($this->getTable(),function($table) use($keys) {
+			foreach($keys AS $fk){
+            	$table->foreign($fk[0])->references($fk[1])->on($fk[2]);
+        	}
+		});	
+		return $this;
+	}
+
+
+
+    public function dropForeignKeys(){
+       $keys = $this->getForeignKeys();
+
+		Schema::table($this->getTable(),function($table) use($keys) {
+			foreach($keys AS $fk){
+				$k = $fk[0];
+            	$table->dropForeign([$k]);
+        	}
+		});	
+		return $this;
+    }
+
+    public function getForeignKeys(){
+        return ($this->foreignKeys)? $this->foreignKeys:[];
+    }
+
+	public function seedTable(){
+		
+    	$this->emptyTable();
+
+        foreach($this->getSeeds() AS $seed){ // array[type,id,path]
 
 			switch($seed['type']){
 				
 				case 'xml':
-					foreach($model->xml()->all()->records AS $item){
+					foreach($this->xml()->all()->records AS $item){
 						$item->save();
 					}
 					break;
@@ -104,29 +98,75 @@ Trait ManageTableTrait
 					$conf = Config::get('cp');
 
 					foreach($conf[$seed['id']] AS $mdl){
-						static::create($mdl);
+						$model = static::create($mdl);
 					}
 					break;
 
 				case 'dbf':
-					$resp = $model->dbf()
-					->skipModel(true)
-					->import($model->getTable())
-					->all()
-					//->reset()
-					;
+					$this->seedFromDBF();
+					$this->doAfterSeed();
+					break;
 				default:
 					break;
 			}
 
 		}
-		\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-		return $model;
+
+		return $this;
+
+	}
+
+	public function seedFromDBF(){
+            ini_set('memory_limit','512M');
+            $output = new ConsoleOutput();
+            \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+            $dbf = $this->dbf();
+
+            foreach($dbf->table AS $file){
+            	$bag = [];
+            	$file->open();
+            	$count = $file->count();
+            	$output->write("<fg=green>STARTING TO IMPORT: " . $count . " RECORDS...");
+
+            	$progressBar = new ProgressBar($output, $count);
+				$progressBar->setBarCharacter('<fg=green>⚬</>');
+				$progressBar->setEmptyBarCharacter("<fg=red>⚬</>");
+				$progressBar->setProgressCharacter("<fg=green>➤</>");
+				$progressBar->setFormat("<fg=white;bg=cyan> %status:-45s%</>\n%current%/%max% [%bar%] %percent:3s%% %estimated:-20s% %memory:20s%", $progressBar->getFormatDefinition('debug')); // the new format
+
+            	$progressBar->start();
+
+	            while ($record=$file->nextRecord() ) {
+	                $rd = $record->getData($this->getIgnoreColumns());
+	                $bag[] = $rd;
+	                $progressBar->setMessage($this->getTable() . " [" . $rd["INDEX"] ."]", 'status'); // set the `status` value
+	                $progressBar->advance();
+	                if(count($bag) > 400){
+	                    $this->insert($bag);
+	                    $bag = [];
+	                }
+	            }
+
+	            $file->close();
+
+	            $this->insert($bag);
+	            $bag = [];
+	            $progressBar->finish();
+            }
+
+            \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            
+            unset($dbf);
+            unset($bag);
+            unset($file);
+            unset($rd);
+
+            return $this;
 
 	}	
 
 	 public function getHeadersAttribute(){
-
 		$fillable = $this->getFillable();
         $headers = $this->getAttributeTypes();
         $ignore = $this->getIgnoreColumns();
@@ -143,7 +183,8 @@ Trait ManageTableTrait
                 $con = $col->getContainer();
                 $name = $con["name"];
 
-                if(!in_array($name,$ignore) ){
+                if($name !== null && !in_array($name,$ignore) ){
+                	
 			    	$headers[$name] = [
 	                    "name" => $name,
 	                    "type" => $con["type"],
@@ -160,6 +201,13 @@ Trait ManageTableTrait
             "name" => "INDEX",
             "type" => "Int",
             "length" => 15,
+            "nullable" => false
+           ];
+
+           $headers["DELETED"] =[
+            "name" => "DELETED",
+            "type" => "Boolean",
+            "length" => 1,
             "nullable" => false
            ];
 
@@ -196,6 +244,10 @@ Trait ManageTableTrait
 		}
         
 	    return $headers;
+	}
+
+	public function doAfterSeed(){
+		//
 	}
 
 }

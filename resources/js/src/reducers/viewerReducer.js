@@ -21,12 +21,10 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
 
             let selectedCart = state.cart.selectedCart
 
-            if(selectedCart === false || selectedCart === "NEW_UNSAVED_CART"){
+            if(selectedCart === false){
                 if(action.payload.viewer && action.payload.viewer.vendor && action.payload.viewer.vendor.carts.data.length >= 1){
                     selectedCart = action.payload.viewer.vendor.carts.data[0].REMOTEADDR
                 } 
-            }else if(!selectedCart){
-                selectedCart = "NEW_UNSAVED_CART";
             }
 
             return {
@@ -106,14 +104,14 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
         if(state.vendor){
             newVendor = {...state.vendor}
         }
-        if(action.payload.user.vendor !== null){
-            newVendor = {...newVendor, ...action.payload.user.vendor}
+        if(action.payload.vendor !== null){
+            newVendor = {...newVendor, ...action.payload.vendor}
         }
 
         let newDefaultSelectedCart = false
 
-        if(action.payload.user.vendor){
-            newDefaultSelectedCart = action.payload.user.vendor.carts.data[0].REMOTEADDR
+        if(action.payload.vendor){
+            newDefaultSelectedCart = action.payload.vendor.carts.data[0].REMOTEADDR
         }
 
         return {
@@ -421,7 +419,7 @@ case actions.cart.INVOICE_SUCCESS.type:
                 ...state,
                 vendor: {
                     ...state.vendor,
-                    ...action.payload.user.vendor
+                    ...action.payload.vendor
                 }
             }
 

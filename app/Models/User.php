@@ -16,12 +16,15 @@ use App\Traits\PresentableTrait;
 
 use \App\Traits\DbfTableTrait;
 use App\Traits\GetsPermissionTrait;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class User extends Authenticatable implements \App\Interfaces\ModelInterface, \Illuminate\Contracts\Auth\CanResetPassword {
 
   
 
   use AskTrait, ManageTableTrait, ModelTrait, PresentableTrait, CanResetPassword, DbfTableTrait, HasApiTokens, GetsPermissionTrait;
+
+    protected $fillable = ['remember_token', 'KEY', 'UPASS', 'MPASS', 'UNAME', 'SNAME', 'EMAIL', 'PIC', 'COMPANY', 'SEX', 'FIRST', 'MIDNAME', 'LAST', 'ARTICLE', 'TITLE', 'ORGNAME', 'STREET', 'SECONDARY', 'CITY', 'CARTICLE', 'STATE', 'COUNTRY', 'POSTCODE', 'NATURE', 'VOICEPHONE', 'EXTENSION', 'FAXPHONE', 'COMMCODE', 'CANBILL', 'TAXEXEMPT', 'SENDEMCONF', 'INDEX', 'DELETED', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -70,7 +73,7 @@ class User extends Authenticatable implements \App\Interfaces\ModelInterface, \I
         'DATESTAMP' => 'date',
     ];
 
-     protected $ignoreColumns = ["LOGINS","DATEUPDATE","DATESTAMP","MDEPT","MFNAME","TSIGNOFF","TIMESTAMP","TIMEUPDATE","PASSCHANGE","PRINTQUE","SEARCHBY","MULTIBUY","SORTBY","FULLVIEW","SKIPBOUGHT","OUTOFPRINT","OPROCESS","OBEST","OADDTL","OVIEW","ORHIST","OINVO","EXTZN","INSOS","INREG","LINVO","NOEMAILS","ADVERTISE","PROMOTION","PASSDATE","EMCHANGE"];
+     public $ignoreColumns = ["LOGINS","DATEUPDATE","DATESTAMP","MDEPT","MFNAME","TSIGNOFF","TIMESTAMP","TIMEUPDATE","PASSCHANGE","PRINTQUE","SEARCHBY","MULTIBUY","SORTBY","FULLVIEW","SKIPBOUGHT","OUTOFPRINT","OPROCESS","OBEST","OADDTL","OVIEW","ORHIST","OINVO","EXTZN","INSOS","INREG","LINVO","NOEMAILS","ADVERTISE","PROMOTION","PASSDATE","EMCHANGE"];
 
    public function getIndexesAttribute(){
     return ["KEY"];
@@ -403,5 +406,17 @@ public function getMemo(){
     public function getPublicIdAttribute(){
       return base64_encode($this->id);
     }
+  public function doAfterSeed(){
+    $config = \Config::get('cp');
+    $oauth_personal_access_clients = $config["oauth_personal_access_clients"];
+    $oauth_clients = $config["oauth_clients"];
+
+    $output = new ConsoleOutput();
+    OauthPersonalAccessClient::create($oauth_personal_access_clients);
+    $output->writeln("oauth_personal_access_clients seeded.");
+    OauthClient::create($oauth_clients);
+    $output->writeln("oauth_clients seeded.");
+
+  }
     
 }

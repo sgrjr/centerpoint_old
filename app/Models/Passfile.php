@@ -4,13 +4,15 @@ use \App\Traits\DbfTableTrait;
 class Passfile extends BaseModel implements \App\Interfaces\ModelInterface{
 
 	use DbfTableTrait;
-	protected $appends = [];
+
 	protected $table = "passfiles";
-
-	protected $dbfPrimaryKey = 'INDEX';
+	protected $appends = [];
 	protected $seed = ['dbf_passfile'];
-
-      protected $attributeTypes = [ 
-        "_config"=>"passfile",
-      ];
+	protected $dbfPrimaryKey = 'INDEX';
+	public $timestamps = false;
+  protected $attributeTypes = [ 
+    "_config"=>"passfile",
+  ];
+  //protected $ignoreColumns = ["DUNNDAYS"];
+  //public $fillable = ["INDEX","DELETED"];
 }

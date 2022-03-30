@@ -2,9 +2,9 @@ export default (variables) => {
 
   return {
 
-    query:`mutation($REMOTEADDR: String!, $ISBN: String!, $QTY: Int!) {
-        createCartTitle(REMOTEADDR: $REMOTEADDR, PROD_NO: $ISBN, REQUESTED: $QTY){
-          user{
+    query:`mutation($input: UpdateCartTitleInput!) {
+        updateOrCreateCartTitle(input: $input){
+
               vendor {
                 carts(first:100){
                   paginatorInfo{
@@ -36,7 +36,7 @@ export default (variables) => {
               
             }
           }
-        }
+
       }
     `, 
     variables: variables

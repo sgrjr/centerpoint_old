@@ -22,13 +22,6 @@
 use App\Ask\DatabaseType\PHPXbase\XBaseColumn; 
 use App\Ask\DatabaseType\PHPXbase\Memo; 
 
-function convert($size)
-{
-    $unit=array('b','kb','mb','gb','tb','pb');
-    return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
-}
-
-
 class XBaseTable {
 
     var $name;
@@ -67,26 +60,44 @@ class XBaseTable {
         $this->types->DBFFIELD_TYPE_DATETIME = "T";  // DateTime
         $this->types->DBFFIELD_TYPE_INDEX = "I";    // Index 
         $this->types->DBFFIELD_IGNORE_0 = "0";       // ignore this field
+        $this->writable = false;
+        $this->init();
+    }
+
+    private function init(){
+        return $this;
+    }
+
+    public function __destruct() {
+        $this->close();
     }
     
-    function newRecord($fields = []) {
-        return new XBaseRecord($this, false, $fields);
+    function newRecord($attributes = [], $deleted = false, $index = false) {
+        return new XBaseRecord($this, $index, $attributes, $deleted);
     }
 
     function open() {
-        //file name of dbf file
-	    $fn = $this->name;
-
+        
         $this->isStream=strpos($this->name,"://")!==false;
-	    if (!$this->isStream) {
-	    	if (!file_exists($fn)) trigger_error ($this->name." cannot be found", E_USER_ERROR);
-    	}
-    	$this->name = $fn;
-    	$this->fp = fopen($fn,"rb");
-		$this
-            ->readHeader()
-            ->setMemoTable();
-		return $this;
+        $fn = $this->name;
+        if (!$this->isStream) {
+            if (!file_exists($fn)) $fn = $this->name.".DBF";
+            if (!file_exists($fn)) $fn = $this->name.".dbf";
+            if (!file_exists($fn)) $fn = $this->name.".Dbf";
+            if (!file_exists($fn)) trigger_error ($this->name." cannot be found", E_USER_ERROR);
+        }
+
+        $this->name = $fn;
+        
+        if($this->writable){
+            $read_write_options = "r";
+        }else{
+            $read_write_options = "r+";
+        }
+
+        if($this->fp = fopen($fn,$read_write_options)) $this->readHeader()->setMemoTable();
+
+        return $this;
 		
 	}
 	public function setMemoTable($skip = null){
@@ -165,17 +176,22 @@ class XBaseTable {
     }
 
     function isOpen() {
-        return $this->fp?true:false;
+        return is_resource($this->fp);
     }
+
     function close() {
+     if($this->isOpen()){
+        fflush($this->fp);
         fclose($this->fp);
+        $this->fp = false;
+     }
     }
 
     function nextRecord() {
 
         if ($this->recordPos+1 >= $this->recordCount) return false;
         $this->recordPos++;
-        $this->record = new XBaseRecord($this,$this->recordPos,$this->readBytes($this->recordByteLength));
+        $this->record = new XBaseRecord($this,$this->recordPos,$this->readBytes($this->recordByteLength), false);
 
         if ($this->record->isDeleted()) {
             $this->deleteCount++;
@@ -187,7 +203,6 @@ class XBaseTable {
     function recordsToArray($model){
         ini_set('memory_limit','512M');
         $startIndex = -1;
-        $this->open();
         $this->moveTo($startIndex);
         $list = [];
 
@@ -195,36 +210,8 @@ class XBaseTable {
             $list[] = $record1->getData();
         }
 
-        $this->close();
-
         return $list;
     }
-
-        function foreach($model){
-            
-            ini_set('memory_limit','512M');
-            $startIndex = -1;
-            $this->open();
-            $this->moveTo($startIndex);
-            $bag = [];
-
-            while ($record1=$this->nextRecord() ) {
-                $rd = $record1->getRawData($model->getIgnoreColumns());
-                $bag[] = $rd;
-
-                if(count($bag) > 400){
-                    $model->insert($bag);
-                    $bag = [];
-                }
-            }
-
-            $this->close();
-
-            $model->insert($bag);
-            $bag = [];
-
-            return $this;
-        }
 
     
     function previousRecord() {
@@ -243,11 +230,10 @@ class XBaseTable {
     }
 
     function moveTo($index) {
-         if (!$this->isOpen()) $this->open();
 	    $this->recordPos=$index;
 	    if ($index<0) return;
 	    fseek($this->fp,$this->headerLength+($index*$this->recordByteLength));
-	    $this->record = new XBaseRecord($this,$this->recordPos,$this->readBytes($this->recordByteLength));
+	    $this->record = new XBaseRecord($this,$this->recordPos,$this->readBytes($this->recordByteLength), false);
         return $this->record;
     }
     function getRecord() {

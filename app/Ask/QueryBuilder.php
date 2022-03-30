@@ -75,50 +75,6 @@ class DataResults {
 	}
 
 	public function done(){
-		//$this->calcPages()
-		//	->calcCount()
-			//->setHeaders()//disabled as part of this process is undeveloped and maybe unnecessary at this point
-		//	->calcLinks();
-
-		return $this;
-	}
-
-	public function setHeaders(){
-	//dd($this);
-	//a;sldkfjas;lkdfjasl;dkf jaslk here
-		/*
-		public function setHeaders(){
-		if($this->records->count() >= 1 ){
-			if(is_array($this->records->first() ) ){
-				$this->headers = array_keys( $this->records->first() );
-			}else{
-				$this->headers = $this->records->first()->getFillable();
-			}
-			
-		}
-		return $this;
-		//
-		$fillable = $this->getFillable();
-        $headers = [];
-
-        foreach($fillable AS $att){
-            
-            if($h = $this->getHeader($att) ){
-                $headers[] = $h;
-			}else{
-		    	$headers[] = [
-                    "name" => $att,
-                    "type" => "String",
-                    "length" => 255
-                ];
-			}
-            
-		}
-		
-	    return $headers;
-		//
-	}
-		*/
 		return $this;
 	}
 
@@ -277,22 +233,6 @@ class QueryBuilder {
 
 		return $this;
 	}
-
-
-	public function openTables(){
-		foreach($this->getTable() AS $table){
-			$table->open();
-		}
-		return $this;
-	}
-
-	public function closeTables(){
-		foreach($this->getTable() AS $table){
-			$table->close();
-		}
-		return $this;
-	}
-
 
 
 	public function lists($lists = false){

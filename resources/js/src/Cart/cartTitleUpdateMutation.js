@@ -2,8 +2,8 @@ export default (attributes) => {
 
   return {
     query:`mutation ($input: UpdateCartTitleInput!){
-      updateOrCreateCart(input: $input){
-        user {
+      updateOrCreateCartTitle(input: $input){
+
                       vendor {
                         carts(first:100){
                           paginatorInfo{
@@ -38,7 +38,7 @@ export default (attributes) => {
                         }
                       }
                     }
-                  }
+                  
             }  
           `, 
     variables: attributes

@@ -11,7 +11,7 @@ class Booktext extends BaseModel implements \App\Interfaces\ModelInterface {
    protected $seed = [
     'dbf_booktext'
   ];
-  protected $indexes = ["KEY"];
+  protected $indexes = [];
 	protected $dbfPrimaryKey = 'INDEX';
 
       protected $attributeTypes = [
@@ -30,6 +30,11 @@ class Booktext extends BaseModel implements \App\Interfaces\ModelInterface {
        ],
       ];
   
+    public $foreignKeys = [
+        ["KEY","ISBN","inventories"] //KEY references ISBN on inventories
+    ];
+
+
   public function title()
   {
       return $this->belongsTo('App\Models\Inventory','KEY','ISBN');
