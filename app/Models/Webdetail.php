@@ -28,7 +28,11 @@ class Webdetail extends BaseModel implements \App\Interfaces\ModelInterface {
         ["PROD_NO","ISBN","inventories"], //PROD_NO references ISBN on inventories
     ];
 
-
+    public function scopeNotDeleted($query)
+    {
+        return $query->where('DELETED', false);
+    }
+    
     public function getBookConnection(array $record = []){
 
 	    if(empty($record)){
