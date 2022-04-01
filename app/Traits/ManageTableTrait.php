@@ -120,6 +120,7 @@ Trait ManageTableTrait
             \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
             $file = $this->xTable();
+            $file->open();
             
             	$bag = [];
             	$count = $file->count();
@@ -149,6 +150,7 @@ Trait ManageTableTrait
 	            $progressBar->finish();
 
             \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            $file->close();
             
             unset($dbf);
             unset($bag);
@@ -167,7 +169,9 @@ Trait ManageTableTrait
         if(isset($headers["_config"]) ){
             
             $table = $this->xTable();
+            $table->open();
             $cols = $table->getColumns();
+            $table->close();
 
             foreach($cols AS $col){
                 $con = $col->getContainer();

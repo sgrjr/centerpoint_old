@@ -273,7 +273,7 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 
 			foreach($tables AS $table){
 				$start = microtime(true);
-				$table = $this->getTableByName($table);
+				$table = $this->getTableByName(trim($table));
 				
 				$result = false;
 
@@ -432,7 +432,7 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 
         	foreach($tables AS $table){
         		$opt = new stdclass;
-        		$opt->name = $table;
+        		$opt->name = trim($table);
         		$opt->seed = $shouldSeed;
         		$opt->overwrite = true;
 	            $dm->dropTable($opt);
