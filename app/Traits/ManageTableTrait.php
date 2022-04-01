@@ -38,7 +38,7 @@ Trait ManageTableTrait
 			$table->increments('id');
             $table = \App\Helpers\Misc::setUpTableFromHeaders($table, $this->headers, $this);
             $table->charset = 'utf8';
-			$table->collation = 'utf8_unicode_ci';
+			$table->collation = 'utf8_unicode_ci';			
 		});		
 
 		return $this;
@@ -51,12 +51,13 @@ Trait ManageTableTrait
 
 	public function addForeignKeys(){
 		$keys = $this->getForeignKeys();
-
+		Schema::disableForeignKeyConstraints();
 		Schema::table($this->getTable(),function($table) use($keys) {
 			foreach($keys AS $fk){
             	$table->foreign($fk[0])->references($fk[1])->on($fk[2]);
         	}
 		});	
+		Schema::enableForeignKeyConstraints();
 		return $this;
 	}
 
@@ -151,7 +152,7 @@ Trait ManageTableTrait
 
             \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
             $file->close();
-            
+
             unset($dbf);
             unset($bag);
             unset($file);

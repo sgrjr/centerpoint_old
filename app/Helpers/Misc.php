@@ -415,34 +415,20 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
           if(strpos($h["name"], '_id') !== false){
               isset($h["index"])? $table->unsignedInteger($h["name"])->index():$table->unsignedInteger($h["name"]);
           }else if(count($p) === 0){
-            if(static::isIndex($h["name"], $model)){
-                $table->$func($h["name"])->nullable()->index();
-            } else{
-                $table->$func($h["name"])->nullable();
-            }
-    	}else if(count($p) === 1){   
-            if(static::isIndex($h["name"], $model)){
-                $table->$func($h["name"], $p[0])->nullable()->index();
-            } else{
-                $table->$func($h["name"], $p[0])->nullable();
-            }
-    	}else if(count($p) === 2){
-              
-            if(static::isIndex($h["name"], $model)){
-                $table->$func($h["name"], $p[0], $p[1])->nullable()->index();
-            } else{
-                $table->$func($h["name"], $p[0], $p[1])->nullable();
-            }
-    	}else{
-              
-            if(static::isIndex($h["name"], $model)){
-                $table->$func($h["name"])->nullable()->index();
-            } else{
-                $table->$func($h["name"])->nullable();
-            }           
-    	}
+            $table->$func($h["name"])->nullable();
+            if(static::isIndex($h["name"], $model)){ $table->index($h["name"]);} 
+    	  }else if(count($p) === 1){   
+            $table->$func($h["name"], $p[0])->nullable();
+            if(static::isIndex($h["name"], $model)){$table->index($h["name"]);} 
+    	  }else if(count($p) === 2){
+            $table->$func($h["name"], $p[0], $p[1])->nullable();
+            if(static::isIndex($h["name"], $model)){$table->index($h["name"]);} 
+    	  }else{
+            $table->$func($h["name"])->nullable();
+            if(static::isIndex($h["name"], $model)){$table->index($h["name"]);} 
+    	  }
 
-    		}
+    	}
 
           return $table;
       }
