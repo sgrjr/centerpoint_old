@@ -45,13 +45,18 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
         return $query->where('ISCOMPLETE', false);
     }
 
+    public function scopeNotDeleted($query)
+    {
+        return $query->where('DELETED', false);
+    }
+
 
   // $record passed to getDetailsConnection must be an associative array
   // resulting from XBaseRecord->getRawData()
 
 
   public function items(){
-    return $this->hasMany('\App\Models\Webdetail','REMOTEADDR','REMOTEADDR');
+    return $this->hasMany('\App\Models\Webdetail','REMOTEADDR','REMOTEADDR')->notDeleted();
   }
 
   public function vendor(){

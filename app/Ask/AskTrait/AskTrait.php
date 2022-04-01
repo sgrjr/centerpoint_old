@@ -35,7 +35,7 @@ trait AskTrait {
     {
         $this->DELETED = true;
         $result = $this->dbfSave();
-        if($result){$this->delete();}
+        if($result){$this->save();}
         return true;
     }
 

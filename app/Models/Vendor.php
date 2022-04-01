@@ -135,7 +135,7 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
 
     public function carts()
     {
-       return $this->hasMany('App\Models\Webhead','KEY','KEY')->notcomplete();
+       return $this->hasMany('App\Models\Webhead','KEY','KEY')->notcomplete()->notDeleted();
     }
 
     public function getCartsCountAttribute(){
