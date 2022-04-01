@@ -1,7 +1,6 @@
 <?php namespace App\Models;
 use Schema;
 use App\Models\Dbf\DBaseHandler;
-use App\Models\Dbf\PHPXbase\XBaseTable;
 use App\Helpers\Compare;
 
 class Dbf extends BaseModel implements \App\Interfaces\ModelInterface {

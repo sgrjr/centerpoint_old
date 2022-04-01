@@ -45,6 +45,9 @@ export default (state = initState,action)=>{
               open: true
           }
           newState.item = newState.items[newState.items.length-1]
+          if(!newState.item.severity){
+            newState.item.severity = "error"
+          }
           return newState;
 
         case actions.cart.CART_SUCCESS.type:

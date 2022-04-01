@@ -29,6 +29,10 @@ function Checkout(props) {
     setExpanded(panel)
   }
 
+  if(!props.data || !props.data.invoice){
+    return <div/>
+  }
+
   return (
     <>
       <Typography variant="h2">{props.data.invoice.title}</Typography>

@@ -1,9 +1,6 @@
 <?php namespace App\Ask;
 
-use App\Ask\DatabaseType\PHPXbase\XBaseTable;
 use App\Ask\DatabaseType\Config\ConfigTable;
-use App\Ask\DatabaseType\PHPXbase\XBaseWritableTable as WritableTable;
-use App\Ask\DatabaseType\PHPXbase\XBaseTable as Table;
 use App\RecordDetails;
 use App\Helpers\Compare;
 use Config;
@@ -105,11 +102,7 @@ class QueryBuilder {
 
 	public function __construct(Object $model, $writable = false, $import = false){
 		$this->model = $model;
-
-		 
 		$this->parameters = \App\Helpers\Misc::defaultParameters();
-		
-
 		$this->writable = $writable;
 
 		$this

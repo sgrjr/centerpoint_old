@@ -1,7 +1,6 @@
 <?php namespace App\Traits;
 
 use Config, Schema;
-use App\Ask\DatabaseType\PHPXbase\XBaseTable as DbfTable;
 
 Trait ModelTrait
 {

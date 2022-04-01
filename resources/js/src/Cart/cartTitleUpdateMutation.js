@@ -5,7 +5,7 @@ export default (attributes) => {
       updateOrCreateCartTitle(input: $input){
 
                       vendor {
-                        carts(first:100){
+                        carts(first:12){
                           paginatorInfo{
                             total
                             count

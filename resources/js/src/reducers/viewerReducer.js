@@ -368,9 +368,10 @@ case actions.cart.INVOICE_SUCCESS.type:
             let csns =  {
                 ...state,
                 pending: false,
-                post: false    
+                post: false,
+                ...action.payload    
             }
-
+/*
             csns.vendor.carts.data = csns.vendor.carts.data.map(function(c){
                 if(c.id === action.payload.id){
                     return {...c, ...action.payload}
@@ -380,7 +381,7 @@ case actions.cart.INVOICE_SUCCESS.type:
             })
 
             csns.cart.checkout.data = {...action.payload}
-
+*/
             return csns
 
         case actions.cart.CART_TITLE_UPDATE_PENDING.type:

@@ -48,6 +48,7 @@ const form = {
   };
 
       const actions = {
+        action:'UPLOAD',
         pending: form.UPLOAD_PENDING.creator,
         success: form.UPLOAD_SUCCESS.creator,
         error: form.UPLOAD_ERROR.creator

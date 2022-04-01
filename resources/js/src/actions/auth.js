@@ -80,6 +80,7 @@ const auth = {
       }`};
     
       const actions = {
+         action:'AUTH_LOGOUT',
         pending: auth.AUTH_PENDING.creator,
         success: auth.AUTH_LOGOUT_SUCCESS.creator,
         error: auth.AUTH_ERROR.creator
@@ -185,6 +186,7 @@ const auth = {
         }`};
      
         const actions = {
+          action:'AUTH_GET',
           pending: auth.AUTH_PENDING.creator,
           success: auth.AUTH_SUCCESS.creator,
           error: auth.AUTH_ERROR.creator
@@ -201,7 +203,7 @@ const auth = {
         let query = null;
           
           const {id} = creds
-          console.log(id)
+ 
           query ={query: `mutation {
           adminLoginUser(input: {id: "${id}"}) {
             token
@@ -260,6 +262,7 @@ const auth = {
         }`};
      
         const actions = {
+          action:'ADMIN_GET_USER',
           pending: auth.AUTH_PENDING.creator,
           success: auth.AUTH_SUCCESS.creator,
           error: auth.AUTH_ERROR.creator

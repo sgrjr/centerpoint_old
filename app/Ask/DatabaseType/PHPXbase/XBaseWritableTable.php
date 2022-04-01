@@ -72,21 +72,11 @@ class XBaseWritableTable extends XBaseTable {
 	    if ($result->openWrite($filename,true)) return $result;
 	    return false;
 	}
-
-    function openWrite($filename=false,$overwrite=false) {
-	    if (!$filename) $filename = $this->name;
-	    if (file_exists($filename) && !$overwrite) {
-		    if ($this->fp = fopen($filename,"r+")) $this->readHeader();
-	    } else {
-		    if ($this->fp = fopen($filename,"w+")) $this->writeHeader();
-    	}
-    	return $this->fp!=false;
-    }
     
     function writeHeader() {
 
 	    $this->headerLength=($this->foxpro?296:33) + ($this->getColumnCount()*32);
-	    fseek($this->fp,0);
+	    $this->seek(0);
 	    $this->writeChar($this->version);
 	    $this->write3ByteDate(time());
 	    $this->writeInt($this->recordCount);
@@ -119,45 +109,34 @@ class XBaseWritableTable extends XBaseTable {
             $this->writeBytes(str_pad($this->backlist, 263," "));
         }
         $this->writeChar(0x0d);
-	}
+   	}
 
-	function save($serialized_record, $model){	
-		
-		if(strlen($serialized_record) !== $this->recordByteLength){
-			throw new \ErrorException(
-          		'Cannot Save to file. Data for DBF is wrong Byte Length.' . strlen($serialized_record) . '-' . $this->recordByteLength . ' - ' . $serialized_record
-        	);
-		}
+	function save($att, $ignore_columns = []){
 
-		if($model->INDEX !== null){
-			$model->INDEX = intVal($model->INDEX);
-		}
-
-		if(isset($model->INDEX) && $model->INDEX !== null && $model->INDEX !== false && $model->INDEX <= $this->count()+1){
-			$this->moveTo($model->INDEX);
-			$offset = $this->headerLength+($model->INDEX*$this->recordByteLength);
+		if(isset($att["INDEX"]) && $att["INDEX"] !== null && $att["INDEX"] !== false && $att["INDEX"] <= $this->count()+1){
+			$att["INDEX"] = intVal($att["INDEX"]);
+			$this->moveTo($att["INDEX"]);
+			$offset = $this->headerLength+($att["INDEX"]*$this->recordByteLength);
 		}else{
-			$this->record = new XBaseRecord($this, false, $serialized_record, false);
+			$this->record = $this->newRecord($att, false, false);
 			$offset = $this->headerLength+($this->recordCount*$this->recordByteLength);
-			$model->INDEX = $this->recordCount;
+			$att["INDEX"] = $this->recordCount;
 			$this->recordCount+=1;
+
 		}
 		
-		$this->log($serialized_record, ["index"=>$this->record->recordIndex]);
+		$this->log(json_encode($att), ["index"=>$this->record->recordIndex]);
 
-		fseek($this->fp,$offset);
-		fwrite($this->fp,$serialized_record);
-		
-		if ($this->record->inserted) $this->writeHeader();
-		
-		$this->moveTo($model->INDEX);		
+		$this->write($this->record->serialize(), $offset);
+
+		$this->moveTo($att["INDEX"]);		
 
 		foreach($this->record->getData() AS $k=>$v){
-			if(!in_array($k, $model->getIgnoreColumns())){
-				$model->$k = $v;
+			if(!in_array($k, $ignore_columns)){
+				$att[$k] = $v;
 			}
 		}
-		return $model;
+		return $att;
 	}
 
 	function delete($model){
@@ -188,15 +167,9 @@ class XBaseWritableTable extends XBaseTable {
 		$this->writeRecord();
 	}
 
-	function appendRecord() {
-		$this->record = new XBaseRecord($this, $this->recordCount,[], false);
-		$this->recordCount+=1;
-		return $this->record;
-	}
-
 	function readAll(){
 		
-		fseek($this->fp,$this->headerLength);
+		$this->seek($this->headerLength);
 		//Output lines until EOF is reached
 		echo "<ol>";
 
@@ -209,53 +182,35 @@ class XBaseWritableTable extends XBaseTable {
 		echo "</ol>";
 	}
 
-	function log($var, $additional_data = []){
-		$log_file = "DBF_WRITES.txt";
-		$newLog = new \stdclass;
-
-		if(file_exists($log_file)){
-			$log = json_decode(file_get_contents($log_file));
-			if($log === null){$log = [];}
-		}else{
-			$log = [];
-		}
-
-		$newLog->string = $var;
-		$newLog->file_name = $this->getName();
-		$newLog->time_stamp = (new \Datetime)->format('D M d, Y h:m:s A');
-		$newLog->more = $additional_data;
-
-		$log[] = $newLog;
-		file_put_contents($log_file,json_encode($log));
-	}
-
 	function writeRecord() {
 		
 		$data = $this->record->serialize();
 
 		if(strlen($data) !== $this->recordByteLength){
+			$message = 'Cannot Save to file. Data for DBF is wrong Byte Length.' . strlen($data) . '-' . $this->recordByteLength;
+			\App\Helpers\Misc::dbfLog($message);
 			throw new \ErrorException(
-          		'Cannot Save to file. Data for DBF is wrong Byte Length.' . strlen($data) . '-' . $this->recordByteLength
+          		$message
         	);
 		}
 
 		$offset = $this->headerLength+($this->record->recordIndex*$this->recordByteLength);
-		fseek($this->fp,$offset);
-		fwrite($this->fp,$data);
+
+		$this->write($data, $offset);
+
 		if ($this->record->inserted) $this->writeHeader();
-		
-		fflush($this->fp);
 	}
 	function deleteRecord() {
 		$this->record->deleted=true;
-		fseek($this->fp,$this->headerLength+($this->record->recordIndex*$this->recordByteLength));
-		fwrite($this->fp,"*");
+		$offset = $this->headerLength+($this->record->recordIndex*$this->recordByteLength);
+		$this->write("*", $offset);
 	}
 	function undeleteRecord() {
 		$this->record->deleted=false;
-		fseek($this->fp,$this->headerLength+($this->record->recordIndex*$this->recordByteLength));
-		fwrite($this->fp," ");
+		$offset = $this->headerLength+($this->record->recordIndex*$this->recordByteLength);
+		$this->write(" ", $offset);
 	}
+
 	function pack() {
 		$newRecordCount = 0;
 		$newFilepos = $this->headerLength;
@@ -270,43 +225,4 @@ class XBaseWritableTable extends XBaseTable {
 		ftruncate($this->fp,$this->headerLength+($this->recordCount*$this->recordByteLength));
 	}
 
-    /**
-     * -------------------------------------------------------------------------
-     * private functions
-     * -------------------------------------------------------------------------
-     */
-     
-    function writeBytes($buf) {
-	    return fwrite($this->fp,$buf);
-    }
-    function writeByte($b)  {
-        return fwrite($this->fp,$b);
-    }
-    function writeString($s) {
-        return $this->writeBytes($s);
-    }
-    function writeChar($c) {
-	    $buf = pack("C",$c);
-	    return $this->writeBytes($buf);
-    }
-    function writeShort($s) {
-	    $buf = pack("S",$s);
-	    return $this->writeBytes($buf);
-    }
-    function writeInt($i) {
-	    $buf = pack("I",$i);
-	    return $this->writeBytes($buf);
-    }
-    function writeLong($l) {
-	    $buf = pack("L",$l);
-	    return $this->writeBytes($buf);
-    }
-    function write3ByteDate($d) {
-	    $t = getdate($d);
-	    return $this->writeChar($t["year"] % 1000) + $this->writeChar($t["mon"]) + $this->writeChar($t["mday"]);
-    }
-    function write4ByteDate($d) {
-	    $t = getdate($d);
-	    return $this->writeShort($t["year"]) + $this->writeChar($t["mon"]) + $this->writeChar($t["mday"]);
-    }
 }

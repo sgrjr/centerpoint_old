@@ -121,7 +121,7 @@ class TitlePage extends Component{
             <GetMarc isbns={[title.ISBN]} />
           </Grid>
           <Grid item xs={10} md={5} style={{marginTop:"50px"}}>
-          <Typography variant="body1" dangerouslySetInnerHTML={{__html: title.SUBTITLE }}></Typography>
+          <div dangerouslySetInnerHTML={{__html: title.SUBTITLE}}></div>
           <Typography variant="h4" color="secondary" style={requireAuth}>
             {title && title.user? "YOUR PRICE: "+title.user.price : ""}
             </Typography>

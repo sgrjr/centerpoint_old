@@ -4,7 +4,10 @@ export default (variables) => {
 
     query:`  mutation ($input: UpdateCartInput!){
                 updateOrCreateCart(input: $input){
-                  id
+                  vendor{
+                    carts(first:12){
+                      data{
+                         id
                           INDEX
                           KEY
                           DATE
@@ -58,6 +61,10 @@ export default (variables) => {
                             invoice_memo
                             footer_memo
                           }
+                      }
+                    }
+                  }
+                         
                 }
             }  
           `, 

@@ -55,7 +55,7 @@ class IndexController extends Controller
           echo "<li style='border-bottom:solid 1px gray;'>".$entry->string."</li>";
 
           if(isset($entry->more->index)){
-            $dbf = new \App\Ask\DatabaseType\PHPXbase\XBaseWritableTable($entry->file_name);
+            $dbf = new \App\Ask\DatabaseType\XBaseTable($entry->file_name, true);
             $dbf->moveTo($entry->more->index);
             echo "<div>".$dbf->getRecord()->serialize()."</div>";
             $dbf->close();

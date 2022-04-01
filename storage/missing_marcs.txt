@@ -1,1 +1,4 @@
 Cannot find MARC record.Cannot find MARC record: C:\resources\data\Stephen_Reynolds\cp_marc\9781683242468.mrc
+Cannot find MARC record: C:\resources\data\Stephen_Reynolds\cp_marc\9781638082682.mrc
+Cannot find MARC record: C:\resources\data\Stephen_Reynolds\cp_marc\9780593214817.mrc
+Cannot find MARC record: C:\resources\data\Stephen_Reynolds\cp_marc\9780593556399.mrc

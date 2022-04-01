@@ -21,7 +21,7 @@ class Webdetail extends BaseModel implements \App\Interfaces\ModelInterface {
         "_config"=>"webdetail",
       ];
 
-    protected $fillable = ["REQUESTED", "REMOTEADDR", "PROD_NO", "INDEX", "KEY"];
+    protected $fillable = ["REQUESTED", "REMOTEADDR", "PROD_NO", "INDEX", "KEY","DELETED"];
 
     public $foreignKeys = [
         ["REMOTEADDR","REMOTEADDR","webheads"], //REMOTEADDR references REMOTEADDR on webheads
@@ -60,7 +60,7 @@ class Webdetail extends BaseModel implements \App\Interfaces\ModelInterface {
 public function fillAttributes($user = false){
 
    //fininsh figuring creating and updating carttitles and eventually deleting them
-    if(!$user){$user = request()->user;}
+    if(!$user){$user = request()->user();}
 
     $now = \Carbon\Carbon::now();
 
@@ -73,7 +73,9 @@ public function fillAttributes($user = false){
 
     // Set Attributes Related to Book
     $book = Inventory::where('ISBN', $this->PROD_NO)->first();
-
+    if($book === null){
+        return false;
+    }
     $bookAtts = ["ARTICLE","TITLE","AUTHOR","LISTPRICE","STATUS","AUTHORKEY","TITLEKEY","FORMAT","SERIES","PUBLISHER","CAT","PAGES","PUBDATE","INVNATURE","SOPLAN"];
     foreach($bookAtts AS $att){
         $this->setIfNotSet($att, $book->$att);

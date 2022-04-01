@@ -2,6 +2,7 @@
 
 use Rebing\GraphQL\GraphQLController;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class Misc
 {
@@ -469,6 +470,11 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
 
         $x->data = $data;
         return $x;
+    }
+
+    public static function dbfLog($message){
+        $mytime = Carbon::now();
+        file_put_contents(storage_path() . '/logs/dbf_log.log', "[" . $mytime->toDateTimeString() . "] " . $message . "\n", FILE_APPEND);
     }
 
 }

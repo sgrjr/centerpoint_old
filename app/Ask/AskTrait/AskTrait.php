@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use App\Ask\DatabaseType\PHPXbase\XBaseTable;
 use Config, Schema;
 
 trait AskTrait {
@@ -34,48 +33,81 @@ trait AskTrait {
 
  public function dbfDelete()
     {
-        $table = $this->dbf(true)->getTable();
-        if(is_array($table)){$table = $table[0];}
-        $result = $table->delete($this);
+        $this->DELETED = true;
+        $result = $this->dbfSave();
         if($result){$this->delete();}
         return true;
     }
 
  public function dbfSave()
     {
-        $table = $this->dbf(true)->getTable();
-        if(is_array($table)){$table = $table[0];}
-        $model = $table->save($this->serialize(), $this);
-        $model->save();
-        return $model;
+        $table = $this->xTable();
+        $table->open();
+        $atttributes_from_dbf = $table->save($this->toArray());
+        $table->close();
+        $this->update($atttributes_from_dbf);
+        return $this;
     }
 
 public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=false, $x=false, $user=false) {
-    
+
      if(isset($request) && $request !== false && $user === false){
-      $user = $request->user;
+      $user = $request->user();
      } else if($user === false){
-      $user = request()->user;
+      $user = request()->user();
      }
 
      if(isset($attributes["input"])){$attributes = $attributes["input"];}
 
-     if(!isset($attributes["id"])){
-        $model = (new static($attributes))->fillAttributes($user);
-     }else{
-        $model = static::where('id', $attributes['id'])->where('KEY', $user->KEY)->first();
-     }
+     //Setting the Model
+     if(static::class === "App\Models\Webdetail" && !isset($attributes["id"]) ){
+        
+        //If this is a title being added to the order than we need to check if the PROD_NO already exists or not
+        // on the order with REMOTEADDR made by user with KEY.
+        $model = $user->vendor->webdetailsOrders()->where('REMOTEADDR',$attributes["REMOTEADDR"])->where("PROD_NO",$attributes["PROD_NO"])->first();
 
-     if($model === null){
-        unset($attributes["id"]);
-        $model = (new static($attributes))->fillAttributes($user);
-     }else{
-        foreach($attributes AS $k=>$v){
-            $model->$k = $v;
+        if(!$model || $model === null){
+            //If the title wasn't already on the order then just create a new order item.
+            $model = (new static($attributes))->fillAttributes($user);
+            $model->save();
+        }else{
+            //Was already on order so update model attributes with the passed new attributes.
+            foreach($attributes AS $k=>$v){
+                if($k === "REQUESTED"){
+                    $model->$k = $model->$k+$v;
+                }else{
+                    $model->$k = $v;
+                }
+            }
+            $model->save();
         }
+
+     }else{
+
+         if(!isset($attributes["id"])){
+            $model = (new static($attributes))->fillAttributes($user);
+            $model->save();
+         }else{
+            $model = static::where('id', $attributes['id'])->where('KEY', $user->KEY)->first();
+         }
+
+         if($model === null){
+            unset($attributes["id"]);
+            $model = (new static($attributes))->fillAttributes($user);
+            $model->save();
+         }else{
+            foreach($attributes AS $k=>$v){
+                $model->$k = $v;
+            }
+         }
+    }
+
+     if($model){
+        $model->dbfSave();
+     }else{
+        \App\Helpers\Misc::dbfLog('Could not write to dbf and or database. There is probably now a blank entry in DBF because of this function fail. ' . static::class . " attributes: " . json_encode($attributes));
      }
 
-     $model = $model->dbfSave();
      return $user;
 }
 
@@ -92,46 +124,6 @@ public function setIfNotSet($key, $val, $force = false, $func_arg = false){
     }
     return $this;
 }
-
-/*
-    public function create(array $attributes = [])
-    {
-        $model = new static($attributes);
-        return $model;
-    }
-*/
-
-    public function findByIndex($index)
-    {
-        return  (new \App\Ask\QueryBuilder($this))->index($index);
-    }
-
-    public function raw()
-    {
-        return  (new \App\Ask\XbaseQueryBuilder($this))->index($this->INDEX);
-    }
-
-    public function getCount(){
-        $x = new \stdclass;
-        $x->mysql = 0;
-        $x->dbf = 0;
-
-        if($this->isFromDbf()){
-
-            $x->dbf = $this->dbf()->count();
-
-             if(\Schema::hasTable($this->getTable())){
-                $x->mysql = $this->count();
-             }
-
-        }else if(\Schema::hasTable($this->getTable())){
-            $x->mysql = $this->count();
-        }else if($this->source === "CSV"){
-            $x->dbf = $this->csv()->count();
-        }
-
-        return $x;
-    }
 
     public static function ask($writable = false, $import = false){
 
@@ -153,23 +145,15 @@ public function setIfNotSet($key, $val, $force = false, $func_arg = false){
         return $model->xbaseQueryBuilder($writable, $import);
     }
 
-    public function serialize(){
-        $deleted = false;
-        $index = false;
-        
-        $attributes = $this->toArray();
-        if(isset($attributes["DELETED"])){
-            $deleted = $attributes["DELETED"];
-            unset($attributes["DELETED"]);
+    public function xTable($skip_memo = false, $writable = true){
+        foreach($this->getSeeds() AS $seed){
+            if($seed["type"] === "dbf"){
+                $name = $seed["path"];
+                return new \App\Ask\DatabaseType\XBaseTable($name, $skip_memo, $writable);
+            }
         }
-        
-      if(isset($attributes["INDEX"])){
-        $index = $attributes["INDEX"];
-        unset($attributes["INDEX"]);
-      }
-        
-        $dbf = $this->dbf()->getTable()[0]->newRecord( $attributes, $deleted, $index );
-        return $dbf->serialize();
+
+        return false;
     }
 
 }

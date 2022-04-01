@@ -56,8 +56,11 @@ if(opt1.file !== undefined && opt1.file !== null && opt1.file !== ""){
 
          let err = {
           debugMessage:error,
-          message:"Request failed!",
-          severity:"warning"
+          message:"["+actions.action + "] Request failed!",
+          severity:"warning",
+          extensions:{
+            reason:"Lazy Programmer cut a corner."
+          }
          }
 
           dispatch(actions.error([err]));

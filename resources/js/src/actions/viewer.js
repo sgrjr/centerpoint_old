@@ -37,6 +37,7 @@ const viewer = {
       type: 'VIEWER_GET',   
       creator: (query) => {
         const actions = {
+          action:'VIEWER_GET',
           pending: viewer.VIEWER_PENDING.creator,
           success: viewer.VIEWER_SUCCESS.creator,
           error: viewer.VIEWER_ERROR.creator
@@ -50,6 +51,7 @@ const viewer = {
       type: 'VIEWER_UPDATE',   
       creator: (query) => {
         const actions = {
+          action:'VIEWER_UPDATE',
           pending: viewer.VIEWER_PENDING.creator,
           success: viewer.VIEWER_UPDATE_SUCCESS.creator,
           error: viewer.VIEWER_ERROR.creator

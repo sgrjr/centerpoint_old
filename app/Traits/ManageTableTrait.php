@@ -1,8 +1,6 @@
 <?php namespace App\Traits;
 
 use Config, Schema;
-use App\Ask\DatabaseType\PHPXbase\XBaseTable as DbfTable;
-
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Helper\ProgressBar;
 
@@ -121,11 +119,9 @@ Trait ManageTableTrait
             $output = new ConsoleOutput();
             \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-            $dbf = $this->dbf();
-
-            foreach($dbf->table AS $file){
+            $file = $this->xTable();
+            
             	$bag = [];
-            	$file->open();
             	$count = $file->count();
             	$output->write("<fg=green>STARTING TO IMPORT: " . $count . " RECORDS...");
 
@@ -148,12 +144,9 @@ Trait ManageTableTrait
 	                }
 	            }
 
-	            $file->close();
-
 	            $this->insert($bag);
 	            $bag = [];
 	            $progressBar->finish();
-            }
 
             \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
             
@@ -172,11 +165,8 @@ Trait ManageTableTrait
         $ignore = $this->getIgnoreColumns();
 
         if(isset($headers["_config"]) ){
-        
-            $path = Config::get('cp')["files"][$headers["_config"]];
             
-            $table = new DbfTable($path);
-            $table->open();
+            $table = $this->xTable();
             $cols = $table->getColumns();
 
             foreach($cols AS $col){
@@ -194,7 +184,6 @@ Trait ManageTableTrait
             	}
 		    }
 
-            $table->close();
             unset($headers["_config"]);
 
            $headers["INDEX"] =[

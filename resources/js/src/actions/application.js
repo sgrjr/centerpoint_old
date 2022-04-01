@@ -37,6 +37,7 @@ const application = {
       type: 'APP_GET',   
       creator: (query) => {
         const actions = {
+          action:'APP_GET',
           pending: application.APP_PENDING.creator,
           success: application.APP_SUCCESS.creator,
           error: application.APP_ERROR.creator
@@ -50,6 +51,7 @@ const application = {
       type: 'APP_UPDATE',   
       creator: (query) => {
         const actions = {
+          action:'APP_UPDATE',
           pending: application.APP_PENDING.creator,
           success: application.APP_UPDATE_SUCCESS.creator,
           error: application.APP_ERROR.creator

@@ -38,7 +38,7 @@ const cart = {
   {
       type: 'CART_TITLE_ADDED_PENDING',   
       creator: (vars) => {
-        return { type: 'CART_TITLE_ADDED_PENDING', vars: vars, message:{message:"Adding "+vars.ISBN+" to Cart ... ", severity:"info"}      }
+        return { type: 'CART_TITLE_ADDED_PENDING', vars: vars, message:{message:"Adding '"+vars.title.TITLE+"' ["+vars.title.ISBN+"] ... ", severity:"info"}      }
       }
   },
 
@@ -72,6 +72,7 @@ const cart = {
       type: 'CART_GET',   
       creator: (query) => {
         const actions = {
+          action:'CART_GET',
           pending: cart.CART_PENDING.creator,
           success: cart.CART_SUCCESS.creator,
           error: cart.CART_ERROR.creator
@@ -85,6 +86,7 @@ const cart = {
       type: 'INVOICE_GET',   
       creator: (query) => {
         const actions = {
+          action:'INVOICE_GET',
           pending: cart.INVOICE_PENDING.creator,
           success: cart.INVOICE_SUCCESS.creator,
           error: cart.INVOICE_ERROR.creator
@@ -130,6 +132,7 @@ const cart = {
     type: 'POST_TITLE_TO_CART',   
     creator: (query) => {
       const actions = {
+        action:'POST_TITLE_TO_CART',
         pending: cart.CART_TITLE_ADDED_PENDING.creator,
         success: cart.CART_TITLE_ADDED_SUCCESS.creator,
         error: cart.CART_ERROR.creator
@@ -171,6 +174,7 @@ const cart = {
     creator: (attributes) => {
       
       const actions = {
+        action:'CART_UPDATE_TITLE',
         pending: cart.CART_TITLE_UPDATE_PENDING.creator,
         success: cart.CART_TITLE_UPDATE_SUCCESS.creator,
         error: cart.CART_ERROR.creator
@@ -187,7 +191,7 @@ const cart = {
   {
     type: 'CART_TITLE_UPDATE_PENDING',   
     creator: (variables) => {
-      return { type: 'CART_TITLE_UPDATE_PENDING', variables, message:{message:"Title Update Pending: " + variables.REQUESTED +" ...", severity:"info"} }
+      return { type: 'CART_TITLE_UPDATE_PENDING', variables, message:{message:"Title Update Pending: " + variables.input.REQUESTED +" ...", severity:"info"} }
     } 
     
   },
@@ -197,6 +201,7 @@ const cart = {
     type: 'CART_DELETE',   
     creator: (variables) => {
       const actions = {
+        action:'CART_DELETE',
         pending: cart.CART_DELETE_PENDING.creator,
         success: cart.CART_DELETE_SUCCESS.creator,
         error: cart.CART_ERROR.creator
@@ -221,6 +226,7 @@ const cart = {
     type: 'CART_CREATE',   
     creator: () => {
       const actions = {
+        action:'CART_CREATE',
         pending: cart.CART_CREATE_PENDING.creator,
         success: cart.CART_CREATE_SUCCESS.creator,
         error: cart.CART_ERROR.creator
@@ -239,6 +245,7 @@ const cart = {
     creator: (variables) => {
 
       const actions = {
+        action:'CART_DELETE_TITLE',
         pending: cart.CART_DELETE_TITLE_PENDING.creator,
         success: cart.CART_DELETE_TITLE_SUCCESS.creator,
         error: cart.CART_ERROR.creator
@@ -264,6 +271,7 @@ const cart = {
       const query = cartUpdateMutation({input:p})
       
       const actions = {
+        action:'CART_CHECKOUT',
         pending: cart.CART_UPDATE_PENDING.creator,
         success: cart.CART_UPDATE_SUCCESS.creator,
         error: cart.CART_UPDATE_ERROR.creator
@@ -279,6 +287,7 @@ const cart = {
     type: 'CART_UPDATE',   
     creator: (query) => {
       const actions = {
+        action:'CART_UPDATE',
         pending: cart.CART_UPDATE_PENDING.creator,
         success: cart.CART_UPDATE_SUCCESS.creator,
         error: cart.CART_UPDATE_ERROR.creator
@@ -309,7 +318,6 @@ const cart = {
   {
       type: 'CART_TITLE_UPDATE_SUCCESS',   
       creator: (payload) => {
-        console.log(payload)
         return { type: 'CART_TITLE_UPDATE_SUCCESS', payload: payload.updateOrCreateCartTitle, message:{message:"Cart title updated.", severity:"success"}  }
       }
   },

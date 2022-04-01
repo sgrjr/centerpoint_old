@@ -18,6 +18,7 @@ const titles = {
       type: 'TITLES_GET',   
       creator: (query) => {
         const actions = {
+          action:'TITLE_GET',
           pending: titles.TITLES_PENDING.creator,
           success: titles.TITLES_SUCCESS.creator,
           error: act.notification.NOTIFICATION_ADD_ERROR.creator
@@ -55,6 +56,7 @@ TITLE_GET:
     type: 'TITLE_GET',   
     creator: (query) => {
       const actions = {
+        action:'TITLE_GET',
         pending: titles.TITLE_PENDING.creator,
         success: titles.TITLE_SUCCESS.creator,
         error: titles.TITLE_ERROR.creator

@@ -1,9 +1,7 @@
 <?php namespace App\Ask;
 
-use App\Ask\DatabaseType\PHPXbase\XBaseTable;
 use App\Ask\DatabaseType\Config\ConfigTable;
-use App\Ask\DatabaseType\PHPXbase\XBaseWritableTable as WritableTable;
-use App\Ask\DatabaseType\PHPXbase\XBaseTable as Table;
+use App\Ask\DatabaseType\XBaseTable;
 use Config;
 use \Illuminate\Pagination\LengthAwarePaginator;
 use App\Ask\AskInterface\AskQueryBuilderInterface;
@@ -30,10 +28,7 @@ public function setTable(){
         foreach($this->model->getSeeds() AS $seed){
 
         	if($this->writable && $seed["type"] === "dbf"){
-		        $table = new WritableTable($seed["path"]);
-				$this->table[] = $table;
-		    }else if( $seed["type"] === "dbf"){
-		        $table = new Table($seed["path"]);
+		        $table = new XBaseTable($seed["path"], $this->writable);
 				$this->table[] = $table;
 		    }
         }
@@ -78,6 +73,7 @@ public function index($index = 0, $columns = false){
 
 		foreach($this->table AS $table){
 			$details = [];
+			$table->open();
 			$table->moveTo($index);
 			$record=$table->getRecord();
 
@@ -101,7 +97,7 @@ public function index($index = 0, $columns = false){
     	}
 	   	$details["INDEX"] = $table->getRecordPos();
 	   	$details["DELETED"] = $record->isDeleted();
-	   	
+	   	$table->close();
 	   	$this->addDataRecord($details);
 	   }
 
@@ -130,6 +126,7 @@ public function index($index = 0, $columns = false){
 		$limit = $this->parameters->perPage * $this->parameters->page;
 
 		foreach($this->table AS $table){
+				$table->open();
 				$allRecords = $table->recordsToArray($this->model);
 
 					$counter = 0;
@@ -158,6 +155,8 @@ public function index($index = 0, $columns = false){
 				if($this->parameters->import){
 					$this->importAndEmpty();
 				}
+
+				$table->close();
 			}
 
 
@@ -212,7 +211,9 @@ public function flush(){
 		ini_set('memory_limit','3000M');
 
 		foreach($this->table AS $table){
+			$table->open();
 			$table->importAll();
+			$table->close();
 		}
 		
 		return true;

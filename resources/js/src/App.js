@@ -71,7 +71,7 @@ class App extends React.Component {
         </Routes>
       
       
-      <AppAlerts {...this.props}/>
+      <AppAlerts/>
      
     <Footer />
     </div>

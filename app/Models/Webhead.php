@@ -192,16 +192,15 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
     return $this;
   }
 
-public function webheadSchema($table){ $table->unique('REMOTEADDR'); return $table;	}
+//public function webheadSchema($table){ $table->unique('REMOTEADDR'); return $table;	}
 
 public static function deleteCart($_, $args, $request){
 
-      $user = $request->user;  
+      $user = $request->user();  
 
       if($user === null){
         return new \App\Models\User;
       }
-      //file_put_contents('test.txt',json_encode($user->vendor->) );
     
       $cart = static::where('id', $args['id'])->where('KEY', $user->KEY)->first();
 

@@ -26,7 +26,7 @@ function getTitleBar(props, item, index){
             PROD_NO: item.ISBN,
             REQUESTED: 1
           }
-      props.addTitleToCart(addTitleToCartQuery({input: input}));
+      props.addTitleToCart(addTitleToCartQuery({input: input, title:item}));
                 }}>
                   <IconPicker icon="shoppingCartAdd" />
                 </IconButton>

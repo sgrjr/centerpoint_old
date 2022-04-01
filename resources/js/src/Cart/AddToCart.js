@@ -39,7 +39,7 @@ class AddToCart extends Component{
       if(input.REMOTEADDR === false){
         delete input.REMOTEADDR;
       }
-      this.props.addTitleToCart(addTitleToCartQuery({input:input}));
+      this.props.addTitleToCart(addTitleToCartQuery({input:input, title:this.props.title}));
     }
 
     render(){ 

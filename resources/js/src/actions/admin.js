@@ -27,7 +27,7 @@ const admin = {
   {
       type: 'ADMIN_SUCCESS',   
       creator: (payload) => {
-        return { type: 'ADMIN_SUCCESS', payload,  message:{message:"Done.", severity:"success"}}
+        return { type: 'ADMIN_SUCCESS', payload,  message:{message:"ADMIN_SUCCESS. Done.", severity:"success"}}
       }
   },
  

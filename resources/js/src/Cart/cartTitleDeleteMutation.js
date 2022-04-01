@@ -4,7 +4,7 @@ export default (variables) => {
     query:`  mutation ($id:Int!){
       deleteCartTitle(id: $id){
                       vendor {
-                        carts (first:100){
+                        carts (first:12){
                          data{
                           id
                            INDEX

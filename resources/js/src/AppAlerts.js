@@ -23,21 +23,20 @@ class AppAlerts extends Component{
 
       <Stack className="noPrint" direction="column" justifyContent="space-evenly" alignItems="flex-end" spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={open}
-                    autoHideDuration={12000}
+                    autoHideDuration={3000}
                   onClose={handleAlerts}
                   severity={alert.severity}
                   anchorOrigin={{ vertical:"bottom", horizontal:"right" }}
                 >
                     <MuiAlert onClose={handleAlerts} severity={alert.extensions && alert.extensions.severity? alert.extensions.severity:alert.severity}  variant="filled" >
-                    [{alertsCount}] {alert.message} {alert.debugMessage? alert.debugMessage:""} {alert.extensions && alert.extensions.reason? alert.extensions.reason:""}
+                    [{alertsCount}] {alert.message} 
+                    {alert.debugMessage? <div dangerouslySetInnerHTML={{__html:alert.debugMessage}}/>:""} 
+                    {alert.extensions && alert.extensions.reason? alert.extensions.reason:""}
                     </MuiAlert>
                 </Snackbar>
       </Stack>)}else{
-        return <div/>
+        return null;
       }
-        
-        
-
         
     }
         

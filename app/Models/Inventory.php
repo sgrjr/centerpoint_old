@@ -92,7 +92,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     {
 
       if($user === false){
-        $user === request()->user;
+        $user = request()->user();
       }
 
       if($user !== null){

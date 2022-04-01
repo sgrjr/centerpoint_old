@@ -418,5 +418,24 @@ public function getMemo(){
     $output->writeln("oauth_clients seeded.");
 
   }
+
+  public function testAddTitleToCart(){
+    $input = [
+            "PROD_NO"=>"9781628998887",
+            "REMOTEADDR"=> 64042,
+            "REQUESTED"=> 9
+        ];
+
+    $root = false;
+    $attributes = $input;
+    $request = false;
+    $x = false;
+    $user = User::find(1);
+
+    $result = Webdetail::dbfUpdateOrCreate($root, $attributes, $request, $x, $user);
+
+    $checked = $user->vendor->webdetailsOrders->where('REMOTEADDR',$input["REMOTEADDR"])->where("PROD_NO",$input["PROD_NO"])->first();
+    return $checked->id;
+  }
     
 }
