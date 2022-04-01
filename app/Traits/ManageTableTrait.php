@@ -44,11 +44,6 @@ Trait ManageTableTrait
 		return $this;
 	}
 
-	public function updateTable(){
-		$model = (new static)->emptyTable()->createTable()->seedTable()->addForeignKeys();
-		unset($model);
-	}
-
 	public function addForeignKeys(){
 		$keys = $this->getForeignKeys();
 		Schema::disableForeignKeyConstraints();

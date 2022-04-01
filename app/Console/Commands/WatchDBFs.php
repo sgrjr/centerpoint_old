@@ -169,8 +169,9 @@ class WatchDBFs extends Command
         $watch = Config::get('cp')['watch_for_changes'];
 
         if(in_array($opt->name, $watch)){
-            $model = $opt->name::updateTable();
-            unset($model);
+            $table = (new $opt->name)->getTable();
+            \Artisan::call("db:seed true ".$table);
+
             return 'MYSQL was updated for ' . $opt->name;
         }else{
             return 'MYSQL was not updated because I am not watching for changes in ' . $opt->name;
