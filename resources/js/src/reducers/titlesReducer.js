@@ -18,7 +18,7 @@ export default (state = titlesReducerInit,action)=>{
 
             var l = []
 
-            if(action.query.keep){
+            if(action.query && action.query.keep){
                 l = state.lists 
             }
 
