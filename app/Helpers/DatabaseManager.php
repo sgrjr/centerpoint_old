@@ -171,16 +171,13 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 			$table = $this->getTableByName($opt->name);
 			
 			if(!$table->isFromDbf() || is_array($table->getSeeds()) ){
-
 				$table->createTable();
-	
 				$this->addResult("Table " . $opt->name . " was created.", $table->getTable(), false);
 				return $this;
 			}else if($table !== null){	
-				dd('line ' . 177);
-				//$headers = $this->getHeaders($table->getTable());
-				//$this->schema($table->getTable(), $headers);
-				//$this->addResult("Table " . $opt->name . " was created.", $table->getTable(), false);
+				$headers = $this->getHeaders($table->getTable());
+				$this->schema($table->getTable(), $headers);
+				$this->addResult("Table " . $opt->name . " was created.", $table->getTable(), false);
 			}
 
 		}
@@ -320,6 +317,8 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 	}
 
 	public function rebuildTable($opt, $ini = true){
+		
+				
 		if(\Schema::hasTable($opt->name)){
 			$this->dropTable($opt);
 			$this->addResult($opt->name ." was dropped.", false, false);
@@ -426,6 +425,7 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 
 	public static function rebuild($db_name, $shouldSeed = false, $table = false){
 		$dm = new static();
+		$dm->foreignKeysDown();
 
         if($table){
         	$tables = explode(',', $table);
@@ -451,6 +451,7 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
         	$dm = new static(true);
             $dm->rebuildAllTables($db_name, $shouldSeed);
         }
+        $dm->foreignKeysUp();
 	}
 
 	public static function dropDatabaseIfExists($name){
@@ -498,7 +499,6 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 
 	public function foreignKeysUp(){
 		foreach($this->tables AS $model){
-
 			if($model->isFromDbf() && Schema::hasTable($model->getTable()) !== false){
 		        $model->addForeignKeys();
 			}	
@@ -514,7 +514,7 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 
 			catch(\Exception $e){
 				//keep going
-				dd($e);
+				//dd($e);
 			}
 		}
 	}
