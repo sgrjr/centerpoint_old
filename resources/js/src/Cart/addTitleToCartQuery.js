@@ -12,6 +12,7 @@ export default (variables) => {
                     count
                   }
                   data{
+                    id
                     INDEX
                     KEY
                     DATE

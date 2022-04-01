@@ -202,6 +202,7 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
 public static function deleteCart($_, $args, $request){
 
       $user = $request->user();  
+      $run = false;
 
       if($user === null){
         return new \App\Models\User;
@@ -210,13 +211,18 @@ public static function deleteCart($_, $args, $request){
       $cart = static::where('id', $args['id'])->where('KEY', $user->KEY)->first();
 
       if($cart !== null){
+
+        if($user->vendor->cartsCount <= 1){
+          $run = true;
+        }
+
         foreach($cart->items() AS $item){
           $item->dbfDelete();
         }
         $cart->dbfDelete();
       }
 
-      if($user->vendor->cartsCount <= 0){
+      if($run){
           $attributes = ["input"=>[]];
           $newcart = static::dbfUpdateOrCreate(false, $attributes, $request);
       }

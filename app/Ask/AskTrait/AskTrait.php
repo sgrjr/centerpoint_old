@@ -49,6 +49,10 @@ trait AskTrait {
         return $this;
     }
 
+public static function dbfCreate(){
+
+}
+
 public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=false, $x=false, $user=false) {
 
      if(isset($request) && $request !== false && $user === false){
@@ -61,7 +65,15 @@ public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=fa
 
      //Setting the Model
      if(static::class === "App\Models\Webdetail" && !isset($attributes["id"]) ){
-        
+             
+         if(!isset($attributes["REMOTEADDR"])){// if vendor has no carts then create one.
+            $newcart = (new \App\Models\Webhead())->fillAttributes($user);
+            $newcart->save();
+            $newatts = $newcart->dbfSave();
+            $attributes['REMOTEADDR'] = $newatts->REMOTEADDR;
+            $attributes['KEY'] = $newatts->KEY;
+        }
+
         //If this is a title being added to the order than we need to check if the PROD_NO already exists or not
         // on the order with REMOTEADDR made by user with KEY.
         $model = $user->vendor->webdetailsOrders()->where('REMOTEADDR',$attributes["REMOTEADDR"])->where("PROD_NO",$attributes["PROD_NO"])->first();
@@ -79,7 +91,6 @@ public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=fa
                     $model->$k = $v;
                 }
             }
-            $model->save();
         }
 
      }else{
@@ -94,7 +105,6 @@ public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=fa
          if($model === null){
             unset($attributes["id"]);
             $model = (new static($attributes))->fillAttributes($user);
-            $model->save();
          }else{
             foreach($attributes AS $k=>$v){
                 $model->$k = $v;
