@@ -135,7 +135,7 @@ $exitCode .= Artisan::call('db:seed --class=Standing_ordersTableSeeder');
 		$response = \App\Helpers\TerminalCommands::exec("GIT_ALL_COMMANDS", $opt);
 		$request->session()->flash('message', json_encode($response));
 
-        return redirect("/admin/db");   
+        return redirect("/setup");   
 	}
 
 	private function checkIfDbExists(){

@@ -149,9 +149,6 @@ public static function terminal($command, $opt = false)
 
             $commandToExecute = 'git add --all && git commit -m "'.$opt->message.'" && git pull && git push && composer update';
                 //https://stackoverflow.com/questions/8562544/executing-git-commands-via-php
-            
-            //$commands = explode("&&", $commandToExecute);
-            //dd($commands);
 
             exec( $command, $output, $status );
             array_push($alloutput, $output);
