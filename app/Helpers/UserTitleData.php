@@ -49,7 +49,7 @@ class UserTitleData {
 		    foreach($this->user->vendor->standingOrders AS $standingOrder){
 
 		      if(strtolower($this->title->SOPLAN) === strtolower($standingOrder->SOSERIES) && $standingOrder->QUANTITY > 0){
-		        $so->DISC = \App\Helpers\Misc::getDiscount($this->title->SERIES);
+		        $so->DISC = .25;//\App\Helpers\Misc::getDiscount($this->title->SOPLAN);
 		        $so->isInList = true;
 		        $escape = true;
 		        $so->SALEPRICE = round(round(floatval($this->title->LISTPRICE),2) - ($so->DISC * round(floatval($this->title->LISTPRICE),2)),2); 
