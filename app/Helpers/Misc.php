@@ -566,7 +566,7 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
             "CLASS_M" => ["discount"=>.40, "name"=>'Christian Series Level I (24)'],
             "CLASS_N" => ["discount"=>.40, "name"=>'Christian Series Level II (24)'],
             "CLASS_O" => ["discount"=>.40, "name"=>'Christian Series Level III (24)'],
-            "CLASS_P" => ["discount"=>.40, "name"=>"",
+            "CLASS_P" => ["discount"=>.40, "name"=>""],
             "CLASS_Q" => ["discount"=>.40, "name"=>'Platinum Nonfiction Series'],
             "CLASS_R" => ["discount"=>.40, "name"=>"Agatha Christie Series"],
             "CLASS_S" => ["discount"=>.40, "name"=>'Sterling Mystery Series'],
