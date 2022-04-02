@@ -547,46 +547,47 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
         "X - BESTSELLER SERIES (36)
         "X - CUSTOM MULTI SERIES MIX"
 
-        // from inventories
-        Platinum Mystery Series
-        Premier Romance Series
-        Platinum Spotlight Series
-        Platinum Nonfiction Series
-        Christian Series Level II (24)
-        Christian Series Level III (24)
-        Premier Fiction Series
-        Western Series Level II (24)
-        Premier Mystery Series
-        Christian Series Level I (24)
-        Platinum Fiction Series
-        Platinum Romance Series
-        Western Series Level III (24)
-        Western Series Level I (24)
-        Sterling Mystery Series
-        Christian Series Level II (24]
-        Christian Series Level Iii (24
+     
+
 */
             $standing_order_series = [
-            "CLASS_A" => ["discount"=>.40, "name"=>"Platinum Fiction Series",
-            "CLASS_B" => ["discount"=>.40, "name"=>"Platinum Romance Series",
-            "CLASS_C" => ["discount"=>.40, "name"=>"Premier Fiction Series",
-            "CLASS_D" => ["discount"=>.40, "name"=>"Western Series Level I (24)",
-            "CLASS_E" => ["discount"=>.40, "name"=>"Western Series Level II (24)",
-            "CLASS_F" => ["discount"=>.40, "name"=>"Premier Romance Series",
-            "CLASS_G" => ["discount"=>.40, "name"=>'Premier Mystery Series',
-            "CLASS_H" => ["discount"=>1, "name"=>"",
-            "CLASS_I" => ["discount"=>1, "name"=>"",
-            "CLASS_J" => ["discount"=>1, "name"=>"",
-            "CLASS_K" => ["discount"=>.40, "name"=>"Platinum Mystery Series",
-            "CLASS_L" => ["discount"=>.40, "name"=>'Platinum Spotlight Series',
-            "CLASS_M" => ["discount"=>.40, "name"=>'Christian Series Level I (24)',
-            "CLASS_N" => ["discount"=>.40, "name"=>'Christian Series Level II (24)',
-            "CLASS_O" => ["discount"=>.40, "name"=>'Christian Series Level III (24)',
+            "CLASS_A" => ["discount"=>.40, "name"=>"Platinum Fiction Series"],
+            "CLASS_B" => ["discount"=>.40, "name"=>"Platinum Romance Series"],
+            "CLASS_C" => ["discount"=>.40, "name"=>"Premier Fiction Series"],
+            "CLASS_D" => ["discount"=>.40, "name"=>"Western Series Level I (24)"],
+            "CLASS_E" => ["discount"=>.40, "name"=>"Western Series Level II (24)"],
+            "CLASS_F" => ["discount"=>.40, "name"=>"Premier Romance Series"],
+            "CLASS_G" => ["discount"=>.40, "name"=>'Premier Mystery Series'],
+            "CLASS_H" => ["discount"=>1, "name"=>""],
+            "CLASS_I" => ["discount"=>1, "name"=>""],
+            "CLASS_J" => ["discount"=>1, "name"=>""],
+            "CLASS_K" => ["discount"=>.40, "name"=>"Platinum Mystery Series"],
+            "CLASS_L" => ["discount"=>.40, "name"=>'Platinum Spotlight Series'],
+            "CLASS_M" => ["discount"=>.40, "name"=>'Christian Series Level I (24)'],
+            "CLASS_N" => ["discount"=>.40, "name"=>'Christian Series Level II (24)'],
+            "CLASS_O" => ["discount"=>.40, "name"=>'Christian Series Level III (24)'],
             "CLASS_P" => ["discount"=>.40, "name"=>"",
-            "CLASS_Q" => ["discount"=>.40, "name"=>'Platinum Nonfiction Series',
-            "CLASS_R" => ["discount"=>.40, "name"=>"Agatha Christie Series",
-            "CLASS_S" => ["discount"=>.40, "name"=>'Sterling Mystery Series',
-            "CLASS_T" => ["discount"=>.40, "name"=>'Western Series Level III (24)'
+            "CLASS_Q" => ["discount"=>.40, "name"=>'Platinum Nonfiction Series'],
+            "CLASS_R" => ["discount"=>.40, "name"=>"Agatha Christie Series"],
+            "CLASS_S" => ["discount"=>.40, "name"=>'Sterling Mystery Series'],
+            "CLASS_T" => ["discount"=>.40, "name"=>'Western Series Level III (24)']/*,
+            "Platinum Mystery Series"//   // from inventories
+            "Premier Romance Series"
+            "Platinum Spotlight Series"
+            "Platinum Nonfiction Series"
+           "Christian Series Level II (24)
+            Christian Series Level III (24)
+            Premier Fiction Series
+            Western Series Level II (24)
+            Premier Mystery Series
+            Christian Series Level I (24)
+            Platinum Fiction Series
+            Platinum Romance Series
+            Western Series Level III (24)
+            Western Series Level I (24)
+            Sterling Mystery Series
+            Christian Series Level II (24]
+            Christian Series Level Iii (24*/
             ];
 
 
