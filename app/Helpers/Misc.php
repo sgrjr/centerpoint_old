@@ -304,7 +304,8 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
 
     public static function resolveTypeToMysqlFunc($h){
         $length = isset($h["length"])? $h["length"]:128;
-        $type = isset($h["type"])? $h["type"]:"Char";
+        $type = isset($h["mysql_type"])? $h["mysql_type"]:"Char";
+        $decimal_count = isset($h["decimal_count"])? $h["decimal_count"]:0;
 
                     switch($type){
                         
@@ -319,12 +320,13 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
                             break;
 
                         case "Decimal"://Y	-	-	Currency
-                            return ['decimal',[$length,2]];
+                            ;
+                            return ['decimal',[$length, $decimal_count]];
                             //$table->decimal($n, $l, 2);//	DECIMAL equivalent with a precision and scale
                             break;
 
                         case "Float": //F	N	d	Floating numeric field of width n with d decimal places,
-                            return ['float',[$length]];
+                            return ['float',[$length, $decimal_count]];
                             break;
 
                         case "Date": //D	-	-	Date
@@ -461,6 +463,134 @@ public static function gauranteedBooksCount($count, $dates, $nature = "CENTE"){
     public static function dbfLog($message){
         $mytime = Carbon::now();
         file_put_contents(storage_path() . '/logs/dbf_log.log', "[" . $mytime->toDateTimeString() . "] " . $message . "\n", FILE_APPEND);
+    }
+
+    public static function getDiscount($series){
+
+        /*
+       discount whatever it may qualify for, choice, sale book, Trade or ledger 
+       - so choice depends on level but it’s a 40% on choice 100, 35% on Choice 48 and 30% on Choice 24, 
+       - Sales books are 10.00 for 1-24 or 7.00 25 or more, 
+       - Trade is 25%, Ledger is 25%. 
+       - Ledger is an order that a customer does not have any choice plan or Trade and its not a Sale book.
+       */
+
+       /* 
+       grabbed distinct SO_SERIES from standing orders:
+       "2013 - AM INDICATES COMP PLANS"
+        "2014 - AM INDICATES COMP PLANS"
+        "2016 AM INDICATES COMP PLANS"
+        "2017 AM INDICATES COMP PLANS"
+        "2018 AM INDICATES COMP PLANS"
+        "2020 AM INDICATES COMP PLANS"
+        "2021 AM INDICATES COMP PLANS"
+        "2022 AM INDICATES COMP PLANS"
+        "TRADE SELECT"
+        "TRADE PLAN LEVEL   I (24)"
+        "TRADE PLAN LEVEL  II (48)"
+        "TRADE PLAN LEVEL III (72)"
+        "X - TRADE PLAN LEVEL   I (24)"
+        "X - TRADE PLAN LEVEL  II (48)"
+        "X - TRADE PLAN LEVEL III (72)"
+        "CHOICE OPTION (100)"
+        "CHOICE OPTION (48)"
+        "CHOICE OPTION (24)"
+        "X - CHOICE OPTION (100)"
+        "X - CHOICE OPTION (48)"
+        "X - CHOICE OPTION (24)"
+        "CUSTOM CHRISTIAN MIX"
+        "CHRISTIAN SERIES LEVEL I (24)"
+        "CHRISTIAN SERIES LEVEL II (24)"
+        "CHRISTIAN SERIES LEVEL III (24)"
+        "X - CHRISTIAN SERIES LEVEL I (24)"
+        "X - CHRISTIAN SERIES LEVEL III (24)"
+        "X - CHRISTIAN SERIES LEVEL II (24)"
+        "X - CUSTOM CHRISTIAN MIX"
+        "PLATINUM FICTION SERIES"
+        "PLATINUM MYSTERY SERIES"
+        "PLATINUM NONFICTION SERIES"
+        "PLATINUM ROMANCE SERIES"
+        "PLATINUM SPOTLIGHT SERIES"
+        "X - PLATINUM FICTION SERIES"
+        "X - PLATINUM ROMANCE SERIES"
+        "X - PLATINUM SPOTLIGHT SERIES"
+        "X - PLATINUM MYSTERY SERIES"
+        "X - PLATINUM NONFICTION SERIES"
+        "CUSTOM PLATINUM SERIES MIX"
+        "X - CUSTOM PLATINUM SERIES MIX"
+        "X - PLATNUM SPOTLIGHT SERIES"
+        "X - PLATNUM MYSTERY SERIES"
+        "PREMIER FICTION SERIES"
+        "PREMIER ROMANCE SERIES"
+        "PREMIER MYSTERY SERIES"
+        "CUSTOM PREMIER SERIES MIX"
+        "X - CUSTOM PREMIER SERIES MIX"
+        "X - PREMIER ROMANCE SERIES"
+        "X - PREMIER MYSTERY SERIES"
+        "X - PREMIER FICTION SERIES"
+        "X - PREMIER SERIES PLUS (24)"
+        "X - WESTERN SERIES LEVEL II (24)"
+        "X - WESTERN SERIES LEVEL I (24)"
+        "BESTSELLER SERIES (12)"
+        "X - STERLING MYSTERY SERIES"
+        "STERLING MYSTERY SERIES"
+        "X - AGATHA CHRISTIE SERIES"
+        "WESTERN SERIES LEVEL I (24)"
+        "WESTERN SERIES LEVEL II (24)"
+        "WESTERN SERIES LEVEL III (24)"
+        "X - WESTERN SERIES LEVEL III (24)"
+        "CUSTOM MULTI SERIES MIX"
+        "BESTSELLER SERIES (24)"
+        "BESTSELLER SERIES (36)"
+        "X - BESTSELLER SERIES (12)"
+        "X - BESTSELLER SERIES (24)"
+        "X - BESTSELLER SERIES (36)
+        "X - CUSTOM MULTI SERIES MIX"
+
+        // from inventories
+        Platinum Mystery Series
+        Premier Romance Series
+        Platinum Spotlight Series
+        Platinum Nonfiction Series
+        Christian Series Level II (24)
+        Christian Series Level III (24)
+        Premier Fiction Series
+        Western Series Level II (24)
+        Premier Mystery Series
+        Christian Series Level I (24)
+        Platinum Fiction Series
+        Platinum Romance Series
+        Western Series Level III (24)
+        Western Series Level I (24)
+        Sterling Mystery Series
+        Christian Series Level II (24]
+        Christian Series Level Iii (24
+*/
+            $standing_order_series = [
+            "CLASS_A" => ["discount"=>.40, "name"=>"Platinum Fiction Series",
+            "CLASS_B" => ["discount"=>.40, "name"=>"Platinum Romance Series",
+            "CLASS_C" => ["discount"=>.40, "name"=>"Premier Fiction Series",
+            "CLASS_D" => ["discount"=>.40, "name"=>"Western Series Level I (24)",
+            "CLASS_E" => ["discount"=>.40, "name"=>"Western Series Level II (24)",
+            "CLASS_F" => ["discount"=>.40, "name"=>"Premier Romance Series",
+            "CLASS_G" => ["discount"=>.40, "name"=>'Premier Mystery Series',
+            "CLASS_H" => ["discount"=>1, "name"=>"",
+            "CLASS_I" => ["discount"=>1, "name"=>"",
+            "CLASS_J" => ["discount"=>1, "name"=>"",
+            "CLASS_K" => ["discount"=>.40, "name"=>"Platinum Mystery Series",
+            "CLASS_L" => ["discount"=>.40, "name"=>'Platinum Spotlight Series',
+            "CLASS_M" => ["discount"=>.40, "name"=>'Christian Series Level I (24)',
+            "CLASS_N" => ["discount"=>.40, "name"=>'Christian Series Level II (24)',
+            "CLASS_O" => ["discount"=>.40, "name"=>'Christian Series Level III (24)',
+            "CLASS_P" => ["discount"=>.40, "name"=>"",
+            "CLASS_Q" => ["discount"=>.40, "name"=>'Platinum Nonfiction Series',
+            "CLASS_R" => ["discount"=>.40, "name"=>"Agatha Christie Series",
+            "CLASS_S" => ["discount"=>.40, "name"=>'Sterling Mystery Series',
+            "CLASS_T" => ["discount"=>.40, "name"=>'Western Series Level III (24)'
+            ];
+
+
+            return $standing_order_series[$series];
     }
 
 }

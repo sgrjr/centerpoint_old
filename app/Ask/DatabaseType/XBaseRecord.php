@@ -380,14 +380,7 @@ class XBaseRecord {
             }else if($col && $col->getType() === "N" && !is_numeric($val)){
                 $val = null;
             }else if($col && $col->getType() === "N"){
-
-                if($col->decimalCount > 0){
-
-                    $val = round(floatval($val),$col->decimalCount);
-                }else{                    
-                    $val = (Int) $val;
-                }
-                
+                $val = round($val,$col->decimalCount);
             }else if($col && $col->getType() === "I" && !is_numeric($val)){
                 $val = null;
             }else if($col && $col->getType() === "L" ){
@@ -428,79 +421,6 @@ class XBaseRecord {
         }
 
          return $data;
-     }
-
-    function getRawDataFunc($val, $col, $table) {
-
-        $ignoreColumns = [];
-        $skipMemo = false;
-        //$convert_to_valid_utf8 = ['ICOLLNOTE','CUSTNOTE','ACCTNOTE','ACOLLNOTE','ENOTE','SYNOPSIS'];
-        if($col->getName() === "SERIES"){
-            //truncating SERIES data that is too long to container length
-            //a necessary hack because of some really bad data in: Webdetails, 
-            $length = $col->getContainer()["length"];
-            $val = substr($val,0,$length);
-        }
-        
-        //ini_set('mbstring.substitute_character', 32);
-            
-            if(!in_array($col->name, $ignoreColumns)){
-
-                if($col['type'] === "M" && $val !== null && $val !== false && $val != 'undefined'){
-                    $val = unpack("L", $val)[1];
-                    $val = $table->memo->getMemo($val)["text"];
-                }else{
-                    $val = trim($val);
-                }
-
-                if($val === ""){
-                    $val = null;
-                }
-
-                $modify_list = ["C"];
-
-                if(in_array($col->getType(), $modify_list) ){
-                    $val = utf8_encode(trim($val));
-                }
-
-                if($col->getType() === "" ){
-                    $val = utf8_encode(trim($val));
-                }else if($col->getType() === "N" && !is_numeric($val)){
-                    $val = null;
-                }else if($col->getType() === "N"){
-
-                    if($col->decimalCount > 0){
-                        $val = round(floatval($val),$col->decimalCount);
-                    }else{                    
-                        $val = (Int) $val;
-                    }
-                    
-                }else if($col->getType() === "I" && !is_numeric($val)){
-                    $val = null;
-                }else if($col->getType() === "L" ){
-                    
-                    switch ($val) {
-                        case 'T':
-                        case 'Y':
-                        case 'J':
-                        case '1':
-                        case 1:
-                            $val = true;
-                            break;
-            
-                        default: 
-                            $val = false;
-                    }
-                }
-
-                if($val === "" ){$val = null;}
-
-                
-                if($col->name === "UPASS"){
-                  $val =  \Hash::make($val);
-                }
-            }
-         return $val;
      }
 
 }

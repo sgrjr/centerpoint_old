@@ -4,9 +4,13 @@ type StandingOrder {
     KEY: String!
     SOSERIES: String
     DISC: Float
+    discount: Float
     QUANTITY: Int
     EXP_MONTH: String
     EXP_YEAR: String
+    SDATE: String
+    EDATE: String
+    CANCELDATE: String
 }
 #"BDUE","BPUR","THEREC","HERE","BILL_1","BILL_2","BILL_3",
 #"BILL_4","BILL_5","PO_NUMBER","PREPAID","SDATE","EDATE","COMPANY","STREET","DEPT","CITY",

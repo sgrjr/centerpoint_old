@@ -174,30 +174,28 @@ Trait ManageTableTrait
                 $name = $con["name"];
 
                 if($name !== null && !in_array($name,$ignore) ){
-                	
-			    	$headers[$name] = [
-	                    "name" => $name,
-	                    "type" => $con["type"],
-	                    "length" => $con["length"],
-	                    "nullable" => true
-	                ];
+			    	$headers[$name] = $con;
             	}
 		    }
 
-            unset($headers["_config"]);
+           unset($headers["_config"]);
 
            $headers["INDEX"] =[
             "name" => "INDEX",
             "type" => "Int",
+            "mysql_type" => "Int",
             "length" => 15,
-            "nullable" => false
+            "nullable" => false,
+            "decimal_count" => 0
            ];
 
            $headers["DELETED"] =[
             "name" => "DELETED",
             "type" => "Boolean",
+            "mysql_type" => "Boolean",
             "length" => 1,
-            "nullable" => false
+            "nullable" => false,
+            "decimal_count" => 0
            ];
 
 		}
@@ -208,14 +206,18 @@ Trait ManageTableTrait
             $headers["created_at"] = [
             "name" => "created_at",
             "type" => "TIMESTAMP",
+            "mysql_type" => "TIMESTAMP",
             "length" => 19,
-            "nullable"=>false
+            "nullable"=>false,
+            "decimal_count" => 0
            ];
             $headers["updated_at"] = [
             "name" => "updated_at",
             "type" => "TIMESTAMP",
+            "mysql_type" => "TIMESTAMP",
             "length" => 19,
-            "nullable"=>false
+            "nullable"=>false,
+            "decimal_count" => 0
             ];
 		}
 
@@ -225,8 +227,10 @@ Trait ManageTableTrait
 		    	$headers[$att] = [
                     "name" => $att,
                     "type" => "String",
+                    "mysql_type" => "String",
                     "length" => 96,
-                    "nullable"=> true
+                    "nullable"=> true,
+            		"decimal_count" => 0
                 ];
 			}
             

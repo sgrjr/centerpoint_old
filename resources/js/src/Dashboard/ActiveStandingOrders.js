@@ -30,6 +30,7 @@ export default function ActiveStandingOrders(props) {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell>Expires</TableCell>
+            <TableCell>STARTED-ENDS-CANCELED</TableCell>
             <TableCell align="right">Disc</TableCell>
           </TableRow>
         </TableHead>
@@ -39,7 +40,8 @@ export default function ActiveStandingOrders(props) {
             return <TableRow key={id}>
               <TableCell>{row.SOSERIES}</TableCell>
               <TableCell>{row.EXP_MONTH}/{row.EXP_YEAR}</TableCell>
-              <TableCell align="right">{row.DISC}</TableCell>
+              <TableCell>{row.SDATE}-{row.EDATE}-{row.CANCELDATE}</TableCell>
+              <TableCell align="right">{row.discount}</TableCell>
             </TableRow>
           })}
 

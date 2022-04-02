@@ -123,10 +123,10 @@ class TitlePage extends Component{
           <Grid item xs={10} md={5} style={{marginTop:"50px"}}>
           <div dangerouslySetInnerHTML={{__html: title.SUBTITLE}}></div>
           <Typography variant="h4" color="secondary" style={requireAuth}>
-            {title && title.user? "YOUR PRICE: "+title.user.price : ""}
+            {title && title.user? "YOUR PRICE: $"+title.user.price : ""}
             </Typography>
           <Typography variant="h5">
-              LIST PRICE: {title.LISTPRICE? title.LISTPRICE:circle}
+              LIST PRICE: ${title.LISTPRICE? title.LISTPRICE:circle}
             </Typography>
             <Typography variant="body1">
               {title.HIGHLIGHT}

@@ -24,7 +24,10 @@ class AdminUsers extends Component {
 
    	this.state = {
    		first:25,
-   		page:1
+   		page:1,
+      filter:null,
+      filter_field: 'ORGNAME',
+      filters:['KEY','FIRST','LAST','ORGNAME','CITY']
    	}
    }
    componentDidMount(){
@@ -32,7 +35,11 @@ class AdminUsers extends Component {
     }
 
     loadUsers(){
-    	this.props.adminUsersGet(adminUsersQuery({first:this.state.first, page:this.state.page})) 
+      let input = {first:this.state.first, page:this.state.page, filter:{}}
+      if(this.state.filter != false && this.state.filter != null){
+        input.filter[this.state.filter_field] = this.state.filter 
+      }
+    	this.props.adminUsersGet(adminUsersQuery(input)) 
     }
 
     nextPage(){
@@ -43,6 +50,14 @@ class AdminUsers extends Component {
     prevPage(){
     	this.setState({...this.state, page: this.state.page-1})
     	this.loadUsers();
+    }
+
+    defaultFilter(filter){
+       if (filter == this.state.filter_field){
+         return 'selected';
+       }else{
+        return ''; 
+      }
     }
 
   render(){
@@ -62,6 +77,15 @@ class AdminUsers extends Component {
 
   return (
   <div>
+
+  <select onChange={(e)=>{this.setState({...this.state, filter_field: e.target.value, page:1})}}>
+    {this.state.filters.map((filter)=>{
+      return <option selected={this.defaultFilter(filter)} value={filter}>{filter}</option>
+    })}
+  </select>
+
+  <input type="text" value={this.state.filter} onInput={(e)=>{this.setState({...this.state, filter:e.target.value, page:1})}}/>
+  <input type="submit" onClick={()=>{this.loadUsers()}}/>
 
   {heading}
 
@@ -99,8 +123,8 @@ class AdminUsers extends Component {
 }
 
 const adminUsersQuery = (variables)=>{
- return { query:`query ($page: Int, $first:Int) {
-          users (first:$first, page:$page) {
+ return { query:`query ($page: Int, $first:Int, $filter: UserFilter) {
+          users (first:$first, page:$page, filter:$filter) {
           	paginatorInfo{
       			lastPage
       			perPage

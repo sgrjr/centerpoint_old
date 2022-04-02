@@ -182,9 +182,12 @@ const dashboardMainQuery = {
               id
               KEY
               SOSERIES
-              DISC
+              discount
               EXP_MONTH
               EXP_YEAR
+              SDATE
+              EDATE
+              CANCELDATE
             }
           }
           inactiveSos: inactiveStandingOrders(first:100) {
@@ -192,9 +195,12 @@ const dashboardMainQuery = {
               id
               KEY
               SOSERIES
-              DISC
+              discount
               EXP_MONTH
               EXP_YEAR
+              SDATE
+              EDATE
+              CANCELDATE
             }
           }
         }

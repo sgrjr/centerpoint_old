@@ -49,7 +49,10 @@ class XBaseColumn extends \ArrayObject {
         $this->container = [
             "name"=>$this->getName(),
             "length"=>$this->getLength(),
-            "type"=>$this->getType()
+            "type"=>$this->getType(),
+            "decimal_count" => $this->getDecimalCount(),
+            "mysql_type"=>$this->getMySQLType(),
+            "nullable" => true
         ];
 
         $this->table = $table;
@@ -121,7 +124,8 @@ class XBaseColumn extends \ArrayObject {
         return $this->colIndex;
     }
     function getContainer(){
-        $overRideToTinyNumber = [];
+      
+      return $this->container;
 
         $exactLengths = [
             "KEY" => 14,
@@ -217,20 +221,7 @@ class XBaseColumn extends \ArrayObject {
 
         $h = $this->container;
         
-        $types = [
-            "B" => "Double",
-            'C' => "Char", //C	N	-	Character field of width n
-            "Y" => "Decimal",//Y	-	-	Currency
-            "F" => "Float", //F	N	d	Floating numeric field of width n with d decimal places,
-            "D" => "Date", //D	-	-	Date
-            "G" => "Blob", //G	-	-	General
-            "I" => "Integer", //I	-	-	Index
-            "L" => "TinyInt", //L	-	-	Logical - ? Y y N n T t F f (? when not initialized).
-            "M" => "Text", //M	-	-	Memo
-            "N" => "Integer", //N	N	d	Numeric field of width n with d decimal places
-            "T" => "Datetime", //T	-	-	DateTime,
-            "0" => "IGNORE" //// ignore this field
-        ];
+
             $name = $h["name"];
 
                 if(in_array($name, $overRideToString)){
@@ -262,4 +253,24 @@ class XBaseColumn extends \ArrayObject {
             
             return $h;
 	}
+
+    private function getMySQLType(){
+       
+        $types = [
+            "B" => "Double",
+            'C' => "Char", //C  N   -   Character field of width n
+            "Y" => "Decimal",//Y    -   -   Currency
+            "F" => "Float", //F N   d   Floating numeric field of width n with d decimal places,
+            "D" => "Date", //D  -   -   Date
+            "G" => "Blob", //G  -   -   General
+            "I" => "Integer", //I   -   -   Index
+            "L" => "TinyInt", //L   -   -   Logical - ? Y y N n T t F f (? when not initialized).
+            "M" => "Text", //M  -   -   Memo
+            "N" => "Decimal", //N   N   d   Numeric field of width n with d decimal places
+            "T" => "Datetime", //T  -   -   DateTime,
+            "0" => "IGNORE" //// ignore this field
+        ];
+
+       return $types[$this->getType()];
+    }
 }
