@@ -155,7 +155,7 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
           $key = $this->KEY . "_isbns";
           //Cache::forget($key);
 
-          return Cache::remember($key, 1800, function () {
+          return Cache::remember($key, 900, function () {
 
             $all = $this->alldetailsOrders()->pluck('PROD_NO')->toArray();
             $ancient = $this->ancientdetailsOrders()->pluck('PROD_NO')->toArray();
