@@ -13,7 +13,7 @@ export default function BookCover(props) {
   var imageStyle ={
     backgroundImage: image
   }
-console.log(image)
+
    if(previouslyPurchased){
       imageStyle =  {
         backgroundImage: "url('/img/PREV_PURCH.png')" + ", " + image,
