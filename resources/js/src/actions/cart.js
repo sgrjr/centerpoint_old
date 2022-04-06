@@ -266,6 +266,7 @@ const cart = {
       delete p.INDEX;
       delete p.items;
       delete p.invoice;
+      delete p.viewer
       p.ISCOMPLETE = 1
       p.PSHIP = 4
       p.PIPACK = 4
