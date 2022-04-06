@@ -48,6 +48,17 @@ class AddToCart extends Component{
       if(title === undefined || title.STATUS === undefined || title.STATUS === null){
         return null
       }
+
+      const options = ()=>{
+        let i = 0;
+        let items = []
+        let selected = null
+        while(i < 100){
+          i++;
+          items.push(<option key={i} value={i} selected={this.props.selectedQuantity === i? "selected":"false"}>{i}</option>)
+        }
+        return items
+      }
       
       const status = title.STATUS.toLowerCase().split(" ")
 
@@ -62,7 +73,10 @@ class AddToCart extends Component{
           return <Button disabled variant="outlined" style={{width:"100%"}}><CircularProgress color="primary"/>updating cart ...</Button>
         }else if(title.STATUS !== "Out of Print"){
           return (<div>
-          <button className={styles.addToCartButton} onClick={this.sendTitleToCart.bind(this)} >Add to Cart</button>
+          <div style={{fontSize:"1.5rem"}}>How many? <select style={{fontSize:"1.5rem"}} value={this.props.selectedQuantity} onChange={(e)=>{this.props.changeQuantity(e.target.value)}}>
+          {options()}
+          </select></div>
+          <button className={styles.addToCartButton} onClick={this.sendTitleToCart.bind(this)} >Click to Add ({this.props.selectedQuantity}) to Cart</button>
          </div>)
        }
       }else{
@@ -98,7 +112,11 @@ const mapDispatchToProps = dispatch => {
       },
       cartGet: (query) => {
         dispatch(actions.cart.CART_GET.creator(query))
-      }
+      },
+      changeQuantity: (qty) => {
+        dispatch(actions.cart.SELECT_TITLE_QUANTITY.creator(qty))
+      },
+
     }
   }
 
