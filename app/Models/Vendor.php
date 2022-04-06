@@ -84,9 +84,69 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
         return $this->hasMany('App\Models\Alldetail','KEY','KEY');
     }
 
+    public function webOrders()
+    {
+        return $this->hasMany('App\Models\Allhead','KEY','KEY');
+    }
+
     public function webdetailsOrders()
     {
         return $this->hasMany('App\Models\Webdetail','KEY','KEY');
+    }
+
+    private function addUnique($parent_array, $array_to_add){
+
+        $new_items = [];
+        foreach($array_to_add AS $atd){
+
+            if(count($parent_array) < 1){
+                $new_items[] = $atd;
+                break;
+            }
+
+            foreach($parent_array AS $pa){
+                foreach($atd AS $key => $val){
+                    if($val !== $pa[$key]){
+                        $new_items[] = $atd;
+                        break 3;
+                    }
+                }
+
+            }
+        }
+
+        return array_merge($parent_array, $new_items);
+    }
+
+    public function getEveryAddress($count = 10){
+            
+            $addresses = [];
+            //webhead
+            $web = $this->webOrders()->select('BILL_1','BILL_2','BILL_3','BILL_4')->take($count)->get()->toArray();
+
+            $addresses = $this->addUnique($addresses, $web);
+
+            if(count($addresses) < $count){
+                $back = $this->backOrders()->select('BILL_1','BILL_2','BILL_3','BILL_4')->take($count-count($addresses))->get()->toArray();
+                 $addresses = $this->addUnique($addresses, $back);
+
+                if(count($addresses) < $count){
+                    $bro = $this->broOrders()->select('BILL_1','BILL_2','BILL_3','BILL_4')->take($count-count($addresses))->get()->toArray();
+                     $addresses = $this->addUnique($addresses, $bro);
+
+                    if(count($addresses) < $count){
+                        $all = $this->allOrders()->select('BILL_1','BILL_2','BILL_3','BILL_4')->take($count-count($addresses))->get()->toArray();
+                         $addresses = $this->addUnique($addresses, $all);
+
+                         if(count($addresses) < $count){
+                            $ancient = $this->ancientOrders()->select('BILL_1','BILL_2','BILL_3','BILL_4')->take($count-count($addresses))->get()->toArray();
+                             $addresses = $this->addUnique($addresses, $ancient);
+                         }
+                    }
+                }
+            }
+            
+            return $addresses;
     }
 
     public function getIsbnsAttribute()
@@ -184,6 +244,12 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
         }
 
         return $cart;
+    }
+
+    public function getAddressesAttribute(){
+        return Cache::get($this->KEY.'_every_address', function () {
+            return $this->getEveryAddress(6);
+        });
     }
 
 }

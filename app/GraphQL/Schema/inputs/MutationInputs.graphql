@@ -122,7 +122,10 @@ input UpdateCartInput {
     PO_NUMBER: String
     CINOTE: String
     CXNOTE: String
-    ISCOMPLETE: Boolean
+    ISCOMPLETE: Int
+    PSHIP: Int
+    PIPACK: Int
+    PEPACK: Int
     TRANSNO: String
     DATE: String
     KEY: String

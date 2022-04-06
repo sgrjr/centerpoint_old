@@ -27,8 +27,8 @@ const viewer = {
   VIEWER_ERROR: 
   {
       type: 'VIEWER_ERROR',   
-      creator: (error) => {
-        return { type: 'VIEWER_ERROR', error }
+      creator: (errors) => {
+        return { type: 'VIEWER_ERROR', errors }
       }
   },  
   

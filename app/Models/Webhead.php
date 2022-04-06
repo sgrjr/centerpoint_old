@@ -179,7 +179,10 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
       }
     }
     
-    $this->ISCOMPLETE = "T";
+    $this->ISCOMPLETE = 1;
+    $this->PSHIP = 4;
+    $this->PIPACK = 4;
+    $this->PEPACK = 4;
     $this->dbfSave();
 
     return $this;

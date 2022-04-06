@@ -28,20 +28,17 @@ export default function ActiveStandingOrders(props) {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Expires</TableCell>
-            <TableCell>STARTED-ENDS-CANCELED</TableCell>
-            <TableCell align="right">Disc</TableCell>
+            {/*<TableCell align="right">discount</TableCell>*/}
+            <TableCell>name</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
 
           {props.user.vendor.activeSos && props.user.vendor.activeSos.data.map((row, id) => {
             return <TableRow key={id}>
+              {/*<TableCell align="right">{row.discount * 100}%</TableCell>*/}
               <TableCell>{row.SOSERIES}</TableCell>
-              <TableCell>{row.EXP_MONTH}/{row.EXP_YEAR}</TableCell>
-              <TableCell>{row.SDATE}-{row.EDATE}-{row.CANCELDATE}</TableCell>
-              <TableCell align="right">{row.discount}</TableCell>
+              
             </TableRow>
           })}
 
@@ -49,7 +46,7 @@ export default function ActiveStandingOrders(props) {
       </Table>
       <div className={classes.seeMore}>
         <Link color="primary" to="#" onClick={preventDefault}>
-          See more orders
+          {/*See more orders*/}
         </Link>
       </div>
     </Card>

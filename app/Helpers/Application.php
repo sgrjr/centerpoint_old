@@ -20,7 +20,6 @@ class Application {
         $data = $inv;
     }
 
-    dd($data);
   }
 
 	public static function props($user = false){
@@ -133,7 +132,7 @@ class Application {
         case "current_catalog":
         case "current_catalog_image":
 
-        $search = \Cache::remember('catalog', 360, function () use($cat) {
+        $search = \Cache::remember('catalog', 360, function () use ($cat) {
             return Misc::findFileByDate($cat->image_root, $cat->list);
         });
 
@@ -159,8 +158,8 @@ class Application {
             sprintf("%02d",date("m")+1)
           ];
           
-          $search = \Cache::remember('next_catalog', 360, function () {
-            return Misc::findFileByDate($cat->image_root, $cat->list);
+          $search = \Cache::remember('next_catalog', 360, function () use ($cat) {
+             return Misc::findFileByDate($cat->image_root, $cat->list);
           });
           
           $cat->image_link = "/img/promotions/next_catalog";
@@ -170,6 +169,31 @@ class Application {
           $cat->image_ext = $search->ext;
           $cat->pdf_link = "/static/next_catalog";
           $cat->pdf_path = $cat->pdf_root . $cat->year . "_" . $cat->month . ".pdf";
+
+        break;
+
+      case "All_Series_Christian_catalog":
+      case "All_Series_Sterling_catalog":
+      case "All_Series_Trade_catalog":
+      case "All_Series_Western_catalog":
+      case "All_Series_Premier_catalog":
+      case "All_Series_Platnum_catalog":
+      case "All_Series_Choice_catalog":
+      case "All_Series_Bestseller_catalog":
+      case "Premier_Romance_catalog":
+      case "Premier_Mystery_catalog":
+      case "Premier_Fiction_catalog":
+      case "Platinum_Nonfiction_catalog":
+      case "Platinum_Romance_catalog":
+      case "Platinum_Mystery_catalog":
+      case "Platinum_Fiction_catalog":
+          $cat->image_link = null;
+          $cat->image_path = null;
+          $cat->year = null;
+          $cat->month = null;
+          $cat->image_ext = null;
+          $cat->pdf_link = "/static/".$cat->id;
+          $cat->pdf_path = $cat->pdf_root . str_replace("_catalog","",$cat->id) . ".pdf";
         break;
   
         default:

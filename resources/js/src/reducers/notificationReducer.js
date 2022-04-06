@@ -38,16 +38,35 @@ export default (state = initState,action)=>{
         case actions.notification.NOTIFICATION_ADD_ERROR.type:
         case actions.auth.AUTH_ERROR.type:
         case actions.admin.ADMIN_ERROR.type:
+        case actions.viewer.VIEWER_ERROR.type:
+
+        console.log(action.errors)
+          let newErrors = []
+
+          action.errors.map((er)=>{
+            if(er.debugMessage !== undefined && er.debugMessage.message != undefined && er.debugMessage.message.includes("Resource temporarily unavailable")){
+              er.debugMessage.message = 'Could not save changes. Please try again in a second.'
+            }else if(er.debugMessage !== undefined && typeof er.debugMessage === 'string' && er.debugMessage.includes("Resource temporarily unavailable")){
+              er.debugMessage = 'Could not save changes. Please try again in a second.'
+            }else if(er.debugMessage !== undefined && typeof er.debugMessage !== 'string'){
+              er.debugMessage = er.debugMessage.message
+            }
+
+            if(!er.severity){
+              er.severity = "error"
+            }
+            newErrors.push(er)
+          })
+
+          let index = 0
 
           newState = {
               ...state,
-              items: [...action.errors,...state.items],
+              items: [...newErrors],
               open: true
           }
-          newState.item = newState.items[newState.items.length-1]
-          if(!newState.item.severity){
-            newState.item.severity = "error"
-          }
+          newState.item = newState.items[index]
+
           return newState;
 
         case actions.cart.CART_SUCCESS.type:

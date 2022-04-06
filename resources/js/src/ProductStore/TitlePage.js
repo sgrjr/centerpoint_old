@@ -114,7 +114,7 @@ class TitlePage extends Component{
             </Typography>
             </Grid>
           <Grid item xs={10} md={5}>           
-            <BookCover link={""} image={"url(" + title.coverArt + ")"} large={true} />
+            <BookCover link={""} image={"url(" + title.coverArt + ")"} large={true} previouslyPurchased={title && title.user && title.user.purchased? true:false}/>
             {firstDivider}
 
             <AddToCart title={title} url={this.props.location.pathname} createCart={createCart}/>

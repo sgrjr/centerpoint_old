@@ -7,6 +7,7 @@ return [
     "titleimagesrootpath" => env("TITLE_IMAGES_ROOT_PATH"),
     "noimagepath" => env("NO_IMAGE_PATH"),
     "marc_records_path" => env("MARC_RECORDS_PATH"),
+    "text_marc_records_path" => env("TEXT_MARC_RECORDS_PATH"),
     "serverimagerootpath" => env("SERVER_IMAGE_ROOT_PATH"),
     "dbfrootpathr" => env("DBF_ROOT_PATH_R"),
     "promotionspath" => env("PROMOTIONS_PATH"),

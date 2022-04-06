@@ -1,0 +1,7 @@
+type Address {
+	BILL_1: String
+	BILL_2: String
+	BILL_3: String
+	BILL_4: String
+	BILL_5: String
+}

@@ -34,6 +34,10 @@ class StandingOrder extends BaseModel implements \App\Interfaces\ModelInterface 
         return $query->where('QUANTITY', '<=', 0);
     }
 
+    public function getIsActiveAttribute(){
+        return $this->QUANTITY > 0;
+    }
+
 	public function vendor()
     {
     	return $this->belongsTo('App\Models\Vendor', 'KEY', 'KEY');
@@ -43,8 +47,28 @@ class StandingOrder extends BaseModel implements \App\Interfaces\ModelInterface 
      *
      * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
-    protected function discount()
+    protected function discount(): Attribute
     {
-        return new Attribute(25.00);
+        return new Attribute(
+            get: fn ($value) => $this->calcDiscount(),
+        );
+    }
+
+    protected function calcDiscount(){
+        switch($this->SOSERIES){
+
+            case 'CHOICE OPTION (24)':
+                return .30;
+                break;
+            case 'CHOICE OPTION (48)':
+                return .35;
+                break;
+            case 'CHOICE OPTION (100)':
+                return .40;
+                break;
+            default:
+                return .25;
+        }
+        
     }
 }

@@ -353,7 +353,7 @@ class XBaseRecord {
         ini_set('mbstring.substitute_character', 32);
 
         foreach($this->data AS $key=>$value){
-
+                
             $col = $this->getColumn($key);
 
             if($col === false && $key === "INDEX"){
@@ -377,11 +377,22 @@ class XBaseRecord {
 
             if($col && $col->getType() === "" ){
                 $val = utf8_encode(trim($val));
-            }else if($col && $col->getType() === "N" && !is_numeric($val)){
-                $val = null;
             }else if($col && $col->getType() === "N"){
-                $val = round($val,$col->decimalCount);
-            }else if($col && $col->getType() === "I" && !is_numeric($val)){
+                if (!is_numeric($val)){
+                    $val = null;
+                }else if($val < 0){
+                    if($key == "DISC"){
+                        $val = trim($val) * -1;
+                        if($val > 0){
+                            $val = round($val/1000,$col->decimalCount);
+                        }
+                    }else{
+                        $val = null;
+                    }
+                }else{
+                    $val = round($val,$col->decimalCount);
+                }
+            } else if($col && $col->getType() === "I" && !is_numeric($val)){
                 $val = null;
             }else if($col && $col->getType() === "L" ){
                 

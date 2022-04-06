@@ -68,6 +68,11 @@ function Checkout(props) {
           <Typography><strong>Step 2:</strong> Review Billing Information</Typography>
         </AccordionSummary >
         <AccordionDetails>
+          <select>
+            {props.addresses.map((add, index)=>{
+              return <option val={index}>{JSON.stringify(add)}</option>
+            })}
+          </select>
           <ContactInfo {...props}/>
         </AccordionDetails>
         <Divider />

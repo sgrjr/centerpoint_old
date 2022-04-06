@@ -45,7 +45,7 @@ export default function BackOrders(props) {
       </Table>
       <div className={classes.seeMore}>
         <Link color="primary" to="#" onClick={preventDefault}>
-          See more orders
+          {/*See more orders*/}
         </Link>
       </div>
     </Card>

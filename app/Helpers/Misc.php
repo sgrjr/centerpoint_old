@@ -210,18 +210,20 @@ public static function getDay($month = null, $increment = false){
 	foreach($years AS $y){
 		foreach($months AS $m){
 			foreach($extensions AS $ext){
+
 				$file->image = $root . $y . "_" . $list[$m] . $ext;
+
 				if(file_exists($file->image)){
-          $file->root = $root;
-          $file->year = $y;
-          $file->month = $list[$m];
-          $file->ext = $ext;
-          break 3;
-        }
+                  $file->root = $root;
+                  $file->year = $y;
+                  $file->month = $list[$m];
+                  $file->ext = $ext;
+                  return $file;
+                }
 			}
 		}
 	}
-	
+
 	return $file;
 
 }

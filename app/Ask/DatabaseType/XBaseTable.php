@@ -103,10 +103,20 @@ class XBaseTable {
 	}
 
     public function initDbf(){
-            if($this->fp = fopen($this->name,$this->read_write_options)) {
-                $this->readHeader()->setMemoTable();
+           try {
+                if($this->fp = fopen($this->name,$this->read_write_options)) {
+                    $this->readHeader()->setMemoTable();
+                }
             }
-    }
+
+            catch(\Exception $exception){
+                //maybe someone is saving changes and we just need to wait a second and try to open again.
+                sleep(3);
+                if($this->fp = fopen($this->name,$this->read_write_options)) {
+                    $this->readHeader()->setMemoTable();
+                }
+            }
+    } 
 
 	public function setMemoTable($skip = null){
         

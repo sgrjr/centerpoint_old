@@ -117,17 +117,18 @@ const form = {
    DOWNLOAD_ALL_MARCS: 
   {
     type: 'DOWNLOAD_ALL_MARCS',   
-    creator: ({isbns}) => {
+    creator: ({isbns, text}) => {
 
       const query = {
-        query: `mutation($isbns: [String]!) {
-        getMarcs(isbns:$isbns){
+        query: `mutation($isbns: [String]!, $text: Boolean) {
+        getMarcs(isbns:$isbns, text:$text){
             zip
             isbns
         }
       }`,
     variables: {
-      isbns: isbns
+      isbns: isbns,
+      text: text
     }
   };
       const actions = {

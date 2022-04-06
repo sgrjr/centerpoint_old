@@ -132,7 +132,7 @@ trait HeadTrait {
 		  $itemTotals = [];
   
 		  foreach($this->items AS $book ){
-			$cost = (int) $book->SALEPRICE * (int) $book->REQUESTED;
+			$cost = $book->SALEPRICE * $book->REQUESTED;
 			$subtotal = number_format($subtotal+$cost,2,'.','');
 		  }
   

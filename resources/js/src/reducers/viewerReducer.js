@@ -59,7 +59,7 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
             return {
                 ...state,
                 pending: false,
-                error: action.error
+                errors: action.errors
             }
 
         case actions.auth.AUTH_PENDING.type: 
@@ -206,6 +206,7 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
             cart: {
                 ...state.cart,
                 pending: false,
+                addToCartPending: false,
                 post: false,
                 selectedTitle: false
             }

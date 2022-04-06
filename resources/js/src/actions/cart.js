@@ -110,9 +110,9 @@ const cart = {
         let pl = {}
 
         if(payload.viewer.cart){
-          pl = payload.viewer.cart
+          pl = {...payload, ...payload.viewer.cart}
         }else{
-          pl = payload.viewer.invoice
+          pl = {...payload, ...payload.viewer.invoice}
           pl.ISCOMPLETE = true
         }
         return { type: 'INVOICE_SUCCESS', payload: pl, message: {message:"Invoice loaded", severity:"success"} }
@@ -266,7 +266,10 @@ const cart = {
       delete p.INDEX;
       delete p.items;
       delete p.invoice;
-      p.ISCOMPLETE = true
+      p.ISCOMPLETE = 1
+      p.PSHIP = 4
+      p.PIPACK = 4
+      p.PEPACK = 4
       p.id = parseInt(p.id)
       const query = cartUpdateMutation({input:p})
       

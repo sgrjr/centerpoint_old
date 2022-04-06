@@ -1,6 +1,7 @@
 <?php namespace App\Traits;
 
 use Config, Schema;
+use Illuminate\Database\Eloquent\Builder;
 
 Trait ModelTrait
 {
@@ -72,5 +73,9 @@ Trait ModelTrait
     public function getIndexesAttribute(){
         return $this->indexes;
     }
+
+  public function scopeNewest(Builder $query): Builder {
+    return $query->orderBy("id","DESC");
+  }
 
 }

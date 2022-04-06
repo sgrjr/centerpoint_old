@@ -17,5 +17,5 @@ type Mutation {
     updateOrCreateCartTitle(input: UpdateCartTitleInput!): User @field(resolver: "App\\Models\\Webdetail@dbfUpdateOrCreate")
     deleteCartTitle(id: Int!): User @field(resolver: "App\\Models\\Webdetail@deleteMyTitleFromCart")
 
-    getMarcs(isbns: [String]!): Marc @field(resolver: "App\\Models\\Inventory@getMarcs")
+    getMarcs(isbns: [String]!, text: Boolean): Marc @field(resolver: "App\\Models\\Inventory@getMarcs")
 }

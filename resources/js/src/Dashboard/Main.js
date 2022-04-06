@@ -82,11 +82,6 @@ class DashboardMain extends Component {
               </Card>
             </Grid>
 
-            <Grid item xs={12} md={6}>
-              <Card>
-                <AccountRep {...this.props} />
-              </Card>
-            </Grid>
     </Grid>
   );
 }
@@ -103,16 +98,17 @@ const dashboardMainQuery = {
           processingCount
           isbns
           
-          users (first:100) {
+          users (first:1000) {
             data{
               EMAIL
               FIRST
               LAST
+              UNAME
             }
 
           }
 
-          processing(first:100){
+          processing(first:1000){
             data {
               id
               KEY
@@ -123,7 +119,7 @@ const dashboardMainQuery = {
             }
 
           }
-            back: backOrders (first:10){
+            back: backOrders (first:1000){
              data {
               id
               KEY
@@ -132,7 +128,7 @@ const dashboardMainQuery = {
               TRANSNO
              }
           }
-            recent: broOrders (first:10){
+            recent: broOrders (first:1000){
              data {
               id
               KEY
@@ -147,7 +143,7 @@ const dashboardMainQuery = {
             }
           }
           
-          ancient: ancientOrders (first:10){
+          ancient: ancientOrders (first:1000){
             data {
               id
               KEY
@@ -162,7 +158,7 @@ const dashboardMainQuery = {
            }
           }
 
-          old: allOrders (first:10){
+          old: allOrders (first:1000){
             data {
               id
               KEY
@@ -177,7 +173,7 @@ const dashboardMainQuery = {
             }
           }
 
-          activeSos: activeStandingOrders(first:100) {
+          activeSos: activeStandingOrders(first:1000) {
             data{
               id
               KEY
@@ -190,7 +186,7 @@ const dashboardMainQuery = {
               CANCELDATE
             }
           }
-          inactiveSos: inactiveStandingOrders(first:100) {
+          inactiveSos: inactiveStandingOrders(first:1000) {
             data{
               id
               KEY

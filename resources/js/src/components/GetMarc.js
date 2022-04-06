@@ -14,11 +14,14 @@ class GetMarc extends Component{
         
         let message = ''
         if(this.props.isbns.length === 1){
-          message = "BUILD ZIP FILE OF MARC record."
+          message = "Download MARC record."
         }else{
-          message = "BUILD ZIP FILE OF ALL " + this.props.isbns.length + " MARC records."
+          message = "Download all " + this.props.isbns.length + " MARC records."
         }
-        return <button className={styles.getMarc + " outlined"} onClick={(e)=>{this.props.downloadAllMarcs({isbns:this.props.isbns})}}>{message}</button>
+        return (<div>{message}:
+          <button className={styles.getMarc + " outlined"} onClick={(e)=>{this.props.downloadAllMarcs({isbns:this.props.isbns, text:false})}}>.MRC</button>
+          <button className={styles.getMarc + " outlined"} onClick={(e)=>{this.props.downloadAllMarcs({isbns:this.props.isbns, text:true})}}>.TXT</button>
+          </div>)
       }else{
         let url = this.props.marcLink
         window.open(url)

@@ -247,15 +247,21 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
       $zip = new \ZipArchive();
       $zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
 
-      $path = \Config::get('cp')['marc_records_path'];
+      if($args["text"] && $args["text"] === true){
+        $path = \Config::get('cp')['text_marc_records_path'];
+        $file_type = ".txt";
+      }else{
+        $path = \Config::get('cp')['marc_records_path'];
+        $file_type = ".mrc";
+      }
      
       foreach ($args["isbns"] as $isbn)
       {
         if($isbn !== null){
-              $filePath = $path .$ds.$isbn.".mrc";
+              $filePath = $path .$ds.$isbn.$file_type;
               if(file_exists($filePath)){
                 $matches = true;
-                $relativePath = $isbn.'.mrc';
+                $relativePath = $isbn.$file_type;
                 $zip->addFile($filePath, $relativePath); 
               }else{
                 $missing_path = public_path() .$ds."marcs".$ds."missing.mrc";

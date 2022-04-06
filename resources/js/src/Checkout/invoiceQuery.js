@@ -5,7 +5,14 @@ export default (variables) => {
   if(variables.REMOTEADDR !== undefined){
     query = `query ( $REMOTEADDR:String!) {
       viewer {
-
+        vendor{
+          addresses{
+              BILL_1
+              BILL_2
+              BILL_3
+              BILL_4
+            }
+        }
             cart (REMOTEADDR:$REMOTEADDR){
               id
               INDEX
@@ -66,6 +73,14 @@ export default (variables) => {
   }else{
     query = `query ( $TRANSNO:String!) {
       viewer {
+        vendor{
+          addresses{
+              BILL_1
+              BILL_2
+              BILL_3
+              BILL_4
+          }
+        }
 
             invoice (TRANSNO:$TRANSNO){
               id

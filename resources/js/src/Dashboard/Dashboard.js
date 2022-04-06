@@ -131,7 +131,7 @@ class Dashboard extends Component{
         }
 
         return(
-          <div className={styles.dashboard +" "+ "drawer-is-open-"+open}>
+          <div id="vendor-dashboard" className={styles.dashboard +" "+ "drawer-is-open-"+open}>
          
           <Drawr />
          

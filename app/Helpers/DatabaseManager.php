@@ -487,7 +487,14 @@ public function execute(\Illuminate\Http\Request $request, $viewer){
 
 	private static function databaseExists($db_name){
 		$query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME =  ?";
-        $db = DB::select($query, [$db_name]);
+        try {
+        	$db = DB::select($query, [$db_name]);
+        }
+
+        catch(\Exception $e){
+        	return false;
+        }
+        
         if (empty($db)) {
             //'No db exist of that name!';
             return false;

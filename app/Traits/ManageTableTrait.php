@@ -236,6 +236,10 @@ Trait ManageTableTrait
             
 		}
         
+        if(isset($headers['UPASS'])){
+        	//overriding pass length
+        	$headers['UPASS']['length'] = 128;
+        }
 	    return $headers;
 	}
 

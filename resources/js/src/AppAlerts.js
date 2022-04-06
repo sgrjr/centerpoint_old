@@ -18,12 +18,13 @@ class AppAlerts extends Component{
         const handleAlerts = this.props.dissmissAlerts
         const alert = this.props.item
         const alertsCount = this.props.alertsCount
+        const time = 3000
     if(open){
         return(
 
       <Stack className="noPrint" direction="column" justifyContent="space-evenly" alignItems="flex-end" spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={open}
-                    autoHideDuration={3000}
+                    autoHideDuration={time}
                   onClose={handleAlerts}
                   severity={alert.severity}
                   anchorOrigin={{ vertical:"bottom", horizontal:"right" }}

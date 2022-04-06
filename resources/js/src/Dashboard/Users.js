@@ -23,7 +23,7 @@ export default function Users(props) {
   const classes = useStyles();
  if(props.user.vendor && props.user.vendor.users){
      return (
-    <Card title="Manage Users">
+    <Card title="Account Users (See Customer Rep. for changes.)">
 
       <Table size="small">
         <TableHead>
@@ -38,7 +38,7 @@ export default function Users(props) {
           {props.user.vendor.users && props.user.vendor.users.data.map((row, id) => {
             return <TableRow key={id}>
               <TableCell></TableCell>
-              <TableCell>{row.FIRST} {row.LAST}</TableCell>
+              <TableCell>{row.FIRST? row.FIRST + " " + row.LAST: row.UNAME}</TableCell>
               <TableCell align="right">{row.EMAIL}</TableCell>
             </TableRow>
           })}

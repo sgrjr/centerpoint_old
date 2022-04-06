@@ -185,10 +185,15 @@ class IndexController extends Controller
 
     public function marc(Request $request, $file){
         $append = "";
-        if (strpos($file,".mrc") === false){
+        if (strpos($file,".mrc") === false && strpos($file,".txt") === false){
           $append = ".mrc";
         }
-          $path = \Config::get('cp')['marc_records_path'] . '/' . $file . $append;
+
+          if(strpos($file,".mrc") === true || $append == ".mrc"){
+            $path = \Config::get('cp')['marc_records_path'] . '/' . $file . $append;
+          }else{
+            $path = \Config::get('cp')['text_marc_records_path'] . '/' . $file;
+          }
           $headers = [];
 
         try {
@@ -211,7 +216,7 @@ class IndexController extends Controller
           $path = base_path() . '/app-js/build/static/' . $file;
           $headers = [];
         }
-        
+
         try {
           return response()->file($path, $headers);
         }

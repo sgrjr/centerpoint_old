@@ -1,14 +1,24 @@
 <?php namespace App\Helpers;
 
-use Cache;
+use Cache, stdclass;
 
 class UserTitleData {
 
 	public function __construct($title, $user){
 		$this->title = $title;
 		$this->user = $user;
+		$this
+			->initStandingOrder()
+			->calcstandingorder();
+	}
 
-		$this->calcstandingorder();
+	private function initStandingOrder(){
+		$this->so = new stdclass;
+		$this->so->DISC = .25;
+		$this->so->LISTPRICE = round($this->title->LISTPRICE,2);
+		$this->calcSalePrice();
+		$this->so->isInList = false;
+		return $this;
 	}
 
 	 public function __get($propertyName){
@@ -32,37 +42,25 @@ class UserTitleData {
 		return in_array($this->title->ISBN, $this->user->vendor->isbns);
 	}
 
-		private function getOnstandingorder(){
-			return $this->so->isInList;
-		}
+	private function calcSalePrice(){
+		$this->so->SALEPRICE = round($this->title->LISTPRICE - ($this->so->DISC * $this->title->LISTPRICE),2);
+		return $this;
+	}
 
-		private function calcstandingorder(){
-		    $so = new \stdclass;
-		    
-		    $escape = false;
-		    $so->DISC = .25;
-		    $so->SALEPRICE = round(round(floatval($this->title->LISTPRICE),2) - ($so->DISC * round(floatval($this->title->LISTPRICE),2)),2);
-		    $so->isInList = false;
+	private function getOnstandingorder(){
+		return $this->so->isInList;
+	}
 
-		    //SERIES LIST
-
-		    foreach($this->user->vendor->standingOrders AS $standingOrder){
-
-		      if(strtolower($this->title->SOPLAN) === strtolower($standingOrder->SOSERIES) && $standingOrder->QUANTITY > 0){
-		        $so->DISC = .25;//\App\Helpers\Misc::getDiscount($this->title->SOPLAN);
-		        $so->isInList = true;
-		        $escape = true;
-		        $so->SALEPRICE = round(round(floatval($this->title->LISTPRICE),2) - ($so->DISC * round(floatval($this->title->LISTPRICE),2)),2); 
-		      }
-
-		      if($escape){
-		        break;
-		      }
-		    }
-
-		    $this->so = $so;
-			
-		    return $this;
+	private function calcstandingorder(){
+		if($this->title->INVNATURE === "TRADE"){return $this;}
+	    foreach($this->user->vendor->standingOrders AS $standingOrder){
+	      if($standingOrder->isActive && $standingOrder->discount > $this->so->DISC){
+	        $this->so->DISC = $standingOrder->discount;
+	        $this->so->isInList = true;
+	        $this->calcSalePrice();
+	      }
+	    }
+	    return $this;
 
 	}
 

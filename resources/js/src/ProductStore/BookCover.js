@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 
 export default function BookCover(props) {
 
-  const {link, image, large} = props
+  const {link, image, large, previouslyPurchased} = props
   
   var largeArtStyle = ""
   var largeEffectStyle = ""
@@ -13,6 +13,16 @@ export default function BookCover(props) {
   var imageStyle ={
     backgroundImage: image
   }
+console.log(image)
+   if(previouslyPurchased){
+      imageStyle =  {
+        backgroundImage: "url('/img/PREV_PURCH.png')" + ", " + image,
+        backgroundPosition: "center, center",
+        backgroundRepeat: "no-repeat, no-repeat",
+        backgroundSize: "contain, cover"
+      }
+  }
+
 
   if(large){
     largeArtStyle = " book-cover-art-large"
@@ -20,7 +30,7 @@ export default function BookCover(props) {
   }
 
   return (
-      <Link to={link} >  
+      <Link to={link}> 
             <Paper className={"book-cover" + largeArtStyle} style={imageStyle} alt={props.alt} square={true}>
               <span className={"book-cover-effect" + largeEffectStyle} />
               </Paper>

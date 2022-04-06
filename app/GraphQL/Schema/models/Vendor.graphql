@@ -1,11 +1,11 @@
 type Vendor {
 	
 	carts(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(type:"paginator", model:"\\App\\Models\\Webhead")
-	processing(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(type:"paginator", model:"\\App\\Models\\Webhead")
-	backOrders(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(type:"paginator", model:"\\App\\Models\\Backhead")
-	broOrders(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(type:"paginator", model:"\\App\\Models\\Brohead")
-	ancientOrders(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(type:"paginator", model:"\\App\\Models\\Ancienthead")
-	allOrders(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(type:"paginator", model:"\\App\\Models\\Allhead")
+	processing(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(scopes:["newest"], type:"paginator", model:"\\App\\Models\\Webhead")
+	backOrders(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(scopes:["newest"],type:"paginator", model:"\\App\\Models\\Backhead")
+	broOrders(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(scopes:["newest"],type:"paginator", model:"\\App\\Models\\Brohead")
+	ancientOrders(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(scopes:["newest"],type:"paginator", model:"\\App\\Models\\Ancienthead")
+	allOrders(filter: CartsFilter, perPage:Int, first:Int): Order @hasMany(scopes:["newest"],type:"paginator", model:"\\App\\Models\\Allhead")
 
 	isbns: [String]
 	users: User @hasMany(type:"paginator")
@@ -15,7 +15,7 @@ type Vendor {
 
 	cartsCount: Int
 	processingCount: Int
-
+	addresses: [Address]
 	INDEX: String
 	KEY: String
 	SEX: String

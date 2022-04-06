@@ -37,7 +37,7 @@ class Index extends React.Component {
     }
     return nextProps;
   }
-  
+
   render(){
 
     const complete = () => {return this.props.cart.checkout.data.ISCOMPLETE}
@@ -65,7 +65,8 @@ Index.propTypes = {
 
 const mapStateToProps = (state)=>{
   return {
-    cart: state.viewer.cart
+    cart: state.viewer.cart,
+    addresses: state.viewer.cart.checkout.data.viewer? state.viewer.cart.checkout.data.viewer.vendor.addresses:[]
      }
 }
 
