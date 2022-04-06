@@ -67,7 +67,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
   }
 
   public function getImageAttribute(){return $this->getImgAttribute($atts);}
-  public function getUrlAttribute(){return url("/isbn/" . $this->ISBN);}
+  public function getUrlAttribute(){return "/isbn/" . $this->ISBN;}
   public function getMarcLinkAttribute(){
 
     if($this->MARC === "MARC"){

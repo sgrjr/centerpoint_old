@@ -31,7 +31,7 @@ function CustomImageList({itemData, navigate}) {
       {itemData.map((item) => {
         const cols = item.featured ? 2 : 1;
         const rows = item.featured ? 2 : 1;
-
+        console.log(item)
         return (
           <ImageListItem key={item.coverArt} cols={cols} rows={rows} >
             {item.url}
