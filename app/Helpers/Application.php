@@ -98,7 +98,7 @@ class Application {
       $cat = new \stdclass;
       $cat->id = null;
       $cat->image_root = $config["promotionspath"] . "/CP_COVERS_JPG/";
-      $cat->pdf_root = $config["promotionspath"] . "/CP_CATALOGS_PDF/";
+      $cat->pdf_root = $config["promotionspath"] . "/ALLFORMS/";
       $cat->image_link = "/img/promotions/current";
       $cat->image_path = null;
       $cat->image_ext = null;
