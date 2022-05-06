@@ -110,11 +110,13 @@ class XBaseTable {
             }
 
             catch(\Exception $exception){
-                //maybe someone is saving changes and we just need to wait a second and try to open again.
-                sleep(3);
-                if($this->fp = fopen($this->name,$this->read_write_options)) {
-                    $this->readHeader()->setMemoTable();
-                }
+                echo 'Could not open. File is already open.';
+                //maybe someone is saving changes and we just need to wait to try to open again.
+               // sleep(3);
+                //if($this->fp = fopen($this->name,$this->read_write_options)) {
+                   // $this->readHeader()->setMemoTable();
+                //}
+                return false;
             }
     } 
 

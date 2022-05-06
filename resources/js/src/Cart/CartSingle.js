@@ -24,7 +24,7 @@ function tradeTitleShipping(titles){
 
 function CartSingle(props) {
   const {cart, deleteCart, deleteFromCart, cartSave, history, updateTitleQuantity, cartCheckout, selectCart} = props
-
+console.log(props)
   const id = cart.REMOTEADDR
 
   const handleChange = panel => (event) => {

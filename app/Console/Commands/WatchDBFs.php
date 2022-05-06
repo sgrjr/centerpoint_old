@@ -170,9 +170,10 @@ class WatchDBFs extends Command
 
         if(in_array($opt->name, $watch)){
             $table = (new $opt->name)->getTable();
-            \Artisan::call("db:seed true ".$table);
-
-            return 'MYSQL was updated for ' . $opt->name;
+            //return\Artisan::call("db:seed true ".$table);
+            $command = "php artisan db:seed true " . $table;
+            exec( $command, $output, $status );
+            return 'MYSQL was updated for ' . $opt->name . "\n" . json_encode($output) . "\n". $status;
         }else{
             return 'MYSQL was not updated because I am not watching for changes in ' . $opt->name;
         }

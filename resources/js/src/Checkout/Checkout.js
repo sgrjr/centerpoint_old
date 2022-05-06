@@ -32,7 +32,6 @@ function Checkout(props) {
   if(!props.data || !props.data.invoice){
     return <div/>
   }
-
   return (
     <>
       <Typography variant="h2">{props.data.invoice.title}</Typography>
@@ -70,7 +69,7 @@ function Checkout(props) {
         <AccordionDetails>
           <select>
             {props.addresses.map((add, index)=>{
-              return <option val={index}>{JSON.stringify(add)}</option>
+              return <option key={index} val={index}>{JSON.stringify(add)}</option>
             })}
           </select>
           <ContactInfo {...props}/>
