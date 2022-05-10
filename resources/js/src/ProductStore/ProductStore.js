@@ -71,7 +71,8 @@ class ProductStore extends Component{
         let titleLists = <TitleLists lists={lists} viewer={this.props.viewer} selectedCart={this.props.selectedCart} addTitleToCart={this.props.addTitleToCart}/>
         
         return(
-        <div>
+        <>
+        {this.props.navigation}
        {errors}
        {/*<WelcomeSlider slider={slider} />*/}
         <Grid>
@@ -85,7 +86,7 @@ class ProductStore extends Component{
             </Grid>
 
          </Grid>
-         </div>
+         </>
         )
     }
 }    

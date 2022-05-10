@@ -95,7 +95,7 @@ class AdminUsers extends Component {
         <TableHead>
           <TableRow>
           <TableCell>edit</TableCell>
-            <TableCell>test</TableCell>
+            <TableCell>impersonate</TableCell>
             <TableCell>Name</TableCell>
             <TableCell align="right">EMAIL</TableCell>
 

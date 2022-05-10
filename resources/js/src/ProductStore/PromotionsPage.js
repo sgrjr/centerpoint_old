@@ -26,14 +26,19 @@ class PromotionsPage extends Component{
         {url:"/static/Platinum_Fiction_catalog", text:"Platinum Fiction"}
       ]
 
-      return (<div className={styles.promotions}>
-        <h1>Promotions</h1>
+      return (<>
+          {this.props.navigation}
 
-        {links.map((l)=>{
-          return <div><h2>{l.text}</h2><a href={l.url} target="_blank"className={styles.outlined}>OPEN</a></div>
-        })}
+          <div className={styles.promotions}>
 
-        </div>)  
+            <h1>Promotions</h1>
+
+            {links.map((l)=>{
+              return <div><h2>{l.text}</h2><a href={l.url} target="_blank"className={styles.outlined}>OPEN</a></div>
+            })}
+
+            </div>
+          </>)  
     }
         
 } 

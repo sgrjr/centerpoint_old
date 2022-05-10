@@ -546,6 +546,18 @@ footer.main-footer ul {
   background: white;
 }
 
+.main-navigation.minimal-navigation {
+  border-bottom: solid 10px #0090b8;
+  background: white;
+  height: 60px;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+.main-navigation.minimal-navigation a {
+  color: #0090b8;
+}
+
 @media only screen and (max-width: 1199px) {
   .search-form form {
     flex-basis: 100%;

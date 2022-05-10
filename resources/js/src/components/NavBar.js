@@ -127,7 +127,7 @@ function menuToggle (event){
     }
 
   return (
-      <div className={styles.mainNavigation}>
+      <div className={styles.mainNavigation + " " + props.mainClass}>
       
       {cart}
 

@@ -313,9 +313,13 @@ button.get-marc-button, button.add-to-cart-action {
   width:100%;
 }
 
-#vendor-dashboard button.get-marc-button {
-  width: 75px;
-  margin: 15px;
+#vendor-dashboard {
+
+   button.get-marc-button {
+    width: 75px;
+    margin: 15px;
+  }
+
 }
 
 .promotions {

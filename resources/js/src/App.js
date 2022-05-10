@@ -34,6 +34,9 @@ class App extends React.Component {
   render(){
 
     const {classes} = this.props
+    const generalNavigationBar = <NavBar {...this.props} mainClass=""/>
+    const minimalNavigationBar = <NavBar {...this.props} mainClass="minimal-navigation"/>
+    
     return (
       
       <Provider store={this.props.store}>
@@ -41,44 +44,39 @@ class App extends React.Component {
         <Router>
     <div id="MainApp" className={classes.root}>
       
-      <NavBar {...this.props}/>
-      
         <Routes>
-          <Route path="/" exact={true} element={<ProductStore />}/> 
-          <Route path="/promotions" element={<Promotions/>}/>
-          <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="/" exact={true} element={<ProductStore navigation={generalNavigationBar}/>}/> 
+          <Route path="/promotions" element={<Promotions navigation={generalNavigationBar}/>}/>
+          <Route path="/dashboard" element={<Dashboard navigation={minimalNavigationBar}/>} >
             <Route path="" element={<DashboardMain/>}/>
             <Route path="admin/users" element={<AdminUsers/>}/>
             <Route path="admin/users/:userid" element={<AdminUser/>}/>
              <Route path="admin/titles" element={<AdminTitles/>}/>
 
-            <Route path="cart" exact={true} element={<Cart />}/>
-            <Route path="cart/:cartid" element={<CartCheckout />}/>
-            <Route path="invoice/:invoiceid" element={<CartCheckout />}/>
+            <Route path="cart" exact={true} element={<Cart  navigation={generalNavigationBar}/>}/>
+            <Route path="cart/:cartid" element={<CartCheckout navigation={generalNavigationBar}/>}/>
+            <Route path="invoice/:invoiceid" element={<CartCheckout navigation={generalNavigationBar}/>}/>
 
           </Route>
 
-          <Route path="/login" element={<Signin />}/>
+          <Route path="/login" element={<Signin  navigation={generalNavigationBar}/>}/>
           <Route path="/logout" element={<Logout/>}/>
          
-          <Route path="/search" element={<SearchPage />}>
-            <Route path=":search/:filter" element={<SearchResults/>}/>
+          <Route path="/search" element={<SearchPage  navigation={generalNavigationBar}/>}>
+            <Route path=":search/:filter" element={<SearchResults navigation={generalNavigationBar}/>}/>
           </Route>
-          <Route path="/isbn/:isbn" element={<TitlePage />}/>
+          <Route path="/isbn/:isbn" element={<TitlePage navigation={generalNavigationBar}/>}/>
 
-          <Route path="*" element={<SearchPage/>}/>
+          <Route path="*" element={<SearchPage navigation={generalNavigationBar}/>}/>
 
         </Routes>
-      
       
       <AppAlerts/>
      
     <Footer />
     </div>
       </Router>
-      
       </Provider>
-
   );
 }
 

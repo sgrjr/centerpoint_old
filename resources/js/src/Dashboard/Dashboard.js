@@ -55,7 +55,8 @@ const drawerWidth = 240;
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
-      flexGrow: 1
+      flexGrow: 1,
+      marginTop:"50px"
     },
     paper: {
       padding: theme.spacing(2),
@@ -123,6 +124,7 @@ class Dashboard extends Component{
           >
               <IconButton onClick={toggleDrawer}>
                 <IconPicker icon={open? "chevronLeft":"chevronRight"} />
+                Dashboard
               </IconButton>
 
               {dashboardnav()}
@@ -131,7 +133,7 @@ class Dashboard extends Component{
         }
 
         return(
-          <div id="vendor-dashboard" className={styles.dashboard +" "+ "drawer-is-open-"+open}>
+          <>{this.props.navigation}<div id="vendor-dashboard" className={styles.dashboard +" "+ "drawer-is-open-"+open}>
          
           <Drawr />
          
@@ -145,7 +147,7 @@ class Dashboard extends Component{
               }}>ADMIN</button>
             </Container>
           </main>
-        </div>
+        </div></>
         )
     }
         
@@ -154,6 +156,7 @@ class Dashboard extends Component{
 const dashboardQuery = {
   query:`{
     viewer {
+      token
       application{
         links {
           drawer {

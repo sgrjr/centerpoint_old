@@ -16,6 +16,7 @@ import titlesReducer from './reducers/titlesReducer';
 import notificationReducer from './reducers/notificationReducer';
 import viewerReducer from './reducers/viewerReducer';
 import formsReducer from './reducers/formsReducer';
+import 'lazysizes';
 
 const spacing = 15;
 

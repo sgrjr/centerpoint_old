@@ -23,7 +23,7 @@ class Role extends BaseModel implements \App\Interfaces\ModelInterface {
 
 	public function permissions()
     {
-        return $this->belongsToMany('\App\Permission');
+        return $this->belongsToMany('\App\Models\Permission');
     }
 
     public function users(){

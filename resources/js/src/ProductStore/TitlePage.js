@@ -60,9 +60,9 @@ class TitlePage extends Component{
     render(){
 
        if(this.props.pending){
-          return (<Grid container className="title-page"><TitlePageSkeleton/><Grid container className={"pending"}><Grid item xs={12}><Progress color="primary"/></Grid></Grid></Grid>)
+          return (<>{this.props.navigation}<Grid container className="title-page"><TitlePageSkeleton/><Grid container className={"pending"}><Grid item xs={12}><Progress color="primary"/></Grid></Grid></Grid></>)
        }else if(this.props.title === null || this.props.title === undefined){
-          return <p style={{textAlign:"center"}}>Sorry. We cannot find that title.</p>
+          return <>{this.props.navigation}<p style={{textAlign:"center"}}>Sorry. We cannot find that title.</p></>
        }
 
       const {viewer, createCart} = this.props;
@@ -106,7 +106,9 @@ class TitlePage extends Component{
       const circle = <SubtleProgress />
 
       return (
-        <Grid container className="title-page">
+        <>
+          {this.props.navigation}
+          <Grid container className="title-page">
             <Grid item xs={12} md={12} >
               {loading}
             <Typography variant="h3" dangerouslySetInnerHTML={{__html: title.TITLE}}>
@@ -239,10 +241,11 @@ class TitlePage extends Component{
              <Grid item xs={12} sm={10}>
               <HorizontalList items={title.byAuthor.data} listTitle={authorTitle} url={"/search/"+title.AUTHORKEY+"/author"} titleSize={"h4"}  displayHorizontal={true}  background={"#2e2e2e"} viewer={this.props.viewer}/>
             </Grid>
-        </Grid>      
+        </Grid>
+      </>      
       )
       }else{
-        return  <Grid container className={"pending"}><Grid item xs={12}><Progress color="primary"/></Grid></Grid>
+        return  <>{this.props.navigation}<Grid container className={"pending"}><Grid item xs={12}><Progress color="primary"/></Grid></Grid></>
       }
   
     }

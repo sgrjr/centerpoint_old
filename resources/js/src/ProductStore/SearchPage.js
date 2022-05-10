@@ -143,34 +143,37 @@ class SearchPage extends Component{
         }
 
         return(
-        <div style={{margin:"30px"}} className={"minify-"+this.state.options.minify}>
-       {errors}
-        <Grid container justifyContent="center"  className={classes.searchMain}>
+        <>
+          {this.props.navigation}
 
-                <Grid item sm={12} md={8} className={"box "+ classes.gridItem}>
+          <div style={{margin:"30px"}} className={"minify-"+this.state.options.minify}>
+         {errors}
+          <Grid container justifyContent="center"  className={classes.searchMain}>
 
-                  <div>
-                    Loaded: {lists[0][1].paginatorInfo === null || lists[0][1].paginatorInfo.count === 0? 0:lists[0][1].paginatorInfo.count} of {lists[0][1].paginatorInfo !== null && lists[0][1].paginatorInfo.total} | 
-                    {viewmore} | 
-                    <button className={styles.outlined} onClick={(e)=>{toggleMinMaxView(e);}}>{this.state.options.minify? "expand":"collapse"}</button>
-                  </div>
-                  
-                  <hr/>
+                  <Grid item sm={12} md={8} className={"box "+ classes.gridItem}>
 
-                  {lists[0][1].data && lists[0][1].data.map(title=>{
-                        return <TitleSummary minify={this.state.options.minify} key={title.ISBN} {...title} createCart={createCart} authenticated={this.props.authenticated} url={pathname} viewer={viewer}/>
-                    })}
-                  
-                  {searchSuggestions}
+                    <div>
+                      Loaded: {lists[0][1].paginatorInfo === null || lists[0][1].paginatorInfo.count === 0? 0:lists[0][1].paginatorInfo.count} of {lists[0][1].paginatorInfo !== null && lists[0][1].paginatorInfo.total} | 
+                      {viewmore} | 
+                      <button className={styles.outlined} onClick={(e)=>{toggleMinMaxView(e);}}>{this.state.options.minify? "expand":"collapse"}</button>
+                    </div>
+                    
+                    <hr/>
 
-                  {viewmore}
+                    {lists[0][1].data && lists[0][1].data.map(title=>{
+                          return <TitleSummary minify={this.state.options.minify} key={title.ISBN} {...title} createCart={createCart} authenticated={this.props.authenticated} url={pathname} viewer={viewer}/>
+                      })}
+                    
+                    {searchSuggestions}
 
-                  <p>Loaded: {lists[0][1].paginatorInfo === null || lists[0][1].paginatorInfo.count === 0? 0:lists[0][1].paginatorInfo.count} of {lists[0][1].paginatorInfo !== null && lists[0][1].paginatorInfo.total}</p>
+                    {viewmore}
 
-                </Grid>
-         </Grid>
-         </div>
+                    <p>Loaded: {lists[0][1].paginatorInfo === null || lists[0][1].paginatorInfo.count === 0? 0:lists[0][1].paginatorInfo.count} of {lists[0][1].paginatorInfo !== null && lists[0][1].paginatorInfo.total}</p>
 
+                  </Grid>
+           </Grid>
+           </div>
+         </>
 
         )
     }

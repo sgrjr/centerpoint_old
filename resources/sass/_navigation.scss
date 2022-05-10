@@ -108,6 +108,21 @@
    
 }
 
+
+.main-navigation.minimal-navigation {
+    border-bottom: solid 10px rgb(0, 144, 184);
+    background:white;
+    height:60px;
+    overflow:hidden;
+    position:fixed;
+    width:100%;
+
+    a {
+        color: rgb(0, 144, 184);
+    }
+
+    }
+
 @media only screen and (max-width: 1199px) {
   .search-form form {
     flex-basis:100%;
