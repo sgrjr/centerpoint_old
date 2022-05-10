@@ -207,8 +207,8 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     public static  function getTradeTitles(){ 
 
       return static::
-        where("PUBDATE",">=", Misc::getYearMonth(1)["machine"]."00")
-        ->where("INVNATURE","TRADE");
+        where("PUBDATE",">=", Misc::getYearMonth()["machine"]."00")
+        ->where("INVNATURE","TRADE")->orderBy("PUBDATE","asc");
 
       /*
 

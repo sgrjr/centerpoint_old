@@ -15,9 +15,9 @@ function TitleLists(props){
   }else{
 
       const headers = {
-        cp: {title: "Upcoming Titles", url:"/search/CENTE/invnature", back:"#2e2e2e", displayHorizontal: true},
+        cp: {title: "Current Month Titles", url:"/search/CENTE/invnature", back:"#2e2e2e", displayHorizontal: true},
         trade: {title: "Trade Titles", url:"/search/TRADE/invnature", back:"#2e2e2e", displayHorizontal: true},
-        advanced: {title: "", url: null, back:"none", displayHorizontal: false}
+        advanced: {title: "Upcoming Titles", url: null, back:"none", displayHorizontal: false}
       }
 
     return props.lists.map((list,index)=>{
@@ -48,7 +48,7 @@ class ProductStore extends Component{
 
     componentDidMount(){
       if(!this.props.lists || this.props.lists.length === 0){
-        this.props.titlesGet(this.props.query({first:25})) 
+        this.props.titlesGet(this.props.query({first:24})) 
       }
     }
 
