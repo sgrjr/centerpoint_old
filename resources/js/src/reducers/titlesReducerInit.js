@@ -290,22 +290,46 @@ minTitleQuery: (variables) => {
     }
   }
 
-      searchSuggestions(first:12) {
-        data {
-          id
-          TITLE
-          AUTHOR
-          coverArt
-          INVNATURE
-          url
-          featured
-        }
-        paginatorInfo{
-          total
+  searchSuggestions: lists(name:"search_suggestions", first:12){
+    data{
+      TITLE
+      PUBDATE
+    }
+  }
+
+}  
+    `, 
+    variables: variables
+  }
+
+  },
+
+    listQuery: (variables = {}) => {
+
+    return {
+    
+    query:`query($name: String, $first: Int!, $page: Int) {
+
+      list: lists(name:$name, first:$first, page:$page){
+
+        paginatorInfo {
           count
+          currentPage
+          firstItem
+          hasMorePages
+          lastItem
+          lastPage
+          perPage
+          total
+        }
+
+        data{
+          TITLE
+          PUBDATE
         }
       }
-}  
+
+    }  
     `, 
     variables: variables
   }

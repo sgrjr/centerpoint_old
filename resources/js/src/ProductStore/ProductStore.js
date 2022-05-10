@@ -55,7 +55,7 @@ class ProductStore extends Component{
     render(){
 
         if(this.props.lists[0] && this.props.lists[0][0] === "search" && !this.props.titlesProgress){
-          this.props.titlesGet(this.props.query()) 
+          this.props.titlesGet(this.props.query({first:10})) 
         }
 
         const { slider, lists } = this.props;

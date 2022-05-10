@@ -258,9 +258,9 @@ class Application {
         $links->shortCuts = collect([]);
 
         $links->shortCuts->push(["url"=>"/promotions", "text"=> 'Catalogs and Flyers',"icon"=>""]);
-        $links->shortCuts->push(["url"=>"/lists/top-25", "text"=> 'Top 25 for ' . date("F"),"icon"=>""]);
-        $links->shortCuts->push(["url"=>"/lists/upcoming-titles", "text"=> 'Upcoming Titles',"icon"=>""]);
-        $links->shortCuts->push(["url"=>"/lists/clearance-titles", "text"=> 'Clearance Titles',"icon"=>""]);
+        $links->shortCuts->push(["url"=>"/search/top-25-titles/list", "text"=> 'Top 25 for ' . date("F"),"icon"=>""]);
+        $links->shortCuts->push(["url"=>"/search/upcoming-titles/list", "text"=> 'Upcoming Titles',"icon"=>""]);
+        $links->shortCuts->push(["url"=>"/search/clearance-titles/list", "text"=> 'Clearance Titles',"icon"=>""]);
 
         $links->main->push(["url"=>"/", "text"=> 'Home',"icon"=>"home"]);
         $links->drawer->push([ "url"=>"/promotions", "text"=> 'Catalogues, Flyers',"icon"=>"paw"]);

@@ -52,11 +52,21 @@ class SearchPage extends Component{
        // }
 
         //NO TRADE TITLES, NOT OLDER THAN 5 years, NOT OUT OF PRINT
-        this.props.titlesGet(this.props.searchQuery({
-          page: this.props.pagination.page,
-          first: this.props.pagination.perPage,
-          filters
+
+        if(filter === "list"){
+          this.props.titlesGet(this.props.listQuery({
+            page: this.props.pagination.page? this.props.pagination.page:1,
+            first: this.props.pagination.perPage,
+            name: search
           }))
+        }else{
+          this.props.titlesGet(this.props.searchQuery({
+            page: this.props.pagination.page,
+            first: this.props.pagination.perPage,
+            filters
+          }))
+        }
+
         
     }
 
@@ -91,12 +101,22 @@ class SearchPage extends Component{
             //}
 
             //NO TRADE TITLES, NOT OLDER THAN 5 years, NOT OUT OF PRINT
+
+        if(this.props.params.filter === "list"){
+            this.props.titlesGet(this.props.listQuery({
+              keep:true,
+              page: this.props.pagination.page? this.props.pagination.page:1,
+              first: this.props.pagination.perPage,
+              name: this.props.params.search
+            }))
+        }else{
             this.props.titlesGet(this.props.searchQuery({
               keep: true,
               page: newProps.pagination.page,
               first: newProps.pagination.perPage,
               filters
               }))
+          }
           }
         }
 
@@ -125,8 +145,8 @@ class SearchPage extends Component{
         let errors = null
 
        if(this.props.errors){
-          errors = this.props.errors.map(function(er){
-            return <li>{er.message}</li>;
+          errors = this.props.errors.map(function(er,k){
+            return <li key={k}>{er.message}</li>;
           })
         }
 
@@ -211,6 +231,7 @@ return {
     catalog: state.application.catalog,
     browse: state.application.browse,
     searchQuery: state.titles.searchQuery,
+    listQuery: state.titles.listQuery,
     authenticated: state.viewer && !state.viewer.pending && state.viewer.KEY? true:false,
     viewer: state.viewer
      }

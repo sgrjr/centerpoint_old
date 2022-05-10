@@ -6,10 +6,9 @@ type Query {
     user(id: String): User @field(resolver:"\\App\\Models\\User@findByHash")
 
     titles(filter: TitleFilter @scope(name:"customer")): [Title!]! @paginate( model:"App\\Models\\Inventory")
+    lists(name:String, first:Int, page: Int): [Title!]! @paginate( builder:"App\\Models\\Inventory@titlesLists")
 
     title(filter: TitleFilter): Title @first(model:"App\\Models\\Inventory")
-
-    searchSuggestions(filter: TitleFilter): [Title] @paginate(builder:"\\App\\Models\\Inventory@getSearchSuggestions")
 
     # Upcoming Titles
     cpTitles: [Title] @paginate(builder:"\\App\\Models\\Inventory@getCPTitles")

@@ -224,8 +224,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     public static  function getAdvancedTitles(){ 
 
     return static::
-        where("PUBDATE",">=", Misc::getYearMonth(1)["machine"]."00")
-        ->where("INVNATURE","CENTE");
+        where("PUBDATE",">=", Misc::getYearMonth(1)["machine"]."00")->where("INVNATURE","CENTE");
        /*  
       $data = Misc::gauranteedBooksCount(30, [ 
         Misc::getYearMonth(1)["machine"]."00", 
@@ -285,23 +284,52 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
     }
 
-    public function getSearchSuggestions() {
-      return static::where('id', 122)
-        ->orWhere('id', 55)
-        ->orWhere('id', 65)
-        ->orWhere('id', 75)
-        ->orWhere('id', 85)
-        ->orWhere('id', 95)
-        ->orWhere('id', 155)
-        ->orWhere('id', 255)
-        ->orWhere('id', 355)
-        ->orWhere('id', 655)
-        ->orWhere('id', 755)
-        ->orWhere('id', 550);
-    }
-
   public function scopeCustomer(Builder $query): Builder {
     return $query->where('id', ">=", 37);
   }
+
+    public function titlesLists($_, $vars)
+    {
+
+      if(isset($vars['page'])){
+        $first = $vars['first'] * $vars['page'];
+      }else{
+        $first = $vars['first'];
+      }
+
+        switch($vars['name']){
+
+          case 'current':
+            return static::where("PUBDATE",">=", Misc::getYearMonth()["machine"]."00")->where("INVNATURE","CENTE")->where("PUBDATE","<", Misc::getYearMonth(1)["machine"]."00")->limit($first);
+          case 'advanced':
+          case 'upcoming':
+          case 'upcoming-titles':
+            return static::where("PUBDATE",">=", Misc::getYearMonth(1)["machine"]."00")->where("INVNATURE","CENTE")->limit($first);
+          case 'trade':
+            return static::where("PUBDATE",">=", Misc::getYearMonth()["machine"]."00")->where("INVNATURE","TRADE")->orderBy("PUBDATE","asc")->limit($first);
+          case 'clearance':
+          case 'clearance-titles':
+            return static::where("LISTPRICE","<=", 35.00)->where("INVNATURE","CENTE")->limit($first);
+          case 'top-25-titles':
+            //$isbns = \App\Models\Alldetail::select('PROD_NO')->groupBy('id','PROD_NO')->orderBy('id',"DESC")->limit(25)->get()->pluck('PROD_NO')->toArray();
+            $isbns = \App\Models\Alldetail::select( \DB::raw('count(*) as total'), 'PROD_NO')->groupBy('PROD_NO')->havingRaw('count(*) > 1000')->havingRaw('count(*) < 3000')->pluck('total','PROD_NO')->toArray();
+            return static::whereIn('ISBN', array_keys($isbns))->orderBy('id','DESC'); 
+          default:
+            return static::where('id', 122)
+              ->orWhere('id', 55)
+              ->orWhere('id', 65)
+              ->orWhere('id', 75)
+              ->orWhere('id', 85)
+              ->orWhere('id', 95)
+              ->orWhere('id', 155)
+              ->orWhere('id', 255)
+              ->orWhere('id', 355)
+              ->orWhere('id', 655)
+              ->orWhere('id', 755)
+              ->orWhere('id', 550);
+
+        }
+
+    }
 
 }

@@ -28,12 +28,11 @@ function CustomImageList({itemData, navigate}) {
       gap={1}
       style={{overflow:"hidden"}}
     >
-      {itemData.map((item) => {
+      {itemData.map((item, k) => {
         const cols = item.featured ? 2 : 1;
         const rows = item.featured ? 2 : 1;
-        console.log(item)
         return (
-          <ImageListItem key={item.coverArt} cols={cols} rows={rows} >
+          <ImageListItem key={k} cols={cols} rows={rows} >
             {item.url}
             <img
               {...srcset(item.coverArt, 250, 200, rows, cols)}
