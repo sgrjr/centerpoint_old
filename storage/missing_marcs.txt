@@ -77,3 +77,11 @@ Cannot find MARC record: C:\resources\data\Stephen_Reynolds\cp_marc_text\9781638
 Cannot find MARC record: C:\resources\data\Stephen_Reynolds\cp_marc_text\9781638082170.txt
 Cannot find MARC record: C:\resources\data\Stephen_Reynolds\cp_marc_text\9781638082095.txt
 Cannot find MARC record: C:\resources\data\Stephen_Reynolds\cp_marc_text\9781638082088.txt
+Cannot find MARC record: \9781638083009.txt
+Cannot find MARC record: \9781638083016.txt
+Cannot find MARC record: \9781638082996.txt
+Cannot find MARC record: \9781638083108.txt
+Cannot find MARC record: \9781638083009.txt
+Cannot find MARC record: \9781638083016.txt
+Cannot find MARC record: \9781638082996.txt
+Cannot find MARC record: \9781638083108.txt
