@@ -85,7 +85,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
 
     public function text(){
-        return $this->hasMany('App\Models\Booktext',"KEY","ISBN");
+        return $this->hasMany('App\Models\Booktext',"KEY","ISBN")->where('SUBJECT','LIKE','%PL%');
 	  }
 
    public function getUserData($user = false)

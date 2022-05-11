@@ -18,7 +18,7 @@ export default function TitleSummary(props) {
                     <BookCover link={"/isbn/" + props.ISBN} image={"url(" + props.coverArt + ")"} alt={`${props.TITLE} cover`} isClearance={props.isClearance} />
                 </div>
                 <div style={{display:"flex"}}>
-                  <p style={{width:"300px", paddingRight:"15%"}}><Link to={"/isbn/"+props.ISBN}>"<span dangerouslySetInnerHTML={{__html: props.TITLE}}/>" | {props.ISBN} | {props.AUTHOR} | $ {props.isClearance? props.FLATPRICE:props.LISTPRICE} | {props.CAT}</Link></p>
+                  <p style={{width:"300px", paddingRight:"15%"}}><Link to={"/isbn/"+props.ISBN}>"<span dangerouslySetInnerHTML={{__html: props.TITLE}}/>" | {props.AUTHOR} | $ {props.isClearance? props.FLATPRICE:props.LISTPRICE} | {props.CAT}</Link></p>
                   {addToCart}
                 </div>
               </div>
