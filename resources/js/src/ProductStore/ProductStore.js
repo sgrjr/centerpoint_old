@@ -15,9 +15,9 @@ function TitleLists(props){
   }else{
 
       const headers = {
-        cp: {title: "Current Month Titles", url:"/search/CENTE/invnature", back:"#2e2e2e", displayHorizontal: true},
+        cp: {title: "Current Month Titles", url:"/search/current/list", back:"#2e2e2e", displayHorizontal: true},
         trade: {title: "Trade Titles", url:"/search/TRADE/invnature", back:"#2e2e2e", displayHorizontal: true},
-        advanced: {title: "Upcoming Titles", url: null, back:"none", displayHorizontal: false}
+        advanced: {title: "Upcoming Titles", url: "/search/upcoming/list", back:"none", displayHorizontal: false}
       }
 
     return props.lists.map((list,index)=>{
