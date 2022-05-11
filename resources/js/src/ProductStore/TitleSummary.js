@@ -6,12 +6,7 @@ import BookCover from './BookCover'
 
 export default function TitleSummary(props) {
   let addToCart = null
-  let mainStyle = {
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "150px",
-    backgroundImage: props.isClearance? "url('/img/clearance_badge.png')":"",
-    backgroundPosition:"right"
-  }
+  let mainStyle = {}
 
   if(props.authenticated && props.viewer.vendor){
     addToCart =  <AddToCart title={props} url={props.url} createCart={props.createCart}/>
@@ -20,12 +15,10 @@ export default function TitleSummary(props) {
      return (
               <div className="minified-titles" style={mainStyle}>
                 <div style={{height:"75px", overflow:"hidden"}}>
-                    <img style={{width:"65px"}} src={props.coverArt} alt={`${props.TITLE} cover`} />
+                    <BookCover link={"/isbn/" + props.ISBN} image={"url(" + props.coverArt + ")"} alt={`${props.TITLE} cover`} isClearance={props.isClearance} />
                 </div>
-                <div>
-                  <Link to={"/isbn/"+props.ISBN}>"<span dangerouslySetInnerHTML={{__html: props.TITLE}}/>" | {props.ISBN} | {props.AUTHOR} | $ {props.isClearance? props.FLATPRICE:props.LISTPRICE} | {props.CAT}</Link>
-                 </div>
-                <div>
+                <div style={{display:"flex"}}>
+                  <p style={{width:"300px", paddingRight:"15%"}}><Link to={"/isbn/"+props.ISBN}>"<span dangerouslySetInnerHTML={{__html: props.TITLE}}/>" | {props.ISBN} | {props.AUTHOR} | $ {props.isClearance? props.FLATPRICE:props.LISTPRICE} | {props.CAT}</Link></p>
                   {addToCart}
                 </div>
               </div>
@@ -35,14 +28,14 @@ export default function TitleSummary(props) {
               <Grid container className="search-results" direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2} style={mainStyle}>
                 <Grid item xs={3}>
                   <div>
-                    <BookCover link={"/isbn/" + props.ISBN} image={"url(" + props.coverArt + ")"} alt={`${props.TITLE} cover`} isClearance={false} />
+                    <BookCover link={"/isbn/" + props.ISBN} image={"url(" + props.coverArt + ")"} alt={`${props.TITLE} cover`} isClearance={props.isClearance} />
                   </div>  
                 </Grid>
                 <Grid item xs={6}>
                   <ul className="dotted-list">
                   <li><Link to={"/isbn/"+props.ISBN}><span dangerouslySetInnerHTML={{__html: props.TITLE}}/></Link></li>
                   <li>{props.AUTHOR}</li>
-                  <li>Price: $ {props.isClearance? props.FLATPRICE:props.LISTPRICE}</li>
+                  <li>Price: $ {props.isClearance? props.FLATPRICE:props.LISTPRICE.toFixed(2)}</li>
                   {props.SOPLAN? <li>Standing Order Plan: {props.SOPLAN}</li>:""}
                   <li>ISBN-13: {props.ISBN} | {props.FORMAT} </li>
                   <li>Published: {props.PUBDATE}</li>

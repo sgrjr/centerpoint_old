@@ -15,7 +15,7 @@ export default function BookCover(props) {
     backgroundImage: clearanceBadge + image,
     backgroundPosition: "top right, center",
     backgroundRepeat: "no-repeat, no-repeat",
-    backgroundSize: "120px, cover"
+    backgroundSize: "33%, cover"
   }
 
    if(previouslyPurchased){

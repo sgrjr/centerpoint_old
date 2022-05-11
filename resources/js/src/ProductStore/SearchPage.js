@@ -146,7 +146,8 @@ class SearchPage extends Component{
   }
     render(){
 
-        const { classes, createCart, lists, params, viewer } = this.props;
+        const { 
+          asses, createCart, lists, params, viewer } = this.props;
         const {pathname} = this.props.location
         let viewmore = null
 
@@ -193,9 +194,9 @@ class SearchPage extends Component{
 
           <div style={{margin:"30px"}} className={"minify-"+this.state.options.minify}>
          {errors}
-          <Grid container justifyContent="center"  className={classes.searchMain}>
+          <Grid container justifyContent="center">
 
-                  <Grid item sm={12} md={8} className={"box "+ classes.gridItem}>
+                  <Grid item sm={12} md={8} className={"box"}>
 
                     <div>
                       Loaded: {lists[0][1].paginatorInfo === null || lists[0][1].paginatorInfo.count === 0? 0:lists[0][1].paginatorInfo.count} of {lists[0][1].paginatorInfo !== null && lists[0][1].paginatorInfo.total} | 
@@ -244,7 +245,6 @@ class SearchPage extends Component{
 
 SearchPage.propTypes = {
     loadClientPending: PropTypes.func,
-    classes: PropTypes.object,
     lists: PropTypes.array,
     params: PropTypes.object,
   };

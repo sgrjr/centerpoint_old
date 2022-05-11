@@ -55,7 +55,7 @@ class AddToCart extends Component{
         let selected = null
         while(i < 100){
           i++;
-          items.push(<option key={i} value={i} selected={this.props.selectedQuantity === i? "selected":"false"}>{i}</option>)
+          items.push(<option key={i} value={i} >{i}</option>)
         }
         return items
       }
@@ -72,8 +72,8 @@ class AddToCart extends Component{
         }else if(cart.pending || cart.addToCartPending){
           return <Button disabled variant="outlined" style={{width:"100%"}}><CircularProgress color="primary"/>updating cart ...</Button>
         }else if(title.STATUS !== "Out of Print"){
-          return (<div>
-          <div style={{fontSize:"1.5rem"}}>How many? <select style={{fontSize:"1.5rem"}} value={this.props.selectedQuantity} onChange={(e)=>{this.props.changeQuantity(e.target.value)}}>
+          return (<div style={this.props.styles}>
+          <div style={{fontSize:"1.5rem", display:"flex", flexDirection:"row"}}>How many? <select style={{marginLeft:"30px",fontSize:"1.5rem"}} defaultValue={this.props.selectedQuantity} onChange={(e)=>{this.props.changeQuantity(e.target.value)}}>
           {options()}
           </select></div>
           <button className={styles.addToCartButton} onClick={this.sendTitleToCart.bind(this)} >Click to Add ({this.props.selectedQuantity}) to Cart</button>

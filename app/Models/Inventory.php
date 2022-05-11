@@ -4,7 +4,7 @@ use App\Models\WebDetail;
 use App\Helpers\UserTitleData;
 use App\Traits\DbfTableTrait;
 use App\Helpers\Misc;
-use Cache, Schema;
+use Attribute, Cache, Schema;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -368,5 +368,6 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
           return $result !== null? $result["count"]:0;
       });
     }
+    
 
 }
