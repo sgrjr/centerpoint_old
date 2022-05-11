@@ -10,6 +10,8 @@ import BrowseProducts from '../components/BrowseProducts'
 import TitleSummary from './TitleSummary'
 import SearchSuggestions from './SearchSuggestions'
 import WithRouter from '../components/WithRouter'
+import OrderedTitleList from '../components/OrderedTitleList'
+import Time from '../helpers/Time'
 
 import styles from '../styles'
 
@@ -52,11 +54,19 @@ class SearchPage extends Component{
        // }
 
         //NO TRADE TITLES, NOT OLDER THAN 5 years, NOT OUT OF PRINT
+        let page = this.props.pagination.page? this.props.pagination.page:1
+        let first = this.props.pagination.perPage
 
         if(filter === "list"){
+
+          if(search === 'top-25-titles'){
+            page = 1
+            first = 25
+          }
+
           this.props.titlesGet(this.props.listQuery({
-            page: this.props.pagination.page? this.props.pagination.page:1,
-            first: this.props.pagination.perPage,
+            page: page,
+            first: first,
             name: search
           }))
         }else{
@@ -103,10 +113,18 @@ class SearchPage extends Component{
             //NO TRADE TITLES, NOT OLDER THAN 5 years, NOT OUT OF PRINT
 
         if(this.props.params.filter === "list"){
+          let page = this.props.pagination.page? this.props.pagination.page:1
+          let first = this.props.pagination.perPage
+
+          if(search === 'top-25-titles'){
+            page = 1
+            first = 25
+          }
+
             this.props.titlesGet(this.props.listQuery({
               keep:true,
-              page: this.props.pagination.page? this.props.pagination.page:1,
-              first: this.props.pagination.perPage,
+              page: page,
+              first: first,
               name: this.props.params.search
             }))
         }else{
@@ -162,6 +180,13 @@ class SearchPage extends Component{
           localStorage.setItem("centerpoint_large_print_user_options", JSON.stringify(newState.options))
         }
 
+        if(this.props.params.search === 'top-25-titles'){
+          return (<>
+            {this.props.navigation}
+            <OrderedTitleList titles={lists[0][1].data && lists[0][1].data} heading={"Top 25 Titles for " + Time.currentMonthName} minify={this.state.options.minify} createCart={createCart} authenticated={this.props.authenticated} url={pathname} viewer={viewer}/>
+          </>)
+        }
+
         return(
         <>
           {this.props.navigation}
@@ -199,6 +224,8 @@ class SearchPage extends Component{
     }
 
   listenToScroll(){
+    if(this.props.params.search === 'top-25-titles'){return true}
+
     const winScroll =
       document.body.scrollTop || document.documentElement.scrollTop
 

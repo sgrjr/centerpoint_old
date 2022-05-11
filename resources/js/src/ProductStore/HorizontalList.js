@@ -33,7 +33,7 @@ function getTitleBar(props, item, index){
     }
     return ( <ImageListItemBar 
               title={item.TITLE}
-              subtitle={"$" + item.LISTPRICE}
+              subtitle={"$" + item.isClearance? item.FLATPRICE:item.LISTPRICE}
               actionIcon={
                 shoppingCart
               }
@@ -78,7 +78,7 @@ function SingleLineGridList(props) {
         {items.map((item, index) => (
           <Grid key={index} item xs={6} sm={3} style={{height:"inherit", margin:"inherit", padding:"inherit"}}>
           <ImageListItem>
-              <BookCover link={"/isbn/" + item.ISBN} image={"url(" + item.coverArt + ")"} />
+              <BookCover link={"/isbn/" + item.ISBN} image={"url(" + item.coverArt + ")"} isClearance={item.isClearance} />
               {getTitleBar(props, item, index)}
           </ImageListItem>
           </Grid> 

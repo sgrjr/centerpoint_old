@@ -43,7 +43,9 @@ export default {
               ISBN
               TITLE
               INVNATURE
+              FLATPRICE
               LISTPRICE
+              isClearance
               PUBDATE
               coverArt
               AUTHORKEY
@@ -73,7 +75,9 @@ export default {
     query:`query ($page: Int, $first: Int!, $isbn: String) {
  title(filter: { isbn: $isbn }) {
     id
+    FLATPRICE
     LISTPRICE
+    isClearance
     INDEX
     AUTHOR
     AUTHORKEY
@@ -111,7 +115,9 @@ export default {
         ISBN
         TITLE
         coverArt
+        FLATPRICE
         LISTPRICE
+        isClearance
         AUTHORKEY
         AUTHOR
         INVNATURE
@@ -136,7 +142,9 @@ export default {
         AUTHORKEY
         AUTHOR
         coverArt
+        FLATPRICE
         LISTPRICE
+        isClearance
         STATUS
         INVNATURE
       }
@@ -169,7 +177,9 @@ minTitleQuery: (variables) => {
     query:`query ($page: Int, $first:Int!, $isbn:String) {
         title(filter: { isbn: $isbn }) {
     id
+    FLATPRICE
     LISTPRICE
+    isClearance
     INDEX
     AUTHOR
     AUTHORKEY
@@ -206,7 +216,9 @@ minTitleQuery: (variables) => {
         ISBN
         TITLE
         coverArt
+        FLATPRICE
         LISTPRICE
+        isClearance
         AUTHORKEY
         AUTHOR
         INVNATURE
@@ -231,7 +243,9 @@ minTitleQuery: (variables) => {
         AUTHORKEY
         AUTHOR
         coverArt
+        FLATPRICE
         LISTPRICE
+        isClearance
         STATUS
         INVNATURE
       }
@@ -277,7 +291,9 @@ minTitleQuery: (variables) => {
       ISBN
       TITLE
       INVNATURE
+      FLATPRICE
       LISTPRICE
+      isClearance
       coverArt
       CAT
       AUTHOR
@@ -292,8 +308,22 @@ minTitleQuery: (variables) => {
 
   searchSuggestions: lists(name:"search_suggestions", first:12){
     data{
+      INDEX
+      ISBN
       TITLE
+      INVNATURE
+      FLATPRICE
+      LISTPRICE
+      isClearance
+      coverArt
+      CAT
+      AUTHOR
+      AUTHORKEY
+      FORMAT
+      SOPLAN
       PUBDATE
+      STATUS
+      PUBLISHER
     }
   }
 
@@ -324,8 +354,22 @@ minTitleQuery: (variables) => {
         }
 
         data{
+          INDEX
+          ISBN
           TITLE
+          INVNATURE
+          LISTPRICE
+          FLATPRICE
+          isClearance
+          coverArt
+          CAT
+          AUTHOR
+          AUTHORKEY
+          FORMAT
+          SOPLAN
           PUBDATE
+          STATUS
+          PUBLISHER
         }
       }
 

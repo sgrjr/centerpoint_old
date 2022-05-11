@@ -14,6 +14,8 @@ type Title {
    	SCAT: String
    	FORMAT: String
    	PAGES: Int
+    FLATPRICE: Float
+    isClearance: Boolean
    	LISTPRICE: Float
    	SERIES: String
    	SOPLAN: String
@@ -36,4 +38,5 @@ type Title {
     text: [TitleText] @hasMany(defaultCount:5, model:"App\\Booktext")
     url: String
     featured: Boolean
+    purchasedCount: Int
 }

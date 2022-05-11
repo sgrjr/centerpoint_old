@@ -4,7 +4,7 @@ use App\Models\WebDetail;
 use App\Helpers\UserTitleData;
 use App\Traits\DbfTableTrait;
 use App\Helpers\Misc;
-use Schema;
+use Cache, Schema;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -14,7 +14,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
     protected $table = 'inventories';
     protected $dbfPrimaryKey = 'ISBN';
-    protected $appends = ['coverArt','marcLink'];
+    protected $appends = ['coverArt','marcLink','purchasedCount'];
     
     protected $indexes = ["ISBN"];
     public $timestamps = false;
@@ -309,11 +309,15 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
             return static::where("PUBDATE",">=", Misc::getYearMonth()["machine"]."00")->where("INVNATURE","TRADE")->orderBy("PUBDATE","asc")->limit($first);
           case 'clearance':
           case 'clearance-titles':
-            return static::where("LISTPRICE","<=", 35.00)->where("INVNATURE","CENTE")->limit($first);
+            // if FLATPRICE is equal to or greater than 1.00 display FLATPRICE as the LISTPRICE WITH NO DISCOUNT APPLIED
+            return static::where("FLATPRICE",">=", 1.00)->where("INVNATURE","CENTE")->limit($first);
           case 'top-25-titles':
-            //$isbns = \App\Models\Alldetail::select('PROD_NO')->groupBy('id','PROD_NO')->orderBy('id',"DESC")->limit(25)->get()->pluck('PROD_NO')->toArray();
-            $isbns = \App\Models\Alldetail::select( \DB::raw('count(*) as total'), 'PROD_NO')->groupBy('PROD_NO')->havingRaw('count(*) > 1000')->havingRaw('count(*) < 3000')->pluck('total','PROD_NO')->toArray();
-            return static::whereIn('ISBN', array_keys($isbns))->orderBy('id','DESC'); 
+            // Has the current month's PUBDATE and of that list which titles have been purchased the most
+            $start_pubdate = Misc::getYearMonth(0)["machine"]."00";
+            $end_pubdate = Misc::getYearMonth(1)["machine"]."00";
+            $isbns = static::where('PUBDATE', '>=', $start_pubdate)->where("PUBDATE","<=", $end_pubdate)->get()->sortBy('purchasedCount')->reverse()->pluck('ISBN');
+            $ids = $isbns->implode(', ');
+            return static::whereIn('ISBN',$isbns)->orderByRaw("FIELD(ISBN, $ids)"); 
           default:
             return static::where('id', 122)
               ->orWhere('id', 55)
@@ -330,6 +334,39 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
         }
 
+    }
+
+    public function getIsClearanceAttribute(){
+      return $this->FLATPRICE >= 1.00;
+    }
+
+    public static function getPurchasedCount($isbns){
+       $times_purchased[] = \App\Models\Alldetail::whereIn('PROD_NO', $isbns)->select( \DB::raw('count(*) as total'), 'PROD_NO')->groupBy('PROD_NO')->pluck('total','PROD_NO')->toArray();
+       $times_purchased[] = \App\Models\Ancientdetail::whereIn('PROD_NO', $isbns)->select( \DB::raw('count(*) as total'), 'PROD_NO')->groupBy('PROD_NO')->pluck('total','PROD_NO')->toArray();
+       $times_purchased[] = \App\Models\Brodetail::whereIn('PROD_NO', $isbns)->select( \DB::raw('count(*) as total'), 'PROD_NO')->groupBy('PROD_NO')->pluck('total','PROD_NO')->toArray();
+       $times_purchased[] = \App\Models\Backdetail::whereIn('PROD_NO', $isbns)->select( \DB::raw('count(*) as total'), 'PROD_NO')->groupBy('PROD_NO')->pluck('total','PROD_NO')->toArray();
+       $times_purchased[] = \App\Models\Webdetail::whereIn('PROD_NO', $isbns)->select( \DB::raw('count(*) as total'), 'PROD_NO')->groupBy('PROD_NO')->pluck('total','PROD_NO')->toArray();
+
+        $newlist = [];
+
+        foreach($times_purchased AS $tp){
+          foreach($tp AS $k=>$v){
+            if(isset($newlist[$k])){
+              $newlist[$k]["count"] = $newlist[$k]['count'] + $v;
+            }else{
+              $newlist[$k] = ["count"=>$v, 'isbn'=>$k];
+            }
+          }
+        }
+        return collect($newlist)->sortBy('count')->reverse();
+    }
+
+    public function getPurchasedCountAttribute(){
+      $seconds = 86400;
+      return Cache::remember('purchased_count_for_' . $this->ISBN, $seconds, function () {
+        $result = $this->getPurchasedCount([$this->ISBN])->first();
+          return $result !== null? $result["count"]:0;
+      });
     }
 
 }

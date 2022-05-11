@@ -15,7 +15,7 @@ class UserTitleData {
 	private function initStandingOrder(){
 		$this->so = new stdclass;
 		$this->so->DISC = .25;
-		$this->so->LISTPRICE = round($this->title->LISTPRICE,2);
+		$this->so->LISTPRICE = $this->title->LISTPRICE;
 		$this->calcSalePrice();
 		$this->so->isInList = false;
 		return $this;
@@ -43,7 +43,12 @@ class UserTitleData {
 	}
 
 	private function calcSalePrice(){
-		$this->so->SALEPRICE = round($this->title->LISTPRICE - ($this->so->DISC * $this->title->LISTPRICE),2);
+		if($this->title->FLATPRICE >= 1.00){
+			$this->so->SALEPRICE = $this->title->FLATPRICE;
+		}else{
+			$this->so->SALEPRICE = round($this->title->LISTPRICE - ($this->so->DISC * $this->title->LISTPRICE),2);
+		}
+		
 		return $this;
 	}
 
@@ -52,10 +57,13 @@ class UserTitleData {
 	}
 
 	private function calcstandingorder(){
+		$ignore_discount = false;
 		if($this->title->INVNATURE === "TRADE"){return $this;}
+		if($this->title->FLATPRICE >= 1.00){ $this->so->DISC = 0; $ignore_discount = true;}
+
 	    foreach($this->user->vendor->standingOrders AS $standingOrder){
 	      if($standingOrder->isActive && $standingOrder->discount > $this->so->DISC){
-	        $this->so->DISC = $standingOrder->discount;
+	        if(!$ignore_discount){ $this->so->DISC = $standingOrder->discount;}
 	        $this->so->isInList = true;
 	        $this->calcSalePrice();
 	      }
