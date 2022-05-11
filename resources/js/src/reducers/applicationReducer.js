@@ -78,6 +78,14 @@ const applicationReducer = (state = applicationReducerInit,action)=>{
                 marcLink: null
             }
 
+        case actions.application.TOGGLE_OLD_WEBSITE.type:
+
+            return  {
+                ...state,
+                oldWebsite: !state.oldWebsite
+            }
+            
+
         default:
             return state;
 }

@@ -268,7 +268,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
                 file_put_contents(storage_path() . $ds."missing_marcs.txt", 'Cannot find MARC record: ' . $filePath . "\n", FILE_APPEND);
 
                 if(file_exists($missing_path)){
-                  $relativePath = 'MISSING_'.$isbn.'.txt';
+                  $relativePath = 'MARC_NOT_YET_AVAILABLE_FOR_'.$isbn.'.txt';
                   $zip->addFile($missing_path, $relativePath); 
                 }
               }

@@ -58,6 +58,19 @@ const application = {
         }
         return graphql(query, actions)
       }
+  },
+
+  TOGGLE_OLD_WEBSITE: 
+  {
+      type: 'TOGGLE_OLD_WEBSITE',   
+      creator: (current) => {
+        if(!current){
+          localStorage.setItem('old_centerpoint_website', 'true')
+        }else{
+          localStorage.setItem('old_centerpoint_website','false')
+        }
+        return { type: 'TOGGLE_OLD_WEBSITE' , value: current}
+      }
   }
 
 }

@@ -6,6 +6,7 @@ import WelcomeSlider from './WelcomeSlider'
 import actions from '../actions';
 import HorizontalList from './HorizontalList'
 import Image from '../components/Image'
+import OldWebsite from '../components/OldWebsite'
 
 function TitleLists(props){
 
@@ -53,6 +54,10 @@ class ProductStore extends Component{
     }
 
     render(){
+
+        if(this.props.oldWebsite){
+          return <><OldWebsite src="http://www.centerpointlargeprint.com"/></>
+        }
 
         if(this.props.lists[0] && this.props.lists[0][0] === "search" && !this.props.titlesProgress){
           this.props.titlesGet(this.props.query({first:10})) 
@@ -109,7 +114,8 @@ return {
     catalog: state.application.catalog,
     query: state.titles.query,
     selectedCart: state.viewer && state.viewer.cart? state.viewer.cart.selectedCart:false,
-    viewer: state.viewer
+    viewer: state.viewer,
+    oldWebsite: state.application.oldWebsite
      }
 }
 

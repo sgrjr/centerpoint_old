@@ -131,8 +131,10 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
       ->setIfNotSet('CITY',$user->vendor->CITY)
       ->setIfNotSet('STATE',$user->vendor->STATE)
       ->setIfNotSet('POSTCODE',$user->vendor->ZIP5)
-      ->setIfNotSet('VOICEPHONE',$user->vendor->VOICEPHONE);
-
+      ->setIfNotSet('VOICEPHONE',$user->vendor->VOICEPHONE)
+      ->setIfNotSet('PSHIP', 7)
+      ->setIfNotSet('PIPACK', 7)
+      ->setIfNotSet('PEPACK', 7);
       return $this;
   }
 
@@ -180,9 +182,9 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
     }
     
     $this->ISCOMPLETE = 1;
-    $this->PSHIP = 4;
-    $this->PIPACK = 4;
-    $this->PEPACK = 4;
+    $this->PSHIP = 5;
+    $this->PIPACK = 5;
+    $this->PEPACK = 5;
     $this->dbfSave();
 
     return $this;
@@ -232,7 +234,7 @@ public static function deleteCart($_, $args, $request){
 
       return $user;
   }
-
+/* safe to delete if I find no errors 5/11/2022 sgrjr
     public function updateMyCart($_, $args, $user = false){
       
 
@@ -252,7 +254,7 @@ public static function deleteCart($_, $args, $request){
       }
       return $cart->dbfSave();
 }
-
+*/
     public function getMyCart($_, $args){
 
         $user = request()->user();

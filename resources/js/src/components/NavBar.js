@@ -17,6 +17,7 @@ import SearchForm from './SearchForm'
 import actions from '../actions';
 import CustomMenuLink from './CustomMenuLink'
 import Cart from '../Cart/Cart'
+import ToggleWebsite from './ToggleWebsite'
 
 import {withTheme} from '@material-ui/core/styles'
 //fix this to dynamic some time
@@ -137,7 +138,7 @@ function menuToggle (event){
           </Typography>
 
           <div className={classes.sectionDesktop}>
-          
+             <MenuItem><ToggleWebsite/></MenuItem>
           {links.main.map(function(it,index){
             return <CustomMenuLink key={index} classes={classes} data={{
               processingCount: props.processingCount,
@@ -215,7 +216,8 @@ const mapStateToProps = (state)=>{
     browse: state.application.browse,
     cptitles: state.application.cptitles,
     search: state.application.search,
-    searchFilter: state.application.searchFilter
+    searchFilter: state.application.searchFilter,
+    oldWebsite: state.application.oldWebsite
        }
   }
   

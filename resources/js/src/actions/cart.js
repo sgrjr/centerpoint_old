@@ -268,9 +268,9 @@ const cart = {
       delete p.invoice;
       delete p.viewer
       p.ISCOMPLETE = 1
-      p.PSHIP = 4
-      p.PIPACK = 4
-      p.PEPACK = 4
+      p.PSHIP = 5
+      p.PIPACK = 5
+      p.PEPACK = 5
       p.id = parseInt(p.id)
       const query = cartUpdateMutation({input:p})
       

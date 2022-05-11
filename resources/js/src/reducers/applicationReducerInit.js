@@ -176,7 +176,8 @@ export default {
         shortCuts:[]
       },
     slider: {slides: []},
-    marcLink: null
+    marcLink: null,
+    oldWebsite: localStorage.getItem('old_centerpoint_website') && localStorage.getItem('old_centerpoint_website') === "true"? true:false
 
     //...window.INITIAL_STATE && window.INITIAL_STATE.application? window.INITIAL_STATE.application:{}
 }
