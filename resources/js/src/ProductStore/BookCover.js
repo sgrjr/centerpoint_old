@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 export default function BookCover(props) {
 
   const {link, image, large, previouslyPurchased, isClearance} = props
-  
+
   var largeArtStyle = ""
   var largeEffectStyle = ""
   let clearanceBadge = isClearance? "url(/img/clearance_badge.png), ":"url(/img/img), "
