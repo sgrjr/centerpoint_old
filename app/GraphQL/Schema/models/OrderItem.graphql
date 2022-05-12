@@ -10,6 +10,7 @@ type OrderItem {
     PUBDATE: String
     AUTHOR: String
     TITLE: String
+    title: String
     INVNATURE: String
     SERIES: String
     DATE: String

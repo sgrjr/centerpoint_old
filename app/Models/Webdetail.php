@@ -187,6 +187,8 @@ public function getRemoteAddr($user){
         return $detail;
     }
 
-    
+    public function getTitleAttribute(){
+        return $this->attributes['TITLE'];
+    }
 
 }

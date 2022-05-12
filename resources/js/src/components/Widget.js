@@ -21,7 +21,6 @@ export default function Widget(props) {
               direction="row"
               justifyContent="center"
               alignItems="center"
-              
             >
 
               {content(props.ready)}
