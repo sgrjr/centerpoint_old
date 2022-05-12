@@ -16,6 +16,7 @@ import AddToCart from '../Cart/AddToCart'
 import TitlePageSkeleton from './TitlePageSkeleton'
 import GetMarc from '../components/GetMarc'
 import {useParams, useLocation} from 'react-router-dom'
+import ScrollToTop from '../components/ScrollToTop'
 
 function ListItemLink(props) {
   return <ListItem component="a" {...props} />;
@@ -107,6 +108,7 @@ class TitlePage extends Component{
 
       return (
         <>
+        <ScrollToTop/>
           {this.props.navigation}
           <Grid container className="title-page">
             <Grid item xs={12} md={12} >

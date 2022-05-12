@@ -81,7 +81,7 @@ class ProductStore extends Component{
         
              
         {this.props.navigation}
-        <ToggleWebsite/>
+        <ToggleWebsite styles={{top:"320px"}}/>
        {errors}
        {/*<WelcomeSlider slider={slider} />*/}
         <Grid>

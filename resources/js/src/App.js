@@ -11,7 +11,6 @@ import DashboardMain from './Dashboard/Main'
 import AdminUsers from './Dashboard/AdminUsers'
 import AdminUser from './Dashboard/AdminUser'
 import AdminTitles from './Dashboard/AdminTitles'
-
 import ProductStore from './ProductStore/ProductStore'
 import Cart from './Cart/Cart'
 import CartCheckout from './Checkout/Index'
@@ -43,7 +42,6 @@ class App extends React.Component {
         
         <Router>
     <div id="MainApp" className={classes.root}>
-      
         <Routes>
           <Route path="/" exact={true} element={<ProductStore navigation={generalNavigationBar}/>}/> 
           <Route path="/promotions" element={<Promotions navigation={generalNavigationBar}/>}/>
