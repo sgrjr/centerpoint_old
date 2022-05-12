@@ -113,7 +113,7 @@ class TitlePage extends Component{
           <Grid container className="title-page">
             <Grid item xs={12} md={12} >
               {loading}
-            <Typography variant="h3" dangerouslySetInnerHTML={{__html: title.TITLE}}>
+            <Typography variant="h3" dangerouslySetInnerHTML={{__html: title.title}}>
           
             </Typography>
             </Grid>

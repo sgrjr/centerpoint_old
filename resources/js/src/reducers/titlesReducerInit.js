@@ -41,7 +41,7 @@ export default {
             data{
               INDEX
               ISBN
-              TITLE
+              title
               INVNATURE
               FLATPRICE
               LISTPRICE
@@ -82,7 +82,7 @@ export default {
     AUTHOR
     AUTHORKEY
     ISBN
-    TITLE
+    title
     FORMAT
     SUBTITLE
     HIGHLIGHT
@@ -113,7 +113,7 @@ export default {
       data {
         INDEX
         ISBN
-        TITLE
+        title
         coverArt
         FLATPRICE
         LISTPRICE
@@ -138,7 +138,7 @@ export default {
       data {
         INDEX
         ISBN
-        TITLE
+        title
         AUTHORKEY
         AUTHOR
         coverArt
@@ -184,7 +184,7 @@ minTitleQuery: (variables) => {
     AUTHOR
     AUTHORKEY
     ISBN
-    TITLE
+    title
     FORMAT
     SUBTITLE
     HIGHLIGHT
@@ -214,7 +214,7 @@ minTitleQuery: (variables) => {
       data {
         INDEX
         ISBN
-        TITLE
+        title
         coverArt
         FLATPRICE
         LISTPRICE
@@ -239,7 +239,7 @@ minTitleQuery: (variables) => {
       data {
         INDEX
         ISBN
-        TITLE
+        title
         AUTHORKEY
         AUTHOR
         coverArt
@@ -289,7 +289,7 @@ minTitleQuery: (variables) => {
     data {
       INDEX
       ISBN
-      TITLE
+      title
       INVNATURE
       FLATPRICE
       LISTPRICE
@@ -310,7 +310,7 @@ minTitleQuery: (variables) => {
     data{
       INDEX
       ISBN
-      TITLE
+      title
       INVNATURE
       FLATPRICE
       LISTPRICE
@@ -356,7 +356,7 @@ minTitleQuery: (variables) => {
         data{
           INDEX
           ISBN
-          TITLE
+          title
           INVNATURE
           LISTPRICE
           FLATPRICE

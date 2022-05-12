@@ -1,6 +1,8 @@
 type Title {
     id: ID!
+    ARTICLE: String
     TITLE: String
+    title: String
     ISBN: String
     INVNATURE: String
     PUBDATE: String

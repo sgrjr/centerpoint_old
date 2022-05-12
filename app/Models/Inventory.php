@@ -14,7 +14,7 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
 
     protected $table = 'inventories';
     protected $dbfPrimaryKey = 'ISBN';
-    protected $appends = ['coverArt','marcLink','purchasedCount'];
+    protected $appends = ['coverArt','marcLink','purchasedCount','title'];
     
     protected $indexes = ["ISBN"];
     public $timestamps = false;
@@ -53,6 +53,14 @@ class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
     return url("/img/small/" . $this->attributes['ISBN'] . ".jpg");
   }
 
+  public function getTitleAttribute(){
+    if($this->attributes['ARTICLE'] != ''){
+        return $this->attributes['ARTICLE'] . ' ' .$this->attributes['TITLE'];
+    }else{
+        return $this->attributes['TITLE'];
+    }
+    
+  }
 
   public function getCategoryAttribute(){
     $atts = $this->attributes;

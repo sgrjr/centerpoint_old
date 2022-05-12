@@ -46,12 +46,12 @@ function CustomImageList({itemData, navigate}) {
                   'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
                   'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
               }}
-              title={item.TITLE}
+              title={item.title}
               position="top"
               actionIcon={
                 <IconButton
                   sx={{ color: 'white' }}
-                  aria-label={`star ${item.TITLE}`}
+                  aria-label={`star ${item.title}`}
                 >
                   <StarBorderIcon />
                 </IconButton>

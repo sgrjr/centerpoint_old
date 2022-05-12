@@ -78,7 +78,7 @@ function OrderSummary(props) {
             <TableCell displayprint="none"><a href={item.url} target="_blank" rel="noopener noreferrer"><img  className="noPrint" style={{width:"75px"}} src={item.coverArt}/></a></TableCell>
 
               <TableCell component="th" scope="row">
-                <Typography className={classes.title}>{item.TITLE}</Typography>
+                <Typography className={classes.title}>{item.title}</Typography>
                 <Typography className={classes.author}>By {item.AUTHOR}</Typography>
               </TableCell>
               <TableCell>{item.PROD_NO}</TableCell>

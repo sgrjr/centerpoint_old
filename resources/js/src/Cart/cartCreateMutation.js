@@ -19,7 +19,7 @@ export default () => {
                               id
                               INDEX
                               PROD_NO
-                              TITLE
+                              title
                               REQUESTED
                               SALEPRICE
                               coverArt

@@ -19,7 +19,7 @@ function getTitleBar(props, item, index){
   if(!props.viewer || !props.viewer.KEY || !props.viewer.vendor){
     shoppingCart = null
   }else if(props.viewer && props.viewer.pending !== true && props.selectedCart && props.viewer.KEY && item.STATUS !== "Out Of Print"){
-      shoppingCart = <IconButton aria-label={`cart ${item.TITLE}`} style={{color: "inherit"}} onClick={function(){
+      shoppingCart = <IconButton aria-label={`cart ${item.title}`} style={{color: "inherit"}} onClick={function(){
                   
           const input = {
             REMOTEADDR: props.selectedCart,
@@ -32,7 +32,7 @@ function getTitleBar(props, item, index){
                 </IconButton>
     }
     return ( <ImageListItemBar 
-              title={item.TITLE}
+              title={item.title}
               subtitle={"$" + item.isClearance? item.FLATPRICE:item.LISTPRICE}
               actionIcon={
                 shoppingCart
