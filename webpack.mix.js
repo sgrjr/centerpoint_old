@@ -22,6 +22,7 @@ mix.options({
 	.js('resources/js/app.js', 'public/js')
 	.sourceMaps(true, 'source-map')
     .react()
-    .sass('resources/sass/app.scss', 'public/css').options({
-    processCssUrls: false, stats:{children:true}
-});
+    .sass('resources/sass/app.scss', 'public/css')
+    .version()
+    .options({processCssUrls: false, stats:{children:true}})
+    ;
