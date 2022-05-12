@@ -7,6 +7,7 @@ import actions from '../actions';
 import HorizontalList from './HorizontalList'
 import Image from '../components/Image'
 import OldWebsite from '../components/OldWebsite'
+import ToggleWebsite from '../components/ToggleWebsite'
 
 function TitleLists(props){
 
@@ -77,7 +78,10 @@ class ProductStore extends Component{
         
         return(
         <>
+        
+             
         {this.props.navigation}
+        <ToggleWebsite/>
        {errors}
        {/*<WelcomeSlider slider={slider} />*/}
         <Grid>

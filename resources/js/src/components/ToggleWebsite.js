@@ -14,13 +14,13 @@ class ToggleWebsite extends React.Component {
   }
 
   render(){
-    return (<button style={{textAlign:"center", margin:"auto", lineHeight:"50px", display:"flex", height:"50px", background:"none", color:this.props.oldWebsite? "red":"#000000"}}
+    return (<button style={{border:"none", position:"absolute", top:"0", left:"0", textAlign:"left", margin:"auto", lineHeight:"50px", display:"flex", width:"175px", background:"rgba(0,0,0,.3)", color:this.props.oldWebsite? "red":"#000000"}}
          onClick={()=>{
             this.props.toggleWebsite(this.props.oldWebsite)}
         }
          className="block">
         {this.props.oldWebsite? <ToggleOnIcon style={{height:"50px", width:"15px"}}/>:<ToggleOffIcon style={{height:"50px"}}/>} 
-        {this.props.oldWebsite? "You are currently using an unsecured version of our website. Click here to use our New Website. ":"Use Old Website"}
+        {this.props.oldWebsite? "This is an unsecured version of our website. Click here for our Secure Website. ":"Use Old Website"}
     </button>)
   }
 
