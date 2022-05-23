@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { connect } from 'react-redux'
 import styles from '../styles'
+import './Footer.scss'
 
 const Footer = function(props) {
   const { description, title } = props;

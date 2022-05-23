@@ -5,10 +5,10 @@ import Typography from '@material-ui/core/Typography';
 export default function Profile(props) {
 
   return (
-    <Card title="Profile">
-       <Typography variant="h5" color="textSecondary" align="center">{props.user.name}</Typography>
-       <Typography variant="h5" color="textSecondary" align="center">{props.user.EMAIL}</Typography>
-       <Typography variant="body1" color="textSecondary" align="left">{props.user.vendor? props.user.vendor.ORGNAME:""}</Typography>
+    <Card title="Profile" className="profile">
+       <h5>{props.user.name}</h5>
+       <h5>{props.user.EMAIL}</h5>
+       <h5>{props.user.vendor? props.user.vendor.ORGNAME:""}</h5>
     </Card>
   );
 }

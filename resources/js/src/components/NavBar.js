@@ -21,7 +21,7 @@ import Cart from '../Cart/Cart'
 import {withTheme} from '@material-ui/core/styles'
 //fix this to dynamic some time
 import useStyles from './NavbarStyle.js'
-
+import './NavBar.scss';
 import styles from '../styles.js'
 
 const MainNavbar = function (props) {

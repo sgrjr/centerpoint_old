@@ -9,6 +9,7 @@ const initState = {
                 password: null
             }
         },
+        photoStaging:false,
         photo: {
             selectedFile: {},
             completed: [],
@@ -28,9 +29,22 @@ export default (state = initState,action)=>{
             ns[action.form][action.field] = action.input
             return ns;
         
-        case actions.form.UPDATE_PROFILE_IMAGE_SOURCE.type:
+        case actions.form.UPDATE_PROFILE_IMAGE_PENDING.type:
             let ns1 = Object.assign({}, state)
-            ns1.photo.imageSource = action.input
+
+            if(action.input === false){
+                ns1.photo = {
+                    selectedFile: {},
+                    completed: [],
+                    imageSource: null,
+                    errors: {
+                        selectedFile:null
+                    }
+                }
+            }else{
+                ns1.photo.imageSource = action.input;
+            }
+            
             return ns1;
 
         default:

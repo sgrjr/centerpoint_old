@@ -2,11 +2,12 @@ import React, { useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import ToggleWebsite from './ToggleWebsite'
+import './OldWebsite.scss'
 
 const OldWebsite = function(props) {
 
    return (
-   	<div style={{display:"flex", flexDirection:"column"}}>
+   	<div id="old-website" style={{display:"flex", flexDirection:"column"}}>
    	  <ToggleWebsite />
   	  <iframe
         src={props.src}

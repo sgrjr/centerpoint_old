@@ -10,6 +10,9 @@ use App\Helpers\Misc;
 
 use App\Events\UserLoggedIn;
 use App\RouteModel;
+use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 
 class IndexController extends Controller
 {
@@ -25,6 +28,50 @@ class IndexController extends Controller
     return view('client',[
       "initial_state" => '{'.$graphqlurl.',"viewer":{"csrftoken":"lAvmJP08YGxocRbbFTRTVP3jNpU66GOuuyszl94f","browse":[{"title":"Genre","items":[{"url":"\/search\/Romance\/category","text":"Romance","icon":null},{"url":"\/search\/Romance+Christian\/category","text":"Romance - Christian","icon":null},{"url":"\/search\/Romance+Historical\/category","text":"Romance - Historical","icon":null},{"url":"\/search\/Romance+Suspense\/category","text":"Romance - Suspense","icon":null},{"url":"\/search\/Fiction\/category","text":"Fiction","icon":null},{"url":"\/search\/Fiction+History\/category","text":"Fiction - History","icon":null},{"url":"\/search\/Fiction+General\/category","text":"Fiction - General","icon":null},{"url":"\/search\/Fiction+Historical\/category","text":"Fiction - Historical","icon":null},{"url":"\/search\/Fiction+Women\/category","text":"Fiction - Women","icon":null},{"url":"\/search\/Fiction+Adventure\/category","text":"Fiction - Adventure","icon":null},{"url":"\/search\/Fiction+Science\/category","text":"Fiction - Science","icon":null},{"url":"\/search\/Fiction+Christian\/category","text":"Fiction - Christian","icon":null},{"url":"\/search\/Fiction+Inspirational\/category","text":"Fiction - Inspirational","icon":null},{"url":"\/search\/Nonfiction\/category","text":"Nonfiction","icon":null},{"url":"\/search\/Nonfiction+Biography\/category","text":"Nonfiction - Biography","icon":null},{"url":"\/search\/Nonfiction+History\/category","text":"Nonfiction - History","icon":null},{"url":"\/search\/Mystery\/category","text":"Mystery","icon":null},{"url":"\/search\/Mystery+Thriller\/category","text":"Mystery - Thriller","icon":null},{"url":"\/search\/Mystery+Christian\/category","text":"Mystery - Christian","icon":null},{"url":"\/search\/Mystery+Cozy\/category","text":"Mystery - Cozy","icon":null},{"url":"\/search\/Western\/category","text":"Western","icon":null}]}],"catalog":{},"searchfilters":["TITLE","ISBN","AUTHOR","LISTPRICE"],"slider":{"height":"40vh","background_color":"#FFFFFF","slides":[{"image":"http:\/\/localhost\/img\/slider\/1_image.png","caption":"","link":null},{"image":"http:\/\/localhost\/img\/slider\/2_image.png","caption":null,"link":"http:\/\/dev.centerpointlargeprint.com\/isbn\/9781643582153"},{"image":"http:\/\/localhost\/img\/slider\/3_image.png","caption":null,"link":null},{"image":"http:\/\/localhost\/img\/slider\/4_image.png","caption":null,"link":null}]},"links":{"main":[{"url":"\/","text":"Home","icon":"home"},{"url":"\/login","text":"Login","icon":"lockOpen"}],"drawer":[{"url":"\/login","text":"Login","icon":"lockOpen"},{"url":"#","text":"CP Connection","icon":"none"},{"url":"#","text":"Catalogues, Flyers","icon":"none"}]},"user":{"key":"false","name":null,"email":null,"authenticated":false,"token":null,"photo":"\/img\/profile-photo\/","vendor":null}}}'
     ]);
+  }
+
+protected function old(Request $request){
+  /*
+  $params = new \stdclass;
+  $params->tests = [['ISBN','LIKE','99']];
+  $params->testsComparison = "COUNT";
+
+  $table = (new \App\Models\Inventory)->entries($params);
+  dd($table);
+*/
+// Microsoft SQL Server using the SQL Native Client 10.0 ODBC Driver - allows connection to SQL 7, 2000, 2005 and 2008
+ //Storing DSN(Data Source Name created)
+  $dsn="DSN=;Driver=;";
+  $user="root";
+  $password="";
+  $server = "localhost";
+  $driver = "Microsoft FoxPro VFP";
+  $database = "VisualFoxProTables";
+  $dsn = "VisualFoxProTables";
+
+  $connection = "DSN=$dsn; DRIVER=$driver; SERVER=$server; DATABASE=$database; SourceType=DBF;SourceDB=C:\\resources\\data\\Stephen_Reynolds\\WEBINFO\\RWDATA;Exclusive=No;Collate=Machine;NULL=NO;DELETED=NO;BACKGROUNDFETCH=NO";
+  $conn = \odbc_connect($connection, $user, $password);
+ 
+  //Checking connection id or reference
+  if (!$conn)
+   {
+   echo (die(odbc_error()));
+   }
+   else
+  {
+      echo "Connection Successful !";
+  }
+  //Resource releasing
+  odbc_close($conn);
+
+  die;
+  $conn = new \COM("ADODB.Connection") or die("Cannot start ADO"); 
+  $conn->Open('Provider=vfpoledb;Data Source="C:\\resources\\data\\Stephen_Reynolds\\WEBINFO\\RWDATA;";');
+
+  $rs = $conn->Execute("SELECT * FROM webhead");
+dd($rs);
+
+    return view('app-old',[]);
   }
 
   protected function dbf(Request $request)

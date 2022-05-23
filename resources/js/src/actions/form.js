@@ -10,7 +10,7 @@ const form = {
       creator: (e) => {
         const actions ={
           updateInput: form.FORM_UPDATE_SUCCESS.creator,
-          updateProfileImageSource: form.UPDATE_PROFILE_IMAGE_SOURCE.creator
+          updateProfileImagePending: form.UPDATE_PROFILE_IMAGE_PENDING.creator
         }
         return validateInput(e, actions);
       }
@@ -105,12 +105,12 @@ const form = {
         return { type: 'UPLOAD_ERROR', errors: errors }
       }
   },
-
-  UPDATE_PROFILE_IMAGE_SOURCE: 
+                  
+  UPDATE_PROFILE_IMAGE_PENDING: 
   {
-      type: 'UPDATE_PROFILE_IMAGE_SOURCE',   
+      type: 'UPDATE_PROFILE_IMAGE_PENDING',   
       creator: (form, field, value) => {
-        return { type: 'UPDATE_PROFILE_IMAGE_SOURCE', input: value }
+        return { type: 'UPDATE_PROFILE_IMAGE_PENDING', input: value }
       }
   },
 
@@ -195,7 +195,7 @@ const form = {
         
         return { type: 'DOWNLOAD_MARCS_ERROR', errors: errors }
       }
-  },
+  }
 
 }
 
@@ -252,30 +252,32 @@ return true;
  */
 
  const validateInput = (e, actions) => {
-      const formName = e.target.form.name
-      const fieldName = e.target.name
+
+      const formName = e.target? e.target.form.name:"photo"
+      const fieldName = e.target? e.target.name:"imageSource"
+      const files = e.target && e.target.files? e.target.files[0]:[]
 
       return dispatch => {
 
         switch(formName){
           case 'photo':
-
-            var files = e.target.files[0]
             // if(checkMimeType(event) && checkFileSize(event)){ 
                var reader = new FileReader();
            
                reader.onload = function (event) {
-                  dispatch(actions.updateProfileImageSource(formName, "imageSource", event.target.result))
+                  dispatch(actions.updateProfileImagePending(formName, "imageSource", event.target.result))
               }
-              
-              reader.readAsDataURL(files)
+
+                if(files instanceof File){
+                  reader.readAsDataURL(files)
+                }
             
                 dispatch(
                   actions.updateInput(
                     formName, fieldName, files
                   )
                 )
-               
+             
            //}
 
             break;

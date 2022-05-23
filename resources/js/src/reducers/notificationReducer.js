@@ -40,7 +40,6 @@ export default (state = initState,action)=>{
         case actions.admin.ADMIN_ERROR.type:
         case actions.viewer.VIEWER_ERROR.type:
 
-        console.log(action.errors)
           let newErrors = []
 
           action.errors.map((er)=>{

@@ -45,9 +45,9 @@ export default function ActiveStandingOrders(props) {
         </TableBody>
       </Table>
       <div className={classes.seeMore}>
-        <Link color="primary" to="#" onClick={preventDefault}>
-          {/*See more orders*/}
-        </Link>
+        {/*<Link color="primary" to="#" onClick={preventDefault}>
+          See more orders
+        </Link>*/}
       </div>
     </Card>
   );

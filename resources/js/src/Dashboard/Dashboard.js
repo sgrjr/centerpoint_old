@@ -15,56 +15,8 @@ import Signin from '../Auth/Signin'
 import { Outlet } from 'react-router-dom'
 import {Navigate } from 'react-router-dom';
 
+import './Dashboard.scss'
 import styles from "../styles.js"
-
-const drawerWidth = 240;
-
-  const useStyles = (theme => ({
-    root: {
-
-    },
-    appBar: {
-      zIndex: theme.zIndex.drawer + 1,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    appBarShift: {
-      marginLeft: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    menuButtonHidden: {
-      display: 'none',
-    },
-    drawerPaper: {
-      position: 'relative',
-      whiteSpace: 'nowrap',
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    drawerPaperClose: {
-
-    },
-    appBarSpacer: theme.mixins.toolbar,
-    content: {
-      flexGrow: 1,
-      marginTop:"50px"
-    },
-    paper: {
-      padding: theme.spacing(2),
-      display: 'flex',
-      overflow: 'auto',
-      flexDirection: 'column',
-    }
-  }));
 
 class Dashboard extends Component{
 
@@ -82,18 +34,13 @@ class Dashboard extends Component{
       }
     }
 
-    componentWillReceiveProps(newProps){
-      //console.log(this.props, newProps, 99)
-    }
-
-
     toggleDrawer(){
       this.setState({open: !this.state.open})
     }
 
     render(){
-
-        const { classes, links} = this.props;    
+        const classes={}
+        const {links} = this.props;    
         const {open} = this.state
         const toggleDrawer = this.toggleDrawer.bind(this)
 
@@ -122,10 +69,10 @@ class Dashboard extends Component{
             className={styles.dashboardDrawer}
             open={open}
           >
-              <IconButton onClick={toggleDrawer}>
+              <button onClick={toggleDrawer}>
                 <IconPicker icon={open? "chevronLeft":"chevronRight"} />
                 Dashboard
-              </IconButton>
+              </button>
 
               {dashboardnav()}
           </div>
@@ -196,4 +143,4 @@ const mapDispatchToProps = dispatch => {
     }
   }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(Dashboard))
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

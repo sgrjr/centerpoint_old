@@ -12,6 +12,7 @@ import SearchSuggestions from './SearchSuggestions'
 import WithRouter from '../components/WithRouter'
 import OrderedTitleList from '../components/OrderedTitleList'
 import Time from '../helpers/Time'
+import './SearchPage.scss';
 
 import styles from '../styles'
 
@@ -278,4 +279,7 @@ const mapDispatchToProps = dispatch => {
     }
   }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(WithRouter(SearchPage)))
+export default connect(
+  mapStateToProps, mapDispatchToProps
+  )
+(withStyles(useStyles)(WithRouter(SearchPage)))

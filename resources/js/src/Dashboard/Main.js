@@ -10,6 +10,7 @@ import ProcessingOrders from './ProcessingOrders'
 import Profile from './Profile';
 import QuickLinks from './QuickLinks'
 import RecentOrders from './RecentOrders';
+import FoxproApi from './FoxproApi';
 import Users from './Users';
 import Widget from '../components/Widget'
 import actions from '../actions';
@@ -26,11 +27,11 @@ class DashboardMain extends Component {
   render(){
 
   return (
-    <Grid container spacing={3}>
-
+    <Grid className="cards" container spacing={3}>
             <Grid item xs={12} md={4} lg={5}>
               <Card>
                 <Widget ready={true} title="Change Profile Picture">
+                  <FoxproApi />
                   <ChangePicture {...this.props} />
                 </Widget>
               </Card>
@@ -76,7 +77,7 @@ class DashboardMain extends Component {
               </Card>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={12}>
               <Card>
                 <QuickLinks  {...this.props}/>
               </Card>
@@ -227,6 +228,7 @@ const mapDispatchToProps = dispatch => {
       updateForm: (e) => {
         dispatch(actions.form.FORM_UPDATE.creator(e))
       }
+      
     }
   }
 

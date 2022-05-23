@@ -3,13 +3,9 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import actions from '../actions';
 import CartList from './CartList'
-import { withTheme, withStyles } from '@material-ui/core/styles';
 import cartQuery from './cartQuery'
-import './Cart.css';
 
-const styles = {
-  root:{}
-};
+import './Cart.scss';
 
 class Cart extends Component{
 
@@ -21,14 +17,14 @@ class Cart extends Component{
 
     render(){      
 
-      const { cart, carts, classes } = this.props; 
+      const { cartId, cart, carts, classes } = this.props; 
 
         return (<React.Fragment>
             <CartList 
             carts={carts.data} 
+            cartId={cartId}
             cart={cart}
             {...this.props}
-            className={classes.root}
             /> 
             </React.Fragment>    
         )
@@ -37,9 +33,7 @@ class Cart extends Component{
     }    
 
 Cart.propTypes = {
-    carts: PropTypes.object,
-    theme: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired
+    carts: PropTypes.object
   };
 
 const mapStateToProps = (state)=>{
@@ -85,4 +79,4 @@ const mapDispatchToProps = dispatch => {
     }
   }
 
-export default withTheme(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Cart)))
+export default connect(mapStateToProps, mapDispatchToProps)(Cart)

@@ -1,0 +1,20 @@
+.minify-true {
+  img:before {
+    display:none;
+  }
+}
+
+.minified-titles {
+  display:flex;
+  flex-direction:row;
+  width:100%;
+  margin:auto auto;
+  justify-content:space-between;
+  border-bottom: solid 1px $gray;
+}
+
+.search-results {
+    border-bottom: 1px dotted #CCC;
+    margin-bottom: $standard_margin;
+    padding-bottom: $standard_margin;
+}

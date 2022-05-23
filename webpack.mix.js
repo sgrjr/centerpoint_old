@@ -13,6 +13,17 @@ const mix = require('laravel-mix');
 mix.webpackConfig({
     devServer: {
       historyApiFallback: true
+    },
+    module:{
+        rules: [
+            {
+                test: /\.scss$/,
+                loader: "sass-loader",
+                options: {
+                    additionalData: '@import "resources/js/src/_variables.scss";'
+                }
+            }
+        ]
     }
 });
 
