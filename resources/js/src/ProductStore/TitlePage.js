@@ -11,12 +11,13 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import BookCover from './BookCover'
-import HorizontalList from './HorizontalList'
+import TitlesDisplay from './TitlesDisplay'
 import AddToCart from '../Cart/AddToCart'
 import TitlePageSkeleton from './TitlePageSkeleton'
 import GetMarc from '../components/GetMarc'
 import {useParams, useLocation} from 'react-router-dom'
 import ScrollToTop from '../components/ScrollToTop'
+import './TitlePage.scss';
 
 function ListItemLink(props) {
   return <ListItem component="a" {...props} />;
@@ -113,9 +114,7 @@ class TitlePage extends Component{
           <Grid container className="title-page">
             <Grid item xs={12} md={12} >
               {loading}
-            <Typography variant="h3" dangerouslySetInnerHTML={{__html: title.title}}>
-          
-            </Typography>
+            <h3 dangerouslySetInnerHTML={{__html: title.title}}></h3>
             </Grid>
           <Grid item xs={10} md={5}>           
             <BookCover link={""} image={"url(/img/original/" + title.ISBN + ".jpg)"} large={true} previouslyPurchased={title && title.user && title.user.purchased? true:false} isClearance={title.isClearance} />
@@ -129,12 +128,12 @@ class TitlePage extends Component{
           <Typography variant="h4" color="secondary" style={requireAuth}>
             {title && title.user? "YOUR PRICE: $"+title.user.price.toFixed(2) : ""}
             </Typography>
-          <Typography variant="h5">
+          <h5>
               LIST PRICE: ${title.LISTPRICE? title.LISTPRICE.toFixed(2):circle}
-            </Typography>
-            <Typography variant="body1">
-              {title.HIGHLIGHT}
-            </Typography>
+            </h5>
+            <p dangerouslySetInnerHTML={{__html: title.HIGHLIGHT}}>
+              
+            </p>
             <List id="book-details">
               <ListItem style={requireAuth}>
                 <ListItemText>
@@ -179,10 +178,10 @@ class TitlePage extends Component{
               </ListItem>
               <ListItem>
                 <ListItemText>
-                  <Typography fontWeight={500} fontStyle="italic">Publisher: </Typography>
+                  <i>Publisher: </i>
                 </ListItemText>
                 <ListItemText>
-                  <Typography>{title.INVNATURE}</Typography>
+                  {title.INVNATURE}
                 </ListItemText>
               </ListItem>
               <ListItem>
@@ -232,7 +231,7 @@ class TitlePage extends Component{
           
             {copy()}
             <Grid item xs={12} sm={10}>
-              <HorizontalList 
+              <TitlesDisplay 
                 items={title.byCategory.data} 
                 listTitle={"More " + title.CAT} 
                 url={"/search/"+title.CAT+"/category"} 
@@ -241,7 +240,7 @@ class TitlePage extends Component{
                 viewer={viewer} />
             </Grid>
              <Grid item xs={12} sm={10}>
-              <HorizontalList items={title.byAuthor.data} listTitle={authorTitle} url={"/search/"+title.AUTHORKEY+"/author"} titleSize={"h4"}  displayHorizontal={true}  background={"#2e2e2e"} viewer={this.props.viewer}/>
+              <TitlesDisplay items={title.byAuthor.data} listTitle={authorTitle} url={"/search/"+title.AUTHORKEY+"/author"} titleSize={"h4"}  displayHorizontal={true}  background={"#2e2e2e"} viewer={this.props.viewer}/>
             </Grid>
         </Grid>
       </>      

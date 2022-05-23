@@ -2,7 +2,7 @@ import React from 'react'
 import Checkout from './Checkout'
 import CheckoutSuccess from './CheckoutSuccess'
 import Container from '@mui/material/Container';
-import './Index.css'
+import './Index.scss'
 import invoiceQuery from './invoiceQuery'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';

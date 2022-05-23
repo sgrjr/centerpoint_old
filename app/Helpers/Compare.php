@@ -121,6 +121,7 @@ class Compare
 
 	    	switch($parameters->testsComparison){
 
+          case 'COUNT':
 	    		case 'AND':
 
 	    			foreach($parameters->tests AS $s){

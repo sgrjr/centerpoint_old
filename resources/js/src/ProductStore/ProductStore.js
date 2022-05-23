@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import WelcomeSlider from './WelcomeSlider'
 import actions from '../actions';
-import HorizontalList from './HorizontalList'
+import TitlesDisplay from './TitlesDisplay'
 import Image from '../components/Image'
 import OldWebsite from '../components/OldWebsite'
 import ToggleWebsite from '../components/ToggleWebsite'
+import './ProductStore.scss'
 
 function TitleLists(props){
 
@@ -36,7 +37,7 @@ function TitleLists(props){
               background = headers[name].back
             }
 
-            return <HorizontalList key={index} items={list[1].data} pageInfo={list[1].paginatorInfo} listTitle={title} 
+            return <TitlesDisplay key={index} items={list[1].data} pageInfo={list[1].paginatorInfo} listTitle={title} 
             url={url} displayHorizontal={displayHorizontal} background={background} 
             addTitleToCart={props.addTitleToCart} 
             selectedCart={props.selectedCart}
@@ -81,7 +82,7 @@ class ProductStore extends Component{
         
              
         {this.props.navigation}
-        <ToggleWebsite styles={{top:"320px"}}/>
+        <ToggleWebsite />
        {errors}
        {/*<WelcomeSlider slider={slider} />*/}
         <Grid>

@@ -1,15 +1,14 @@
 import fetch from 'cross-fetch'
 import auth from './authorization'
 
-export default function(url, actions, opt1={}) {
+export default function(url, data, options, actions) {
 
   let opt = {
-    method:"POST",
+    method:options.method? options.method:"POST",
     url: url,
 
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': "application/json"
+      ...options.headers
     }
   }
 
@@ -17,23 +16,30 @@ if(auth.token() !== null){
   opt.headers.Authorization = "Bearer " + auth.token()
 }
 
-  let data = {
+var formBody = [];
+for (var property in data) {
+  var encodedKey = encodeURIComponent(property);
+  var encodedValue = encodeURIComponent(data[property]);
+  formBody.push(encodedKey + "=" + encodedValue);
+}
+formBody = formBody.join("&");
+  let requestData = {
       method: opt.method,
-      body: null,
+      body: formBody,
       headers: opt.headers
   }
 
   return dispatch => {
-      dispatch(actions.pending(query.variables))
+      dispatch(actions.pending(opt.url))
 
-     return fetch(opt.url,data)
-      .then(res => res.json())
+     return fetch(opt.url,requestData)
+      .then(res => res.text())
       .then(res => {
 
           if(res.errors) {
               dispatch(actions.error(res.errors))
           }else{
-            dispatch(actions.success(res.data));
+            dispatch(actions.success({foxpro: res}));
           }
           
       })

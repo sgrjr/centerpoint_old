@@ -14,28 +14,10 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import actions from '../actions';
 import {Navigate,useParams } from 'react-router-dom';
-import { withStyles } from '@material-ui/core';
 import Progress from '../components/SubtleProgress';
 
-const useStyles = theme => ({
-  paper: {
-    marginTop: theme.spacing(1),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-});
+import './Signin.scss'
+
 
 class SigninPage extends React.Component {
   
@@ -59,7 +41,7 @@ class SigninPage extends React.Component {
       const { classes, login, updateForm } = this.props;
 
       let form = ()=>{
-        return ( <form className={classes.form} name="login" id="login">
+        return ( <form name="login" id="login">
           <TextField
             variant="outlined"
             margin="normal"
@@ -95,8 +77,7 @@ class SigninPage extends React.Component {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
-            className={classes.submit}
+            className={"submit"}
             onClick={this.handleSubmit.bind(this)}
           >
             Sign In
@@ -120,10 +101,10 @@ class SigninPage extends React.Component {
         form = ()=>{ return (<Progress color="primary"/>) } 
       }
 
-    return <Container component="main" maxWidth="xs">
+    return <>{this.props.navigation}<Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+      <div className="signin">
+        <Avatar className={"avatar"}>
           <IconPicker icon="lockOutlined" />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -131,7 +112,7 @@ class SigninPage extends React.Component {
         </Typography>
        {form()}
       </div>
-    </Container>
+    </Container></>
   } }
 }
 
@@ -161,7 +142,5 @@ const SignIn = (props) => {
   return <SigninPage {...props} params={useParams()} />
 }
 
-  export default connect(
-      mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(SignIn)
-  )
+  export default connect(mapStateToProps, mapDispatchToProps)(SignIn)
 

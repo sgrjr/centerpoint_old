@@ -16,7 +16,7 @@ class MySmall implements FilterInterface
         	//->blur(25)
         	//->ellipse(50, 100, 50, 50, function ($draw) { $draw->border(5, 'fff');})
         	//->crop(100, 100, 0, 0) // width|height|x|y
-        	->resize(150,230) //width|height|callback
+            //->resize(150,230) //width|height|callback
         	;
     }
 }

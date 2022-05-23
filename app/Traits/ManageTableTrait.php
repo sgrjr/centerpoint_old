@@ -110,6 +110,37 @@ Trait ManageTableTrait
 
 	}
 
+	public function entries($params){
+            ini_set('memory_limit','512M');
+            \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+            $file = $this->xTable();
+            $file->open();
+            $bag = collect([]);
+
+            if($params->testsComparison == "COUNT"){
+            	$bag = 0;
+            }
+
+            while ($record=$file->nextRecord() ) {
+                $rd = $record->getData($this->getIgnoreColumns());
+                if(\App\Helpers\Compare::test($record->getData(), $params)){
+                	
+                	if($params->testsComparison == "COUNT"){
+		            	$bag++;
+		            }else{
+		            	$bag->push($rd);
+		            }
+              	}
+            }
+
+            \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            $file->close();
+
+            return $bag;
+
+	}	
+
 	public function seedFromDBF(){
             ini_set('memory_limit','512M');
             $output = new ConsoleOutput();

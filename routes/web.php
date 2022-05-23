@@ -54,6 +54,7 @@ Route::get('/setup/table/{action}/{table}', '\App\Http\Controllers\SetupControll
 
 Route::get('/img/{template}/{path}', '\App\Http\Controllers\ImagesController@images')->where('path','.*');
 
+Route::get('/old', '\App\Http\Controllers\IndexController@old');
 
 /*
 Route::get('/admin/application', '\App\Http\Controllers\ApplicationController@index');

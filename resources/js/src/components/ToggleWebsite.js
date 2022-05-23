@@ -15,7 +15,7 @@ class ToggleWebsite extends React.Component {
 
   render(){
 
-    return (<button style={{border:"none", position:"absolute", top:"20px", left:"20px", textAlign:"left", margin:"auto", lineHeight:"40px", display:"flex", width:"175px", background:"rgba(0,0,0,.3)", color:this.props.oldWebsite? "red":"#000000", ...this.props.styles}}
+    return (<button className="toggle-website"
          onClick={()=>{
             if(this.props.oldWebsite){
                 this.props.toggleWebsite(this.props.oldWebsite)
@@ -23,7 +23,7 @@ class ToggleWebsite extends React.Component {
                 this.promptForUnsecureSite()
             }
         }}
-         className="block">
+        >
         {this.props.oldWebsite? <ToggleOnIcon style={{height:"40px", width:"15px"}}/>:<ToggleOffIcon style={{height:"40px"}}/>} 
         {this.props.oldWebsite? "This is an unsecured version of our website. Click here for our Secure Website. ":"Use Old Website"}
     </button>)

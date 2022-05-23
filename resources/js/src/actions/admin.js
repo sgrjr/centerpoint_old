@@ -1,4 +1,5 @@
 import graphql from '../fetchGraphQL'
+import post from '../fetchPost'
 
 /* ADMIN TYPES AND CREATORS */ 
 const admin = { 
@@ -45,7 +46,20 @@ const admin = {
     creator: (event) => {
       return { type: 'UPDATE_ADMIN_QUERY', value: event.target.value }
     }
-  }
+  },
+
+  ADMIN_GET_FOXPRO: 
+  {
+      type: 'ADMIN_GET',   
+      creator: (url, data, options) => {
+        const actions = {
+          pending: admin.ADMIN_PENDING.creator,
+          success: admin.ADMIN_SUCCESS.creator,
+          error: admin.ADMIN_ERROR.creator
+        }
+        return post(url, data, options, actions)
+      }
+  },  
 
 }
 

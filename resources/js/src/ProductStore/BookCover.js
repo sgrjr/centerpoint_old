@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import Paper from '@material-ui/core/Paper';
 //import LazyLoad from 'react-lazy-load'; //https:/ / medium.com /@rossbulat/lazy-image-loading-in-react-the-full-breakdown-4026619de2df
+import './BookCover.scss';
 
 export default function BookCover(props) {
 

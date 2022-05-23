@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import './App.scss';
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 import Signin from './Auth/Signin'
@@ -50,7 +49,6 @@ class App extends React.Component {
             <Route path="admin/users" element={<AdminUsers/>}/>
             <Route path="admin/users/:userid" element={<AdminUser/>}/>
              <Route path="admin/titles" element={<AdminTitles/>}/>
-
             <Route path="cart" exact={true} element={<Cart  navigation={generalNavigationBar}/>}/>
             <Route path="cart/:cartid" element={<CartCheckout navigation={generalNavigationBar}/>}/>
             <Route path="invoice/:invoiceid" element={<CartCheckout navigation={generalNavigationBar}/>}/>

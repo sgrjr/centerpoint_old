@@ -10,7 +10,7 @@ import Divider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const ITEM_HEIGHT = 42;
+import './BrowseProducts.scss'
 
 const TitleList = (props) => {
 
@@ -45,14 +45,16 @@ const LongMenu = (props) =>{
     <React.Fragment>
       <span onClick={handleClick}><IconPicker icon={"moreVertical"} />Browse</span>
       <Menu
-        id="long-menu"
+        id="browse-broducts"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
       >
+      <div className="titles-list">
         {props.browse.map(function(list, index){
           return <TitleList key={index} list={list} handleClose={handleClose}/>
       })}
+      </div>
       </Menu>
     </React.Fragment>
   );

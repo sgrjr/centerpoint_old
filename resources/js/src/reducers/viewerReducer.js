@@ -88,13 +88,13 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
         case actions.form.UPLOAD_SUCCESS.type:
             return {
                 ...state,
-                photo: action.payload
+                photo: action.payload + "?hash=alsdkfjalsie3"
             }
 
-        case actions.form.UPDATE_PROFILE_IMAGE_SOURCE.type:
+        case actions.form.UPDATE_PROFILE_IMAGE_PENDING.type:
             return {
                 ...state,
-                photo: action.input
+                photoStaging: action.input
             }
             
 /*cart stuff start*/

@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
+import './Card.scss';
 
 export default function Card(props) {
   return (
-    <React.Fragment>
-      <Typography component="h2" variant="h6" gutterBottom style={{backgroundColor:"#008afc", paddingLeft:"10px", color:"white"}}>
-        {props.title}
-      </Typography>
-
+    <div className={"card " + props.className}>
+      <h2>{props.title}</h2>
       {props.children}
-    </React.Fragment>
+    </div>
   );
 }
 

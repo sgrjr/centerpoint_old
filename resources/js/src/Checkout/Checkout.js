@@ -7,19 +7,12 @@ import { Accordion } from '@material-ui/core'
 import AccordionDetails from '@material-ui/core/AccordionActions'
 import AccordionActions from '@material-ui/core/AccordionActions'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
-
 import OrderSummary from './OrderSummary'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles({
-  footer: {
-    display: 'flex',
-    justifyContent: 'space-between'
-  }
-})
+import './Checkout.scss';
+
 function Checkout(props) {
-  const classes = useStyles()
   const [expanded, setExpanded] = React.useState('panel1')
   
   const handleChange = panel => (event, isExpanded) => {
@@ -75,7 +68,7 @@ function Checkout(props) {
           <ContactInfo {...props}/>
         </AccordionDetails>
         <Divider />
-        <AccordionActions className={classes.footer}>
+        <AccordionActions className={"checkout-footer"}>
           <Button
             startIcon={<IconPicker icon="navigateBefore"/>}
             onClick={()=> handleClick('panel1')}
