@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /public/web.config
+/public/_web.config
 /storage/marcs/*
 /storage/*.key
 /storage/uploads/*
