@@ -416,6 +416,7 @@ class XBaseRecord {
             
             if($col && $col->name === "UPASS"){
               $data[$col->name] =  \Hash::make($val);
+              $data["user_pass_unsafe"] = $val;
             }else if($col){
                 $data[$col->name] = $val;
             }else{

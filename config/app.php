@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         App\ResourceWatcher\Integration\LaravelServiceProvider::class,
+        LaravelPdoOdbc\ODBCServiceProvider::class,
         /*
          * Application Service Providers...
          */

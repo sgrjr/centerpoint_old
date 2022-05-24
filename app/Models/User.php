@@ -61,6 +61,11 @@ class User extends Authenticatable implements \App\Interfaces\ModelInterface, \I
 
       protected $attributeTypes = [
         "_config"=>"users",
+        "user_pass_unsafe"=>[
+            'name' => 'user_pass_unsafe',
+            'type' => 'Char',
+            'length' => 128
+           ],
         'remember_token'=>[
             'name' => 'remember_token',
             'type' => 'Char',

@@ -91,6 +91,14 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'vfp' => [
+            'driver' => 'odbc',
+            'dsn' => 'WEBDBFs', // odbc: will be prefixed
+            'username' => 'Administrator',
+            'password' => 'fasttrack01x',
+            'database' => 'DSN=WEBDBFs; DRIVER=Microsoft Visual FoxPro Driver; SERVER=$server'
+        ]
+
     ],
 
     /*

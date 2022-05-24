@@ -83,7 +83,7 @@ export default {
                             id
                               INDEX
                               PROD_NO
-                              title
+                              TITLE
                               REQUESTED
                               SALEPRICE
                               coverArt

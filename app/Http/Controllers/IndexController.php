@@ -31,6 +31,9 @@ class IndexController extends Controller
   }
 
 protected function old(Request $request){
+
+$vendor = (new \App\Models\Vendor)->odbc("select * from vendor")->echo();
+
   /*
   $params = new \stdclass;
   $params->tests = [['ISBN','LIKE','99']];
@@ -41,15 +44,15 @@ protected function old(Request $request){
 */
 // Microsoft SQL Server using the SQL Native Client 10.0 ODBC Driver - allows connection to SQL 7, 2000, 2005 and 2008
  //Storing DSN(Data Source Name created)
-  $dsn="DSN=;Driver=;";
+
   $user="root";
   $password="";
   $server = "localhost";
   $driver = "Microsoft FoxPro VFP";
   $database = "VisualFoxProTables";
-  $dsn = "VisualFoxProTables";
+  $dsn = "WEBDBFs";
 
-  $connection = "DSN=$dsn; DRIVER=$driver; SERVER=$server; DATABASE=$database; SourceType=DBF;SourceDB=C:\\resources\\data\\Stephen_Reynolds\\WEBINFO\\RWDATA;Exclusive=No;Collate=Machine;NULL=NO;DELETED=NO;BACKGROUNDFETCH=NO";
+  $connection = "DSN=$dsn; DRIVER=$driver; SERVER=$server; DATABASE=$database; SourceType=DBF;SourceDB=R:\\zzRWDATA\\;Exclusive=No;Collate=Machine;NULL=NO;DELETED=NO;BACKGROUNDFETCH=NO";
   $conn = \odbc_connect($connection, $user, $password);
  
   //Checking connection id or reference
@@ -59,6 +62,9 @@ protected function old(Request $request){
    }
    else
   {
+    $sql = "SELECT * FROM vendor";
+      $rs=odbc_exec($conn,$sql);
+      var_dump($rs);
       echo "Connection Successful !";
   }
   //Resource releasing
