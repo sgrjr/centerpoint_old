@@ -93,9 +93,10 @@ return [
 
         'vfp' => [
             'driver' => 'odbc',
-            'dsn' => 'WebDBFs', // odbc: will be prefixed
+            'dsn' => 'WEBDBFs', // odbc: will be prefixed
             'username' => 'Administrator',
-            'password' => 'fasttrack01x'
+            'password' => 'fasttrack01x',
+            'database' => 'DSN=WEBDBFs; DRIVER=Microsoft Visual FoxPro Driver; SERVER=$server'
         ]
 
     ],
