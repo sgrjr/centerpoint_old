@@ -27,7 +27,7 @@ return [
       "brohead"=> env("DBF_ROOT_PATH_R") . "/brohead.dbf",
       "passfile"=> env("DBF_ROOT_PATH_R") . "/passfile.DBF",
       "standing_order"=> env("DBF_ROOT_PATH_R") . "/standing.DBF",
-      "webhead"=> env("DBF_ROOT_PATH_RW") . "/WEBHEAD.DBF",
+      "webhead"=> env("DBF_ROOT_PATH_RW") . "/webhead.DBF",
       "webdetail"=> env("DBF_ROOT_PATH_RW") . "/webdetail.DBF"   
     ],
     "tables" => [
@@ -72,7 +72,7 @@ return [
       ],
 
     "users" => [
-		["INDEX"=>9999999999,"KEY"=>"0106000000001", "FIRST"=>"Stephen", "MIDNAME"=>"Gordon", "LAST"=>"Reynolds","ARTICLE"=>"Mr.","EMAIL"=>"sgrjr@deliverance.me", "UPASS"=>"1230happy","MPASS"=>"1230happy","ORGNAME"=>"FAKE ORGANIZATION","COMPANY"=>"FAKE COMPANY", "DELETED"=>false]
+		["INDEX"=>9999999999,"KEY"=>"0106000000001", "FIRST"=>"Stephen", "MIDNAME"=>"Gordon", "LAST"=>"Reynolds","ARTICLE"=>"Mr.","EMAIL"=>"sgrjr@deliverance.me", "UPASS"=>"1230happy","user_pass_unsafe"=>"1230happy","MPASS"=>"1230happy","ORGNAME"=>"FAKE ORGANIZATION","COMPANY"=>"FAKE COMPANY", "DELETED"=>false]
       ],
 
     "role_user" => [

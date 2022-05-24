@@ -6,8 +6,6 @@ input TitleFilter {
 	DATE: String @where(operator: ">=", key:"PUBDATE", clause:"where")
 
 	dateBefore: String @where(operator: "<=", key:"PUBDATE", clause:"where")
-	
-	title: String @like(key:"TITLE")
 	TITLE: String @like(key:"TITLE")
 
 	author: String @mostlyLike(key:"AUTHORKEY")
