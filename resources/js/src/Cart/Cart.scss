@@ -20,3 +20,28 @@
 
 }
   
+.review-cart {
+  width:100%;
+
+  p{
+  display:inline;
+  } 
+
+  .items-qty {
+    float:right;
+    background: $blue;
+    color:$white;
+    padding: $standard_margin;
+    font-size:1.2rem;
+    font-weight:bold;
+  }
+
+  .MuiAccordionDetails-root {
+    width:100%;
+
+    ul {
+    width:100%;
+    border:none;
+    }
+  }
+}

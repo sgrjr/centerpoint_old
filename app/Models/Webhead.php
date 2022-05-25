@@ -262,11 +262,10 @@ public static function deleteCart($_, $args, $request){
         $user = request()->user();
 
         if(isset($args['id'])){
-            $cart = static::where('id', $args['id'])->where('KEY', $user->KEY)->first();
+            $cart = static::where('id', $args['id'])->where('KEY', $user->KEY)->where('DELETED', '0')->first();
         }else{
-            $cart = static::where('REMOTEADDR', $args['REMOTEADDR'])->where('KEY', $user->KEY)->first();
+            $cart = static::where('REMOTEADDR', $args['REMOTEADDR'])->where('KEY', $user->KEY)->where('DELETED', '0')->first();
         }
-
         return $cart;
     }
 

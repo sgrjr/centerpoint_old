@@ -89,3 +89,4 @@ Cannot find MARC record: C:\resources\data\Stephen_Reynolds\cp_marc\978162899889
 Cannot find MARC record: C:\resources\data\Stephen_Reynolds\cp_marc\9781628998894.mrc
 Cannot find MARC record: C:\resources\data\Stephen_Reynolds\cp_marc_text\9780063211353.txt
 Cannot find MARC record: C:\resources\data\Stephen_Reynolds\cp_marc\9780063211353.mrc
+Cannot find MARC record: C:\resources\data\Stephen_Reynolds\cp_marc\9781638083009.mrc

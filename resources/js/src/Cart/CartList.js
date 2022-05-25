@@ -5,6 +5,7 @@ import CartSingle from './CartSingle'
 import { Link } from "react-router-dom";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconPicker from '../components/IconPicker';
+//import OrderSummary from './OrderSummary'
 
 function getCartByInvoice(invoice, carts){
  
@@ -31,12 +32,15 @@ export default function CartList(props) {
               }
             })
 
-            return ct
+            if (ct.REMOTEADDR){
+              return ct
+            } else{
+              return false
+            }
         }
 
-        console.log(crt())
-
-        return (<CartSingle 
+        if(crt()){
+          return (<CartSingle 
           cart={crt()} 
           expanded={true}
           review={true}
@@ -49,6 +53,10 @@ export default function CartList(props) {
           history={history}
           selectCart={props.selectCart}
           />)
+        }else{
+          return <div/>
+        }
+        
     }else if(carts.data.length > 0){
       return carts.data.map(function(crt,i){
 

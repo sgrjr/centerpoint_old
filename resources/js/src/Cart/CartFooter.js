@@ -29,11 +29,15 @@ class CartItem extends React.Component {
     height:"100%",
     color:"inherit"
   } 
+
   return (
     <footer className={classes.footer}>
 
-      <Button variant="contained" color="primary" endIcon={<IconPicker icon="chevronRight" disabled={props.quantity > 0 ? false : true}/>} ><Link to={'/dashboard/cart/' + props.cart.REMOTEADDR} style={linkStyle}>Check out</Link></Button>      
-      
+      { //Check if Any titles are in Cart
+       (props.quantity > 0  && !props.review)
+       ? <Button variant="contained" color="primary" endIcon={<IconPicker icon="chevronRight" />} ><Link to={'/dashboard/cart/' + props.cart.REMOTEADDR} style={linkStyle}>Check out</Link></Button>
+       :null
+      }
       <Typography className={classes.total}>Cart total: <strong>${props.price.toFixed(2)}</strong></Typography>
       
       <Button

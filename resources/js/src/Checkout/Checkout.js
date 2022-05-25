@@ -7,9 +7,8 @@ import { Accordion } from '@material-ui/core'
 import AccordionDetails from '@material-ui/core/AccordionActions'
 import AccordionActions from '@material-ui/core/AccordionActions'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
-import OrderSummary from './OrderSummary'
 import Typography from '@material-ui/core/Typography'
-
+import Cart from '../Cart/Cart'
 import './Checkout.scss';
 
 function Checkout(props) {
@@ -22,8 +21,8 @@ function Checkout(props) {
     setExpanded(panel)
   }
 
-  if(!props.data || !props.data.invoice){
-    return <div/>
+  if(!props.data || !props.data.invoice || props.data.items.length < 1){
+    return <p>This cart is not ready to be checked out. Please add more items.</p>
   }
   return (
     <>
@@ -37,7 +36,7 @@ function Checkout(props) {
           <Typography><strong>Step 1:</strong> Review Items</Typography>
         </AccordionSummary >
         <AccordionDetails>
-          <OrderSummary {...props}/>
+          <Cart cartId={props.params.cartid} review={true}/>
         </AccordionDetails>
         <Divider />
         <AccordionActions>
@@ -60,11 +59,11 @@ function Checkout(props) {
           <Typography><strong>Step 2:</strong> Review Billing Information</Typography>
         </AccordionSummary >
         <AccordionDetails>
-          <select>
+          {/*<select>
             {props.addresses.map((add, index)=>{
               return <option key={index} val={index}>{JSON.stringify(add)}</option>
             })}
-          </select>
+          </select>*/}
           <ContactInfo {...props}/>
         </AccordionDetails>
         <Divider />

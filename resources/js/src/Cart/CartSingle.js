@@ -23,8 +23,8 @@ function tradeTitleShipping(titles){
 }
 
 function CartSingle(props) {
-  const {cart, deleteCart, deleteFromCart, cartSave, history, updateTitleQuantity, cartCheckout, selectCart} = props
-console.log(props)
+  const {cart, deleteCart, deleteFromCart, cartSave, history, updateTitleQuantity, cartCheckout, review, selectCart} = props
+
   const id = cart.REMOTEADDR
 
   const handleChange = panel => (event) => {
@@ -44,7 +44,7 @@ console.log(props)
   }
   let list
 
-  if (cart.items.length === 0) {
+  if (!cart || !cart.items || cart.items.length < 1) {
     list = <ListItem>No items</ListItem>
   } else {
     list = cart.items.map((item, index) => {
@@ -54,33 +54,54 @@ console.log(props)
 
   const totals = getTotals(cart.items)
 
-  return (
-    <React.Fragment>
-    	<Accordion expanded={props.expanded} onChange={handleChange(id)}>
-      
-        <AccordionSummary
-          expandIcon={<IconPicker icon="expand" />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-          style={{backgroundColor:"rgba(0, 0, 0, 0.12)"}}
-        >
-          
-          <Badge anchorOrigin={{horizontal:'left', vertical:'top'}} badgeContent={totals.quantity} color="primary">
-            <CartHeader index={props.index} cart={cart} cartSave={cartSave} updateCartForm={props.updateCartForm}/>
-            </Badge>
+  if(review){
+      return (
+      <div className="review-cart">
+            <div className="items-qty">Items in Cart: {totals.quantity}</div>
+            <h2>
+            PO Number: <CartHeader review={review} index={props.index} cart={cart} cartSave={cartSave} updateCartForm={props.updateCartForm}/>
+            </h2>
 
-        </AccordionSummary>
+          <AccordionDetails>
+            <List>
+              {list}
+            </List>
+          </AccordionDetails>
+          <Divider variant="middle" />
+          <CartFooter review={review} {...totals} cart={cart} deleteCart={deleteCart} history={history} cartCheckout={cartCheckout} tradeTitleShipping={tradeTitleShipping(cart.items)}/>
 
-        <AccordionDetails>
-          <List>
-            {list}
-          </List>
-        </AccordionDetails>
-        <Divider variant="middle" />
-        <CartFooter {...totals} cart={cart} deleteCart={deleteCart} history={history} cartCheckout={cartCheckout} tradeTitleShipping={tradeTitleShipping(cart.items)}/>
-      </Accordion>
-    </React.Fragment>
+      </div>
+    )
+  }else{
+      return (
+      <React.Fragment>
+        <Accordion expanded={props.expanded} onChange={handleChange(id)}>
+        
+          <AccordionSummary
+            expandIcon={<IconPicker icon="expand" />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+            style={{backgroundColor:"rgba(0, 0, 0, 0.12)"}}
+          >
+            
+            <Badge anchorOrigin={{horizontal:'left', vertical:'top'}} badgeContent={totals.quantity} color="primary">
+              <CartHeader index={props.index} cart={cart} cartSave={cartSave} updateCartForm={props.updateCartForm}/>
+              </Badge>
+
+          </AccordionSummary>
+
+          <AccordionDetails>
+            <List>
+              {list}
+            </List>
+          </AccordionDetails>
+          <Divider variant="middle" />
+          <CartFooter review={review} {...totals} cart={cart} deleteCart={deleteCart} history={history} cartCheckout={cartCheckout} tradeTitleShipping={tradeTitleShipping(cart.items)}/>
+        </Accordion>
+      </React.Fragment>
   )
+  }
+
 }
 
 export default CartSingle

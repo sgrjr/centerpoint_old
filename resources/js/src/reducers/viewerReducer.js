@@ -215,7 +215,10 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
 /** INOVICE START*/
 
 case actions.cart.INVOICE_SUCCESS.type:
-        return {
+        
+        if(action.payload.viewer.cart !== null) {
+
+            return {
             ...state,
             cart: {
                 ...state.cart,
@@ -229,6 +232,21 @@ case actions.cart.INVOICE_SUCCESS.type:
                 }  
             }
         }
+    }else{
+        return {
+            ...state,
+            cart: {
+                ...state.cart,
+                open: false,
+                pending: false,
+                checkout: {
+                    ...state.cart.checkout,
+                    pending:false, 
+                    post: false
+                }  
+            }
+        }
+    }
         
     case actions.cart.INVOICE_PENDING.type:
         let istate = {...state}
@@ -357,8 +375,7 @@ case actions.cart.INVOICE_SUCCESS.type:
                     checkout:{
                         ...state.cart.checkout,
                         data:{
-                            ...state.cart.checkout.data,
-                            ISCOMPLETE: true
+                            ...state.cart.checkout.data
                         }
                     }
                 }

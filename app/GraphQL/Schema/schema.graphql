@@ -19,7 +19,7 @@ type Query {
     # Advanced Titles
     advancedTitles: [Title] @paginate(builder:"\\App\\Models\\Inventory@getAdvancedTitles")
 
-    carts(filter: CartsFilter, perPage:Int, first:Int): [Order] @paginate(model:"\\App\\Models\\Webhead")
+    carts(filter: CartsFilter, perPage:Int, first:Int @scope(name:"notDeleted")): [Order] @paginate(model:"\\App\\Models\\Webhead")
 }
 
 #import ./Admin.graphql

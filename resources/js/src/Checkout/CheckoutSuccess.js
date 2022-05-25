@@ -79,7 +79,7 @@ function ContactInfo(props) {
   return (
 
     <>
-    <GetMarc isbns={isbns} />
+    <span className="noPrint"><GetMarc isbns={isbns} /></span>
 
       <article className={classes.invoice}>
         <header className={classes.header}>
@@ -110,7 +110,7 @@ function ContactInfo(props) {
         <Typography>{invoice.company_name}</Typography>
           <Typography>{invoice.company_address}</Typography>
         </div>
-        <OrderSummary {...props} className={classes.summary} />
+        <div><OrderSummary {...props}/></div>
       </article>
       <Divider />
       <div className={classes.footer + "noPrint"}>

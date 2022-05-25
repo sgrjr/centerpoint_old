@@ -8,7 +8,6 @@ import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import grey from '@material-ui/core/colors/grey'
-import Cart from '../Cart/Cart'
 
 const colorAccent = grey[600]
 const useStyles = makeStyles({
@@ -62,15 +61,12 @@ function OrderSummary(props) {
 
   return (
     <div className={classes.container + " " + props.className}>
-
-    <Cart cartId={props.params.cartid} review={true}/>
-
       <Table>
         <TableHead>
           <TableRow>
             <TableCell></TableCell>
             <TableCell>Title</TableCell>
-            <TableCell>ISBN666</TableCell>
+            <TableCell>ISBN</TableCell>
             <TableCell>Qty.</TableCell>
             <TableCell >Price</TableCell>
             <TableCell >Total</TableCell>
