@@ -122,9 +122,26 @@ dd($rs);
 
     protected function index(Request $request)
     {	
+/**
+      echo('<h1>File Access Tests</h1>' . get_current_user());
+      $urls = ['C:\\test.txt','\\\\CPSERVER\\Data\\web.config','Z:\\web.config', 'R:\\', 'R:\WEBNET\CP_INFO\CP_PICTURES\Web_Images', 'R:\\zzrDATA','Z:\WEBNET\CP_INFO','\\CPSERVER\Data\\zzrDATA'];
+
+      foreach($urls AS $path){
+        
+        $exists = fopen($path, 'r');
+        echo($exists? '<span style="color:green">':'<span style="color:red">');
+        echo ($exists? 'true':'false');
+        echo('</span>');
+        echo(">" . $path );
+        echo('<br><br>');
+      }
+
+
+    die;
+    */
           $initial_state = '{}';
     
-	    return view('home',[
+	    return view('app',[
           "initial_state" => json_encode($initial_state),
           "data" => $initial_state
         ]);
