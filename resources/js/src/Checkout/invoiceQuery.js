@@ -71,7 +71,7 @@ export default (variables) => {
     }  
     `
   }else{
-    query = `query ( $TRANSNO:String!) {
+    query = `query ( $TRANSNO:String) {
       viewer {
         vendor{
           addresses{

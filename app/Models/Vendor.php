@@ -221,22 +221,33 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
 
     public function getInvoice($_, $args){
 
+        if(isset($args['TRANSNO'])){
+            $key = 'TRANSNO';
+        }else{
+            $key = 'REMOTEADDR';
+        }
+
         $user = request()->user();
-        $cart = Allhead::where('TRANSNO', $args['TRANSNO'])->where('KEY', $user->KEY)->first();
+        $cart = Allhead::where($key, $args[$key])->where('KEY', $user->KEY)->first();
 
         if($cart === null){
-          $cart = Ancienthead::where('TRANSNO', $args['TRANSNO'])->where('KEY', $user->KEY)->first();
+          $cart = Ancienthead::where($key, $args[$key])->where('KEY', $user->KEY)->first();
 
           if($cart === null){
-            $cart = Backhead::where('TRANSNO', $args['TRANSNO'])->where('KEY', $user->KEY)->first();
+            $cart = Backhead::where($key, $args[$key])->where('KEY', $user->KEY)->first();
 
             if($cart === null){
-              $cart = Brohead::where('TRANSNO', $args['TRANSNO'])->where('KEY', $user->KEY)->first();
+              $cart = Brohead::where($key, $args[$key])->where('KEY', $user->KEY)->first();
 
               if($cart === null){
-                $cart = Webhead::where('TRANSNO', $args['TRANSNO'])->where('KEY', $user->KEY)->first();
+                $cart = Webhead::where($key, $args[$key])->where('KEY', $user->KEY)->first();
                   if($cart === null){
-                    $cart = Webhead::where('REMOTEADDR', $args['TRANSNO'])->where('KEY', $user->KEY)->first();
+                    if($key === "TRANSNO"){
+                        $cart = Webhead::where('REMOTEADDR', $args[$key])->where('KEY', $user->KEY)->first();
+                    }else{
+                        $cart = Webhead::where('TRANSNO', $args[$key])->where('KEY', $user->KEY)->first();
+                    }
+                    
                   }
               }
             }
