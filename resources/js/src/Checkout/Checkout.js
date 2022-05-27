@@ -77,7 +77,11 @@ function Checkout(props) {
           <Button
             variant="contained"
             color="primary"
-            onClick={()=> props.setIsCompleted(props.data)}
+            onClick={()=> {
+              props.setIsCompleted(props.data)
+              props.requestUpdatedInvoice()
+              props.navigate('/dashboard/invoice/'+props.data.REMOTEADDR)
+            }}
           >
             Submit Order
           </Button>
