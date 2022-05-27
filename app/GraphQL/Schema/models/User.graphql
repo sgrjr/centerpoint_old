@@ -2,8 +2,8 @@ type User {
 	application: Application
 	vendor: Vendor @belongsTo
 
-	cart(id:ID, REMOTEADDR:String!): Order @field(resolver: "App\\Models\\Webhead@getMyCart")
-	invoice(id:ID, TRANSNO:String!): Order @field(resolver: "App\\Models\\Vendor@getInvoice")
+	cart(id:ID, REMOTEADDR:String): Order @field(resolver: "App\\Models\\Webhead@getMyCart")
+	invoice(id:ID, TRANSNO:String): Order @field(resolver: "App\\Models\\Vendor@getInvoice")
 	roles:[Role]
 
 	photo: String
