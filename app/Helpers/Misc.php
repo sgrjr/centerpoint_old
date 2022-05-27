@@ -41,10 +41,14 @@ class Misc
     $log = "";
     $total_lines = 0;
 
-    $error_file = @fopen(base_path() . "/storage/addToCartFailure.txt", "r");
-    $exists = file_exists($error_file);
+    $error_file_name = base_path() . "/storage/addToCartFailure.txt";
+    $log_file = @fopen(base_path() . "/storage/logs/laravel.log", "r");
+    
+    $exists = file_exists($error_file_name);
 
-    if ($error_file) {
+    if ($exists) {
+        $error_file = @fopen($error_file_name, "r");
+
         while (($buffer = fgets($error_file, 4096)) !== false && $total_lines < 30000) {
             $error .= $buffer;
             $total_lines++;
@@ -56,7 +60,7 @@ class Misc
         fclose($error_file);
     }
 
-    $log_file = @fopen(base_path() . "/storage/logs/laravel.log", "r");
+    
     $total_lines = 0;
     $regex = "/[[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-9][0-9]:[0-9][0-9]:[0-9][0-9]]/m";
     if ($log_file) {
