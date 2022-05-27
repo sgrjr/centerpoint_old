@@ -18,7 +18,7 @@ class ImagesController extends Controller
 
 		$remote = false;
 		$test = false;
-
+		
 	if (!file_exists($this->use_path)){
 
 		$this->use_path = $this->config["imagesrootpath"] . "/cache/" . $path;
@@ -40,8 +40,11 @@ class ImagesController extends Controller
 
 		try {
 			$img = Image::make($this->use_path);
+
 			if($this->use_path !== $this->config['noimagepath']){
+				//dd($this->config["imagesrootpath"]);
 				$img->save( $this->config["imagesrootpath"] . "/cache/" . $path, 50);
+				//dd($this->use_path);
 			}
 
 
@@ -160,7 +163,7 @@ class ImagesController extends Controller
 	}
 
 	private function setDefaultPhotoPath($template, $path){
-		$this->use_path = $this->config["titleimagesrootpath"] . "/" . $path;
+		$this->use_path = $this->config["titleimagesrootpath"] . "\\" . $path;
 		$this->template = $template;
 		return $this;
 	}

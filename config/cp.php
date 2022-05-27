@@ -72,9 +72,8 @@ return [
       ],
 
     "users" => [
-		["INDEX"=>9999999999,"KEY"=>"0106000000001", "FIRST"=>"Stephen", "MIDNAME"=>"Gordon", "LAST"=>"Reynolds","ARTICLE"=>"Mr.","EMAIL"=>"sgrjr@deliverance.me", "UPASS"=>"1230happy","user_pass_unsafe"=>"1230happy","MPASS"=>"1230happy","ORGNAME"=>"FAKE ORGANIZATION","COMPANY"=>"FAKE COMPANY", "DELETED"=>false]
+		["INDEX"=>9999999999,"KEY"=>"0106000000001", "FIRST"=>"Stephen", "MIDNAME"=>"Gordon", "LAST"=>"Reynolds","ARTICLE"=>"South","EMAIL"=>"sgrjr@deliverance.me", "UPASS"=>"1230happy","user_pass_unsafe"=>"1230happy","MPASS"=>"1230happy","ORGNAME"=>"FAKE ORGANIZATION","COMPANY"=>"FAKE COMPANY", "UNAME"=>"testonly", "SNAME"=>"testonly","CITY"=>"Arundel", "STATE"=>"ME","COUNTRY"=>"US","POSTCODE"=>"04046","VOICEPHONE"=>"(000)000-0000","STREET"=>"000 No Street Here Blvd", "DELETED"=>false]
       ],
-
     "role_user" => [
         ["role_id"=>1,"user_id"=>1],
         ["role_id"=>1,"user_id"=>9]

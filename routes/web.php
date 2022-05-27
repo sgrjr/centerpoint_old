@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 //The Following all get view from javascript
-Route::get('/', function () {return view('app');});
+Route::get('/', "\App\Http\Controllers\IndexController@index");
 Route::get('/login', function () {return view('app');});
 Route::get('/dashboard', function () {return view('app');});
 Route::get('/dashboard/{section}', function () {return view('app');})->where('section','.*');
