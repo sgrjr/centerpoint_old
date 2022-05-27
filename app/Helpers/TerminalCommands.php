@@ -135,7 +135,7 @@ class TerminalCommands
 */
 public static function terminal($command, $opt = false)
 {
-
+var_dump('here');
         $status = false;
         $alloutput = [];
         if(!$opt){
