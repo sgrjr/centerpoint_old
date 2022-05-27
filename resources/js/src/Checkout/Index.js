@@ -21,11 +21,15 @@ class Index extends React.Component {
 
       if(cartid !== undefined){
         this.props.invoiceGet(invoiceQuery({REMOTEADDR: cartid}))
-      }else if(invoiceid !== undefined){
+      }else {
         this.props.invoiceGet(invoiceQuery({TRANSNO: invoiceid}))
       }
      
     }
+
+  requestUpdatedInvoice(){
+    this.props.invoiceGet(invoiceQuery({TRANSNO: this.props.params.invoiceid}))
+  }
 
   componentDidUpdate(nextProps) {
     if(nextProps.params.cartid && nextProps.params.cartid !== this.props.cart.checkout.remoteaddr){
@@ -35,6 +39,7 @@ class Index extends React.Component {
     }else if(nextProps.cart.checkout.ISCOMPLETE !== this.props.cart.checkout.ISCOMPLETE){
       this.load()
     }
+
     return nextProps;
   }
 
@@ -47,7 +52,7 @@ class Index extends React.Component {
         <Container maxWidth="md">
 
           {!complete() &&
-            <Checkout {...this.props} data={this.props.cart.checkout.data} />
+            <Checkout {...this.props} data={this.props.cart.checkout.data} requestUpdatedInvoice={this.requestUpdatedInvoice.bind(this)}/>
           }
           {complete() &&
             <CheckoutSuccess {...this.props} data={this.props.cart.checkout.data}/>
