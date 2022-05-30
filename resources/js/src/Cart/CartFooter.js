@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from '@mui/material/Button';
+import Button from '../components/Button';
 import MuiLink from '@mui/material/Link'
 import Typography from '@mui/material/Typography';
 import IconPicker from '../components/IconPicker';
@@ -35,18 +35,22 @@ class CartItem extends React.Component {
 
       { //Check if Any titles are in Cart
        (props.quantity > 0  && !props.review)
-       ? <Button variant="contained" color="primary" endIcon={<IconPicker icon="chevronRight" />} ><Link to={'/dashboard/cart/' + props.cart.REMOTEADDR} style={linkStyle}>Check out</Link></Button>
+       ? <Button onClick={(e)=>{
+        props.closeDrawer()
+         props.navigate('/dashboard/cart/' + props.cart.REMOTEADDR)
+       }} variant="contained" color="primary" endIcon={<IconPicker icon="shoppingCartCheckout" />} >Checkout</Button>
        :null
       }
       <Typography className={classes.total}>Cart total: <strong>${props.price.toFixed(2)}</strong></Typography>
       
       <Button
-        variant="contained"
-        color="error"
         endIcon={<IconPicker icon="delete" />}
         onClick={()=>{
           props.deleteCart({id:props.cart.id})
         }}
+        color="error"
+        variant="outlined"
+        id="delete-cart"
       >delete cart</Button>
 
       <Typography className={classes.incentive}>{incentiveText(props.quantity, 5, props.tradeTitleShipping)}</Typography>

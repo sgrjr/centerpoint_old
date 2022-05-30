@@ -3,7 +3,12 @@
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Config, Schema;
-
+use App\Events\ItemWasAddedToCart;
+use App\Events\CartItemWasUpdated;
+use App\Events\FailedWritingToDbf;
+use App\Events\NewDbfEntryCreated;
+use App\Events\ExistingDbfEntryUpdated;
+            
 trait AskTrait {
 
     public $changedProperties;
@@ -67,21 +72,23 @@ public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=fa
      if(static::class === "App\Models\Webdetail" && !isset($attributes["id"]) ){
              
          if(!isset($attributes["REMOTEADDR"])){// if vendor has no carts then create one.
-            $newcart = (new \App\Models\Webhead())->fillAttributes($user);
-            $newcart->save();
-            $newatts = $newcart->dbfSave();
-            $attributes['REMOTEADDR'] = $newatts->REMOTEADDR;
-            $attributes['KEY'] = $newatts->KEY;
+
+              $newcart = \App\Models\Webhead::newCart($user->vendor);
+              $newcart->save();
+              $newcart->dbfSave();
+
+            $attributes['REMOTEADDR'] = $newcart->REMOTEADDR;
+            $attributes['KEY'] = $newcart->KEY;
         }
 
         //If this is a title being added to the order than we need to check if the PROD_NO already exists or not
         // on the order with REMOTEADDR made by user with KEY.
         $model = $user->vendor->webdetailsOrders()->where('REMOTEADDR',$attributes["REMOTEADDR"])->where("PROD_NO",$attributes["PROD_NO"])->first();
-
         if(!$model || $model === null){
             //If the title wasn't already on the order then just create a new order item.
             $model = (new static($attributes))->fillAttributes($user);
             $model->save();
+            ItemWasAddedToCart::dispatch($model, $user);
         }else{
             //Was already on order so update model attributes with the passed new attributes.
             foreach($attributes AS $k=>$v){
@@ -91,18 +98,23 @@ public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=fa
                     $model->$k = $v;
                 }
             }
+            CartItemWasUpdated::dispatch($model, $user);
         }
 
      }else{
-
+        $isNewEntry = true;
+        //Check if $attributes do not have an id and therefore create a new $model;
          if(!isset($attributes["id"])){
             $model = (new static($attributes))->fillAttributes($user);
             $model->save();
          }else{
-            $model = static::where('id', $attributes['id'])->where('KEY', $user->KEY)->first();
+            //$attributes['id'] was set and therefore the $model already exists so query it.
+            $model = static::where('id', $attributes['id'])->where('KEY', $user->KEY)->first(); 
+            $isNewEntry = false; 
          }
 
          if($model === null){
+            $isNewEntry = true;
             unset($attributes["id"]);
             $model = (new static($attributes))->fillAttributes($user);
          }else{
@@ -110,14 +122,22 @@ public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=fa
                 $model->$k = $v;
             }
          }
-    }
-
+    }       
+            
      if($model){
         $model->dbfSave();
+
+        //Check which event to fire
+        if($isNewEntry){
+            NewDbfEntryCreated::dispatch($model, $user);
+        }else{
+            ExistingDbfEntryUpdated::dispatch($model, $user);
+        }    
+
      }else{
         \App\Helpers\Misc::dbfLog('Could not write to dbf and or database. There is probably now a blank entry in DBF because of this function fail. ' . static::class . " attributes: " . json_encode($attributes));
+        FailedWritingToDbf::dispatch($model, $user);
      }
-
      return $user;
 }
 

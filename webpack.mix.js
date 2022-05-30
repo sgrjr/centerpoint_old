@@ -31,9 +31,11 @@ mix.options({
     stats: { colors: true, modules: true, reasons: true, errorDetails: true, children:true }
 })
 	.js('resources/js/app.js', 'public/js')
+    .js('resources/js/chat/chat.js', 'public/js').vue()
 	.sourceMaps(true, 'source-map')
     .react()
     .sass('resources/sass/app.scss', 'public/css')
+    .sass('resources/sass/chat.scss', 'public/css')
     .version()
     .options({processCssUrls: false, stats:{children:true}})
     ;

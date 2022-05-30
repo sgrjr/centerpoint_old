@@ -103,11 +103,13 @@ input UpdateCartInput {
     id: Int
     INDEX: Int
     REMOTEADDR: String
-    ATTENTION: String
     BILL_1: String
     BILL_2: String
     BILL_3: String
-    BILL_4: String  
+    BILL_4: String 
+    BILL_5: String 
+    ATTENTION: String
+    COMPANY: String
     STREET: String
     ROOM: String
     DEPT: String

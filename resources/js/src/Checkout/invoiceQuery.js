@@ -26,6 +26,15 @@ export default (variables) => {
               BILL_2
               BILL_3
               BILL_4
+              BILL_5
+              COMPANY
+              ATTENTION
+              STREET
+              ROOM
+              DEPT
+              CITY
+              STATE
+              POSTCODE
               CINOTE
               items{
                 id

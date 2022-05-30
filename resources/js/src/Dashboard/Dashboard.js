@@ -8,7 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import clsx from 'clsx';
-
+import Button from '../components/Button';
 import IconPicker from '../components/IconPicker'
 import DashboardNav from './DashboardNav'
 import Signin from '../Auth/Signin'
@@ -69,10 +69,9 @@ class Dashboard extends Component{
             className={styles.dashboardDrawer}
             open={open}
           >
-              <button onClick={toggleDrawer}>
-                <IconPicker icon={open? "chevronLeft":"chevronRight"} />
+              <Button onClick={toggleDrawer} minimize={!open} startIcon={<IconPicker icon={open? "chevronLeft":"chevronRight"} />}>
                 Dashboard
-              </button>
+              </Button>
 
               {dashboardnav()}
           </div>
@@ -88,10 +87,6 @@ class Dashboard extends Component{
             <div className={classes.appBarSpacer} />
             <Container maxWidth="lg" className={classes.container}>
               {content()}
-              <button className="noPrint" onClick={()=>{
-                this.props.loginUser({email: "sgrjr@deliverance.me", password: "1230happy"});
-                return <Navigate to={"/dashboard/admin/users"} />
-              }}>ADMIN</button>
             </Container>
           </main>
         </div></>
@@ -136,9 +131,6 @@ const mapDispatchToProps = dispatch => {
     return {
       dashboardGet: (query) => {
         dispatch(actions.viewer.VIEWER_UPDATE.creator(query))
-      },
-      loginUser:(input)=>{
-        dispatch(actions.auth.AUTH_GET.creator(input))
       }
     }
   }

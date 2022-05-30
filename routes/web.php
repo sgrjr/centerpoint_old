@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 //The Following all get view from javascript
 Route::get('/', "\App\Http\Controllers\IndexController@index");
-Route::get('/login', function () {return view('app');});
+Route::get('/login', function () {return view('app');})->name('login');
 Route::get('/dashboard', function () {return view('app');});
 Route::get('/dashboard/{section}', function () {return view('app');})->where('section','.*');
 Route::get('/cp', function () {return view('app');});
@@ -55,6 +55,12 @@ Route::get('/setup/table/{action}/{table}', '\App\Http\Controllers\SetupControll
 Route::get('/img/{template}/{path}', '\App\Http\Controllers\ImagesController@images')->where('path','.*');
 
 Route::get('/old', '\App\Http\Controllers\IndexController@old');
+
+/* CHAT ROUTES */
+
+Route::get('/chat', '\App\Http\Controllers\ChatsController@index');
+Route::get('/chat/messages', '\App\Http\Controllers\ChatsController@fetchMessages');
+Route::post('/chat/messages', '\App\Http\Controllers\ChatsController@sendMessage');
 
 /*
 Route::get('/admin/application', '\App\Http\Controllers\ApplicationController@index');

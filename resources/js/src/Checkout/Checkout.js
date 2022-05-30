@@ -1,6 +1,7 @@
 import React from 'react'
-import Button from '@material-ui/core/Button'
-import ContactInfo from './ContactInfo'
+import Button from '../components/Button'
+import BillingInfo from './BillingInfo'
+import ShippingInfo from './ShippingInfo'
 import Divider from '@material-ui/core/Divider'
 import IconPicker from '../components/IconPicker'
 import { Accordion } from '@material-ui/core'
@@ -27,13 +28,15 @@ function Checkout(props) {
   return (
     <>
       <Typography variant="h2">{props.data.invoice.title}</Typography>
+      
+      {/*REVIEW ITEMS*/}
       <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <AccordionSummary 
           expandIcon={<IconPicker icon="expand" />}
           aria-controls="panel1a-content"
           id="step-1-header"
         >
-          <Typography><strong>Step 1:</strong> Review Items</Typography>
+          <Typography><strong>Step 1:</strong> Review Items in Cart</Typography>
         </AccordionSummary >
         <AccordionDetails>
           <Cart cartId={props.params.cartid} review={true}/>
@@ -46,17 +49,19 @@ function Checkout(props) {
             endIcon={<IconPicker icon="navigateNext"/>}
             onClick={()=> handleClick('panel2')}
           >
-            Next Step
+            next
           </Button>
         </AccordionActions>
       </Accordion>
+      
+      {/*REVIEW SHIPPING*/}
       <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
         <AccordionSummary 
           expandIcon={<IconPicker icon="expand" />}
           aria-controls="panel1a-content"
           id="step-2-header"
         >
-          <Typography><strong>Step 2:</strong> Review Billing Information</Typography>
+          <Typography><strong>Step 2:</strong> Review Shipping Information</Typography>
         </AccordionSummary >
         <AccordionDetails>
           {/*<select>
@@ -64,7 +69,7 @@ function Checkout(props) {
               return <option key={index} val={index}>{JSON.stringify(add)}</option>
             })}
           </select>*/}
-          <ContactInfo {...props}/>
+          <ShippingInfo {...props}/>
         </AccordionDetails>
         <Divider />
         <AccordionActions className={"checkout-footer"}>
@@ -72,7 +77,43 @@ function Checkout(props) {
             startIcon={<IconPicker icon="navigateBefore"/>}
             onClick={()=> handleClick('panel1')}
           >
-            Previous Step
+           back
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            endIcon={<IconPicker icon="navigateNext"/>}
+            onClick={()=> { handleClick('panel3')}}
+          >
+            next
+          </Button>
+        </AccordionActions>
+      </Accordion>
+
+       {/*REVIEW BILLING*/}
+      <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+        <AccordionSummary 
+          expandIcon={<IconPicker icon="expand" />}
+          aria-controls="panel1a-content"
+          id="step-2-header"
+        >
+          <Typography><strong>Step 3:</strong> Review Billing Information</Typography>
+        </AccordionSummary >
+        <AccordionDetails>
+          {/*<select>
+            {props.addresses.map((add, index)=>{
+              return <option key={index} val={index}>{JSON.stringify(add)}</option>
+            })}
+          </select>*/}
+          <BillingInfo {...props}/>
+        </AccordionDetails>
+        <Divider />
+        <AccordionActions className={"checkout-footer"}>
+          <Button
+            startIcon={<IconPicker icon="navigateBefore"/>}
+            onClick={()=> handleClick('panel2')}
+          >
+            back
           </Button>
           <Button
             variant="contained"
@@ -82,8 +123,9 @@ function Checkout(props) {
               props.requestUpdatedInvoice()
               props.navigate('/dashboard/invoice/'+props.data.REMOTEADDR)
             }}
+            endIcon={<IconPicker icon="send" />}
           >
-            Submit Order
+            submit &nbsp;
           </Button>
         </AccordionActions>
       </Accordion>

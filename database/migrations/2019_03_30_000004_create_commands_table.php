@@ -13,7 +13,7 @@ class CreateCommandsTable extends Migration
 	 
 	public function up()
     {
-		$dbf = new \App\Command;
+		$dbf = new \App\Models\Command;
 		$dbf->createTable();
     }
 

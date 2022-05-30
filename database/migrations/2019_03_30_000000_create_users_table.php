@@ -12,7 +12,7 @@ class CreateUsersTable extends Migration
      */
 	public function up()
     {
-		$model = new \App\User;
+		$model = new \App\Models\User;
 		$model->createTable();
     }
 

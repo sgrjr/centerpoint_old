@@ -3,6 +3,11 @@
 use App\Traits\DbfTableTrait;
 use App\Traits\DbfValidationTrait;
 
+//Events (shouuld move all this kind of logic elsewhere sometime)
+//it is certianly overloading these models
+
+use App\Events\CartWasSubmitted;
+
 class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
 
 	use \App\Ask\AskTrait\HeadTrait;
@@ -188,6 +193,8 @@ class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
     $this->PIPACK = 5;
     $this->PEPACK = 5;
     $this->dbfSave();
+    
+    CartWasSubmitted::dispatch(request(), $this);
 
     return $this;
   }
@@ -230,33 +237,103 @@ public static function deleteCart($_, $args, $request){
       }
 
       if($run){
-          $attributes = ["input"=>[]];
-          $newcart = static::dbfUpdateOrCreate(false, $attributes, $request);
+          $newcart = static::newCart($user->vendor);
+          $newCart = $newCart->dbfSave();
+          if($newCart){
+            $newCart->save();
+          }
       }
 
       return $user;
   }
-/* safe to delete if I find no errors 5/11/2022 sgrjr
-    public function updateMyCart($_, $args, $user = false){
+
+public static function newCart($vendor){
+      $uid=  uniqid();
+      $zip = substr($vendor->KEY,0,5);
+
+      $REMOTEADDR = substr($zip . "." . $uid, 0,15);
+      $mytime = \Carbon\Carbon::now()->format("Ymd");
+
+      $newCart = new static;
+      $newCart->REMOTEADDR = $REMOTEADDR;
+      $newCart->KEY = $vendor->KEY;
       
+      $newCart->DATE = $mytime;
 
-    
-    if(isset($args['input']['id'])){
-      $cart = static::where('id', $args['input']['id'])->where('KEY', $user->KEY)->first();
-    }else if(isset($args['input']['REMOTEADDR'])){
-      $cart = static::where('REMOTEADDR', $args['input']['REMOTEADDR'])->where('KEY', $user->KEY)->first();
-    }else{
-      $cart = static::newCart($user, $args["input"], true);
-    }
+      // to get values for: 
+      //BILL_1, BILL_2, BILL_3, BILL_4, BILL_5, COMPANY, ATTENTION, STREET, ROOM, DEPT, CITY, STATE, POSTCODE
 
-      
+      //1. Check for most recent entry for vendor in Brohead (NOTE: Skip over matches where OSOURCE != "DAILY_ORDERS")
+      $recentOrder = $vendor->broOrders()->where('OSOURCE', "LIKE", "%DAILY_ORDERS%")->orderBy('id','DESC')->first();
 
-      foreach($args['input'] AS $k=>$v){
-        $cart->$k = $v;
+      if($recentOrder === null){
+        //2. If no entry in Brohead then Check for most recent entry in Allhead (SAME NOTE AS in #1)
+        $recentOrder = $vendor->allOrders()->where('OSOURCE', "LIKE", "%DAILY_ORDERS%")->orderBy('id','DESC')->first();
       }
-      return $cart->dbfSave();
-}
-*/
+      
+      if($recentOrder !== null){
+        $newCart = static::initCartFromHead($newCart, $recentOrder);
+      }else{
+        //3. Create Cart from vendor if no orders were found in Brohead or Allhead
+        $newCart = static::initCartFromVendor($newCart, $vendor);
+      }
+      
+      $newCart->VOICEPHONE =  $vendor->VOICEPHONE;
+      $newCart->FAXPHONE =  $vendor->FAXPHONE;
+      $newCart->EMAIL = $vendor->EMAIL;
+      $newCart->OSOURCE = "INTERNET ORDER";
+      $newCart->ISCOMPLETE = false;
+      //\Session::put("use_cart",$REMOTEADDR);
+      return $newCart;
+  }
+  // function modifies $newCart by adding values for
+  // BILL_1, BILL_2, BILL_3, BILL_4, BILL_5, COMPANY, ATTENTION, STREET, ROOM, DEPT, CITY, STATE, POSTCODE
+  public static function initCartFromVendor($newCart, $vendor){
+      $newCart->BILL_1 = trim($vendor->ARTICLE) . " " . trim($vendor->ORGNAME); // trim(ARTICLE)+ " " trim(ORGNAME)
+      $newCart->BILL_2 = $vendor->STREET;
+      
+      if(trim($vendor->SECONDARY != "")){
+        //a) If there is an entry in vendor->SECONDARY
+        $newCart->BILL_3 = $vendor->SECONDARY;
+        $newCart->BILL_4 = trim(trim($vendor->CARTICLE) . " " . trim($vendor->CITY) . ", " . $vendor->STATE . " " . $vendor->ZIP5);
+        $newCart->ATTENTION = $vendor->SECONDARY;
+      }else{
+        //b) if no entry in vendor->SECONDARY
+        $newCart->BILL_3 = trim(trim($vendor->CARTICLE) . " " . trim($vendor->CITY) . ", " . $vendor->STATE . " " . $vendor->ZIP5);
+        $newCart->BILL_4 = "";
+        $newCart->ATTENTION = $vendor->SECONDARY;
+      }
+      $newCart->BILL_5 = "";
+      $newCart->ROOM = "";
+      $newCart->DEPT = "";
+      $newCart->COMPANY = trim(trim($vendor->ARTICLE) . " " . trim($vendor->ORGNAME));
+      $newCart->STREET =  $vendor->STREET;
+      $newCart->CITY = trim(trim($vendor->CARTICLE) . " " . trim($vendor->CITY));
+      $newCart->STATE = $vendor->STATE;
+      $newCart->POSTCODE =  $vendor->ZIP5;
+
+    return $newCart;
+  }
+  // function modifies $newCart by adding values for
+  // BILL_1, BILL_2, BILL_3, BILL_4, BILL_5, COMPANY, ATTENTION, STREET, ROOM, DEPT, CITY, STATE, POSTCODE
+    public static function initCartFromHead($newCart, $head){
+      $newCart->BILL_1 = trim($head->BILL_1);
+      $newCart->BILL_2 = trim($head->BILL_2);
+      $newCart->BILL_3 = trim($head->BILL_3);
+      $newCart->BILL_4 = trim($head->BILL_4);
+      $newCart->BILL_5 = trim($head->BILL_5);
+      $newCart->COMPANY = trim($head->COMPANY);
+      $newCart->ATTENTION = trim($head->ATTENTION);
+      $newCart->STREET = trim($head->STREET);
+      $newCart->ROOM = trim($head->ROOM);
+      $newCart->DEPT = trim($head->DEPT);
+      $newCart->CITY = trim($head->CITY);
+      $newCart->STATE = trim($head->STATE);
+      $newCart->POSTCODE = trim($head->POSTCODE);
+
+    return $newCart;
+  }
+
     public function getMyCart($_, $args){
 
         $user = request()->user();

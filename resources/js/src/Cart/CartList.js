@@ -52,6 +52,8 @@ export default function CartList(props) {
           cartCheckout={cartCheckout}
           history={history}
           selectCart={props.selectCart}
+          navigate={props.navigate}
+          closeDrawer={props.closeDrawer}
           />)
         }else{
           return <div/>
@@ -73,6 +75,8 @@ export default function CartList(props) {
           cartCheckout={cartCheckout}
           history={history}
           selectCart={props.selectCart}
+          navigate={props.navigate}
+          closeDrawer={props.closeDrawer}
           />)
       })
 
@@ -95,6 +99,8 @@ export default function CartList(props) {
           cartCheckout={cartCheckout}
           history={history}
           selectCart={props.selectCart}
+          navigate={props.navigate}
+          closeDrawer={props.closeDrawer}
           />)
     }
     

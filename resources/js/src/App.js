@@ -23,6 +23,7 @@ import {
   BrowserRouter as Router,
   Route, Routes
 } from "react-router-dom";
+import ScrollToTop from './components/ScrollToTop'
 
 const styles = {
   root: {}
@@ -40,7 +41,9 @@ class App extends React.Component {
       <Provider store={this.props.store}>
         
         <Router>
+          
     <div id="MainApp" className={classes.root}>
+    <ScrollToTop>
         <Routes>
           <Route path="/" exact={true} element={<ProductStore navigation={generalNavigationBar}/>}/> 
           <Route path="/promotions" element={<Promotions navigation={generalNavigationBar}/>}/>
@@ -70,7 +73,9 @@ class App extends React.Component {
       <AppAlerts/>
      
     <Footer />
+    </ScrollToTop>
     </div>
+    
       </Router>
       </Provider>
   );

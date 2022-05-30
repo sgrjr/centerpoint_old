@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from '@material-ui/core/Button'
+import Button from '../components/Button'
 import ListItem from '@material-ui/core/ListItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
@@ -10,6 +10,7 @@ import grey from '@material-ui/core/colors/grey'
 import {Link} from 'react-router-dom'
 const fontSize = '.8rem'
 const colorAccent = grey[600]
+import IconPicker from '../components/IconPicker';
 
 const useStyles = makeStyles((theme) => createStyles ({
   container: {
@@ -92,10 +93,10 @@ function CartItem(props) {
     	<div className={classes.imageContainer} style={{background:"#3F51B5"}}>
     		<img className={classes.image} src={`${props.coverArt}`} alt={`${props.TITLE} cover`}/>
     	</div>
-    	<Typography variant="h3" className={classes.title}><Link to={"/isbn/"+props.PROD_NO}>{props.TITLE}</Link></Typography>
-    	<Typography className={classes.author}>By {props.AUTHOR}</Typography>
-    	<Typography className={classes.priceLabel}>Item price: </Typography>
-    	<Typography className={classes.price}>${props.SALEPRICE}</Typography>
+    	<h3 className={classes.title}><Link to={"/isbn/"+props.PROD_NO}>{props.TITLE}</Link></h3>
+    	<p className={classes.author}>By {props.AUTHOR}</p>
+    	<p className={classes.priceLabel}>Item price: </p>
+    	<p className={classes.price}>${props.SALEPRICE}</p>
     	<label className={classes.quantityLabel}>Quantity: </label>
     	<FormControl className={classes.quantity}>
         <Select
@@ -117,12 +118,12 @@ function CartItem(props) {
       	variant="outlined" 
       	size="small"
         className={classes.remove}
-        color="secondary"
+        color="error"
         onClick={()=>{props.deleteFromCart({id: parseInt(props.id), data:props})}}
+        startIcon={<IconPicker icon="delete" />}
       >
-      	Remove
       </Button>
-      <Typography className={classes.total}>{`$${(props.REQUESTED * props.SALEPRICE).toFixed(2)}`}</Typography>
+      <p className={classes.total}>{`$${(props.REQUESTED * props.SALEPRICE).toFixed(2)}`}</p>
     </ListItem>
   )
 }

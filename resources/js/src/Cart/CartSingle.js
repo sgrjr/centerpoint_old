@@ -10,6 +10,7 @@ import CartFooter from './CartFooter'
 import Divider from '@material-ui/core/Divider'
 import CartHeader from './CartHeader'
 import Badge from '@material-ui/core/Badge'
+import Button from '../components/Button';
 
 function tradeTitleShipping(titles){
   let getsTradeTitleShipping = false
@@ -57,18 +58,14 @@ function CartSingle(props) {
   if(review){
       return (
       <div className="review-cart">
-            <div className="items-qty">Items in Cart: {totals.quantity}</div>
-            <h2>
-            PO Number: <CartHeader review={review} index={props.index} cart={cart} cartSave={cartSave} updateCartForm={props.updateCartForm}/>
-            </h2>
-
+            <Button color="primary" variant="contained" disabled={true} className="items-qty">Items in Cart: {totals.quantity}</Button>
           <AccordionDetails>
             <List>
               {list}
             </List>
           </AccordionDetails>
           <Divider variant="middle" />
-          <CartFooter review={review} {...totals} cart={cart} deleteCart={deleteCart} history={history} cartCheckout={cartCheckout} tradeTitleShipping={tradeTitleShipping(cart.items)}/>
+          <CartFooter {...props} review={review} {...totals} cart={cart} deleteCart={deleteCart} history={history} cartCheckout={cartCheckout} tradeTitleShipping={tradeTitleShipping(cart.items)}/>
 
       </div>
     )
@@ -96,7 +93,7 @@ function CartSingle(props) {
             </List>
           </AccordionDetails>
           <Divider variant="middle" />
-          <CartFooter review={review} {...totals} cart={cart} deleteCart={deleteCart} history={history} cartCheckout={cartCheckout} tradeTitleShipping={tradeTitleShipping(cart.items)}/>
+          <CartFooter {...props} review={review} {...totals} cart={cart} deleteCart={deleteCart} history={history} cartCheckout={cartCheckout} tradeTitleShipping={tradeTitleShipping(cart.items)}/>
         </Accordion>
       </React.Fragment>
   )

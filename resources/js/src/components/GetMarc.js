@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import actions from '../actions';
-import {Button} from '@material-ui/core';
+import Button from './Button'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from "react-router-dom";
 import styles from "../styles.js"
@@ -18,9 +18,10 @@ class GetMarc extends Component{
         }else{
           message = "Download all " + this.props.isbns.length + " MARC records."
         }
-        return (<div>{message}:
-          <button className={styles.getMarc + " outlined"} onClick={(e)=>{this.props.downloadAllMarcs({isbns:this.props.isbns, text:false})}}>.MRC</button>
-          <button className={styles.getMarc + " outlined"} onClick={(e)=>{this.props.downloadAllMarcs({isbns:this.props.isbns, text:true})}}>.TXT</button>
+        return (<div style={{display:"flex", justifyContent:"flex-start"}}>
+          <div>{message}: <Button variant="outlined" className={styles.getMarc} onClick={(e)=>{this.props.downloadAllMarcs({isbns:this.props.isbns, text:false})}}>.MRC</Button>
+          </div>
+          <Button variant="outlined" className={styles.getMarc} onClick={(e)=>{this.props.downloadAllMarcs({isbns:this.props.isbns, text:true})}}>.TXT</Button>
           </div>)
       }else{
         let url = this.props.marcLink

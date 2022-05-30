@@ -29,11 +29,10 @@
 
   .items-qty {
     float:right;
-    background: $blue;
-    color:$white;
-    padding: $standard_margin;
-    font-size:1.2rem;
-    font-weight:bold;
+    position:absolute;
+    top: $standard_margin+50;
+    right: $standard_margin;
+    width:150px;
   }
 
   .MuiAccordionDetails-root {
@@ -44,4 +43,14 @@
     border:none;
     }
   }
+
+  .cart-footer {
+    #delete-cart{
+      position:absolute;
+      top: $standard_margin;
+      right: $standard_margin;
+      width:150px;
+    }
+  }
+
 }

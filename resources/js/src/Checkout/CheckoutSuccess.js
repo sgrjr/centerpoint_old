@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from '@material-ui/core/Button'
+import Button from '../components/Button'
 import Divider from '@material-ui/core/Divider'
 import { makeStyles } from '@material-ui/core/styles'
 import OrderSummary from './OrderSummary'
@@ -117,7 +117,7 @@ function ContactInfo(props) {
           <Button
             variant="contained"
             color="primary"
-            startIcon={<IconPicker icon="print" />}
+            endIcon={<IconPicker icon="print" />}
             onClick={print}
             className="noPrint"
           >

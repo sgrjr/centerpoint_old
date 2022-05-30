@@ -17,42 +17,37 @@
     margin-left:30px;
     width:180px;
     margin-top:90px;
-
-    button, svg {
-      background:none;
-      border:none;
-      line-height:24px;
-      overflow:hidden;
-      height:24px;
-      text-align:center;
-      vertical-align:middle;
-    }
-
-    button:hover, button:active{
-      background:$light_gray;
-    }
-  }
-
-  ul{
-    list-style:none;
-    padding-left:5px;
-    overflow-x:hidden;
-    white-space:nowrap;
-    border:solid 1px $gray;
-    border-left:none;
-    border-bottom:none;
-
-    li svg {
-      margin-right:15px;
-    }
   }
 
 }
 
+#dashboard_nav {
+  list-style:none;
+  padding-left:5px;
+  overflow-x:hidden;
+  white-space:nowrap;
+  border:none;
+
+  li svg {
+    margin-right:15px;
+  }
+
+  button, svg {
+    background:none;
+    border:none;
+    line-height:24px;
+    overflow:hidden;
+    height:24px;
+  }
+}
 
 .list-header {
   padding-left:72px;
 }
+// animations are disabled as they run everytime an entry is made in a form input
+// and it is quite disruptive
+// find a solution someday as the drawer animating would be ideal
+// just not on form input changes 5/28/2022 sgrjr
 
 .dashboard.drawer-is-open-false {
   ul{
@@ -61,7 +56,7 @@
   }  
 
     .dashboard-drawer{
-      animation: close-drawer 1s ease;
+     //animation: close-drawer 1s ease;
       width:40px;
     }
 
@@ -70,7 +65,7 @@
 
 .dashboard.drawer-is-open-true {
   .dashboard-drawer {
-    animation: open-drawer .7s ease;
+    //animation: open-drawer .7s ease;
   }
 }
 

@@ -16,7 +16,7 @@ import AddToCart from '../Cart/AddToCart'
 import TitlePageSkeleton from './TitlePageSkeleton'
 import GetMarc from '../components/GetMarc'
 import {useParams, useLocation} from 'react-router-dom'
-import ScrollToTop from '../components/ScrollToTop'
+
 import './TitlePage.scss';
 
 function ListItemLink(props) {
@@ -25,8 +25,8 @@ function ListItemLink(props) {
 
 class TitlePage extends Component{
 
-    componentDidMount(){
 
+    componentDidMount(){
        const { isbn } = this.props.params
 
       if(!this.props.title || this.props.title.ISBN !== isbn){
@@ -109,7 +109,6 @@ class TitlePage extends Component{
 
       return (
         <>
-        <ScrollToTop/>
           {this.props.navigation}
           <Grid container className="title-page">
             <Grid item xs={12} md={12} >
@@ -250,6 +249,8 @@ class TitlePage extends Component{
       }
   
     }
+
+
         
 } 
 

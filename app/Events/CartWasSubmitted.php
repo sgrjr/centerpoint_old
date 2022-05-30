@@ -38,6 +38,6 @@ class CartWasSubmitted
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('user' . $this->user->id);
+        return new InteractsWithSockets('store-activity');
     }
 }

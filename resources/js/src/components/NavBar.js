@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import Button from './Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import IconPicker from '../components/IconPicker'
@@ -100,7 +100,7 @@ function menuToggle (event){
         }} 
         link={it} 
         handleProfileMenuOpen={handleProfileMenuOpen} 
-        toggleDrawer={menuToggle}
+        toggleDrawer={menuToggle.bind(this)}
         />
       })}
     </Menu>
@@ -118,10 +118,10 @@ function menuToggle (event){
 
 
       cart = (<Drawer anchor={"right"} open={props.viewer.cart.open} onClose={props.toggleCart}>
-        <Button onClick={props.toggleCart} startIcon={<IconPicker icon="clear" />}>
-              Close
-            </Button>
-        <Cart />
+        <Button onClick={props.toggleCart} startIcon={<IconPicker icon="minimize" />}>
+        <IconPicker icon="shoppingCart" />
+        </Button>
+        <Cart navigate={props.navigate} closeDrawer={props.toggleCart}/>
       </Drawer>)
 
     }
@@ -162,7 +162,6 @@ function menuToggle (event){
           </div>
         </header>
 
-
        <SearchForm submitSearch={props.handleSubmitSearch} params={props.params}/>
 
       {renderMobileMenu}
@@ -188,7 +187,6 @@ class Navbar extends React.Component {
   }
 
   render(){
-
     return <MainNavbar {...this.props} handleSubmitSearch={this.handleSubmitSearch.bind(this)}/>
   }
 

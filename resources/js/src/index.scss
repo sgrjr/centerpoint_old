@@ -8,7 +8,10 @@ html, body, #app, #MainApp {
  -webkit-font-smoothing: antialiased;
  -moz-osx-font-smoothing: grayscale;
  width:auto;
- overflow-x:hidden;
+}
+
+html, body, #app {
+ // overflow-x:hidden; // this property breaks the scroll to top if it is set ???? // do not use
 }
 
 .promotions {
