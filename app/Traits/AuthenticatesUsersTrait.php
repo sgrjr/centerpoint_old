@@ -41,7 +41,7 @@ trait AuthenticatesUsersTrait
     public function login(Request $request, array $args = [])
     {
         $setup_tests = new \App\Helpers\SetupTests();
-        
+        dd($this->credentials($request));
         if(!$setup_tests->test('OAUTH_CLIENT_EXISTS')->passed){
             $credentials =  $this->credentials($request);
             GraphQLUserAuthenticationFailed::dispatch($credentials, "Application is not setup!");
