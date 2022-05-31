@@ -2,14 +2,15 @@
 
 namespace App\Listeners;
 
-use App\Events\ItemWasAddedToCart;
+use App\Events\GraphQLAuth\GraphQLUserAuthenticated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Log;
 
-class PostToStoreActivity implements ShouldQueue
-{
+class PostToStoreActivityUserAuthenticated {
 
-    use InteractsWithQueue;
+    //use InteractsWithQueue;
+
     public $afterCommit = true;
     //public $tries = 3;
 
@@ -26,12 +27,12 @@ class PostToStoreActivity implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  \App\Events\ItemWasAddedToCart  $event
+     * @param  \App\Events\GraphQLAuth\GraphQLUserAuthenticated  $event
      * @return void
      */
-    public function handle(ItemWasAddedToCart $event)
+    public function handle(GraphQLUserAuthenticated $event)
     {
-        //
+       Log::channel('events')->info('User logged in: ' . $event->user->EMAIL);
     }
 
     /**
@@ -41,7 +42,7 @@ class PostToStoreActivity implements ShouldQueue
      * @param  \Throwable  $exception
      * @return void
      */
-    public function failed(OrderShipped $event, $exception)
+    public function failed(GraphQLUserAuthenticated $event, $exception)
     {
         //
     }

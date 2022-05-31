@@ -58,6 +58,11 @@ Route::get('/old', '\App\Http\Controllers\IndexController@old');
 
 /* CHAT ROUTES */
 
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/chat/{room?}',  [ChatsController::class, 'renderChat'])->name('chat');
+    Route::post('/message', [ChatsController::class, 'sendMessage'])->name('message');
+});
+
 Route::get('/chat', '\App\Http\Controllers\ChatsController@index');
 Route::get('/chat/messages', '\App\Http\Controllers\ChatsController@fetchMessages');
 Route::post('/chat/messages', '\App\Http\Controllers\ChatsController@sendMessage');

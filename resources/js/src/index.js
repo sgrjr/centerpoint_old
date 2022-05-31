@@ -15,6 +15,7 @@ import titlesReducer from './reducers/titlesReducer';
 import notificationReducer from './reducers/notificationReducer';
 import viewerReducer from './reducers/viewerReducer';
 import formsReducer from './reducers/formsReducer';
+import chatsReducer from './reducers/chatsReducer';
 import 'lazysizes';
 
 import './index.scss';
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
     notification: notificationReducer,
     titles: titlesReducer,
     viewer: viewerReducer,
-    forms: formsReducer
+    forms: formsReducer,
+    chat: chatsReducer
   });
 
 const loggerMiddleware = createLogger()

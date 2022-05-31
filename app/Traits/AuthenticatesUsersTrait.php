@@ -11,6 +11,11 @@ use App\Events\UserLoggedIn;
 use stdclass;
 use App\Exceptions\CustomException;
 
+use \App\Events\GraphQLAuth\GraphQLLoginAttempted;
+use \App\Events\GraphQLAuth\GraphQLUserAuthenticated;
+use \App\Events\GraphQLAuth\GraphQLUserLoggedOut;
+use \App\Events\GraphQLAuth\GraphQLUserAuthenticationFailed;
+
 trait AuthenticatesUsersTrait
 {
     use RedirectsUsers, ThrottlesLogins;
@@ -35,10 +40,12 @@ trait AuthenticatesUsersTrait
      */
     public function login(Request $request, array $args = [])
     {
-
         $setup_tests = new \App\Helpers\SetupTests();
         
         if(!$setup_tests->test('OAUTH_CLIENT_EXISTS')->passed){
+            $credentials =  $this->credentials($request);
+            GraphQLUserAuthenticationFailed::dispatch($credentials, "Application is not setup!");
+
                 throw new CustomException(
                     'Cannot authenticate any user.', //message
                     'Application is not setup.', //reason
@@ -52,7 +59,6 @@ trait AuthenticatesUsersTrait
             $vars = [];
         }
 
-
         if($request->wantsJson() && count($vars) > 0){
             $query = $request->get('variables');
             $request->request->add([ $this->username() => $query['email'] ]);
@@ -64,7 +70,7 @@ trait AuthenticatesUsersTrait
             $request->request->add([ $this->username() => $args['email']]);
             $request->request->add(['password' => $args['password']]);
         }
-        
+
        $this->validateLogin($request);
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -135,9 +141,11 @@ trait AuthenticatesUsersTrait
         $valid_user = false;
         $credentials =  $this->credentials($request);
 
+        GraphQLLoginAttempted::dispatch($this->guard(), $credentials, $request->filled('remember'));
+
         //Retrieve from Mysql Database
         $users = \App\Models\User::where("EMAIL", $credentials['EMAIL'])->get();      
-
+        
         foreach($users AS $record){ 
             if(\Hash::check($credentials['password'], $record->UPASS)){
                 $valid_user = true;
@@ -150,8 +158,9 @@ trait AuthenticatesUsersTrait
             if($request->wantsJson()){
                 if(!isset($user)){
                     $user = \App\Models\User::where('EMAIL', $credentials['EMAIL'])->first();
-                }
 
+                }
+                GraphQLUserAuthenticated::dispatch($user);
                 return $user;
             }
 
@@ -187,6 +196,7 @@ trait AuthenticatesUsersTrait
 
         if($request->wantsJson()){
             $this->authenticated($request, $user);
+
            return $user;
         }
         
@@ -207,6 +217,9 @@ trait AuthenticatesUsersTrait
      */
     protected function sendFailedLoginResponse(Request $request)
     {
+        $credentials =  $this->credentials($request);
+        GraphQLUserAuthenticationFailed::dispatch($credentials, "Auth Failed");
+
         if($request->has("token")){
             return response()->json(["error"=>"Auth Failed"]);
         }else{
@@ -237,7 +250,8 @@ trait AuthenticatesUsersTrait
     {
 
         if($request->wantsJson()){
-           // $this->loggedOut($request);
+           //$this->loggedOut($request);
+            GraphQLUserLoggedOut::dispatch($request->user());
             return \App\Helpers\Application::props();
         }
 

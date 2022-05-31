@@ -42,6 +42,7 @@ class SigninPage extends React.Component {
 
       let form = ()=>{
         return ( <form name="login" id="login">
+          <p style={{color:"red"}}>{login? login.errors.email:""}</p>
           <TextField
             variant="outlined"
             margin="normal"
@@ -55,6 +56,7 @@ class SigninPage extends React.Component {
             defaultValue={login.email}
             onChange={updateForm}
           />
+          <p style={{color:"red"}}>{login? login.errors.password:""}</p>
           <TextField
             variant="outlined"
             margin="normal"

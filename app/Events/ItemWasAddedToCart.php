@@ -1,17 +1,17 @@
 <?php
 
 namespace App\Events;
-use App\Models\Title;
+use App\Models\Webdetail;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ItemWasAddedToCart
+class ItemWasAddedToCart implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -32,7 +32,7 @@ class ItemWasAddedToCart
      * @param \App\Models\User $user;
      * @return void
      */
-    public function __construct(Title $item, User $user)
+    public function __construct(Webdetail $item, User $user)
     {
         $this->item = $item;
         $this->user = $user;
@@ -46,6 +46,6 @@ class ItemWasAddedToCart
      */
     public function broadcastOn()
     {
-        return new InteractsWithSockets('store-activity');
+        return new Channel('store-activity');
     }
 }

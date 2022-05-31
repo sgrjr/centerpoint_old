@@ -5,8 +5,8 @@ const initState = {
             email: "",
             password: "",
             errors: {
-                email:null,
-                password: null
+                email:"",
+                password: ""
             }
         },
         photoStaging:false,
@@ -20,20 +20,39 @@ const initState = {
         }
 }
 
-export default (state = initState,action)=>{
+export default (state = initState, action)=>{
+    let ns = null
 
     switch (action.type) {
 
+        case actions.auth.AUTH_ERROR.type:
+            ns = Object.assign({}, state)
+            ns.login.errors.email = ""
+            ns.login.errors.password = ""
+            action.errors.map((er)=>{
+                if(er.extensions.category === "validation"){
+                    ns.login.errors.email += er.extensions.validation.EMAIL? er.extensions.validation.EMAIL.join(","):""
+                    ns.login.errors.password += er.extensions.validation.password? er.extensions.validation.password.join(","):""
+                }
+            })
+            return ns;
+
+        case actions.auth.AUTH_SUCCESS.type:
+            ns = Object.assign({}, state)
+            ns.login.errors.email = null
+            ns.login.errors.password = null
+            return ns;
+
         case actions.form.FORM_UPDATE_SUCCESS.type:
-            let ns = Object.assign({}, state)
+            ns = Object.assign({}, state)
             ns[action.form][action.field] = action.input
             return ns;
         
         case actions.form.UPDATE_PROFILE_IMAGE_PENDING.type:
-            let ns1 = Object.assign({}, state)
+            ns = Object.assign({}, state)
 
             if(action.input === false){
-                ns1.photo = {
+                ns.photo = {
                     selectedFile: {},
                     completed: [],
                     imageSource: null,
@@ -42,10 +61,10 @@ export default (state = initState,action)=>{
                     }
                 }
             }else{
-                ns1.photo.imageSource = action.input;
+                ns.photo.imageSource = action.input;
             }
             
-            return ns1;
+            return ns;
 
         default:
             return state

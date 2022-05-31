@@ -6,11 +6,11 @@ use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CartWasSubmitted
+class CartWasSubmitted implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -21,7 +21,7 @@ class CartWasSubmitted
      *
      * @return void
      */
-    public function __construct(Request $request, \App\WebHead $cart)
+    public function __construct(Request $request, \App\Models\WebHead $cart)
     {
         $this->cart = $cart;
         $this->user = $request->user();
@@ -38,6 +38,6 @@ class CartWasSubmitted
      */
     public function broadcastOn()
     {
-        return new InteractsWithSockets('store-activity');
+        return new Channel('store-activity');
     }
 }

@@ -9,7 +9,7 @@ const applicationReducer = (state = applicationReducerInit,action)=>{
             return state
 
         case actions.application.APP_PENDING.type: 
-
+        case actions.auth.AUTH_LOGOUT_PENDING.type:
             return {
                 ...state,
                 pending: true
@@ -39,6 +39,7 @@ const applicationReducer = (state = applicationReducerInit,action)=>{
             }            
 
         case actions.application.APP_ERROR.type:
+         case actions.auth.AUTH_LOGOUT_ERROR.type:
             return {
                 ...state,
                 pending: false,
@@ -62,7 +63,8 @@ const applicationReducer = (state = applicationReducerInit,action)=>{
         case actions.auth.AUTH_LOGOUT_SUCCESS.type:
             return {
                 ...state,
-                ...action.payload
+                pending:false,
+                ...action.payload.application
             }
 
         case actions.form.DOWNLOAD_MARCS_SUCCESS.type:

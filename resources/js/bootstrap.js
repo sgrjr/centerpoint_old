@@ -6,12 +6,14 @@ window._ = require('lodash');
  * code may be modified to fit the specific needs of your application.
  */
 
+/*
 try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
 } catch (e) {}
+*/
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -35,9 +37,10 @@ window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: 'cplp',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluser:  process.env.MIX_PUSHER_APP_CLUSTER,
     wsHost: window.location.hostname,
     wsPort: 6001,
     forceTLS: false,
-    disableStats: true,
+    disableStats: true
 });

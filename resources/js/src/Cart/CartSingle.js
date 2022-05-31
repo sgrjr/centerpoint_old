@@ -81,7 +81,7 @@ function CartSingle(props) {
             style={{backgroundColor:"rgba(0, 0, 0, 0.12)"}}
           >
             
-            <Badge anchorOrigin={{horizontal:'left', vertical:'top'}} badgeContent={totals.quantity} color="primary">
+            <Badge anchorOrigin={{horizontal:'left', vertical:'top'}} badgeContent={totals.quantity} color="primary" overlap="rectangular">
               <CartHeader index={props.index} cart={cart} cartSave={cartSave} updateCartForm={props.updateCartForm}/>
               </Badge>
 

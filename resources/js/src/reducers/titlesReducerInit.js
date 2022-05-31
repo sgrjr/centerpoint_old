@@ -289,7 +289,7 @@ minTitleQuery: (variables) => {
     data {
       INDEX
       ISBN
-      title
+      TITLE
       INVNATURE
       FLATPRICE
       LISTPRICE

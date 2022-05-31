@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
+//import Chat from './Chat/Chat'
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 import Signin from './Auth/Signin'
@@ -71,7 +72,6 @@ class App extends React.Component {
         </Routes>
       
       <AppAlerts/>
-     
     <Footer />
     </ScrollToTop>
     </div>

@@ -11,6 +11,16 @@ const auth = {
         return { type: 'AUTH_PENDING', message:{message:"Authentication pending...", severity:"info"} }
       }
   },
+
+  AUTH_LOGOUT_PENDING: 
+  {
+      type: 'AUTH_LOGOUT_PENDING',   
+      creator: () => {
+        authorization.destroy();
+        return { type: 'AUTH_LOGOUT_PENDING', message:{message:"Logout pending...", severity:"info"} }
+      }
+  },
+
   AUTH_SUCCESS: 
   {
       type: 'AUTH_SUCCESS',   
@@ -53,12 +63,9 @@ const auth = {
   {
     type: 'AUTH_LOGOUT',   
     creator: () => {
-
-      authorization.destroy();
       
       const query ={query: `mutation {
         logoutUser {
-
           links {
             drawer {
               url
@@ -80,10 +87,10 @@ const auth = {
       }`};
     
       const actions = {
-         action:'AUTH_LOGOUT',
-        pending: auth.AUTH_PENDING.creator,
+        action:'AUTH_LOGOUT',
+        pending: auth.AUTH_LOGOUT_PENDING.creator,
         success: auth.AUTH_LOGOUT_SUCCESS.creator,
-        error: auth.AUTH_ERROR.creator
+        error: auth.AUTH_LOGOUT_ERROR.creator
       }
     
       return graphql(query, actions)
@@ -91,29 +98,20 @@ const auth = {
 },
   AUTH_ERROR: 
   {
-      type: 'AUTH_ERROR',   
-      
-
+      type: 'AUTH_ERROR',
       creator: (errors) => {
-        /*errors.push({
-          message: "Login Failed!",
-          severity:"error",
-          extensions: {
-            "category": "graphql"
-          },
-          locations: [
-            {
-              "line": 3,
-              "column": 5
-            }
-          
-        ]});*/
-
-
         return { type: 'AUTH_ERROR', errors: errors }
       }
   },  
   
+  AUTH_LOGOUT_ERROR: 
+  {
+      type: 'AUTH_LOGOUT_ERROR',
+      creator: (errors) => {
+        return { type: 'AUTH_LOGOUT_ERROR', errors: errors }
+      }
+  },  
+
   AUTH_GET: 
   {
       type: 'AUTH_GET',   

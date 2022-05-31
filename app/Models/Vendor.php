@@ -223,8 +223,10 @@ class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
 
         if(isset($args['TRANSNO'])){
             $key = 'TRANSNO';
-        }else{
+        }else if(isset($args['REMOTEADDR'])){
             $key = 'REMOTEADDR';
+        }else{
+            return null;
         }
 
         $user = request()->user();

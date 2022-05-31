@@ -196,6 +196,12 @@ public function getMemo(){
       return 'name';
     }
 
+  public function messages()
+  {
+    return $this->hasMany(\App\Models\Message::class);
+  }
+
+
   public function roles()
   {
     return $this->belongsToMany('App\Models\Role')->using('App\Models\RoleUser');

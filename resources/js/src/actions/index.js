@@ -7,12 +7,14 @@ import search from './search'
 import titles from './titles'
 import viewer from './viewer'
 import cart from './cart'
+import chat from './chat'
 
 export default {
   admin,
   application,
   auth,
   cart,
+  chat,
   notification,
   form,
   search,

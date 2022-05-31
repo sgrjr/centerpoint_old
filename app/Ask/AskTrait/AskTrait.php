@@ -59,6 +59,7 @@ public static function dbfCreate(){
 }
 
 public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=false, $x=false, $user=false) {
+    $isNewEntry = true;
 
      if(isset($request) && $request !== false && $user === false){
       $user = $request->user();
@@ -72,7 +73,6 @@ public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=fa
      if(static::class === "App\Models\Webdetail" && !isset($attributes["id"]) ){
              
          if(!isset($attributes["REMOTEADDR"])){// if vendor has no carts then create one.
-
               $newcart = \App\Models\Webhead::newCart($user->vendor);
               $newcart->save();
               $newcart->dbfSave();
@@ -90,6 +90,7 @@ public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=fa
             $model->save();
             ItemWasAddedToCart::dispatch($model, $user);
         }else{
+            $isNewEntry = false;
             //Was already on order so update model attributes with the passed new attributes.
             foreach($attributes AS $k=>$v){
                 if($k === "REQUESTED"){
@@ -102,7 +103,7 @@ public static function dbfUpdateOrCreate($graphql_root, $attributes, $request=fa
         }
 
      }else{
-        $isNewEntry = true;
+        
         //Check if $attributes do not have an id and therefore create a new $model;
          if(!isset($attributes["id"])){
             $model = (new static($attributes))->fillAttributes($user);

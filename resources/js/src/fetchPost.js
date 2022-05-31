@@ -33,18 +33,16 @@ formBody = formBody.join("&");
       dispatch(actions.pending(opt.url))
 
      return fetch(opt.url,requestData)
-      .then(res => res.text())
+      .then(res => res.json())
       .then(res => {
 
           if(res.errors) {
               dispatch(actions.error(res.errors))
           }else{
-            dispatch(actions.success({foxpro: res}));
+            dispatch(actions.success(res));
           }
-          
       })
       .catch(error => {
-        
           dispatch(actions.error([error]));
       })
   }

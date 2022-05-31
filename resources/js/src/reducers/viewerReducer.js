@@ -19,7 +19,7 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
         case actions.application.APP_SUCCESS.type:
         case actions.viewer.VIEWER_SUCCESS.type:
 
-            let selectedCart = state.cart.selectedCart
+            let selectedCart = state.cart? state.cart.selectedCart:false
 
             if(selectedCart === false){
                 if(action.payload.viewer && action.payload.viewer.vendor && action.payload.viewer.vendor.carts.data.length >= 1){
@@ -63,6 +63,7 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
             }
 
         case actions.auth.AUTH_PENDING.type: 
+        case actions.auth.AUTH_LOGOUT_PENDING.type:
             return {
                 ...state,
                 pending: true
@@ -76,10 +77,12 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
             }
 
         case actions.auth.AUTH_LOGOUT_SUCCESS.type: 
-            return false
-
+            return {
+                ...viewerReducerInit
+            }
 
         case actions.auth.AUTH_ERROR.type:
+        case actions.auth.AUTH_LOGOUT_ERROR.type:
             return {
                 ...state,
                 pending: false

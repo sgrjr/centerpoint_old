@@ -170,8 +170,9 @@ class SearchPage extends Component{
           })
         }
 
-          if(lists[0][1].paginatorInfo === null || lists[0][1].paginatorInfo.total < 1 || this.props.params.search === ""){
-            searchSuggestions = <div><h2>Nothing matched your searched. Try a suggestion below.</h2><SearchSuggestions itemData={lists[1][1].data}/></div>
+          if(lists.length < 1 || lists[0][1].paginatorInfo === null || lists[0][1].paginatorInfo.total < 1 || this.props.params.search === ""){
+            let itemData = lists.length > 1 && lists[1].length > 1? lists[1][1].data:[]
+            searchSuggestions = <div><h2>Nothing matched your searched. Try a suggestion below.</h2><SearchSuggestions itemData={itemData}/></div>
           }
 
 
