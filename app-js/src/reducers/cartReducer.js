@@ -31,6 +31,16 @@ const cartReducer= (state = initState,action)=>{
 
     switch (action.type) {
     
+    case actions.cart.CART_UPDATE_SUCCESS.type:
+        if(!state.selectedCart){
+            return {
+                ...state,
+                selectedCart: action.payload.vendor.carts.data.length > 0? action.payload.vendor.carts.data[0].REMOTEADDR:false
+            }
+        }else{
+            return state
+        }
+
     case actions.cart.CART_SUCCESS.type:
     case actions.cart.CART_TITLE_ADDED_SUCCESS.type:
         return {

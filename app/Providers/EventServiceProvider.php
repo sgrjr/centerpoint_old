@@ -52,51 +52,51 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        GraphQLLoginAttempted::class => [
+        //GraphQLLoginAttempted::class => [
          //   LogAttemptedLogin::class,
-            PostToStoreActivityAttemptedLogin::class
-        ],
+            //PostToStoreActivityAttemptedLogin::class
+        //],
      
-        GraphQLUserAuthenticated::class => [
-            PostToStoreActivityUserAuthenticated::class
-        ],
+        //GraphQLUserAuthenticated::class => [
+            //PostToStoreActivityUserAuthenticated::class
+        //],
      
-        GraphQLUserAuthenticationFailed::class => [
-           PostToStoreActivityFailedLogin::class
-        ],
+        //GraphQLUserAuthenticationFailed::class => [
+           //PostToStoreActivityFailedLogin::class
+        //],
      
         \Illuminate\Auth\Events\Validated::class => [
-            PostToStoreActivityValidatedLogin::class
+            //PostToStoreActivityValidatedLogin::class
         ],
      
-       GraphQLUserLoggedOut::class => [
-            PostToStoreActivityAuthLoggedOut::class
-        ],
+       //GraphQLUserLoggedOut::class => [
+            //PostToStoreActivityAuthLoggedOut::class
+       // ],
      
         \Illuminate\Auth\Events\Lockout::class => [
-            PostToStoreActivityAuthLockedOut::class
+            //PostToStoreActivityAuthLockedOut::class
         ],
      
         \Illuminate\Auth\Events\PasswordReset::class => [
-            PostToStoreActivityPasswordReset::class
+            //PostToStoreActivityPasswordReset::class
         ],
 
         // Cart Related Events
-        ItemWasAddedToCart::class => [
-            PostToStoreActivityItemWasAddedToCart::class
-        ],
-        CartItemWasUpdated::class => [
-            PostToStoreActivityCartItemWasUpdated::class
-        ],
-        FailedWritingToDbf::class => [
-            PostToStoreActivityFailedWritingToDbf::class
-        ],
-        NewDbfEntryCreated::class => [
-            PostToStoreActivityNewDbfEntryCreated::class
-        ],
-        ExistingDbfEntryUpdated::class => [
-            PostToStoreActivityExistingDbfEntryUpdated::class
-        ]
+        //ItemWasAddedToCart::class => [
+            //PostToStoreActivityItemWasAddedToCart::class
+       // ],
+        //CartItemWasUpdated::class => [
+            //PostToStoreActivityCartItemWasUpdated::class
+       // ],
+        //FailedWritingToDbf::class => [
+            //PostToStoreActivityFailedWritingToDbf::class
+       // ],
+       // NewDbfEntryCreated::class => [
+            //PostToStoreActivityNewDbfEntryCreated::class
+      //  ],
+      //  ExistingDbfEntryUpdated::class => [
+            //PostToStoreActivityExistingDbfEntryUpdated::class
+       // ]
     ];
 
     /**

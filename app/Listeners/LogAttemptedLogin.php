@@ -27,6 +27,6 @@ class LogAttemptedLogin
      */
     public function handle(\App\Events\GraphQLAuth\GraphQLLoginAttempted $event)
     {
-        Log::channel('events')->info('login attempted with email: ' . $event->credentials["EMAIL"] . ' and password: ' . $event->credentials["password"]);
+        Log::channel('events')->info('login attempted with email: ' . $event->credentials["email"] . ' and password: ' . $event->credentials["password"]);
     }
 }

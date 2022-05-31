@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\User;
 
 class NewDbfEntryCreated implements ShouldBroadcastNow
 {
@@ -46,6 +47,6 @@ class NewDbfEntryCreated implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('store-activity');
+        //return new Channel('store_activity');
     }
 }

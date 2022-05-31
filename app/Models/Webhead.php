@@ -238,9 +238,9 @@ public static function deleteCart($_, $args, $request){
 
       if($run){
           $newcart = static::newCart($user->vendor);
-          $newCart = $newCart->dbfSave();
-          if($newCart){
-            $newCart->save();
+          $newcart = $newcart->dbfSave();
+          if($newcart){
+            $newcart->save();
           }
       }
 

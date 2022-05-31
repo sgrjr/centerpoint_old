@@ -38,13 +38,13 @@ trait AuthenticatesUsersTrait
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function login(Request $request, array $args = [])
+    public function login(Request $request)
     {
         $setup_tests = new \App\Helpers\SetupTests();
-        
+
         if(!$setup_tests->test('OAUTH_CLIENT_EXISTS')->passed){
-            $credentials =  $this->credentials($request);
-            GraphQLUserAuthenticationFailed::dispatch($credentials, "Application is not setup!");
+            
+            GraphQLUserAuthenticationFailed::dispatch($request->all(), "Application is not setup!");
 
                 throw new CustomException(
                     'Cannot authenticate any user.', //message
@@ -52,23 +52,14 @@ trait AuthenticatesUsersTrait
                     'error'//severity
                 );
 
-        } 
-
-        $vars = $request->get('variables');
-        if($vars === null){
-            $vars = [];
         }
+        $all = $request->all();
 
-        if($request->wantsJson() && count($vars) > 0){
-            $query = $request->get('variables');
-            $request->request->add([ $this->username() => $query['email'] ]);
-            $request->request->add(['password' => $query['password']]);
+        if( isset($all['variables']) && isset($all['query']) ){
+            $request->request->add([ 'email' => $all['variables']['email'] ]);
+            $request->request->add(['password' => $all['variables']['password']]);
             $request->request->remove('variables');
-            $request->request->remove('query'); 
-       
-		}else if($request->wantsJson()){
-            $request->request->add([ $this->username() => $args['email']]);
-            $request->request->add(['password' => $args['password']]);
+            $request->request->remove('query');
         }
 
        $this->validateLogin($request);
@@ -93,8 +84,10 @@ trait AuthenticatesUsersTrait
 
     }
 
-    public function adminLogin(Request $request, array $args = [])
+    public function adminLogin(Request $request)
     {
+        $args = $request->all();
+
         if($request->user() && $request->user()->can('LIST_ALL_USERS')){
             $user = User::where('id',base64_decode($args['id']))->first();
             return $user;
@@ -124,7 +117,7 @@ trait AuthenticatesUsersTrait
     protected function validateLogin(Request $request)
     {
         $request->validate([
-           $this->username() => 'required|email|string',
+           'email' => 'required|email|string',
            'password' => 'required|string|min:6'
         ]);
     }
@@ -137,14 +130,13 @@ trait AuthenticatesUsersTrait
      */
     protected function attemptLogin(Request $request)
     {
-
         $valid_user = false;
-        $credentials =  $this->credentials($request);
+        $credentials = $request->all();
 
         GraphQLLoginAttempted::dispatch($this->guard(), $credentials, $request->filled('remember'));
 
         //Retrieve from Mysql Database
-        $users = \App\Models\User::where("EMAIL", $credentials['EMAIL'])->get();      
+        $users = \App\Models\User::where("EMAIL", $credentials['email'])->get();      
         
         foreach($users AS $record){ 
             if(\Hash::check($credentials['password'], $record->UPASS)){
@@ -157,7 +149,7 @@ trait AuthenticatesUsersTrait
 
             if($request->wantsJson()){
                 if(!isset($user)){
-                    $user = \App\Models\User::where('EMAIL', $credentials['EMAIL'])->first();
+                    $user = \App\Models\User::where('EMAIL', $credentials['email'])->first();
 
                 }
                 GraphQLUserAuthenticated::dispatch($user);
@@ -169,18 +161,6 @@ trait AuthenticatesUsersTrait
            
         }
         return false;
-    }
-
-
-    /**
-     * Get the needed authorization credentials from the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    protected function credentials(Request $request)
-    {
-        return $request->only($this->username(), 'password'); 
     }
 
     /**
@@ -217,8 +197,7 @@ trait AuthenticatesUsersTrait
      */
     protected function sendFailedLoginResponse(Request $request)
     {
-        $credentials =  $this->credentials($request);
-        GraphQLUserAuthenticationFailed::dispatch($credentials, "Auth Failed");
+        GraphQLUserAuthenticationFailed::dispatch($request->all(), "Auth Failed");
 
         if($request->has("token")){
             return response()->json(["error"=>"Auth Failed"]);

@@ -27,6 +27,6 @@ class PostToStoreActivityAttemptedLogin
      */
     public function handle(GraphQLLoginAttempted $event)
     {
-        Log::channel('events')->info('User attempting to log in: ' . $event->credentials['EMAIL']);
+        Log::channel('events')->info('User attempting to log in: ' . $event->credentials['email']);
     }
 }

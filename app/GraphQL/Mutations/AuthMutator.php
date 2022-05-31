@@ -1,6 +1,4 @@
-<?php
-
-namespace App\GraphQL\Mutations;
+<?php namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -21,15 +19,21 @@ class AuthMutator
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return $this->login(request(), $args["input"]);
+        return $this->login(
+            request()
+        );
     }
 
     public function logoutUser()
     {
-        return $this->logout(request());
+        return $this->logout(
+            request()
+        );
     }
 
     public function adminLoginUser($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo){
-        return $this->adminLogin(request(), $args["input"]);
+        return $this->adminLogin(
+            request()
+        );
     }
 }

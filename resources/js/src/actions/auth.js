@@ -121,9 +121,9 @@ const auth = {
           const {email, password} = creds
 
           query ={
-            variables:{ input: { email: email, password: password}}, 
-            query: `mutation($input: LoginUserInput!){
-          loginUser(input: $input) {
+            variables:{ email: email, password: password}, 
+            query: `mutation($email: String!, $password: String!){
+          loginUser(input: {email: $email, password: $password}) {
             token
             id
             KEY
