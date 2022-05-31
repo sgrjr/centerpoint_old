@@ -160,7 +160,7 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
             },
             cart: {
                 ...state.cart,
-                selectedCart: action.viewer.vendor.carts.data[0].REMOTEADDR,
+                selectedCart: action.viewer.vendor.carts.data.length > 0? action.viewer.vendor.carts.data[0].REMOTEADDR:false,
                 pending:false
             }
      

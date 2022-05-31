@@ -28,15 +28,24 @@ class PostToStoreActivityFailedLogin
      * @return void
      */
     public function handle(GraphQLUserAuthenticationFailed $event)
-    {
-        $mssg = 'User FAILED to log in: ' . $event->credentials['EMAIL'] . " " . $event->reason;
+    {   
+        $room_name = 'store_activity';
+        $mssg = 'User FAILED to log in: ' . $event->credentials['email'] . " " . $event->reason;
         $user = \App\Models\User::where('id',1)->first();
+        $room = \App\Models\Room::where("name","store_activity")->first();
+
+        if($room === null){
+            $room = new  \App\Models\Room(['name'=> $room_name]);
+            $room->save();
+        }
 
         Log::channel('events')->info($mssg);
+       /*
         $message = $user->messages()->create([
-            'message' => $mssg
+            'message' => $mssg,
+            'room_id' => $room->id
         ]);
-
-        broadcast(new MessageSent($user, $message))->toOthers();
+        */
+        //broadcast(new MessageSent($user, $room, $message))->now();
     }
 }

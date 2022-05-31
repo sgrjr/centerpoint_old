@@ -46,6 +46,6 @@ class ExistingDbfEntryUpdated implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('store-activity');
+        //return new Channel('store_activity');
     }
 }

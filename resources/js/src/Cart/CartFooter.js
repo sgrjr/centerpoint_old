@@ -29,7 +29,19 @@ class CartItem extends React.Component {
     height:"100%",
     color:"inherit"
   } 
+let deleteButton = null
 
+if(props.cart.id){
+  deleteButton = (<Button
+        endIcon={<IconPicker icon="delete" />}
+        onClick={()=>{
+          if(props.cart.id) props.deleteCart({id:props.cart.id})
+        }}
+        color="error"
+        variant="outlined"
+        id="delete-cart"
+      >delete cart</Button>)
+}
   return (
     <footer className={classes.footer}>
 
@@ -43,15 +55,7 @@ class CartItem extends React.Component {
       }
       <Typography className={classes.total}>Cart total: <strong>${props.price.toFixed(2)}</strong></Typography>
       
-      <Button
-        endIcon={<IconPicker icon="delete" />}
-        onClick={()=>{
-          props.deleteCart({id:props.cart.id})
-        }}
-        color="error"
-        variant="outlined"
-        id="delete-cart"
-      >delete cart</Button>
+      {deleteButton}
 
       <Typography className={classes.incentive}>{incentiveText(props.quantity, 5, props.tradeTitleShipping)}</Typography>
       
