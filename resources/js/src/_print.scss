@@ -1,0 +1,14 @@
+@media print { 
+  
+  .noPrint, 
+  footer.main-footer, 
+  .main-navigation,
+  .get-marc-button,
+  .dashboard .dashboard-drawer
+  { display: none !important; }
+
+  html, body {
+    margin:0;
+    padding:0;
+  }
+}

@@ -1,0 +1,72 @@
+button {
+	font-family:inherit;
+	padding:10px;
+    margin:0;
+    border-radius:0;
+    font-size:1em;
+    text-align:center;
+    vertical-align:middle;
+    color:$white;
+    border: solid 1px $gray;
+    background-color:$gray;
+}
+
+button svg {
+	margin:0;
+}
+
+//default button styles
+button.default-contained:hover{
+	color:$white;
+	background:$blue;
+	border:$blue;
+}
+
+button.default-outlined:hover{
+	color:$gray;
+	background:$white;
+	border:soldi 1px $gray;
+}
+
+//error button styles
+button.error-contained {
+	color:$white;
+	border-color:$white;
+	background:$red;
+}
+
+button.error-contained:hover {
+	color:$red;
+	border-color:$red;
+	background:$white;
+}
+
+button.error-outlined {
+	color:$red;
+	border-color:$red;
+	background:$white;
+}
+
+button.error-outlined:hover {
+	color:$white;
+	border-color:$white;
+	background:$red;
+}
+
+//primary button styles
+
+button.primary-contained {
+	background: $blue;
+    color:$white;
+    border-color:$blue;
+}
+
+button:disabled {
+	outline:inherit;
+	cursor:no-drop;
+	border:none;
+}
+
+button.min {
+	.text {display:none;}
+}

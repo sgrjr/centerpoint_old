@@ -1,0 +1,46 @@
+.titles {
+
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: $standard_margin;
+  text-align: left;
+
+  .titles-list-root {
+    flex-wrap: nowrap;
+    background-color:#008afc;
+    color:white;
+    padding: 1.5rem;
+
+    .view-more-button button {
+        color: black;
+        border: solid 5px white;
+        height: 290px;
+        font-weight: 900;
+        margin-top: 20px;
+        font-size:2rem;
+    }
+
+    .view-more-button button:hover {
+        color: black;
+        border-color: black;
+    }
+
+    .view-more-button button:active {
+      background-color: $white;
+    }
+
+  }
+
+  .titles-list-root-scroll {
+    color: black;
+    flex-wrap: wrap;
+    overflow-y: visible;
+    background-color: $white;
+
+    .view-more-button {
+      display: none;
+    }
+  }
+
+}

@@ -1,0 +1,260 @@
+html {
+  position: relative;
+  min-height: 100%;
+  --dark-blue:#0066ff;
+  --medium-blue: #0584F2;
+  --LIGHT-BLUE: #0AAFF1;
+  --YELLOW: #EDF259;
+  --BROWN:#A79674;
+}
+
+body {
+  font-family: serif;
+}
+
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+a {
+  color: #0444BF;
+}
+
+a:hover {
+  color: #A79674;
+}
+
+
+.pagination li {
+	margin:15px;
+}
+
+
+.alert {
+  z-index:10;
+}
+
+/* Shopping Cart Form
+*/
+
+.table>tbody>tr>td, .table>tfoot>tr>td{
+    vertical-align: middle;
+}
+
+  .cover-art {
+    height:100px;
+    margin-left:15px;
+    margin-right:15px;
+  }
+
+@media screen and (max-width: 600px) {
+    table#cart tbody td .form-control{
+    width:20%;
+    display: inline !important;
+  }
+  .actions .btn{
+    width:36%;
+    margin:1.5em 0;
+  }
+  
+  .actions .btn-info{
+    float:left;
+  }
+  .actions .btn-danger{
+    float:right;
+  }
+  
+  table#cart thead { display: none; }
+  table#cart tbody td { display: block; padding: .6rem; min-width:320px;}
+  table#cart tbody tr td:first-child { background: #333; color: #fff; }
+  table#cart tbody td:before {
+    content: attr(data-th); font-weight: bold;
+    display: inline-block; width: 8rem;
+  }
+  
+  table#cart tfoot td{display:block; }
+  table#cart tfoot td .btn{display:block;}
+  
+}
+
+table#dbf-tables {
+	width:100%;
+}
+
+table#dbf-tables td, table#dbf-tables th{
+	border:solid 1px gray;
+}
+
+table.borders {
+    width:100%;
+}
+
+table.borders td,  table.borders th{
+    border:solid 1px gray;
+}
+
+.greenrow {
+	border-bottom:solid 1px gray;
+	color:green;
+}
+.redrow {
+	border-bottom:solid 1px gray;
+	color:red;
+}
+
+.showcase {
+  height:400px;
+  width:100%;
+  clear:both;
+  margin:0;
+  margin-top:30px;
+  padding:15px;
+  background-color:#252420;
+  color:#ffffff80;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+
+}
+
+.showcase > section {
+  background:transparent;
+  margin: 10px;
+  padding: 20px;
+  font-size: 30px;
+      flex-grow: 1;
+   flex-basis: 80px; /*set the initial length*/
+}
+
+.showcase section h1 {
+  color:#504f4b;
+  text-decoration:underline;
+}
+
+.showcase section h2 {
+  color:#504f4b;
+}
+
+.showcase p {
+   font-size: 16px;
+   line-height:32px;
+   
+}
+
+.showcase section > img {
+  width:150px;
+  float:left;
+  margin: 15px;
+}
+
+.showcase section:nth-child(2) {
+    border-left: solid 1px #504f4b;;
+}
+
+.dark {
+  background-color:#0000008c;
+  color:white;
+}
+
+img:before {
+    content: ' ';
+    display: block;
+    height: 230px;
+    width: 150px;
+    background-image: url(/img/no-image.png);
+    box-shadow: none;
+    border:none;
+}
+
+#qty {
+  text-align: center;
+}
+
+form#simple-add-to-cart {
+border : 1px solid rgba(0,0,0,.1);
+padding : 5px;
+}
+
+form#simple-add-to-cart input[type=submit]{
+  display:block;
+  width:100%;
+  background-image: linear-gradient(white, #17a2b8);
+}
+
+form#simple-add-to-cart input[type=submit]:hover{
+  background-image: linear-gradient(white, white);
+}
+
+form#simple-add-to-cart input[type=submit]:active{
+  background-image: linear-gradient(#17a2b8, #17a2b8);
+}
+
+h1.space {
+  margin-top:50px;
+}
+
+/** LAYOUT GRID **/
+.grid-container {
+  display: grid;
+
+  grid-template-areas:
+    "header header header"
+    "nav content side"
+    "footer footer footer";
+
+  grid-template-columns: 200px 1fr 200px;
+  grid-template-rows: auto 1fr auto;
+  grid-gap: 10px;
+
+  height: 100%;
+}
+
+header {
+  grid-area: header;
+}
+
+nav {
+  grid-area: nav;
+  margin-left: 0.5rem;
+}
+
+main {
+  grid-area: content;
+}
+
+aside {
+  grid-area: side;
+  margin-right: 0.5rem;
+}
+
+footer {
+  grid-area: footer;
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-areas:
+      "header"
+      "nav"
+      "content"
+      "side"
+      "footer";
+
+    grid-template-columns: 1fr;
+    grid-template-rows:
+      auto /* Header */
+      minmax(75px, auto) /* Nav */
+      1fr /* Content */
+      minmax(75px, auto) /* Sidebar */
+      auto; /* Footer */
+  }
+
+  nav, aside {
+    margin: 0;
+  }
+}
+/** LAYOUT GRID END**/
+
+body#app .container-scroller {display:none;}
