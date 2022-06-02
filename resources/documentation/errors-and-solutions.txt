@@ -1,9 +1,0 @@
-## Error: Call to undefined function Illuminate\Encryption\openssl_cipher_iv_length()
-
-### Solution: 
-
-This is a a php extension problem. Make sure openssl extension is enabled and restart the pc if necessary.
-
-## Errors After Changing/Updating PHP 
-
-### delete vendor directory and composer install
