@@ -1,0 +1,89 @@
+.search {
+display: flex;
+align-items: center;
+flex-direction: column;
+flex-wrap:nowrap;
+}
+
+.search form .inner-form {
+  display: -ms-flexbox;
+  display: flex;
+  align-items: center;
+}
+
+.search form .inner-form .input-field input {
+  border:none;
+  text-align:center;
+  background:transparent;
+}
+/*
+Change value of following line-height to change search bar height
+*/
+.search form .inner-form .input-field.first-wrap, .search form .inner-form .input-field.second-wrap, .search form .inner-form .input-field.third-wrap, 
+.search form .inner-form .choices[data-type*="select-one"] .choices__inner .choices__placeholder {
+   line-height:40px;
+}
+
+.search form .inner-form .input-field.first-wrap, .search form .inner-form .input-field.second-wrap, .search form .inner-form .input-field.third-wrap {
+ 
+  border: 1px solid #e5e5e5;
+  text-align:center;
+  background:transparent;
+}
+
+.search form .inner-form .input-field.first-wrap {
+      border-top-left-radius:20px;
+      border-bottom-left-radius:20px; 
+}
+
+.search form .inner-form .input-field.second-wrap {
+  min-width: 150px;
+  border-left:none;
+  border-right:none;
+}
+
+.search form .inner-form .input-field.third-wrap {
+  border-top-right-radius:20px;
+  border-bottom-right-radius:20px;
+  line-height: 38px;
+}
+
+.search form .inner-form .input-field.first-wrap input {
+  border:none;
+}
+
+.search form .inner-form .input-field.third-wrap .btn-search {
+  width: 100%;
+  white-space: nowrap;
+  position: relative;
+  background: transparent;
+  border:none;
+}
+
+.search form .inner-form .input-field.third-wrap:hover {
+ background-color:#0AAFF1;;
+}
+
+.search form .inner-form .choices[data-type*="select-one"] .choices__inner {
+  padding-bottom: 0;
+}
+
+.search form .inner-form .choices[data-type*="select-one"]:after {
+  border: 0;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  transform: translateY(-50%);
+  opacity: 1;
+  right: 15px;
+  top: 50%;
+  background-size: 18px 18px;
+  background-position: right center;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg fill='%23999' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3e%3cpath d='M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+}
+
+.search input {
+  height:100%;
+}
+
