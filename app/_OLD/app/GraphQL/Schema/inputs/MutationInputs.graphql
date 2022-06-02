@@ -1,0 +1,134 @@
+input CreateUserInput {
+    name: String
+    EMAIL: String! @rules(apply: ["required", "email", "unique:users,email"])
+    UPASS: String! @rules(apply: ["required", "min:6"])
+}
+
+input UpdateUserInput {
+    id: ID! @rules(apply: ["required"])
+    EMAIL: String @rules(apply: ["email"])
+    UPASS: String @rules(apply: ["min:6"])
+    MPASS: String
+    UNAME: String
+    SNAME: String
+    PIC: Upload @rules(apply: ["image"])
+    COMPANY: String
+    SEX: String
+    FIRST: String
+    MIDNAME: String
+    LAST: String
+    ARTICLE: String
+    TITLE: String
+    ORGNAME: String
+    STREET: String
+    SECONDARY: String
+    CITY: String
+    CARTICLE: String
+    STATE: String
+    COUNTRY: String
+    POSTCODE: String
+    VOICEPHONE: String
+    EXTENSION: String
+    FAXPHONE: String
+    COMMCODE: String
+    MDEPT: String
+    MFNAME: String
+    SENDEMCONF: Boolean
+    SEARCHBY: String
+    MULTIBUY: Boolean
+    SORTBY: String
+    FULLVIEW: Boolean
+    SKIPBOUGHT: Boolean
+    OUTOFPRINT: Boolean
+    NOEMAILS: Boolean
+    ADVERTISE: Boolean
+}
+
+input DeleteUserInput {
+    id: ID! @rules(apply: ["required"])
+}
+
+input LogoutUserInput {
+    id: ID! @rules(apply: ["required"])
+}
+
+# Comback and verify event is firing and cart is created
+input LoginUserInput {
+    email: String! @rules(apply: ["required", "string", "max:255"])
+    password: String! @rules(apply: ["required", "string", "max:255"])
+}
+
+input AdminLoginUserInput {
+    id: String!
+}
+
+input UpdateCartTitleInput{
+    id: ID
+    INDEX: String
+    KEY: String
+    TRANSNO: String
+    REQUESTED: Int
+    PROD_NO: String
+    PUBDATE: String
+    AUTHOR: String
+    TITLE: String
+    INVNATURE: String
+    SERIES: String
+    DATE: String
+    SOPLAN: String
+    REMOTEADDR: String
+    ORDEREDBY: String
+    LISTPRICE: String
+    SALEPRICE: String
+    STATUS: String
+    ISBN10: String
+    ISBN13: String
+    STATUS: String
+}
+
+input DeleteCartTitleInput {
+    REMOTEADDR: String!
+    ISBN: String!
+}
+
+input CreateCartInput {
+    PO_NUMBER: String
+}
+
+input DeleteCartInput {
+    REMOTEADDR: String!
+}
+
+input UpdateCartInput {
+    id: Int
+    INDEX: Int
+    REMOTEADDR: String
+    BILL_1: String
+    BILL_2: String
+    BILL_3: String
+    BILL_4: String 
+    BILL_5: String 
+    ATTENTION: String
+    COMPANY: String
+    STREET: String
+    ROOM: String
+    DEPT: String
+    CITY: String
+    STATE: String
+    POSTCODE: String
+    COUNTRY: String
+    VOICEPHONE: String
+    FAXPHONE: String
+    EMAIL: String
+    SENDEMCONF: Boolean
+    PO_NUMBER: String
+    CINOTE: String
+    CXNOTE: String
+    ISCOMPLETE: Int
+    PSHIP: Int
+    PIPACK: Int
+    PEPACK: Int
+    TRANSNO: String
+    DATE: String
+    KEY: String
+}

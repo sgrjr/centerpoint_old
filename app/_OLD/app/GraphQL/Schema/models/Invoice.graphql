@@ -1,0 +1,19 @@
+type Invoice {
+    id: String
+    title: String
+    dates: [String]
+    headings: [String]
+    totaling: InvoiceTotaling
+    company_logo: String
+    company_website: String
+    company_name: String
+    company_address: String
+    company_telephone: String
+    company_email: String
+    customer_name: String
+    customer_address: String
+    customer_email: String
+    thanks: String
+    invoice_memo: String
+    footer_memo: String
+}
