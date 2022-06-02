@@ -1,7 +1,0 @@
-type Marc {
-    view: String
-    download: String
-    zip: String
-    isbns:[String]
-    user: String
-}
