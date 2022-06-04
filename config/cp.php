@@ -12,6 +12,7 @@ return [
     "dbfrootpathr" => env("DBF_ROOT_PATH_R"),
     "promotionspath" => env("PROMOTIONS_PATH"),
     "GRAPHQL_URL"=> env("GRAPHQL_URL","/graphql"),
+    "artisan_secret"=>env("ARTISAN_SECRET"),
     "files" => [
       "vendor"=> env("DBF_ROOT_PATH_RW") . "/VENDOR.DBF",
       "inventory"=> env("DBF_ROOT_PATH_RW") . "/invent.DBF",

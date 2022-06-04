@@ -1,0 +1,33 @@
+footer.main-footer {
+    background-color:$blue;
+    color:white;
+    font-size:1.25rem;
+    padding-left:30%;
+    margin-top:60px;
+
+    a, a:visited {
+        color:white;
+        padding:10px;
+    }
+
+    a::before {
+        content: url(/img/right-arrow.svg)
+    }
+    a:hover{
+        text-decoration:underline;
+    }
+
+    section {
+        display:flex;
+    }
+
+    ul {
+        list-style:none;
+    }
+}
+
+@media(max-width:1199px){
+    footer.main-footer{
+        padding-left:15px;
+    }
+}

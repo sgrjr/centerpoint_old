@@ -9,7 +9,7 @@ class DatabaseRebuild extends Command
      *
      * @var string
      */
-    protected $signature = 'db:rebuild {shouldSeed?} {table?}';
+    protected $signature = 'database:rebuild {shouldSeed?} {table?}';
 
     /**
      * The console command description.

@@ -1,6 +1,6 @@
 const mix = require('laravel-mix');
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -16,7 +16,6 @@ mix
 .webpackConfig({
 
  stats:'detailed',
-   plugins: [new MiniCssExtractPlugin({filename:"style.css",chunkFilename:"[name].css"})],
    devServer: {
       historyApiFallback: true
     },
@@ -26,7 +25,7 @@ mix
                 test: /\.scss$/,
                 loader: "sass-loader",
                 options: {
-                    additionalData: '@import "resources/scss/variables.scss";'
+                    additionalData: '@import "resources/scss/_variables.scss";'
                 }
             },
                      {
@@ -38,29 +37,24 @@ mix
          {
             test: /\.html$/,
             use: "html-loader"
-         },
-         {
-           test: /\.(sa|sc|c)ss$/,
-           use: [
-             MiniCssExtractPlugin.loader,
-             // Translates CSS into CommonJS
-             "css-loader",
-             // Compiles Sass to CSS
-             "sass-loader",
-           ],
-         },
+         }
         ]
     }
 })
-.js('resources/js/app.js', 'public/js')
-.js('resources/js/first/first.js', 'public/js')
-.sourceMaps(true, 'source-map')
 .react()
-.vue(3)
-.sass('resources/scss/app.scss', 'public/css')
+.js('resources/js/app.js', 'public/js')
+.sourceMaps(true, 'source-map')
+
 .options({
     processCssUrls: false,
-    stats: { colors: true, modules: true, reasons: true, errorDetails: true, children:true }
+    stats: { 
+        colors: true, 
+        modules: true, 
+        reasons: true, 
+        errorDetails: true, 
+        children:true 
+    }
 })
+.sass('resources/scss/app.scss', 'public/css')
 .version()
 ;

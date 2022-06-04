@@ -1,3 +1,3 @@
 cd ..
-php artisan db:rebuild seed inventories
+php artisan database:rebuild seed inventories
 pause

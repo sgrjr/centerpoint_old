@@ -1,3 +1,3 @@
 cd ..
-php artisan db:giverole 9 1
+php artisan database:giverole 9 1
 pause

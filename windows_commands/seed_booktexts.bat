@@ -1,3 +1,3 @@
 cd ..
-php artisan db:seed false booktexts
+php artisan database:seed false booktexts
 pause

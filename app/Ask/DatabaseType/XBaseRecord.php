@@ -338,6 +338,13 @@ class XBaseRecord {
      }
 
      function save(){
+        $this->
+        $this->table->save($this->getData());
+        return $this;
+     }
+
+    function delete(){
+        $this->setDeleted(true);
         $this->table->save($this->getData());
         return $this;
      }

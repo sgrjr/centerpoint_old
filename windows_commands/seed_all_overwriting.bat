@@ -1,3 +1,3 @@
 cd ..
-php artisan db:seed true
+php artisan database:seed true
 pause

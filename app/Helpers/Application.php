@@ -22,7 +22,7 @@ class Application {
 
   }
 
-	public static function props($user = false){
+	public static function props($user = null){
 
 		return [
 			"browse" => static::browse(),
@@ -265,10 +265,9 @@ class Application {
         $links->main->push(["url"=>"/", "text"=> 'Home',"icon"=>"home"]);
         $links->drawer->push([ "url"=>"/promotions", "text"=> 'Catalogues, Flyers',"icon"=>"paw"]);
 
-        if(!$user){
+        if(!$user || $user === null){
           $links->drawer->push([ "url"=>"/login", "text"=> 'Login',"icon"=>"lockOpen"]);
           $links->main->push([ "url"=>"/login", "text"=> 'Login',"icon"=>"lockOpen"]);
-
           return $links;
         }
 

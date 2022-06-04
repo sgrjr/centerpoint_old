@@ -1,0 +1,25 @@
+type ErrorMessage {
+ message: String
+ severity: String
+ debugMessage: DebugMessage
+ field: String
+ extensions:ErrorMessageExtension
+}
+
+type DebugMessage {
+    id: String
+    message: String
+}
+
+type ErrorMessageExtension {
+    category: String
+    validation: ExtensionItems
+    messages: ExtensionItems
+}
+
+type ExtensionItems {
+    EMAIL: [String]
+    password: [String]
+    email: [String]
+    PASSWORD: [String]
+}

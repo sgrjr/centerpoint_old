@@ -1,0 +1,135 @@
+import React from 'react'
+import Button from '../components/Button'
+import BillingInfo from './BillingInfo'
+import ShippingInfo from './ShippingInfo'
+import Divider from '@material-ui/core/Divider'
+import IconPicker from '../components/IconPicker'
+import { Accordion } from '@material-ui/core'
+import AccordionDetails from '@material-ui/core/AccordionActions'
+import AccordionActions from '@material-ui/core/AccordionActions'
+import AccordionSummary from '@material-ui/core/AccordionSummary'
+import Typography from '@material-ui/core/Typography'
+import Cart from '../Cart/Cart'
+
+function Checkout(props) {
+  const [expanded, setExpanded] = React.useState('panel1')
+  
+  const handleChange = panel => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false)
+  }
+  const handleClick = panel => {
+    setExpanded(panel)
+  }
+
+  if(!props.data || !props.data.invoice || props.data.items.length < 1){
+    return <p>This cart is not ready to be checked out. Please add more items.</p>
+  }
+  return (
+    <>
+      <Typography variant="h2">{props.data.invoice.title}</Typography>
+      
+      {/*REVIEW ITEMS*/}
+      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+        <AccordionSummary 
+          expandIcon={<IconPicker icon="expand" />}
+          aria-controls="panel1a-content"
+          id="step-1-header"
+        >
+          <Typography><strong>Step 1:</strong> Review Items in Cart</Typography>
+        </AccordionSummary >
+        <AccordionDetails>
+          <Cart cartId={props.params.cartid} review={true}/>
+        </AccordionDetails>
+        <Divider />
+        <AccordionActions>
+          <Button
+            variant="contained"
+            color="primary"
+            endIcon={<IconPicker icon="navigateNext"/>}
+            onClick={()=> handleClick('panel2')}
+          >
+            next
+          </Button>
+        </AccordionActions>
+      </Accordion>
+      
+      {/*REVIEW SHIPPING*/}
+      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+        <AccordionSummary 
+          expandIcon={<IconPicker icon="expand" />}
+          aria-controls="panel1a-content"
+          id="step-2-header"
+        >
+          <Typography><strong>Step 2:</strong> Review Shipping Information</Typography>
+        </AccordionSummary >
+        <AccordionDetails>
+          {/*<select>
+            {props.addresses.map((add, index)=>{
+              return <option key={index} val={index}>{JSON.stringify(add)}</option>
+            })}
+          </select>*/}
+          <ShippingInfo {...props}/>
+        </AccordionDetails>
+        <Divider />
+        <AccordionActions className={"checkout-footer"}>
+          <Button
+            startIcon={<IconPicker icon="navigateBefore"/>}
+            onClick={()=> handleClick('panel1')}
+          >
+           back
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            endIcon={<IconPicker icon="navigateNext"/>}
+            onClick={()=> { handleClick('panel3')}}
+          >
+            next
+          </Button>
+        </AccordionActions>
+      </Accordion>
+
+       {/*REVIEW BILLING*/}
+      <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+        <AccordionSummary 
+          expandIcon={<IconPicker icon="expand" />}
+          aria-controls="panel1a-content"
+          id="step-2-header"
+        >
+          <Typography><strong>Step 3:</strong> Review Billing Information</Typography>
+        </AccordionSummary >
+        <AccordionDetails>
+          {/*<select>
+            {props.addresses.map((add, index)=>{
+              return <option key={index} val={index}>{JSON.stringify(add)}</option>
+            })}
+          </select>*/}
+          <BillingInfo {...props}/>
+        </AccordionDetails>
+        <Divider />
+        <AccordionActions className={"checkout-footer"}>
+          <Button
+            startIcon={<IconPicker icon="navigateBefore"/>}
+            onClick={()=> handleClick('panel2')}
+          >
+            back
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={()=> {
+              props.setIsCompleted(props.data)
+              props.requestUpdatedInvoice()
+              props.navigate('/dashboard/invoice/'+props.data.REMOTEADDR)
+            }}
+            endIcon={<IconPicker icon="send" />}
+          >
+            submit &nbsp;
+          </Button>
+        </AccordionActions>
+      </Accordion>
+    </>
+  )
+}
+
+export default Checkout

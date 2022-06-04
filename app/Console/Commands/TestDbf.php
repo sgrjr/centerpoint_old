@@ -12,7 +12,7 @@ class TestDbf extends Command
      *
      * @var string
      */
-    protected $signature = 'test:dbf';
+    protected $signature = 'test:dbf {name?}';
 
     /**
      * The console command description.
@@ -38,8 +38,17 @@ class TestDbf extends Command
      */
     public function handle()
     {
+
+        if($this->argument('name')){
+            $name = ucfirst(strtolower($this->argument('name')));
+            $class = "\\App\\Models\\".$name;
+        }else{
+            $class = \App\Models\Webdetail::class;
+        }
+
         $output = new ConsoleOutput();
-        $table = (new \App\Models\Webdetail)->xTable();
+        $model = new $class;
+        $table = $model->xTable();
 
         $table->open();
         $output->writeln($table->name);
@@ -50,27 +59,44 @@ class TestDbf extends Command
             $output->write($column . " ");
         }
 
-        $record = ["INDEX"=>1341,"DATE"=> "20220401", "REQUESTED"=>43, "REMOTEADDR"=>77777, "DELETED"=> false, "ADDDD"=>7];
+        $record = [];
+        $record[$model->getKeyName()] = 9999990099;
 
-        $table->save($record);
+        $newRecord = $table->save($record);
 
         $output->writeln('current record: '.$table->getRecord()->json());
 
         $counter = 0;
+        $counterNotDeleted = 0;
         while($record = $table->nextRecord()){
-            //$output->writeln($record->getData()["TITLE"]);
             $counter++;
+            if(!$record->isDeleted()) $counterNotDeleted++;
         }
       
-        $output->writeln("\nI counted " . $counter . " of " . $table->count() . " records.");
+        $output->writeln("\nI counted " . $counter . " of " . $table->count() . " records. NOT DELETED RECORDS TOTAL: " . $counterNotDeleted);
 
-        $table->moveTo(1335);
-        $output->writeln($table->record->getData()["TITLE"]);
+        $table->moveTo(1);
+        $output->writeln(json_encode($table->record->getData()));
 
         $output->writeln("header length: ".$table->getHeader()->headerLength);
 
          /* xml output */
         file_put_contents("test_dbf.html", $table->toHTML(1000));
+
+        /* NOW REMOVE NEWLY CREATED ENTRY and RECOUNT */
+         $table->moveTo($newRecord['INDEX']);
+         $table->getRecord()->delete();
+
+         $table->moveTo(-1);
+
+        $counter = 0;
+        $counterNotDeleted = 0;
+        while($record = $table->nextRecord()){
+            $counter++;
+             if(!$record->isDeleted()) $counterNotDeleted++;
+        }
+
+        $output->writeln("\nI counted " . $counter . " of " . $table->count() . " records. NOT DELETED RECORDS TOTAL: " . $counterNotDeleted);
 
         $table->close();
          

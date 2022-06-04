@@ -1,0 +1,38 @@
+type Query {
+    viewer: User @auth
+    viewerOld: Viewer @field(resolver:"\\App\\Models\\User@viewer")
+
+    users(filter: UserFilter): [User!]!  @userCan(ability: "LIST_ALL_USERS", model: "App\\Models\\User") @paginate(defaultCount: 15, model:"App\\Models\\User")
+
+    user(id: String): User @field(resolver:"\\App\\Models\\User@findByHash")
+
+    titles(filter: TitleFilter @scope(name:"customer")): [Title!]! @paginate( model:"App\\Models\\Inventory")
+    lists(name:String, first:Int, page: Int): [Title!]! @paginate( builder:"App\\Models\\Inventory@titlesLists")
+
+    title(filter: TitleFilter): Title @first(model:"App\\Models\\Inventory")
+
+    # Upcoming Titles
+    cpTitles: [Title] @paginate(builder:"\\App\\Models\\Inventory@getCPTitles")
+
+    # Trade Titles
+    tradeTitles: [Title] @paginate(builder:"\\App\\Models\\Inventory@getTradeTitles")
+    
+    # Advanced Titles
+    advancedTitles: [Title] @paginate(builder:"\\App\\Models\\Inventory@getAdvancedTitles")
+
+    carts(filter: CartsFilter, perPage:Int, first:Int @scope(name:"notDeleted")): [Order] @paginate(model:"\\App\\Models\\Webhead")
+}
+
+#import ./Admin.graphql
+
+#import ./scalars.graphql
+
+#import ./Application.graphql
+
+#import ./inputs/*.graphql
+
+#import ./models/*.graphql
+
+#import ./mutations/*.graphql
+
+#dontimport ./sanctum.graphql

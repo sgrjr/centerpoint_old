@@ -1,3 +1,3 @@
 cd ..
-php artisan serve
+php artisan serve --port=5000
 pause

@@ -1,3 +1,3 @@
 cd ..
-php artisan db:rebuild seed booktexts
+php artisan database:rebuild seed booktexts
 pause

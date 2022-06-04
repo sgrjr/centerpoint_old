@@ -1,3 +1,3 @@
 cd ..
-php artisan db:seed false broheads
+php artisan database:seed false broheads
 pause

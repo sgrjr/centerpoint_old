@@ -15,14 +15,15 @@ use App\Models\Traits\ManageTableTrait;
 use App\Models\Traits\PresentableTrait;
 use App\Models\Traits\DbfTableTrait;
 use App\Models\Traits\GetsPermissionTrait;
+use App\Models\Traits\GraphQLLoginTrait;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class User extends Authenticatable implements \App\Models\Interfaces\ModelInterface, \Illuminate\Contracts\Auth\CanResetPassword {
 
   
-  use AskTrait, ManageTableTrait, ModelTrait, PresentableTrait, CanResetPassword, DbfTableTrait, HasApiTokens, GetsPermissionTrait;
+  use GraphQLLoginTrait, AskTrait, ManageTableTrait, ModelTrait, PresentableTrait, CanResetPassword, DbfTableTrait, HasApiTokens, GetsPermissionTrait;
 
-    protected $fillable = ['remember_token', 'KEY', 'UPASS','user_pass_unsafe', 'MPASS', 'UNAME', 'SNAME', 'EMAIL', 'PIC', 'COMPANY', 'SEX', 'FIRST', 'MIDNAME', 'LAST', 'ARTICLE', 'TITLE', 'ORGNAME', 'STREET', 'SECONDARY', 'CITY', 'CARTICLE', 'STATE', 'COUNTRY', 'POSTCODE', 'NATURE', 'VOICEPHONE', 'EXTENSION', 'FAXPHONE', 'COMMCODE', 'CANBILL', 'TAXEXEMPT', 'SENDEMCONF', 'INDEX', 'DELETED', 'created_at', 'updated_at'];
+    protected $fillable = ['remember_token', 'KEY', 'UPASS','user_pass_unsafe', 'MPASS', 'UNAME', 'SNAME', 'EMAIL', 'PIC', 'COMPANY', 'SEX', 'FIRST', 'MIDNAME', 'LAST', 'ARTICLE', 'TITLE', 'ORGNAME', 'STREET', 'SECONDARY', 'CITY', 'CARTICLE', 'STATE', 'COUNTRY', 'POSTCODE', 'NATURE', 'VOICEPHONE', 'EXTENSION', 'FAXPHONE', 'COMMCODE', 'CANBILL', 'TAXEXEMPT', 'SENDEMCONF', 'INDEX', 'DELETED', 'created_at', 'updated_at','token'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -262,9 +263,9 @@ public function getMemo(){
        return $this->UPASS;
     }
 
-
-    public function getTokenAttribute(){
-      return $this->createToken("authToken")->accessToken;
+    public function generateToken($abilities=['*']){
+      $token = $this->createToken("authToken", $abilities);
+      return $token;
     }
 
       public function getRemoteAddr(){
@@ -446,5 +447,21 @@ public function getMemo(){
     $checked = $user->vendor->webdetailsOrders->where('REMOTEADDR',$input["REMOTEADDR"])->where("PROD_NO",$input["PROD_NO"])->first();
     return $checked->id;
   }
+
+  public static function viewer(){
+
+    $token = str_replace("Bearer ","", request()->header('Authorization'));
+
+      if($token != null){
+        $tokenFound = \App\Models\PersonalAccessToken::findToken($token);
+        if($tokenFound){
+         //auth()->login($tokenFound->tokenable);
+          return new \App\Helpers\Viewer($tokenFound->tokenable);
+        }
+      }
+
+      return new \App\Helpers\Viewer();
     
+}
+
 }

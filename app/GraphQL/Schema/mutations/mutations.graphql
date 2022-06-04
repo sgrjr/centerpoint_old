@@ -1,0 +1,21 @@
+type Mutation {
+
+    createUser(input: CreateUserInput!): User @create
+    updateUser(input: UpdateUserInput!): User @update
+    deleteUser(input: UpdateUserInput!): User @delete
+    
+    userProfilePhoto(profilePicture: Upload!): User @field(resolver: "App\\Models\\User@updateProfilePhoto")
+
+    loginUser(input: LoginUserInput!): UserLogin @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator")
+    adminLoginUser(input: AdminLoginUserInput!): User @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@adminLoginUser")
+
+    logoutUser: Application @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@logoutUser")
+    
+    updateOrCreateCart(input: UpdateCartInput!): User @field(resolver: "App\\Models\\Webhead@dbfUpdateOrCreate")
+    deleteCart(id: ID, REMOTEADDR: String): User @field(resolver: "App\\Models\\Webhead@deleteCart")
+
+    updateOrCreateCartTitle(input: UpdateCartTitleInput!): User @field(resolver: "App\\Models\\Webdetail@dbfUpdateOrCreate")
+    deleteCartTitle(id: Int!): User @field(resolver: "App\\Models\\Webdetail@deleteMyTitleFromCart")
+
+    getMarcs(isbns: [String]!, text: Boolean): Marc @field(resolver: "App\\Models\\Inventory@getMarcs")
+}

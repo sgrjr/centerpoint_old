@@ -12,7 +12,7 @@ class DatabaseSeed extends Command
      *
      * @var string
      */
-    protected $signature = 'db:seed {overwrite?} {table?}';
+    protected $signature = 'database:seed {overwrite?} {table?}';
 
     /**
      * The console command description.
