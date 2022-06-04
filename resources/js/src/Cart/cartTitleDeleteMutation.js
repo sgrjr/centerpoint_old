@@ -1,31 +1,18 @@
+import q from '../reducers/queries'
+
 export default (variables) => {
 
+if(!variables.cartsLimit) {variables['cartsLimit'] = 100}
+
   return {
-    query:`  mutation ($id:Int!){
+    query:q.fragments([ 'order','orderItem'],`  mutation ($id:Int!, $cartsLimit:Int!){
       deleteCartTitle(id: $id){
                       vendor {
-                        carts (first:12){
+                        carts (first:$cartsLimit){
                          data{
-                          id
-                           INDEX
-                            KEY
-                            DATE
-                            PO_NUMBER
-                            TRANSNO
-                            REMOTEADDR
-                            ISCOMPLETE
+                          ...OrderFragment
                             items{
-                              id
-                              INDEX
-                              PROD_NO
-                              TITLE
-                              REQUESTED
-                              SALEPRICE
-                              coverArt
-                              AUTHOR
-                              AUTHORKEY
-                              url
-                              INVNATURE
+                             ...OrderItemFragment
                             }
                          }
                         }
@@ -33,7 +20,7 @@ export default (variables) => {
                     
                   }
             }  
-          `, 
+          `), 
     variables: variables
   }
   

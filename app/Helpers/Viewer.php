@@ -10,43 +10,22 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use \App\Models\StandingOrder;
 
 class Viewer {
+    
+    public $props;
 
-    public $me;
-    public $titles;
-    public $title;
-    public $cpTitles;
-    public $tradeTitles;
-    public $advancedTitles;
-
-
-    public function __construct(\App\Models\User $me)
-    {
-        $this->me = $me;
-    }
-
-    public function getMe(){
-        return $this->me;
-    }
-
-    private function init($rootValue, $args, $context, $resolveInfo){
-        $this->root = $rootValue;
-        $this->args = $args;
-        $this->context = $context;
-        $this->resolveInfo = $resolveInfo;
-        //$this->authenticated = true;
-        $this->props = ['authenticated' => false];
-        return $this;
+    public function __construct($user = null)
+    { 
+        $this->props = [];
+        $this->me = $user;
     }
 
     private function getProps(){
-      return $this->props;
+        return $this->props;
     }
 
-    public function setTokenFromRequest(){
-        $auth = \Request::bearerToken();
-        $this->attributes['token'] = $auth;
-        return $this;
-	}
+    public function getApplication(){
+        return \App\Helpers\Application::props($this->user);
+    }
 
     private function initArgs($args, $token)
     {
@@ -72,14 +51,9 @@ class Viewer {
     }
 
     private function getAuthenticated(){
-        return ViewerAuth::isAuthenticated();
+        if(!$this->props['authenticated']){$this->props['authenticated'] = $this->me !== null && $this->me != false;}
+        return $this->props['authenticated'];
 	}
-
-    private function initUser()
-    {
-        $this->attributes['user'] = ViewerAuth::getUser();
-        return $this;
-    }
 
     private function getToken(){
         return $this->attributes["token"];
@@ -87,13 +61,19 @@ class Viewer {
 
     public function __set($name, $value)
     {
-        $this->attributes[$name] = $value;
+        $this->props[$name] = $value;
     }
 
     public function __get($name)
     {
         $function = "get" . ucfirst($name);
-        return $this->$function();
+        if(method_exists($this, $function)){
+            return $this->$function();
+        }else if(isset($this->$name)){
+            return $this->$name;
+        }else{
+            return null;
+        }
     }
 
     private function getAdmin()
@@ -103,13 +83,12 @@ class Viewer {
 
     public function getUser()
 	{
-        if(!$this->attributes["user"]){$this->initUser();}
-        return $this->attributes["user"];
+        return $this->props['me'];
     }
 
     public function getTitles()
     {
-      return $this->attributes["titles"];
+      return $this->props["titles"];
       }
 
     public function getDbfs()

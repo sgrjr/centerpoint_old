@@ -1,6 +1,6 @@
 <?php namespace App\Models;
 
-class Role extends BaseModel implements \App\Interfaces\ModelInterface {
+class Role extends BaseModel implements \App\Models\Interfaces\ModelInterface {
 
       public $timestamps = false;
       protected $fillable = ['name'];

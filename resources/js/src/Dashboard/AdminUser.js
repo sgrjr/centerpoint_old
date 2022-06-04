@@ -90,7 +90,10 @@ AdminUser.propTypes = {
 };
 
 const adminUserQuery = (variables)=>{
- return { query:`query ($id: String) {
+
+if(!variables.cartsLimit) {variables['cartsLimit'] = 100}
+  
+ return { query:`query ($id: String, $cartsLimit: Int!) {
           user (id: $id) {
               EMAIL
               FIRST
@@ -109,7 +112,7 @@ const adminUserQuery = (variables)=>{
                   BILL_3
                   BILL_4
                 }
-                carts(first:20){
+                carts(first:$cartsLimit){
                   data{
                      id
                     INDEX

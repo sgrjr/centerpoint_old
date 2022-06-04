@@ -10,8 +10,6 @@ import Divider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import './BrowseProducts.scss'
-
 const TitleList = (props) => {
 
     return  (<>

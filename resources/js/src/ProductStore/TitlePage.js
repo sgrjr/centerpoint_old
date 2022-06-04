@@ -17,8 +17,6 @@ import TitlePageSkeleton from './TitlePageSkeleton'
 import GetMarc from '../components/GetMarc'
 import {useParams, useLocation} from 'react-router-dom'
 
-import './TitlePage.scss';
-
 function ListItemLink(props) {
   return <ListItem component="a" {...props} />;
 }

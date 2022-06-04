@@ -1,65 +1,22 @@
+import q from '../reducers/queries'
+
 export default (variables) => {
+
+  if(!variables.cartsLimit) {variables['cartsLimit'] = 100}
 
   return {
 
-    query:`  mutation ($input: UpdateCartInput!){
+    query: q.fragments([ 'order','orderItem','invoice'],` mutation ($input: UpdateCartInput!, $cartsLimit:Int!){
                 updateOrCreateCart(input: $input){
                   vendor{
-                    carts(first:12){
+                    carts(first:$cartsLimit){
                       data{
-                         id
-                          INDEX
-                          KEY
-                          DATE
-                          PO_NUMBER
-                          TRANSNO
-                          REMOTEADDR
-                          ISCOMPLETE
-                          ATTENTION
-                          EMAIL
-                          CINOTE
-                          CXNOTE
-                          BILL_1
-                          BILL_2
-                          BILL_3
-                          BILL_4
-                          
+                         ...OrderFragment
                           items{
-                            id
-                            INDEX
-                            PROD_NO
-                            TITLE
-                            REQUESTED
-                            SALEPRICE
-                            coverArt
-                            AUTHOR
-                            AUTHORKEY
-                            url
-                            INVNATURE
+                           ...OrderItemFragment
                           }
                           invoice {
-                            id
-                            title
-                            dates
-                            headings
-                            totaling{
-                              subtotal
-                              shipping
-                              paid
-                              grandtotal
-                            }
-                            company_logo
-                            company_website
-                            company_name
-                            company_address
-                            company_telephone
-                            company_email
-                            customer_name
-                            customer_address
-                            customer_email
-                            thanks
-                            invoice_memo
-                            footer_memo
+                            ...InvoiceFragment
                           }
                       }
                     }
@@ -67,7 +24,7 @@ export default (variables) => {
                          
                 }
             }  
-          `, 
+          `), 
     variables: variables
   }
   

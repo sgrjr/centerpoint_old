@@ -40,13 +40,12 @@ if(opt1.file !== undefined && opt1.file !== null && opt1.file !== ""){
 
   return dispatch => {
       dispatch(actions.pending(query.variables))
-
-     return fetch(opt.url,data)
+         return fetch(opt.url,data)
       .then(res => res.json())
       .then(res => {
 
           if(res.errors) {
-              dispatch(actions.error(res.errors))
+            dispatch(actions.error(res.errors))
           }else{
             dispatch(actions.success(res.data));
           }
@@ -65,5 +64,6 @@ if(opt1.file !== undefined && opt1.file !== null && opt1.file !== ""){
 
           dispatch(actions.error([err]));
       })
+
   }
 }

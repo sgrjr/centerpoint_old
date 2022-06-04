@@ -10,6 +10,21 @@ import actions from '../actions'
 
 //The reducer is a pure function that takes the previous state and an action, and 
 // returns the next state.
+function setErrorProps(er){
+  if(er.debugMessage !== undefined && er.debugMessage.message != undefined && er.debugMessage.message.includes("Resource temporarily unavailable")){
+    er.debugMessage.message = 'Could not save changes. Please try again in a second.'
+  }else if(er.debugMessage !== undefined && typeof er.debugMessage === 'string' && er.debugMessage.includes("Resource temporarily unavailable")){
+    er.debugMessage = 'Could not save changes. Please try again in a second.'
+  }else if(er.debugMessage !== undefined && typeof er.debugMessage !== 'string'){
+    er.debugMessage = er.debugMessage.message
+  }
+
+  if(!er.severity){
+    er.severity = "error"
+  }
+
+  return er
+}
 
 export default (state = initState,action)=>{
 
@@ -30,6 +45,8 @@ export default (state = initState,action)=>{
 
           return newState;
 
+        case actions.auth.AUTH_SUCCESS.type: 
+        case actions.auth.AUTH_ERROR.type:
         case actions.cart.CART_ERROR.type:
         case actions.cart.CART_UPDATE_ERROR.type:
         case actions.form.DOWNLOAD_MARCS_ERROR.type:
@@ -42,18 +59,13 @@ export default (state = initState,action)=>{
 
           let newErrors = []
 
-          action.errors.map((er)=>{
-            if(er.debugMessage !== undefined && er.debugMessage.message != undefined && er.debugMessage.message.includes("Resource temporarily unavailable")){
-              er.debugMessage.message = 'Could not save changes. Please try again in a second.'
-            }else if(er.debugMessage !== undefined && typeof er.debugMessage === 'string' && er.debugMessage.includes("Resource temporarily unavailable")){
-              er.debugMessage = 'Could not save changes. Please try again in a second.'
-            }else if(er.debugMessage !== undefined && typeof er.debugMessage !== 'string'){
-              er.debugMessage = er.debugMessage.message
-            }
+          action.errors && action.errors.map((er)=>{
+            er = setErrorProps(er)
+            newErrors.push(er)
+          })
 
-            if(!er.severity){
-              er.severity = "error"
-            }
+          action.payload && action.payload.errors && action.payload.errors.map((er)=>{
+            er = setErrorProps(er)
             newErrors.push(er)
           })
 

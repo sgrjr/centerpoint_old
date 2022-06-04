@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import actions from '../actions';
-import './Chat.scss'
-
 class Chat extends React.Component {
     constructor(props) {
         super(props);

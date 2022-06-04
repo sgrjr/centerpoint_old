@@ -1,6 +1,6 @@
 <?php namespace App\Models;
-use \App\Traits\DbfTableTrait;
-class Brohead extends BaseModel implements \App\Interfaces\ModelInterface {
+use \App\Models\Traits\DbfTableTrait;
+class Brohead extends BaseModel implements \App\Models\Interfaces\ModelInterface {
 	
 	use \App\Ask\AskTrait\HeadTrait;
     use DbfTableTrait;

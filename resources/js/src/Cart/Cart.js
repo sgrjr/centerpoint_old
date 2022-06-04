@@ -3,15 +3,36 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import actions from '../actions';
 import CartList from './CartList'
-import cartQuery from './cartQuery'
-
-import './Cart.scss';
+import q from '../makeQuery'
 
 class Cart extends Component{
 
     componentDidMount(){
         if(this.props.carts.length <= 0 ){
-          this.props.cartGet(cartQuery({first:20}))
+
+         const query = q(`query ($cartsLimit:Int!){
+        viewer {
+          vendor {
+            carts (first:$cartsLimit){
+                paginatorInfo{
+                    ...PaginatorInfoFragment
+                }
+                data{
+                    ...OrderFragment
+                    items{
+                       ...OrderItemFragment
+                    }
+                }
+                
+              }
+            }
+          }
+        }`, // query string
+        ['paginator','order','orderItem'], // fragments
+        {"cartsLimit":20} // variables // variables
+        )
+
+          this.props.cartGet(query)
         }
     }
 

@@ -13,24 +13,53 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); //vue
+Route::get('/', [App\Http\Controllers\IndexController::class, 'index'])->name('home'); //react
+
+/* DASHBOARD ROUTES */
+Route::get('/dashboard', function () {return view('react_app');});
+Route::get('/dashboard/{section}', function () {return view('react_app');})->where('section','.*');
+//Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+/* IMMAGES ROUTES */
+Route::get('/img',[App\Http\Controllers\ImageController::class,'create']);
+Route::post('/img',[App\Http\Controllers\ImageController::class,'store']);
+Route::get('/img/{template}/{path}', [App\Http\Controllers\ImageController::class,'images'])->where('path','.*');
+
+/* from old app */
+
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
 //The Following all get view from javascript
-Route::get('/', "\App\Http\Controllers\IndexController@index");
-Route::get('/login', function () {return view('app');})->name('login');
-Route::get('/dashboard', function () {return view('app');});
-Route::get('/dashboard/{section}', function () {return view('app');})->where('section','.*');
-Route::get('/cp', function () {return view('app');});
-Route::get('/search', function () {return view('app');});
-Route::get('/isbn/{isbn}', function () {return view('app');});
-Route::get('/search', function () {return view('app');});
-Route::get('/search/{string}', function () {return view('app');});
-Route::get('/search/{string}/{category}', function () {return view('app');});
-Route::get('/admin/cms', function () {return view('app');});
-Route::get('/cms', function () {return view('app');});
+
+/* AUTH ROUTES */
+
+//Auth::routes(); //use only for Vue App
+Route::get('/login', function () {return view('react_app');})->name('login');
+
+Route::get('/cp', function () {return view('react_app');});
+Route::get('/search', function () {return view('react_app');});
+Route::get('/isbn/{isbn}', function () {return view('react_app');});
+Route::get('/search', function () {return view('react_app');});
+Route::get('/search/{string}', function () {return view('react_app');});
+Route::get('/search/{string}/{category}', function () {return view('react_app');});
+Route::get('/admin/cms', function () {return view('react_app');});
+Route::get('/cms', function () {return view('react_app');});
 
 Route::get('/dbfs', '\App\Http\Controllers\IndexController@dbf');
 
-Route::get('/cart/{cartId}', function () {return view('app');});
-Route::get('/invoice/{invoiceId}', function () {return view('app');});
+Route::get('/cart/{cartId}', function () {return view('react_app');});
+Route::get('/invoice/{invoiceId}', function () {return view('react_app');});
 
 Route::get('/download-all-marcs', '\App\Http\Controllers\IndexController@marc');
 
@@ -75,4 +104,4 @@ Route::post('/admin/application/env', '\App\Http\Controllers\ApplicationControll
 Route::post('/admin/application/error', '\App\Http\Controllers\ApplicationController@postUpdateError');
 */
 
-Route::any('{catchall}', function(){return view('app');})->where('catchall', '.*');
+Route::any('{catchall}', function(){return view('react_app');})->where('catchall', '.*');

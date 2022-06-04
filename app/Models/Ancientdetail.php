@@ -1,6 +1,6 @@
 <?php namespace App\Models;
-use \App\Traits\DbfTableTrait;
-class Ancientdetail extends BaseModel implements \App\Interfaces\ModelInterface {
+use \App\Models\Traits\DbfTableTrait;
+class Ancientdetail extends BaseModel implements \App\Models\Interfaces\ModelInterface {
 	
 	use \App\Ask\AskTrait\DetailTrait;
     use DbfTableTrait;

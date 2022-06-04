@@ -1,3 +1,3 @@
 cd ..
-php artisan db:rebuild no
+php artisan database:rebuild no
 pause

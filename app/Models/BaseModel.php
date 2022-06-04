@@ -3,10 +3,10 @@
 use Illuminate\Database\Eloquent\Model;
 use Config, Schema;
 use App\Ask\AskTrait\AskTrait;
-use App\Traits\ModelTrait;
-use App\Traits\ManageTableTrait;
-use App\Traits\PresentableTrait;
-use App\Traits\ODBCDTrait;
+use App\Models\Traits\ModelTrait;
+use App\Models\Traits\ManageTableTrait;
+use App\Models\Traits\PresentableTrait;
+use App\Models\Traits\ODBCDTrait;
 
 class BaseModel extends Model
 {

@@ -1,3 +1,3 @@
 cd ..
-php artisan db:seed false inventories
+php artisan database:seed false inventories
 pause

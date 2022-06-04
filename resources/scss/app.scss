@@ -1,0 +1,91 @@
+// Variables
+@import '_variables';
+
+html, body, #app, #MainApp {
+ height: 100%;
+ margin: 0;
+ font-family: $font-family;
+ -webkit-font-smoothing: antialiased;
+ -moz-osx-font-smoothing: grayscale;
+ width:auto;
+}
+
+html, body, #app {
+ // overflow-x:hidden; // this property breaks the scroll to top if it is set ???? // do not use
+}
+
+.promotions {
+    display: flex;
+    flex-direction: column;
+    flex-basis: min-content;
+    justify-content: center;
+    width:50%;
+    align-items:center;
+    margin:auto;
+}
+
+.promotions div {
+  display:flex;
+  flex-direction:row;
+  width:100%;
+  margin:auto auto;
+  justify-content:space-between;
+
+  h2 {flex:1;}
+  button {flex:.5;}
+
+}
+
+.pending {
+  position: fixed;
+  bottom: 15px;
+}
+
+/* Global Typography */
+
+p {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+}
+
+h3 {
+    font-size: 3rem;
+    font-weight: 400;
+    line-height: 1.167;
+    letter-spacing: 0em;
+}
+
+h5 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.334;
+    letter-spacing: 0em;
+}
+
+/* external files */
+@import "_print.scss";
+@import '_footer.scss';
+@import '_carousel.scss';
+@import '_toggle_website.scss';
+
+@import '_BookCover.scss';
+@import '_ProductStore.scss';
+@import '_SearchPage.scss';
+@import '_TitlePage.scss';
+@import '_TitlesDisplay.scss';
+
+@import '_BrowseProducts.scss';
+@import '_Button.scss';
+@import '_Card.scss';
+@import '_Cart.scss';
+@import '_Checkout.scss';
+@import '_CheckoutIndex.scss';
+@import '_Dashboard.scss';
+@import '_DashboardNav.scss';
+@import '_Footer.scss';
+@import '_NavBar.scss';
+@import '_OldWebsite.scss';
+@import '_Signin.scss';
+@import '_Invoice.scss';

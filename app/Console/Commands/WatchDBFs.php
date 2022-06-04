@@ -17,7 +17,7 @@ class WatchDBFs extends Command
      *
      * @var string
      */
-    protected $signature = 'db:watch';
+    protected $signature = 'database:watch';
 
     /**
      * The console command description.

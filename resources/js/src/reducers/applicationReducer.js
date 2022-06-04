@@ -86,7 +86,13 @@ const applicationReducer = (state = applicationReducerInit,action)=>{
                 ...state,
                 oldWebsite: !state.oldWebsite
             }
-            
+        
+        case actions.auth.AUTH_SUCCESS.type:
+
+            return  {
+                ...state,
+                ...action.payload.application
+            }
 
         default:
             return state;

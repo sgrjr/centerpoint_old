@@ -1,9 +1,9 @@
 <?php namespace App\Models;
-use \App\Traits\DbfTableTrait;
+use \App\Models\Traits\DbfTableTrait;
 use \App\Models\Webhead;
 use \App\Models\Inventory;
 
-class Webdetail extends BaseModel implements \App\Interfaces\ModelInterface {
+class Webdetail extends BaseModel implements \App\Models\Interfaces\ModelInterface {
 
   use \App\Ask\AskTrait\DetailTrait;
   use DbfTableTrait;

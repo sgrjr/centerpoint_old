@@ -1,3 +1,3 @@
 cd ..
-php artisan db:watch
+php artisan database:watch
 pause

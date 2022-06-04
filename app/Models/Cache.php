@@ -1,6 +1,6 @@
 <?php namespace App\Models;
 
-class Cache extends BaseModel implements \App\Interfaces\ModelInterface 
+class Cache extends BaseModel implements \App\Models\Interfaces\ModelInterface 
 {	
 
 	protected $fillable = ["key","value","expiration"];

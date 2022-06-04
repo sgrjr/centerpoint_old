@@ -1,7 +1,7 @@
 <?php namespace App\Models;
-use \App\Traits\DbfTableTrait;
+use \App\Models\Traits\DbfTableTrait;
 
-class Passfile extends BaseModel implements \App\Interfaces\ModelInterface{
+class Passfile extends BaseModel implements \App\Models\Interfaces\ModelInterface{
 
 	use DbfTableTrait;
 

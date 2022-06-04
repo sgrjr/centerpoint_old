@@ -1,8 +1,8 @@
 <?php namespace App\Models;
 
-use \App\Traits\DbfTableTrait;
+use \App\Models\Traits\DbfTableTrait;
 
-class Booktext extends BaseModel implements \App\Interfaces\ModelInterface {
+class Booktext extends BaseModel implements \App\Models\Interfaces\ModelInterface {
     
   use DbfTableTrait;
 

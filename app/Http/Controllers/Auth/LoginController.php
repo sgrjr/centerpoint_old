@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Core\AuthenticatesUsersTrait AS AuthenticatesUsers;
-use App\User;
-use Auth, Validator;
-use Illuminate\Http\Request;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Inertia\Inertia;
 
 class LoginController extends Controller
 {
@@ -28,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -37,8 +36,11 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        parent::__construct();
         $this->middleware('guest')->except('logout');
-    } 
+    }
 
+    public function showLoginForm()
+    {
+        return Inertia::render('Auth/Login');
+    }
 }

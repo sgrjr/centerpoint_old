@@ -8,7 +8,6 @@ import TitlesDisplay from './TitlesDisplay'
 import Image from '../components/Image'
 import OldWebsite from '../components/OldWebsite'
 import ToggleWebsite from '../components/ToggleWebsite'
-import './ProductStore.scss'
 
 function TitleLists(props){
 

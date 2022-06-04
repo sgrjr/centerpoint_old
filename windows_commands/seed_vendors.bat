@@ -1,3 +1,3 @@
 cd ..
-php artisan db:seed false vendors
+php artisan database:seed false vendors
 pause

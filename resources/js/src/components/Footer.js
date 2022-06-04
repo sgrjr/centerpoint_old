@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 import styles from '../styles'
 import actions from '../actions';
 import Button from './Button'
-import './Footer.scss'
 
 const Footer = function(props) {
   const { description, title } = props;
@@ -33,12 +32,7 @@ const Footer = function(props) {
         </ul>
       </section>
 
-      <section><p>© 2022 by CENTER POINT LARGE PRINT</p>
-      <Button color="error" className="noPrint" onClick={()=>{
-                this.props.loginUser({email: "sgrjr@deliverance.me", password: "1230happy"});
-                return <Navigate to={"/dashboard/admin/users"} />
-              }}>! for development only: login asADMIN !</Button>
-              </section>
+      <section><p>© 2022 by CENTER POINT LARGE PRINT</p></section>
     </footer>
   );
 }

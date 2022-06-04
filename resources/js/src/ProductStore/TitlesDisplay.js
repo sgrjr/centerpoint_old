@@ -11,7 +11,6 @@ import BookCover from './BookCover'
 //import Paper from '@material-ui/core/Paper';
 import addTitleToCartQuery from '../Cart/addTitleToCartQuery'
 import WithRouter from '../components/WithRouter'
-import './TitlesDisplay.scss'
 
 function getTitleBar(props, item, index){
   let shoppingCart = <IconPicker icon="shoppingCartRemove" />

@@ -1,36 +1,25 @@
+import q from '../reducers/queries'
+
 export default (variables) => {
 
-  return {
 
-    query:`mutation($input: UpdateCartTitleInput!) {
+ if(!variables.cartsLimit) {variables['cartsLimit'] = 100}
+
+  return {
+    
+    query: q.fragments([ 'order','orderItem'],`mutation($input: UpdateCartTitleInput!, $cartsLimit: Int!) {
         updateOrCreateCartTitle(input: $input){
 
               vendor {
-                carts(first:12){
+                carts(first:$cartsLimit){
                   paginatorInfo{
                     total
                     count
                   }
                   data{
-                    id
-                    INDEX
-                    KEY
-                    DATE
-                    PO_NUMBER
-                    TRANSNO
-                    REMOTEADDR
+                    ...OrderFragment
                     items{
-                      id
-                      INDEX
-                      PROD_NO
-                      TITLE
-                      REQUESTED
-                      SALEPRICE
-                      coverArt
-                      AUTHOR
-                      AUTHORKEY
-                      STATUS
-                      INVNATURE
+                      ...OrderItemFragment
                     }
                   }
                 }
@@ -39,7 +28,7 @@ export default (variables) => {
           }
 
       }
-    `, 
+    `), 
     variables: variables
   }
   

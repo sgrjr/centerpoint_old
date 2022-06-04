@@ -6,7 +6,8 @@ const initState = {
             password: "",
             errors: {
                 email:"",
-                password: ""
+                password: "",
+                general:""
             }
         },
         photoStaging:false,
@@ -29,19 +30,25 @@ export default (state = initState, action)=>{
             ns = Object.assign({}, state)
             ns.login.errors.email = ""
             ns.login.errors.password = ""
-            action.errors.map((er)=>{
+            ns.login.errors.general = ""
+
+            action.errors && action.errors.map((er)=>{
+                ns.login.errors.general += " " + er.message
+                if(er.debugMessage) ns.login.errors.general += ' : ' + JSON.stringify(er.debugMessage);
                 if(er.extensions.category === "validation"){
+                    ns.login.errors.email += er.extensions.validation["input.email"]? er.extensions.validation["input.email"].join(","):""
+                    ns.login.errors.password += er.extensions.validation["input.password"]? er.extensions.validation["input.password"].join(","):""
                     ns.login.errors.email += er.extensions.validation.EMAIL? er.extensions.validation.EMAIL.join(","):""
                     ns.login.errors.password += er.extensions.validation.password? er.extensions.validation.password.join(","):""
                 }
             })
+
             return ns;
 
         case actions.auth.AUTH_SUCCESS.type:
             ns = Object.assign({}, state)
-            ns.login.errors.email = null
-            ns.login.errors.password = null
-            return ns;
+            ns.login = {...initState.login}
+            return ns
 
         case actions.form.FORM_UPDATE_SUCCESS.type:
             ns = Object.assign({}, state)

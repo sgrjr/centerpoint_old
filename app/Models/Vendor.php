@@ -1,5 +1,5 @@
 <?php namespace App\Models;
-use \App\Traits\DbfTableTrait;
+use \App\Models\Traits\DbfTableTrait;
 use Cache;
 
 use \App\Models\Passfile;
@@ -9,7 +9,7 @@ use App\Models\Backhead;
 use App\Models\Brohead;
 use App\Models\Webhead;
 
-class Vendor extends BaseModel implements \App\Interfaces\ModelInterface {
+class Vendor extends BaseModel implements \App\Models\Interfaces\ModelInterface {
 
     use DbfTableTrait;
 

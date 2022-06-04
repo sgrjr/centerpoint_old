@@ -1,3 +1,3 @@
 cd ..
-php artisan db:seed false standing_orders
+php artisan database:seed false standing_orders
 pause

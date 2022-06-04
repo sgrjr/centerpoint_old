@@ -2,7 +2,6 @@ import React from 'react';
 import IconPicker from '../components/IconPicker'
 import {Link} from 'react-router-dom'
 import styles from "../styles.js"
-import './DashboardNav.scss';
 
 export default function DashboardNav(props) {
 

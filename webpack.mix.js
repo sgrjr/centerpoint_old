@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const path = require('path');
 
 /*
  |--------------------------------------------------------------------------
@@ -10,32 +11,50 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-mix.webpackConfig({
-    devServer: {
+
+mix
+.webpackConfig({
+
+ stats:'detailed',
+   devServer: {
       historyApiFallback: true
     },
-    module:{
+    module: {
         rules: [
             {
                 test: /\.scss$/,
                 loader: "sass-loader",
                 options: {
-                    additionalData: '@import "resources/js/src/_variables.scss";'
+                    additionalData: '@import "resources/scss/_variables.scss";'
                 }
-            }
+            },
+                     {
+            test: /\.(js|jsx)$/,
+            exclude: "/node-modules/",
+            use: "babel-loader"
+
+         },
+         {
+            test: /\.html$/,
+            use: "html-loader"
+         }
         ]
     }
-});
-
-mix.options({
-    stats: { colors: true, modules: true, reasons: true, errorDetails: true, children:true }
 })
-	.js('resources/js/app.js', 'public/js')
-    .js('resources/js/chat/chat.js', 'public/js').vue()
-	.sourceMaps(true, 'source-map')
-    .react()
-    .sass('resources/sass/app.scss', 'public/css')
-    .sass('resources/sass/chat.scss', 'public/css')
-    .version()
-    .options({processCssUrls: false, stats:{children:true}})
-    ;
+.react()
+.js('resources/js/app.js', 'public/js')
+.sourceMaps(true, 'source-map')
+
+.options({
+    processCssUrls: false,
+    stats: { 
+        colors: true, 
+        modules: true, 
+        reasons: true, 
+        errorDetails: true, 
+        children:true 
+    }
+})
+.sass('resources/scss/app.scss', 'public/css')
+.version()
+;

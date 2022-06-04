@@ -1,6 +1,7 @@
 type Query {
-	viewer: User @auth
-    
+    viewer: User @auth
+    viewerOld: Viewer @field(resolver:"\\App\\Models\\User@viewer")
+
     users(filter: UserFilter): [User!]!  @userCan(ability: "LIST_ALL_USERS", model: "App\\Models\\User") @paginate(defaultCount: 15, model:"App\\Models\\User")
 
     user(id: String): User @field(resolver:"\\App\\Models\\User@findByHash")
@@ -33,3 +34,5 @@ type Query {
 #import ./models/*.graphql
 
 #import ./mutations/*.graphql
+
+#dontimport ./sanctum.graphql

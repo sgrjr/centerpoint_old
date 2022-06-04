@@ -5,7 +5,7 @@ import actions from '../actions';
 import {Button, Typography} from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
-import cartQuery from './cartQuery'
+import q from '../makeQuery'
 import addTitleToCartQuery from '../Cart/addTitleToCartQuery'
 import { Link } from "react-router-dom";
 
@@ -15,11 +15,33 @@ class AddToCart extends Component{
 
     componentDidMount(){
 
+      const preparedQuery = q(`query ($cartsLimit:Int!){
+        viewer {
+          vendor {
+            carts (first:$cartsLimit){
+                paginatorInfo{
+                    ...PaginatorInfoFragment
+                }
+                data{
+                    ...OrderFragment
+                    items{
+                       ...OrderItemFragment
+                    }
+                }
+                
+              }
+            }
+          }
+        }`, // query string
+        ['paginator','order','orderItem'], // fragments
+        {"cartsLimit":20} // variables
+        )
+
       if(this.props.viewer.KEY){
         if(!this.props.viewer.vendor || this.props.viewer.vendor.carts === undefined){
-          this.props.cartGet(cartQuery({first:20}))
+          this.props.cartGet(preparedQuery)
         }else if(this.props.authenticated && !this.props.viewer || this.props.viewer.vendor.carts.length < 1){
-          this.props.cartGet(cartQuery({first:20}))
+          this.props.cartGet(preparedQuery)
         }
       }
     }

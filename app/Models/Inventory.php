@@ -2,13 +2,13 @@
 
 use App\Models\WebDetail;
 use App\Helpers\UserTitleData;
-use App\Traits\DbfTableTrait;
+use App\Models\Traits\DbfTableTrait;
 use App\Helpers\Misc;
 use Attribute, Cache, Schema;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
-class Inventory extends BaseModel implements \App\Interfaces\ModelInterface{
+class Inventory extends BaseModel implements \App\Models\Interfaces\ModelInterface{
 
     use DbfTableTrait;
 

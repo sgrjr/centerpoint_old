@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import './Button.scss';
-
 export default function Button(props) {
 
     let style = {

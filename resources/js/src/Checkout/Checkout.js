@@ -10,7 +10,6 @@ import AccordionActions from '@material-ui/core/AccordionActions'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import Typography from '@material-ui/core/Typography'
 import Cart from '../Cart/Cart'
-import './Checkout.scss';
 
 function Checkout(props) {
   const [expanded, setExpanded] = React.useState('panel1')

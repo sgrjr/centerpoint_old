@@ -11,7 +11,7 @@ class GiveRole extends Command
      *
      * @var string
      */
-    protected $signature = 'db:giverole {user_id} {role_id}';
+    protected $signature = 'database:giverole {user_id} {role_id}';
 
     /**
      * The console command description.

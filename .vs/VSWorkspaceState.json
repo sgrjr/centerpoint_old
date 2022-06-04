@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app-js",
-    "\\app-js\\src",
-    "\\app-js\\src\\ProductStore"
+    "\\app-js"
   ],
-  "SelectedNode": "\\app-js\\src\\ProductStore\\titlePageQueryMin.js",
   "PreviewInSolutionExplorer": false
 }

@@ -1,0 +1,6 @@
+type UserLogin {
+    token: NewAccessToken
+    user: User
+    application: Application
+    errors: [ErrorMessage]
+}

@@ -1,10 +1,10 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
-use App\Traits\ManageTableTrait;
-use App\Traits\ModelTrait;
+use App\Models\Traits\ManageTableTrait;
+use App\Models\Traits\ModelTrait;
 
-class PermissionRole extends Pivot implements \App\Interfaces\ModelInterface {
+class PermissionRole extends Pivot implements \App\Models\Interfaces\ModelInterface {
 
 	use ManageTableTrait, ModelTrait;
 

@@ -1,14 +1,14 @@
 <?php namespace App\Models;
 
-use App\Traits\DbfTableTrait;
-use App\Traits\DbfValidationTrait;
+use App\Models\Traits\DbfTableTrait;
+use App\Models\Traits\DbfValidationTrait;
 
 //Events (shouuld move all this kind of logic elsewhere sometime)
 //it is certianly overloading these models
 
 use App\Events\CartWasSubmitted;
 
-class Webhead extends BaseModel implements \App\Interfaces\ModelInterface {
+class Webhead extends BaseModel implements \App\Models\Interfaces\ModelInterface {
 
 	use \App\Ask\AskTrait\HeadTrait;
   use DbfTableTrait;

@@ -72,7 +72,7 @@ const viewerReducer = (state = viewerReducerInit,action)=>{
         case actions.auth.AUTH_SUCCESS.type: 
             return {
                 ...state,
-                ...action.payload,
+                user: {...action.payload.user},
                 pending:false
             }
 

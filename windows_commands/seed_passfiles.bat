@@ -1,3 +1,3 @@
 cd ..
-php artisan db:seed false passfiles
+php artisan database:seed false passfiles
 pause

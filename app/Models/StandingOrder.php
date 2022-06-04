@@ -1,9 +1,9 @@
 <?php namespace App\Models;
 
-use \App\Traits\DbfTableTrait;
+use \App\Models\Traits\DbfTableTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
-class StandingOrder extends BaseModel implements \App\Interfaces\ModelInterface {
+class StandingOrder extends BaseModel implements \App\Models\Interfaces\ModelInterface {
 
     use DbfTableTrait;
 

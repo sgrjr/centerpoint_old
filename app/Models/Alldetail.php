@@ -1,8 +1,8 @@
 <?php namespace App\Models;
 
-use \App\Traits\DbfTableTrait;
+use \App\Models\Traits\DbfTableTrait;
 use \App\Ask\AskTrait\DetailTrait;
-use App\Interfaces\ModelInterface;
+use App\Models\Interfaces\ModelInterface;
 
 class Alldetail extends BaseModel implements ModelInterface{
 

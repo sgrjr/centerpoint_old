@@ -3,7 +3,7 @@
 use Auth, Event, Schema, stdClass;
 use  Illuminate\Database\Schema\Blueprint;
 
-class Command extends BaseModel implements \App\Interfaces\ModelInterface {
+class Command extends BaseModel implements \App\Models\Interfaces\ModelInterface {
 
 	protected $fillable = ["command","options","updated_at","created_at","user_id"];
 	protected $table = "commands";

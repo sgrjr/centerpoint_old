@@ -6,7 +6,7 @@ type Mutation {
     
     userProfilePhoto(profilePicture: Upload!): User @field(resolver: "App\\Models\\User@updateProfilePhoto")
 
-    loginUser(input: LoginUserInput!): User @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator")
+    loginUser(input: LoginUserInput!): UserLogin @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator")
     adminLoginUser(input: AdminLoginUserInput!): User @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@adminLoginUser")
 
     logoutUser: Application @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@logoutUser")

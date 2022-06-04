@@ -3,7 +3,7 @@ use Schema;
 use App\Models\Dbf\DBaseHandler;
 use App\Helpers\Compare;
 
-class Dbf extends BaseModel implements \App\Interfaces\ModelInterface {
+class Dbf extends BaseModel implements \App\Models\Interfaces\ModelInterface {
 
 	protected $fillable = ["source","name","memo","model","updated_at","created_at"];
 	public $timestamps = true;

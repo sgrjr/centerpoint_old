@@ -10,7 +10,6 @@ type User {
 	id: ID
 	INDEX: String
 	public_id: String
-	token: String
 	name: String
 	EMAIL: String
 	UPASS: String

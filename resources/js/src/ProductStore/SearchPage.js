@@ -12,7 +12,6 @@ import SearchSuggestions from './SearchSuggestions'
 import WithRouter from '../components/WithRouter'
 import OrderedTitleList from '../components/OrderedTitleList'
 import Time from '../helpers/Time'
-import './SearchPage.scss';
 
 import styles from '../styles'
 

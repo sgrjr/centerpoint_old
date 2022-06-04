@@ -17,11 +17,10 @@ import SearchForm from './SearchForm'
 import actions from '../actions';
 import CustomMenuLink from './CustomMenuLink'
 import Cart from '../Cart/Cart'
-
+import q from '../makeQuery'
 import {withTheme} from '@material-ui/core/styles'
 //fix this to dynamic some time
 import useStyles from './NavbarStyle.js'
-import './NavBar.scss';
 import styles from '../styles.js'
 
 const MainNavbar = function (props) {
@@ -183,7 +182,28 @@ class Navbar extends React.Component {
   
   constructor(props){
     super(props)
-    this.props.fetch(this.props.query(this.props.queryVars))
+
+    const query = q(`query ($catalogId: String, $cartsLimit: Int!){
+        application {
+          ...ApplicationFragment
+        } 
+
+        viewer {
+          ...UserFragment
+          application {
+            ...ApplicationFragment
+          }
+          vendor {
+            ...VendorFragment
+          }
+        }
+
+      }`, // query string
+        ['application','user','vendor'], // fragments
+        {"cartsLimit":20} // variables // variables
+        )
+
+    this.props.fetch(query)
   }
 
   render(){
@@ -204,8 +224,6 @@ Navbar.propTypes = {
 const mapStateToProps = (state)=>{
   return {
     browse: state.application.browse,
-    query: state.application.query,
-    queryVars: state.application.query,
     viewer: state.viewer,
     links: state.application.links,
     searchFilters: state.application.searchFilters,

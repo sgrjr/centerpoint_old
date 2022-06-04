@@ -6,7 +6,8 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class AuthMutator
 {
 
-    use \App\Traits\AuthenticatesUsersTrait;
+    use \Illuminate\Foundation\Auth\AuthenticatesUsers;
+    //use \App\Models\Traits\AuthenticatesUsersTrait;
 
     /**
      * Return a value for the field.
@@ -19,16 +20,13 @@ class AuthMutator
      */
     public function __invoke($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        return $this->login(
-            request()
-        );
+        return \App\Models\User::attemptGraphQLLogin($args['input']['email'], $args['input']['password']);
     }
 
     public function logoutUser()
     {
-        return $this->logout(
-            request()
-        );
+        dd(request->getBearer());
+        return \App\Models\User::attemptGraphQLLogout(request());
     }
 
     public function adminLoginUser($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo){

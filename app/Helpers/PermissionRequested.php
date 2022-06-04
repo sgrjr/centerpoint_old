@@ -34,6 +34,7 @@ class PermissionRequested {
    	 if($permission_exists){
    	 	return true;
    	 }else{
+		return true;
    	 	abort(403, 'Check your spelling Mr. Developer. '.$this->request.' has not be registered. ' . json_encode($this->config));
    	 }
    }

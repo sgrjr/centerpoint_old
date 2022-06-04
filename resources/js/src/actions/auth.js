@@ -1,5 +1,6 @@
 import graphql from '../fetchGraphQL'
 import authorization from '../authorization'
+import q from '../reducers/queries'
 
 /* AUTH TYPES AND CREATORS */ 
 const auth = { 
@@ -16,7 +17,7 @@ const auth = {
   {
       type: 'AUTH_LOGOUT_PENDING',   
       creator: () => {
-        authorization.destroy();
+        //authorization.destroy();
         return { type: 'AUTH_LOGOUT_PENDING', message:{message:"Logout pending...", severity:"info"} }
       }
   },
@@ -34,19 +35,10 @@ const auth = {
           data = payload.adminLoginUser
         }
         if(data.token){
-          authorization.store(data.token);
+          authorization.store(data.token.plainTextToken);
           return { type: 'AUTH_SUCCESS', payload: data, message:{message:"You are Logged in.", severity:"success"}}
         }else{
-
-          const error = {
-            message: "Login Failed!",
-            severity:"warning",
-            extensions: {
-              "category": "graphql"
-            },
-            locations: [{"line": 1,"column": 1}]};
-
-          return { type: 'AUTH_ERROR', errors: [error] }
+          return { type: 'AUTH_ERROR', errors: data.errors}
         }
         
       }
@@ -121,45 +113,47 @@ const auth = {
           const {email, password} = creds
 
           query ={
-            variables:{ email: email, password: password}, 
-            query: `mutation($email: String!, $password: String!){
+            variables:{ email: email, password: password, cartsLimit:100}, 
+            query: q.fragments([ 'user','order','orderItem'],`mutation($email: String!, $password: String!, $cartsLimit: Int!){
           loginUser(input: {email: $email, password: $password}) {
-            token
-            id
-            KEY
-            EMAIL
-            name
+            token{
+              plainTextToken
+            }
+
+             errors {
+              message
+              debugMessage {
+                id
+                message
+              }
+              severity
+              field
+              extensions{
+                category
+                validation{
+                  EMAIL
+                  password
+                }
+              }
+            }
+            
+            user{
+            ...UserFragment
                 vendor{
-                  carts(first:1000){
+                  carts(first:$cartsLimit){
                     paginatorInfo{
                       count
                     }
                     data{
-                      id
-                      INDEX
-                      KEY
-                      DATE
-                      PO_NUMBER
-                      TRANSNO
-                      REMOTEADDR
-                      ISCOMPLETE
+                      ...OrderFragment
 
                       items{
-                              id
-                              INDEX
-                              PROD_NO
-                              TITLE
-                              REQUESTED
-                              SALEPRICE
-                              coverArt
-                              AUTHOR
-                              AUTHORKEY
-                              url
-                              INVNATURE
-                            }
+                        ...OrderItemFragment
+                      }
                     }
                   }
                 }
+              }
               application{
                  links {
                   drawer {
@@ -177,13 +171,11 @@ const auth = {
                     text
                     icon
                   }
-                  
                 }
               }
-              }
-
-            
-        }`};
+            }
+    
+        }`)};
      
         const actions = {
           action:'AUTH_GET',
@@ -204,15 +196,22 @@ const auth = {
           
           const {id} = creds
  
-          query ={query: `mutation {
-          adminLoginUser(input: {id: "${id}"}) {
+          query ={
+            variables: {
+              loginInput: {
+                id: id
+              },
+              cartsLimit:100
+          }, 
+          query: `mutation {
+          adminLoginUser(input: $loginInput) {
             token
             id
             KEY
             EMAIL
             name
                 vendor{
-                  carts(first:1000){
+                  carts(first:$cartsLimit){
                     paginatorInfo{
                       count
                     }
@@ -243,16 +242,21 @@ const auth = {
                 }
               application{
                  links {
-                  drawer {
-                    url
-                    text
-                    icon
-                  }
-                  main {
-                    url
-                    text
-                    icon
-                  }
+                   drawer {
+                      url
+                      text
+                      icon
+                    }
+                    main {
+                      url
+                      text
+                      icon
+                    }
+                    shortCuts {
+                      url
+                      text
+                      icon
+                    }
                   
                 }
               }

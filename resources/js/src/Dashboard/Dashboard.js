@@ -14,8 +14,6 @@ import DashboardNav from './DashboardNav'
 import Signin from '../Auth/Signin'
 import { Outlet } from 'react-router-dom'
 import {Navigate } from 'react-router-dom';
-
-import './Dashboard.scss'
 import styles from "../styles.js"
 
 class Dashboard extends Component{
@@ -98,7 +96,6 @@ class Dashboard extends Component{
 const dashboardQuery = {
   query:`{
     viewer {
-      token
       application{
         links {
           drawer {

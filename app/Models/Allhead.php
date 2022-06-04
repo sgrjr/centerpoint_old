@@ -1,7 +1,7 @@
 <?php namespace App\Models;
-use \App\Traits\DbfTableTrait;
+use \App\Models\Traits\DbfTableTrait;
 
-class Allhead extends BaseModel implements \App\Interfaces\ModelInterface{
+class Allhead extends BaseModel implements \App\Models\Interfaces\ModelInterface{
 
 	use \App\Ask\AskTrait\HeadTrait;
     use DbfTableTrait;

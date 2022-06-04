@@ -1,3 +1,3 @@
 cd ..
-php artisan db:rebuild seed webheads,webdetails
+php artisan database:rebuild seed webheads,webdetails
 pause

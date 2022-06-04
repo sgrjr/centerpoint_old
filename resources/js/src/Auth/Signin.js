@@ -16,17 +16,13 @@ import actions from '../actions';
 import {Navigate,useParams } from 'react-router-dom';
 import Progress from '../components/SubtleProgress';
 
-import './Signin.scss'
-
 
 class SigninPage extends React.Component {
   
   handleSubmit(e){
-    e.preventDefault();
     const input = Object.assign({},this.props.login,{
       token: null
     })
-  
     this.props.attemptLogin(input)
   }
 
@@ -42,6 +38,9 @@ class SigninPage extends React.Component {
 
       let form = ()=>{
         return ( <form name="login" id="login">
+
+          <h2 style={{color:"red"}}>{login? login.errors.general:""}</h2>
+
           <p style={{color:"red"}}>{login? login.errors.email:""}</p>
           <TextField
             variant="outlined"

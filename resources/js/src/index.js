@@ -18,8 +18,6 @@ import formsReducer from './reducers/formsReducer';
 import chatsReducer from './reducers/chatsReducer';
 import 'lazysizes';
 
-import './index.scss';
-
 const theme = createTheme();
 
 const rootReducer = combineReducers({
