@@ -20,3 +20,4 @@ yarn-error.log
 /.vscode
 composer.lock
 test_dbf.html
+public/img/cache/*
